@@ -1,0 +1,28 @@
+C:
+  - 1
+  - 0.5
+  - 0.1
+  - 0.01
+  - 0.001
+  - 0.0001
+kernel: 
+  - linear
+  - poly
+  - rbf
+  - sigmoid
+degree: 
+  - 2
+  - 3
+  - 4
+  - 5
+gamma: 
+  - scale
+  - auto
+tol: 
+  - 0.01
+  - 0.001
+  - 0.0001
+max_features: 
+  - auto
+max_iter:
+  - 500000

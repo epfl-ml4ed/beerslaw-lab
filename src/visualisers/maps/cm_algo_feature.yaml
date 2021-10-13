@@ -1,0 +1,68 @@
+1nn:
+  longpw: darkolivegreen
+  shortpw: olive
+  pw: darkolivegreen
+  as: yellowgreen
+  ac: palegreen
+  vas: yellowgreen
+  vac: palegreen
+sknn:
+  longpw: darkolivegreen
+  shortpw: olive
+  pw: darkolivegreen
+  as: yellowgreen
+  ac: palegreen
+  vas: yellowgreen
+  vac: palegreen
+rf:
+  longpw: darkslateblue
+  shortpw: darkorchid
+  pw: darkslateblue
+  as: royalblue
+  ac: skyblue
+  ac_av: skyblue
+  ac_cum: lightskyblue
+  vas: royalblue
+  vac: skyblue
+svc:
+  longpw: darkred
+  shortpw: saddlebrown
+  pw: darkred
+  as: orangered
+  ac: darkorange
+  ac_av: darkorange
+  ac_cum: darkorange
+  vas: orangered
+  vac: darkorange
+sgd:
+  longpw: darkgoldenrod
+  shortpw: goldenrod
+  pw: darkgoldenrod
+  as: gold
+  ac: yellow
+  ac_av: yellow
+  ac_cum: yellow
+  vas: gold
+  vac: yellow
+knn:
+  longpw: mediumvioletred
+  shortpw: crimson
+  pw: mediumvioletred
+  as: deeppink
+  ac: hotpink
+  ac_av: hotpink
+  ac_cum: hotpink
+  vas: deeppink
+  vac: hotpink
+adaboost:
+  longpw: teal
+  shortpw: darkturquoise
+  pw: teal
+  as: lightseagreen
+  ac: turquoise
+  ac_av: turquoise
+  ac_cum: turquoise
+  vas: lightseagreen
+  vac: turquoise
+  
+

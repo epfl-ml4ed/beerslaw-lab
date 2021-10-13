@@ -1,0 +1,22 @@
+n_components:
+  - 2
+  - 5
+  - 10
+  - 15
+  - 20
+  - 25
+  - 35
+  - 45
+metric:
+  - True
+  - False
+n_init: 
+  - 2
+  - 4
+  - 6
+  - 8
+eps: 
+  - 0.001
+  - 0.00001
+dissimilarity:
+ - euclidean

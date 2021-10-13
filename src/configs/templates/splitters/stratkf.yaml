@@ -1,0 +1,6 @@
+ML:
+  splitters:
+    stratkf:
+      n_folds: 2
+      shuffle: True
+      stratifier_col: y

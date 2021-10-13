@@ -1,0 +1,40 @@
+---
+binary:
+  colour: dodgerblue
+  inv_col: steelblue
+  no_col: darkseagreen
+  width: darkorange
+  inv_width: goldenrod
+  no_width: beige
+  width_no: beige
+  concentration: deeppink
+  inv_conc: palevioletred
+  no_conc: thistle
+vector_labels:
+  '000': orangered
+  '100': mediumvioletred
+  '010': mediumorchid
+  '001': mediumpurple
+  '110': royalblue
+  '101': dodgerblue
+  '011': steelblue
+  '111': yellowgreen
+nconcepts:
+  '#0': orangered
+  '#1': mediumorchid
+  '#2': dodgerblue
+  '#3': yellowgreen
+colbin:
+  colour: dodgerblue
+  inv_col: steelblue
+  no_col: darkseagreen
+widbin:
+  width: darkorange
+  inv_width: goldenrod
+  no_width: beige
+  width_no: beige
+conbin:
+  concentration: deeppink
+  inv_conc: palevioletred
+  no_conc: thistle
+...

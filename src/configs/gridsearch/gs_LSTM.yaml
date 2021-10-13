@@ -1,0 +1,29 @@
+padding_value: 
+  - -1
+cell_type:
+  - LSTM
+  - GRU
+n_layers:
+  - 1
+  - 2
+n_cells:
+  - 16
+  - 32
+dropout:
+  - 0
+  - 0.2
+  - 0.5
+optimiser:
+  - adam
+loss:
+  - cce
+early_stopping:
+  - False
+batch_size:
+  - 64
+shuffle:
+  - True
+epochs:
+  - 200
+verbose:
+  - 1

@@ -1,0 +1,19 @@
+base_estimator:
+  - decision_tree
+n_estimators:
+  - 3
+  - 5
+  - 7
+  - 9
+  - 11
+  - 13
+learning_rate:
+  - 0.25
+  - 0.5
+  - 1
+  - 1.5
+  - 2
+  - 3
+algorithm:
+  - SAMME
+  - 'SAMME.R'

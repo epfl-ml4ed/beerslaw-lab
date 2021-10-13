@@ -1,0 +1,10 @@
+ML:
+  models:
+    classifiers:
+      rf:
+        n_estimators: 2
+        criterion: gini
+        max_depth: 2
+        min_samples_split: 1
+        max_leaf_nodes: 1
+        max_features: 1

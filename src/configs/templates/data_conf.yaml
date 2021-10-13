@@ -1,0 +1,12 @@
+---
+data:
+  pipeline:
+    sequencer: 17s
+    event_filter: nofilt
+    break_filter: cumul60br
+    adjuster: tscrp
+    encoder: 1hot
+    aggregator: cumulaveagg
+  adjuster:
+    limit: 10
+...

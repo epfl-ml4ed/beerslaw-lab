@@ -1,0 +1,11 @@
+---
+paths:
+  newsim_parsed: '../data/parsed simulations/beerslaw-lab/sim2/'
+  sequenced_simulations: '../data/sequenced simulations/'
+experiment:
+  class_name: blank
+  root_name: simname
+data:
+  pipeline:
+    sequencer: davidresin
+...

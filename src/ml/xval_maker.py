@@ -1,0 +1,147 @@
+import yaml
+import logging
+import numpy as np
+import pandas as pd
+from typing import Tuple
+
+from ml.models.model import Model
+from ml.models.classifiers.random_forest import RandomForest
+from ml.models.classifiers.simple_nn import SimpleNN
+from ml.models.classifiers.scikit_nn import ScikitNN
+from ml.models.classifiers.svm import SVMClassifier
+from ml.models.classifiers.sgd import SGDModel
+from ml.models.classifiers.knn import KNNModel
+from ml.models.classifiers.adaboost import ADABoostModel
+from ml.models.classifiers.lstm import LSTMModel
+from ml.models.modellers.pairwise_skipgram import PWSkipgram
+
+from ml.samplers.sampler import Sampler
+from ml.samplers.no_sampler import NoSampler
+from ml.samplers.random_oversampler import RandomOversampler
+
+from ml.scorers.scorer import Scorer
+from ml.scorers.binaryclassification_scorer import BinaryClfScorer
+from ml.scorers.multiclassification_scorer import MultiClfScorer
+
+from ml.splitters.splitter import Splitter
+from ml.splitters.stratified_kfold import StratifiedKSplit
+
+from ml.xvalidators.xvalidator import XValidator
+from ml.xvalidators.nested_xval import NestedXVal
+from ml.xvalidators.unsup_nested_xval import UnsupNestedXVal
+from ml.xvalidators.early_nested_xval import EarlyNestedXVal
+
+from ml.gridsearches.gridsearch import GridSearch
+from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
+from ml.gridsearches.unsupervised_gridsearch import UnsupervisedGridSearch
+
+class XValMaker:
+    """This script assembles the machine learning component and creates the training pipeline according to:
+    
+        - splitter
+        - sampler
+        - model
+        - xvalidator
+        - scorer
+    """
+    
+    def __init__(self, settings:dict):
+        logging.debug('initialising the xval')
+        self._name = 'training maker'
+        self._notation = 'trnmkr'
+        self._settings = dict(settings)
+        self._experiment_root = self._settings['experiment']['root_name']
+        self._experiment_name = settings['experiment']['name']
+        self._pipeline_settings = self._settings['ML']['pipeline']
+        
+        self._build_pipeline()
+        
+    def _choose_splitter(self):
+        if self._pipeline_settings['splitter'] == 'stratkf':
+            self._splitter = StratifiedKSplit
+            
+    def _choose_sampler(self):
+        if self._pipeline_settings['sampler'] == 'nosplr':
+            self._sampler = NoSampler
+            
+        elif self._pipeline_settings['sampler'] == 'rdmos':
+            self._sampler = RandomOversampler
+            
+    def _choose_model(self):
+        logging.debug('model: {}'.format(self._pipeline_settings['model']))
+        if self._pipeline_settings['task'] == 'modelling':
+            if self._pipeline_settings['model'] == 'pwsg':
+                self._model = PWSkipgram
+            
+        elif self._pipeline_settings['task'] == 'classification':
+            if self._pipeline_settings['model'] == 'rf':
+                self._model = RandomForest
+                gs_path = './configs/gridsearch/gs_rf.yaml'
+                
+            elif self._pipeline_settings['model'] == '1nn':
+                self._model = SimpleNN
+                gs_path = './configs/gridsearch/gs_1nn.yaml'
+            
+            elif self._pipeline_settings['model'] == 'sknn':
+                self._model = ScikitNN
+                gs_path = './configs/gridsearch/gs_sknn.yaml'
+            
+            elif self._pipeline_settings['model'] == 'svc':
+                self._model = SVMClassifier
+                gs_path = './configs/gridsearch/gs_svc.yaml'
+                
+            elif self._pipeline_settings['model'] == 'sgd':
+                self._model = SGDModel
+                gs_path = './configs/gridsearch/gs_sgd.yaml'
+                
+            elif self._pipeline_settings['model'] == 'knn':
+                self._model = KNNModel
+                gs_path = './configs/gridsearch/gs_knn.yaml'
+                
+            elif self._pipeline_settings['model'] == 'adaboost':
+                self._model = ADABoostModel
+                gs_path = './configs/gridsearch/gs_ada.yaml'
+            
+            elif self._pipeline_settings['model'] == 'lstm':
+                self._model = LSTMModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
+            
+                
+            with open(gs_path, 'r') as fp:
+                gs = yaml.load(fp, Loader=yaml.FullLoader)
+                self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
+                
+    def _choose_scorer(self):
+        if self._pipeline_settings['scorer'] == '2clfscorer':
+            self._scorer = BinaryClfScorer
+        elif self._pipeline_settings['scorer'] == 'multiclfscorer':
+            self._scorer = MultiClfScorer
+            
+    def _choose_gridsearcher(self):
+        if self._pipeline_settings['gridsearch'] == 'supgs':
+            self._gridsearch = SupervisedGridSearch
+        elif self._pipeline_settings['gridsearch'] == 'unsupgs':
+            self._gridsearch = UnsupervisedGridSearch
+                
+    def _choose_xvalidator(self):
+        if 'nested' in self._pipeline_settings['xvalidator']:
+            self._choose_gridsearcher()
+        if self._pipeline_settings['xvalidator'] == 'nested_xval':
+            self._xval = NestedXVal(self._settings, self._gridsearch, self._splitter, self._sampler, self._model, self._scorer)
+        if self._pipeline_settings['xvalidator'] == 'unsup_nested_xval':
+            self._xval = UnsupNestedXVal(self._settings, self._gridsearch, self._splitter, self._sampler, self._model, self._scorer)
+        if self._pipeline_settings['xvalidator'] == 'early_nested_xval':
+            self._xval = EarlyNestedXVal(self._settings, self._gridsearch, self._splitter, self._sampler, self._model, self._scorer)
+    
+                
+    def _build_pipeline(self):
+        self._choose_splitter()
+        self._choose_sampler()
+        self._choose_model()
+        self._choose_scorer()
+        self._choose_xvalidator()
+        
+    def train(self, X:list, y:list, indices:list):
+        results = self._xval.xval(X, y, indices)
+        
+

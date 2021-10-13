@@ -1,0 +1,24 @@
+ML:
+  xvalidators:
+    unsup_nested_xval:
+      inner_n_folds: 2
+      optim_scoring: cce
+      flatten_value: -99
+      param_grid:
+        n_states:
+          - 5
+        embeddings:
+          - 2
+          - 4
+        window_size:
+          - 1
+        optimiser:
+          - adam
+        early_stopping:
+          - True
+        batch_size:
+          - 1
+        shuffle:
+          - True
+        epochs:
+          - 5

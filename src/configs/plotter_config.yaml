@@ -1,0 +1,32 @@
+experiment:
+  name: binary_concepts
+  keyword: xval # common trait within all nested cross val files
+  # reproduction_path : '../data/reproduction/'
+plot_style:
+  title: Results for the Binary classifiers [extended]
+  measure: roc
+  carry_on: True
+  sizing_mode: stretch_both
+  colour_map: cm_algo_feature
+  label_map: lm_algo_feature
+  style: algo_features
+  type: errorplot # change in early pred -> lineplot
+  boxplot_spacing: 0.4
+  radius: 0.02
+  bar_length: 0.2
+  ncols: 4
+  ystyle:
+    label: roc
+    range:
+      - 0.5
+      - 1.2
+  xstyle:
+    label: classes
+    type: groups # change in earlypred
+    groups:
+      - nconcepts
+      # - conbin
+      # - widbin
+      # - coltri
+      # - contri
+      # - widtri

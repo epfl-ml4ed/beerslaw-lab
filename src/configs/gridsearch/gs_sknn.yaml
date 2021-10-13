@@ -1,0 +1,24 @@
+max_iter:
+  - 300
+solver:
+  - sgd
+  - adam
+learning_rate:
+  - adaptive
+  - invscaling
+learning_rate_init:
+  - 0.1
+  - 0.01
+  - 0.001
+  - 0.0001
+hidden_layer_sizes:
+  - !!python/tuple [32, 16]
+  - !!python/tuple [64, 32]
+  - !!python/tuple [64, 32, 16]
+  - !!python/tuple [128, 64, 32, 16]
+  - !!python/tuple [256, 128, 64, 32, 16]
+  - !!python/tuple [512, 256, 128, 64, 32, 16]
+activation:
+  - relu
+  - tanh
+  - identity

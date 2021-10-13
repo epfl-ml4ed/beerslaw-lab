@@ -1,0 +1,36 @@
+n_components:
+  - 2
+  - 5
+  - 10
+  - 15
+  - 20
+  - 25
+  - 35
+  - 45
+perplexity:
+  - 5
+  - 10
+  - 20
+  - 25
+  - 40
+  - 50
+early_exaggeration: 
+  - 1
+  - 6
+  - 12
+  - 18
+  - 24
+learning_rate: 
+  - 10
+  - 200
+  - 400
+  - 600
+  - 800
+  - 1000
+metric: 
+  - euclidean
+  - cityblock
+  - cosine
+  - l1
+  - l2
+  - haversine

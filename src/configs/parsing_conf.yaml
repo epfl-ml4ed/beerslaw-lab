@@ -1,0 +1,6 @@
+paths:
+  parsed_simulations: '../data/parsed simulations/'
+  sequenced_simulations: '../data/sequenced simulations/'
+sequencing:
+  sequencer : bin1hotext
+  length_limit: 10

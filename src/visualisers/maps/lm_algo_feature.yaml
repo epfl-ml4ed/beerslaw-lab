@@ -1,0 +1,37 @@
+abbreviations:
+  1hot_aveagg: action count
+  actionspan_noagg: as
+  1hot_cumulaveagg: ac_cum
+  actionspan_normagg: action span
+  sgenc_aveagg: action skipgram
+  sgenc_cumulaveagg: pairwise skipgram
+  sgenc_flatagg: pw
+  sgenc_long: long skipgram
+  sgenc_short: short skipgram
+  vas: vec action span
+  vac: vec action count
+full_names:
+  1hot_aveagg: action count with average cumulative aggregation
+  actionspan_noagg: non normalised action span
+  1hot_cumulaveagg: action count with cumulative aggregation
+  actionspan_normagg: action span normalised
+  sgenc_aveagg: pairwise embeddings with average aggregation
+  sgenc_cumulaveagg: pairwise embeddings with cumulative aggregation
+  sgenc_flatagg: pairwise embeddings with vectorisation
+  sgenc_long: pairwise embeddings with high dimensionality
+  sgenc_short: pairwise embeddings with low dimensionality
+  vas: vector action span
+  vac: vector action count
+colour_map:
+  1hot_aveagg: ac_av
+  actionspan_noagg: as
+  1hot_cumulaveagg: ac_cum
+  actionspan_normagg: as (normalised)
+  sgenc_aveagg: pw
+  sgenc_cumulaveagg: pw
+  sgenc_flatagg: pw
+  sgenc_long: longpw
+  sgenc_short: shortpw
+  vas: vas
+  vac: vac
+  

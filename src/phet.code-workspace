@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\data\\experiment keys"
+        },
+        {
+            "path": "ml\\gridsearch"
+        }
+    ]
+}

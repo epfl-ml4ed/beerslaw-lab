@@ -1,0 +1,36 @@
+experiment:
+  class_name: vector_labels
+  root_name: out
+  name: out
+paths:
+  sequenced_simulations: '../data/sequenced simulations/'
+data:
+  min_length: 10
+  pipeline:
+    sequencer: extended
+    concatenator:
+      type: chemconcat
+      tasks: 
+        # - '1'
+        - '2'
+    event_filter: nofilt
+    break_filter: cumul60br
+    adjuster: full
+    encoder: actionspan
+    skipgram_weights: ''
+    skipgram_map: ''
+    aggregator: normagg
+  adjuster:
+    limit: 999999999
+ML:
+  pipeline:
+    scorer:
+      blank
+plotter:
+  report_folder: LAK
+  ordered_states: True
+  groups:
+    - flask
+    - concentration
+    - wavelength
+    - solution

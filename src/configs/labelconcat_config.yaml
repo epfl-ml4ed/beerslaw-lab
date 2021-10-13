@@ -1,0 +1,36 @@
+path:
+  sequenced_simulations: '../data/sequenced simulations/'
+experiment:
+  name: extended
+  algorithm: rf
+  features: actionspan
+  sequencer: extended
+  classname: bin
+concatenation:
+  report_folder: LAK
+  concatenator: nconcepts # or nconcepts
+scorer:
+  type: multi
+  scores:
+    - balanced_accuracy
+    - balanced_auc
+    - overall_auc
+    - roc
+  stratifiers:
+    - 'none'
+    - gender
+    - year
+    - field
+  n_classes: 
+    nconcepts: 4
+    vector_labels: 8
+    bin: 2
+    tri: 3
+plotter:
+  stratifiers:
+    - gender
+    - year
+    - field
+    - no_strat
+new_predictions: ''
+concatenator: ''

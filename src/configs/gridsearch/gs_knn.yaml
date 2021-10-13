@@ -1,0 +1,31 @@
+n_neighbours:
+  - 3
+  - 5
+  - 9
+  - 15
+  - 21
+  - 25
+  - 35
+  - 45
+  - 55
+  - 99
+leaf_size:
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+weights:
+  - uniform
+  - distance
+algorithm:
+  - auto
+  - ball_tree
+  - kd_tree
+  - brute
+metric:
+  - cityblock
+  - euclidean
+  - l1 
+  - l2
+  - manhattan

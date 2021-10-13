@@ -1,0 +1,114 @@
+---
+paths:
+  parsed_simulations: '../data/parsed simulations/'
+  sequenced_simulations: '../data/sequenced simulations/'
+experiment:
+  class_name: blank
+  root_name: blank
+  random_seed: 42
+  n_folds: 10
+data:
+  pipeline:
+    sequencer: 17s
+    event_filter: nofilt
+    break_filter: cumul60br
+    adjuster: full
+    encoder: blank
+    aggregator: blank
+  adjuster:
+    limit: 9999
+ML:
+  pipeline:
+    splitter: stratkf
+    sampler: nosplr
+    task: classification
+    model: rf
+    scorer: blank
+    gridsearch: supgs
+    xvalidator: nested_xval
+  models:
+    classifiers:
+      rf:
+        n_estimators: 2
+        criterion: gini
+        max_depth: 2
+        min_samples_split: 1
+        max_leaf_nodes: 1
+        max_features: 1
+  splitters:
+    stratkf:
+      n_folds: 10
+      shuffle: True
+      stratifier_col: y
+  xvalidators:
+    unsup_nested_xval:
+      inner_n_folds: 10
+      optim_scoring: roc
+      flatten_value: -99
+      param_grid:
+        n_estimators:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 12
+          - 15
+          - 20
+          - 25
+          - 30
+        criterion: 
+          - gini
+          - entropy
+        max_depth: 
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+        min_samples_split: 
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+        max_leaf_nodes: 
+          - 2
+          - 4
+          - 8
+          - 16
+          - 20
+          - 24
+          - 36
+        max_features: 
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 15
+          - 20
+  scorers:
+    scoring_metrics:
+      - accuracy
+      - balanced_accuracy
+      - precision
+      - recall
+      - roc
+...
