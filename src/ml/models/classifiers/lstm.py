@@ -112,11 +112,13 @@ class LSTMModel(Model):
         
     def predict(self, x:list) -> list:
         x_predict = self._format_features(x)
-        return self._model.predict(x_predict)
+        predictions = self._model.predict(x_predict)
+        predictions = [np.argmax(x) for x in predictions]
+        return predictions
     
     def predict_proba(self, x:list) -> list:
         x_predict = self._format_features(x)
-        probs = self._model.predict_proba(x_predict)
+        probs = self._model.predict(x_predict)
         if len(probs[0]) != self._n_classes:
             preds = self._model.predict(x_predict)
             probs = self._inpute_full_prob_vector(preds, probs)
