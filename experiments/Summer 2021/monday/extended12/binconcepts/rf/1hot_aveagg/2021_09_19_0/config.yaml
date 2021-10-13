@@ -1,0 +1,163 @@
+ML:
+  models:
+    classifiers:
+      1nn:
+        dummy_parameters:
+        - blank
+      adaboost:
+        algorithm: SAMME
+        base_estimator: decision_tree
+        dummy_parameters: blank
+        learning_rate: 0.25
+        n_estimators: 3
+      knn:
+        algorithm: brute
+        dummy_parameters: blank
+        leaf_size: 20
+        metric: cityblock
+        n_neighbours: 5
+        weights: uniform
+      lstm:
+        dummy_parameters: blank
+      rf:
+        dummy_parameters:
+        - blank
+      sgd:
+        dummy_parameters:
+        - blank
+      sknn:
+        dummy_parameters:
+        - blank
+      svc:
+        dummy_parameters:
+        - blank
+  pipeline:
+    gridsearch: supgs
+    model: rf
+    models:
+    - adaboost
+    - knn
+    - rf
+    sampler: nosplr
+    scorer: 2clfscorer
+    splitter: stratkf
+    task: classification
+    test_pad: false
+    train_pad: true
+    val_pad: false
+    xvalidator: nested_xval
+  scorers:
+    carry_on: true
+    scoring_metrics:
+    - accuracy
+    - balanced_accuracy
+    - precision
+    - recall
+    - roc
+    - balanced_auc
+    - overall_auc
+  splitters:
+    n_folds: 10
+    stratkf:
+      shuffle: true
+      stratifier_col: y
+  xvalidators:
+    nested_xval:
+      inner_n_folds: 10
+      optim_scoring: roc
+      outer_n_folds: 10
+      param_grid:
+        algorithm:
+        - auto
+        - ball_tree
+        - kd_tree
+        - brute
+        leaf_size:
+        - 10
+        - 20
+        - 30
+        - 40
+        - 50
+        metric:
+        - cityblock
+        - euclidean
+        - l1
+        - l2
+        - manhattan
+        n_neighbours:
+        - 3
+        - 5
+        - 9
+        - 15
+        - 21
+        - 25
+        - 35
+        - 45
+        - 55
+        - 99
+        weights:
+        - uniform
+        - distance
+classification: false
+classification_comparison: true
+classname: binconcepts
+data:
+  adjuster:
+    limit: 9320
+    limits:
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+    - 150
+    - 200
+    - 250
+    - 300
+  min_length: 10
+  pipeline:
+    adjuster: full
+    aggregator: aveagg
+    break_filter: cumul80br
+    concatenator:
+      tasks:
+      - '1'
+      - '2'
+      type: chemconcat
+    encoder: 1hot
+    encoders:
+    - 1hot
+    - sgenc
+    - actionspan
+    encoders_aggregators_pairs:
+      0:
+      - 1hot
+      - aveagg
+      1:
+      - actionspan
+      - normagg
+    event_filter: nofilt
+    sequencer: extended12
+    skipgram_map: ''
+    skipgram_weights: ''
+early_prediction: false
+experiment:
+  base_name: monday/extended12
+  class_map: ../data/experiment keys/permutation_maps/nconcepts_binary.yaml
+  class_name: binconcepts
+  n_classes: 2
+  n_folds: 10
+  name: binconcepts/rf/1hot_aveagg/2021_09_19_0
+  random_seed: 42
+  root_name: monday/extended12
+models: adaboost.knn.rf
+paths:
+  sequenced_simulations: ../data/sequenced simulations/
+sequencer: extended12
+skipgram: ''
+skipgram_comparison: false

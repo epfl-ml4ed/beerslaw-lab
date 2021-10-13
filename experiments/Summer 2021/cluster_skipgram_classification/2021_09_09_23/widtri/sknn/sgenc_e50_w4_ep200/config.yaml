@@ -1,0 +1,148 @@
+ML:
+  models:
+    classifiers:
+      1nn:
+        dummy_parameters:
+        - blank
+      rf:
+        class_weight: balanced_subsample
+        criterion: gini
+        dummy_parameters:
+        - blank
+        max_depth: 7
+        max_features: auto
+        max_leaf_nodes: null
+        min_samples_split: 9
+        n_estimators: 11
+        random_state: 0
+      sknn:
+        dummy_parameters:
+        - blank
+  pipeline:
+    gridsearch: supgs
+    model: sknn
+    models:
+    - rf
+    - sknn
+    sampler: nosplr
+    scorer: multiclfscorer
+    splitter: stratkf
+    task: classification
+    test_pad: false
+    train_pad: true
+    val_pad: false
+    xvalidator: nested_xval
+  scorers:
+    carry_on: true
+    scoring_metrics:
+    - accuracy
+    - balanced_accuracy
+    - precision
+    - recall
+    - roc
+    - balanced_auc
+    - overall_auc
+  splitters:
+    n_folds: 10
+    stratkf:
+      shuffle: true
+      stratifier_col: y
+  xvalidators:
+    nested_xval:
+      inner_n_folds: 10
+      optim_scoring: roc
+      outer_n_folds: 10
+      param_grid:
+        activation:
+        - relu
+        - tanh
+        - identity
+        hidden_layer_sizes:
+        - !!python/tuple
+          - 32
+          - 16
+        - !!python/tuple
+          - 64
+          - 32
+        - !!python/tuple
+          - 64
+          - 32
+          - 16
+        - !!python/tuple
+          - 128
+          - 64
+          - 32
+          - 16
+        learning_rate:
+        - adaptive
+        - invscaling
+        learning_rate_init:
+        - 0.01
+        - 0.001
+        max_iter:
+        - 300
+        solver:
+        - sgd
+        - adam
+class_name: ''
+classification: false
+classification_comparison: false
+classname: widtri
+data:
+  adjuster:
+    limit: 999999999
+    limits:
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+    - 150
+    - 200
+    - 250
+    - 300
+  min_length: 10
+  pipeline:
+    adjuster: full
+    aggregator: cumulaveagg
+    break_filter: cumul60br
+    concatenator:
+      tasks:
+      - '2'
+      type: chemconcat
+    encoder: sgenc
+    encoders:
+    - 1hot
+    - sgenc
+    - actionspan
+    encoders_aggregators_pairs:
+      1:
+      - 1hot
+      - aveagg
+      2:
+      - actionspan
+      - normagg
+    event_filter: nofilt
+    sequencer: minimise
+    skipgram_map: ../experiments/pw training minimise/e10_w4_ep200/
+    skipgram_weights: ../experiments/pw training minimise/e15_w4_ep200/2021_09_08_1/models/pairwise-skipgram/
+early_prediction: false
+experiment:
+  base_name: '2021_09_09_23'
+  class_map: ../data/experiment keys/permutation_maps/width_ternary.yaml
+  class_name: widtri
+  n_classes: 3
+  n_folds: 10
+  name: 2021_09_09_23/widtri/sknn/sgenc_e50_w4_ep200/
+  random_seed: 42
+  root_name: cluster_skipgram_classification
+paths:
+  sequenced_simulations: ../data/sequenced simulations/
+sequencer: minimise
+skipgram: '1'
+skipgram_comparison: true

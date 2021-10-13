@@ -1,0 +1,133 @@
+ML:
+  models:
+    classifiers:
+      1nn:
+        dummy_parameters:
+        - blank
+      rf:
+        dummy_parameters:
+        - blank
+      sknn:
+        dummy_parameters:
+        - blank
+  pipeline:
+    gridsearch: supgs
+    model: rf
+    models:
+    - rf
+    - sknn
+    sampler: nosplr
+    scorer: 2clfscorer
+    splitter: stratkf
+    task: classification
+    test_pad: false
+    train_pad: true
+    val_pad: false
+    xvalidator: nested_xval
+  scorers:
+    carry_on: true
+    scoring_metrics:
+    - accuracy
+    - balanced_accuracy
+    - precision
+    - recall
+    - roc
+    - balanced_auc
+    - overall_auc
+  splitters:
+    n_folds: 10
+    stratkf:
+      shuffle: true
+      stratifier_col: y
+  xvalidators:
+    nested_xval:
+      inner_n_folds: 10
+      optim_scoring: roc
+      outer_n_folds: 10
+      param_grid:
+        class_weight:
+        - balanced_subsample
+        criterion:
+        - gini
+        - entropy
+        max_depth:
+        - 5
+        - 7
+        - 9
+        max_features:
+        - auto
+        max_leaf_nodes:
+        - null
+        min_samples_split:
+        - 3
+        - 5
+        - 7
+        - 9
+        - 11
+        n_estimators:
+        - 7
+        - 9
+        - 11
+        - 15
+        random_state:
+        - 0
+class_name: colbin
+classification: false
+classification_comparison: true
+classname: ''
+data:
+  adjuster:
+    limit: 999999999
+    limits:
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+    - 150
+    - 200
+    - 250
+    - 300
+  min_length: 10
+  pipeline:
+    adjuster: full
+    aggregator: aveagg
+    break_filter: cumul60br
+    concatenator:
+      tasks:
+      - '2'
+      type: chemconcat
+    encoder: 1hot
+    encoders:
+    - 1hot
+    - sgenc
+    - actionspan
+    encoders_aggregators_pairs:
+      1:
+      - 1hot
+      - aveagg
+      2:
+      - actionspan
+      - normagg
+    event_filter: nofilt
+    sequencer: minimise
+    skipgram_map: ''
+    skipgram_weights: ''
+early_prediction: false
+experiment:
+  base_name: '2021_09_07_0'
+  class_name: colbin
+  n_classes: 2
+  n_folds: 10
+  name: 2021_09_07_0/colbin/rf/1hot_aveagg/
+  random_seed: 42
+  root_name: minimise
+paths:
+  sequenced_simulations: ../data/sequenced simulations/
+sequencer: ''
+skipgram_comparison: false
