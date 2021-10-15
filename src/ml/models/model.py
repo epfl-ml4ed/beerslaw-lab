@@ -15,6 +15,8 @@ class Model:
         self._experiment_name = settings['experiment']['name']
         self._n_classes = settings['experiment']['n_classes']
         self._random_seed = settings['experiment']['random_seed']
+
+        self._gs_fold = -1
     
     def get_name(self):
         return self._name
@@ -28,6 +30,9 @@ class Model:
         for i, param in enumerate(params):
             logging.debug('  index: {}, param: {}'.format(i, param))
             self._model_settings[param] = combinations[i]
+
+    def set_gridsearch_fold(self, fold:int):
+        self._gs_fold = fold
             
     def get_settings(self):
         return dict(self._model_settings)

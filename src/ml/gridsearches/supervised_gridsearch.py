@@ -28,6 +28,7 @@ class SupervisedGridSearch(GridSearch):
                 yy_train = [y_train[yy] for yy in train_index]
                 
                 model = self._model(self._settings)
+                model.set_gridsearch_fold(f)
                 model.set_gridsearch_parameters(self._parameters, combination)
                 model.fit(xx_train, yy_train, x_val=x_val, y_val=y_val)
                 

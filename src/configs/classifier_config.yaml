@@ -38,7 +38,7 @@ ML:
     splitter: stratkf
     sampler: nosplr
     task: classification
-    model: ''
+    model: lstm
     scorer: 2clfscorer
     gridsearch: supgs
     test_pad: False

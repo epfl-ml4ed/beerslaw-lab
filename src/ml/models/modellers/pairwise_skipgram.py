@@ -12,7 +12,7 @@ from tensorflow.python.ops.gen_array_ops import OneHot
 from ml.models.model import Model
 from sklearn.base import BaseEstimator, ClassifierMixin
 from tensorflow import keras
-from keras.callbacks import CSVLogger
+from tensorflow.keras.callbacks import CSVLogger
 
 from ml.models.modellers.balanced_accuracy import BalAccScore
 from sklearn.metrics import balanced_accuracy_score

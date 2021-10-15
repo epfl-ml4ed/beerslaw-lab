@@ -10,7 +10,7 @@ from ml.models.model import Model
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from keras.callbacks import CSVLogger
+from tensorflow.keras.callbacks import CSVLogger
 from tensorflow.keras.callbacks import History
 from tensorflow.keras.losses import get as get_loss, Loss
 from sklearn.model_selection import KFold, StratifiedKFold
@@ -36,8 +36,6 @@ class LSTMModel(Model):
         #y needs to be one hot encoded
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         y_vector = to_categorical(y, num_classes=self._n_classes)
-        print(np.array(x_vector).shape)
-        print(np.array(y_vector).shape)
         return x_vector, y_vector
     
     def _format_features(self, x:list) -> list:
@@ -53,6 +51,17 @@ class LSTMModel(Model):
             layer = layers.SimpleRNN
             
         return layer(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+
+    def _get_csvlogger_path(self) -> str:
+        csv_path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/logger/' 
+        csv_path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
+        csv_path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
+        csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
+        csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
+        csv_path += self._name 
+        os.makedirs(csv_path, exist_ok=True)
+        csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
+        return csv_path
 
     def _init_model(self, x:np.array):
         # initial layers
@@ -89,7 +98,7 @@ class LSTMModel(Model):
             self._callbacks.append(early_stopping)
             
         # csv loggers
-        csv_path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/model_training.csv'
+        csv_path = self._get_csvlogger_path()
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
         print(self._model.summary())
