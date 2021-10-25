@@ -1,0 +1,37 @@
+timeline:
+  solution: colour
+  TO POPULATE
+solution_colours:
+  drinkMix: 
+    - 251
+    - 0
+    - 7
+  potassiumDichromate:
+    - 252
+    - 105
+    - 8
+  cobaltChloride:
+    - 237
+    - 115
+    - 111
+  copperSulfate:
+    - 27
+    - 121
+    - 255
+  nickelIIChloride:
+    - 56
+    - 126
+    - 34
+  potassiumPermanganate:
+    - 62
+    - 0
+    - 101
+  potassiumChromate:
+    - 255
+    - 255
+    - 10
+  cobaltIINitrate:
+    - 251
+    - 0
+    - 7
+  

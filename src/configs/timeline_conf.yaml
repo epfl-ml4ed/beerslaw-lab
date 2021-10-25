@@ -1,0 +1,5 @@
+plot:
+  base_coord: 0 # y coordinate of the timeline
+  timeline_space: 9 # space between the middle y coordinates of two timelines
+  state_height: 1
+  action_height: 4

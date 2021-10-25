@@ -335,7 +335,7 @@ class Sequencing:
             return event
         else:
             return 'other'
-        
+
     def _clean_closing(self, begins:str, ends:list, labels:list, last_timestamp:float) -> Tuple[list, list, list]:
         bs, es, ls = [], [], []
         for i, b in enumerate(begins):
