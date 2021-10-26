@@ -435,6 +435,9 @@ class Simulation:
     
     def get_simulation_id(self) -> str:
         return self._simulation_id
+
+    def get_task(self) -> str:
+        return self._task
     
     def get_checkbox_transmittance(self) -> Tuple[dict, dict]:
         """Returns the on values of transmittance checkbox
@@ -638,9 +641,14 @@ class Simulation:
     def get_pdf(self) -> dict:
         """Tracks when the pdf was visible and not visible
         Returns:
-            dict: {begin, end} begin and end dragging timestamps of whether the values 
+            dict: {begin, end} begin and end timestamps of when it the pdf was opened
+
         """
-        return self._pdf.get_switch_on(), self._pdf.get_switch_off()
+        pdf = {
+            'begin': self._pdf.get_switch_on()['begin'],
+            'end': self._pdf.get_switch_on()['end']
+        }
+        return pdf
     
     def get_restarts(self) -> list:
         """Returns the list of when the simulation was resetted

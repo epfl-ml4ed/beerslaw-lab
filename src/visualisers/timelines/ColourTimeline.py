@@ -1,3 +1,4 @@
+from bokeh.models.tools import Toolbar
 import yaml
 import json
 import pickle
@@ -6,11 +7,17 @@ from typing import Tuple
 import numpy as np
 
 import bokeh
-from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, Rect
+from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, HoverTool, glyph
+from bokeh.plotting import figure, output_file, show, save
+from bokeh.io import export_svg
+
+
 from extractors.parser.simulation_parser import Simulation
 from extractors.sequencer.plotter_sequencer import PlotterSequencing
 
-class Timeline:
+from visualisers.timelines.Timeline import Timeline
+
+class ColourTimeline(Timeline):
     """
     This class is created to plot the parsed files as timelines, to represent student interactions in a human-readable way.
     Particularly, this timeline is aimed at reading parsed files from the beer's law lab [https://phet.colorado.edu/sims/html/beers-law-lab/latest/beers-law-lab_en.html]
@@ -19,39 +26,23 @@ class Timeline:
     The middle bar will show the interactions
     The two bottom bars will display whether there was measurement from the ruler, and then from the absorbance/transmittance/nomeasured
     """
-    def __init__(self, settings: dict, plotter: PlotterSequencing):
+    def __init__(self, settings: dict):
         self._name = 'timeline'
         self._notation = 'tmln'
         self._settings = settings
+        
+        self._load_palette()
+        self._load_plotter()
+        
 
     def _load_palette(self):
         with open('./visualisers/maps/colourtimeline_cm.yaml', 'rb') as fp:
             self._palette = yaml.load(fp, Loader=yaml.FullLoader)
 
-    def _extract_xs(self, component):
-        """
-        From a component of the simulation, extract the timecoordinates for 
-        the rectangle in bokeh.
-        
-        Args:
-            component: list (of timestamps) or dict (on and off)
-        """
-        raise NotImplementedError
-    
-    def _extract_values_xs(self, timestamps: list) -> Tuple[list, list]:
-        """
-        Returns 
-            - the middle coordinates for the rectangle function in bokeh
-            - the width of each of the rectangles to be drawn
-        """
-        ts0 = [x for x in timestamps[:-1]]
-        ts1 = [x for x in timestamps[1:]]
+    def _load_plotter(self):
+        self._plotter = PlotterSequencing()
 
-        rect_width = np.array(ts1) - np.array(ts0)
-        middle_coord = (rect_width / 2) + np.array(ts0)
-        return rect_width, middle_coord
-
-    def _wavelength_to_rgb(wavelength, gamma=0.8):
+    def _wavelength_to_rgb(self, wavelength, gamma=0.8):
         # From http://www.noah.org/wiki/Wavelength_to_RGB_in_Python
 
         '''
@@ -90,7 +81,6 @@ class Timeline:
         Based on code by Dan Bruton
         http://www.physics.sfasu.edu/astro/color/spectra.html
         '''
-
         wavelength = float(wavelength)
         if wavelength >= 380 and wavelength <= 440:
             attenuation = 0.3 + 0.7 * (wavelength - 380) / (440 - 380)
@@ -127,7 +117,7 @@ class Timeline:
         B *= 255
         return (int(R), int(G), int(B))
 
-    def _plot_wavelength(self, sim: Simulation, glyphs, plot):
+    def _plot_wavelength(self, sim: Simulation, glyphs:dict, plot):
         """
         Plot the colour of the wavelength as the top bar state
         Args:
@@ -135,23 +125,29 @@ class Timeline:
             plot: plot object
         """
         values, ts = sim.get_wavelength()
+        values.append(values[-1])
+        ts.append(ts[-1])
         rect_width, middle_coord = self._extract_values_xs(ts)
         wavelength_colours = [self._wavelength_to_rgb(v) for v in values]
         wavelength_colours = wavelength_colours[:-1]
-        y_coord = self._settings['plot']['base_coord']
-        y_coord += self._settings['plot']['action_height'] / 2 # action bar
-        y_coord += self._settings['plot']['state_height'] # concentration bar
-        y_coord += self._settings['plot']['state_height'] / 2 # Finding the middle y coordinate
+        y_coord = self._settings['timeline']['base_coord']
+        y_coord += self._settings['timeline']['action_height'] / 2 # action bar
+        y_coord += self._settings['timeline']['state_height'] # concentration bar
+        y_coord += self._settings['timeline']['state_height'] / 2 # Finding the middle y coordinate
         y_coords = [y_coord for l in rect_width]
+        heights = [self._settings['timeline']['state_height'] for _ in y_coords]
 
-        source = ColumnDataSource(dict(
-            x=middle_coord, y=y_coords, 
-            w=rect_width, h=self._settings['plot']['state_height']),
-            colour=wavelength_colours
-        )
-        glyphs['object'].append(Rect(x='x', y='y', width='w', height='h', fill_color='colour'))
-        glyphs['label'].append('wavelength')
-        plot.add_glyph(source, glyphs['object'][-1])
+        source = {
+            'x': middle_coord,
+            'y': y_coords,
+            'w': rect_width,
+            'h': heights,
+            'colour': wavelength_colours,
+            'label': values[:-1]
+
+        }
+        glyphs['wavelength'] = plot.rect(x='x', y='y', width='w', height='h', fill_color='colour', line_alpha=0, source=source, legend_label='wavelength')
+        plot.add_tools(HoverTool(renderers=[glyphs['wavelength']], tooltips=[('wavelength', "@label")]))
         return glyphs, plot
 
     def _plot_solutioncolour(self, sim: Simulation, glyphs, plot):
@@ -164,56 +160,27 @@ class Timeline:
         """
         values, ts = sim.get_solution()
         rect_width, middle_coord = self._extract_values_xs(ts)
-        solution_colours = [self._palette['solution_colours'][sol] for sol in values]
+        solution_colours = [s.replace('beersLawLab.beersLawScreen.solutions.', '') for s in values]
+        solution_colours = [self._palette['solution_colours'][sol] for sol in solution_colours]
         solution_colours = solution_colours[:-1]
-        y_coord = self._settings['plot']['base_coord']
-        y_coord += self._settings['plot']['action_height'] / 2 # action bar
-        y_coord += self._settings['plot']['state_height'] / 2 # Finding the middle y coordinate
+        y_coord = self._settings['timeline']['base_coord']
+        y_coord += self._settings['timeline']['action_height'] / 2 # action bar
+        y_coord += self._settings['timeline']['state_height'] / 2 # Finding the middle y coordinate
         y_coords = [y_coord for l in rect_width]
+        heights = [self._settings['timeline']['state_height'] for _ in y_coords]
 
-        source = ColumnDataSource(dict(
-            x=middle_coord, y=y_coords, 
-            w=rect_width, h=self._settings['plot']['state_height']),
-            colour=solution_colours
-        )
-        glyphs['object'].append(Rect(x='x', y='y', width='w', height='h', fill_color='colour'))
-        glyphs['label'].append('wavelength')
-        plot.add_glyph(source, glyphs['object'][-1])
+        source = {
+            'x': middle_coord,
+            'y': y_coords,
+            'w': rect_width,
+            'h': heights,
+            'colour': solution_colours,
+            'label': values[:-1]
+        }
+        glyphs['solution'] = plot.rect(x='x', y='y', width='w', height='h', fill_color='colour', line_alpha=0, source=source, legend_label='solution')
+        plot.add_tools(HoverTool(renderers=[glyphs['solution']], tooltips=[('solution', "@label")]))
         return glyphs, plot
 
-    def _retrieve_beginends(self, label:str, begins:list, ends:list, labels:list) -> Tuple[list, list]:
-        """Gives the beginning and end timestamps of a specific label
-        Args:
-            label (str): label of interest
-            begins (list): beginning timestamps of all labels
-            ends (list): end timestamps of all labels
-            labels (list): list of labels
-
-        Returns:
-            Tuple[list, list]: 
-                bs: beginning timestamps of all the action of label
-                es: end timestamps of all the action of label
-        """
-        indices = [i for i in range(len(labels)) if label == labels[i]]
-        bs = [begins[idx] for idx in indices]
-        es = [ends[idx] for idx in indices]
-        return bs, es
-
-    def _extract_beginsends_xs(self, begins:dict, ends:dict) -> Tuple[list, list]:
-        """Returns the middle points of the bars, as well as their width (time)
-
-        Args:
-            begins (dict): begin timestamps
-            ends (dict): end timestamps
-
-        Returns:
-            Tuple[list, list]: 
-                widths:
-        """
-        widths = np.array(ends) - np.array(begins)
-        middle_coords = (np.array(widths) / 2) + np.array(begins)
-        return widths, middle_coords
- 
     def _plot_actions(self, sim:Simulation, glyphs, plot, plotter: PlotterSequencing):
         """
         Plot all of the actions from the beer's law lab:
@@ -228,29 +195,34 @@ class Timeline:
         
         sequencer = PlotterSequencing()
         begins, ends, labels = sequencer.get_sequences(sim)
-
-        labels = [
-            'laser', 'ruler', 'restarts', 'transmittance_absorbance', 'magnifier_position', 
-            'wavelength', 'solution', 'concentration', 'flask', 'pdf', 'concentrationlab'
+        # for i in range(len(begins)):
+        #     print(begins[i], ends[i], labels[i])
+        labels_to_plot = [
+            'laser', 'ruler', 'restarts', 'transmittance_absorbance', 'magnifier', 
+            'wavelength', 'solution', 'concentration', 'flask', 'pdf', 'concentrationlab', 'wavelength_slider'
 
         ]
 
         bs = {}
         es = {}
-        for label in labels:
+        for label in labels_to_plot:
             bs[label], es[label] = self._retrieve_beginends(label, begins, ends, labels)
             widths, middles = self._extract_beginsends_xs(bs[label], es[label])
-            colours = [self._palette['timeline']['label'] for _ in range(len(middles))]
-            y_coords = [self._settings['plot']['base_coord'] for _ in range(len(colours))]
+            colours = [self._palette['timeline'][label] for _ in range(len(middles))]
+            y_coords = [self._settings['timeline']['base_coord'] for _ in range(len(colours))]
+            heights = [self._settings['timeline']['action_height'] for _ in y_coords]
 
-            source = ColumnDataSource(dict(
-                x=middles, y=y_coords, 
-                w=widths, h=self._settings['plot']['action_height']),
-                colour=colours
-            )
-            glyphs['object'].append(Rect(x='x', y='y', width='w', height='h', fill_color='colour'))
-            glyphs['label'].append(label)
-            plot.add_glyph(source, glyphs['object'][-1])
+            source = {
+                'x': middles,
+                'y': y_coords,
+                'w': widths,
+                'h': heights,
+                'colour':colours,
+                'label': [label for _ in colours]
+            }
+
+            glyphs[label] = plot.rect(x='x', y='y', width='w', height='h', fill_color='colour', line_alpha=0, source=source, legend_label=label)
+            plot.add_tools(HoverTool(renderers=[glyphs[label]], tooltips=[('action', "@label")]))
         return glyphs, plot
 
     def _plot_ruler(self, sim:Simulation, glyphs, plot, plotter: PlotterSequencing):
@@ -264,32 +236,126 @@ class Timeline:
         """
         begin_ends_ruler = plotter.get_ruler_timepoints(sim)
         widths, middle_coords = self._extract_beginsends_xs(begin_ends_ruler['begin'], begin_ends_ruler['end'])
-        colours = [self._palette['timeline']['label'] for _ in range(len(middle_coords))]
-        y_coord = self._settings['plot']['base_coord']
-        y_coord -= self._settings['plot']['action_height'] / 2
-        y_coord -= self._settings['plot']['state_height'] / 2
+        colours = [self._palette['timeline']['ruler'] for _ in range(len(middle_coords))]
+        y_coord = self._settings['timeline']['base_coord']
+        y_coord -= self._settings['timeline']['action_height'] / 2
+        y_coord -= self._settings['timeline']['state_height'] / 2
         y_coords = [y_coord for _ in range(len(colours))]
+        heights = [self._settings['timeline']['state_height'] for _ in y_coords]
 
-        source = ColumnDataSource(dict(
-            x=middle_coords, y=y_coords, 
-            w=widths, h=self._settings['plot']['action_height']),
-            colour=colours
-        )
-        glyphs['object'].append(Rect(x='x', y='y', width='w', height='h', fill_color='colour'))
-        glyphs['label'].append('ruler')
-        plot.add_glyph(source, glyphs['object'][-1])
+        source = {
+            'x': middle_coords,
+            'y': y_coords,
+            'w': widths,
+            'h': heights,
+            'colour': colours,
+            'label': ['rule measuring' for _ in colours]
+        }
+        glyphs['ruler measuring'] = plot.rect(x='x', y='y', width='w', height='h', fill_color='colour', source=source, legend_label='ruler measuring', line_alpha=0)
+        plot.add_tools(HoverTool(renderers=[glyphs['ruler measuring']], tooltips=[('ruler measuring', "@label")]))
+
+        # invisible_source = ColumnDataSource(data=dict(
+        #         x=[sim.get_last_timestamp()/2], y=[y_coord],
+        #         w=[sim.get_last_timestamp()], h=[self._settings['timeline']['state_height']],
+        #         color=['white']
+        #         ))
+        # glyphs['blank ruler'] = plot.rect(x='x', y='y', width='w', height='h', fill_color='color', fill_alpha=0, line_alpha=0, source=invisible_source)
         return glyphs, plot
 
     def _plot_measuring(self, sim:Simulation, glyphs, plot, plotter: PlotterSequencing):
         """Plot whether the absorbance, the transmittance, or nothing was measured
 
         Args:
-            sim (Simulation): simulation for what to do this for
+            sim (Simulation): simulation for whyoat to do this for
             glyphs ([type]): dict[label, object] that contains all the glyphs and their labels
             plot: plot object
             plotter ([type]): sequencer for the plotter in order to reuse code from previous steps
         """
 
+        values, timesteps = plotter.get_absorbance_transmittance_nothing(sim)
+        
+        values.append(values[-1])
+        timesteps.append(sim.get_last_timestamp())
+        widths, coords = self._extract_values_xs(timesteps)
+        colours = [self._palette['timeline'][label] for label in values[:-1]]
+        y_coord = self._settings['timeline']['base_coord']
+        y_coord -= self._settings['timeline']['action_height'] / 2
+        y_coord -= self._settings['timeline']['state_height']
+        y_coord -= self._settings['timeline']['state_height'] / 2
+        y_coords = [y_coord for _ in range(len(colours))]
+        heights = [self._settings['timeline']['state_height'] for _ in y_coords]
+
+        source = {
+            'x': coords,
+            'y': y_coords,
+            'w': widths,
+            'h': heights,
+            'colour': colours,
+            'label': values[:-1]
+        }
+        glyphs['dependent variable'] = plot.rect(x='x', y='y', width='w', height='h', fill_color='colour', source=source, legend_label='dependent variable', line_alpha=0)
+        plot.add_tools(HoverTool(renderers=[glyphs['dependent variable']], tooltips=[('dependent variable', "@label")]))
+
+        # invisible_source = ColumnDataSource(data=dict(
+        #     x=[sim.get_last_timestamp()/2], y=[y_coord],
+        #     w=[sim.get_last_timestamp()], h=[self._settings['timeline']['state_height']],
+        #     color=['white']
+        #     ))
+        # glyphs['blank dependent variable'] = plot.rect(x='x', y='y', width='w', height='h', fill_color='color', fill_alpha=0, line_alpha=0, source=invisible_source)
+        return glyphs, plot
+
+    def _frame_timeline(self, glyphs, plot, sim:Simulation):
+        y_coord = self._settings['timeline']['base_coord']
+        height = self._settings['timeline']['state_height']
+        height += self._settings['timeline']['state_height']
+        height +=self._settings['timeline']['action_height']
+        height += self._settings['timeline']['state_height']
+        height += self._settings['timeline']['state_height']
+        width = sim.get_last_timestamp()
+
+        source = ColumnDataSource(dict(
+            x=[sim.get_last_timestamp()/2], y=[y_coord],
+            w=[width], h=[height],
+            color=['white']
+            ))
+        plot.rect(x='x', y='y', width='w', height='h', fill_color='color', fill_alpha=0, line_color='black', line_alpha=1, source=source)
+        return glyphs, plot
+
+    def create_timeline(self, sim: Simulation):
+        glyphs = {}
+        title = 'Timeline for student ' + sim.get_learner_id() + ' with permutation ' + sim.get_permutation() + ' for task ' + str(sim.get_task())
+        plot = self._init_figure(title)
+
+        glyphs, plot = self._plot_wavelength(sim, glyphs, plot)
+        glyphs, plot = self._plot_solutioncolour(sim, glyphs, plot)
+        glyphs, plot = self._plot_actions(sim, glyphs, plot, self._plotter)
+        glyphs, plot = self._plot_ruler(sim, glyphs, plot, self._plotter)
+        glyphs, plot = self._plot_measuring(sim, glyphs, plot, self._plotter)
+        glyphs, plot = self._frame_timeline(glyphs, plot, sim)
+
+        plot.legend.click_policy="hide"
+
+        if self._settings['saveimg']:
+            plot.output_backend = 'svg'
+            path = '../reports/' + self._settings['image']['report_folder']
+            path += '/colour timelines/p' + sim.get_permutation() 
+            path += '_t' + str(sim.get_task())
+            path += '_l' + sim.get_learner_id() + '.svg'
+            export_svg(plot, filename=path)
+
+        if self._settings['save']:
+            path = '../reports/' + self._settings['image']['report_folder']
+            path += '/colour timelines/p' + sim.get_permutation() 
+            path += '_t' + str(sim.get_task())
+            path += '_l' + sim.get_learner_id() + '.html'
+            save(plot, filename=path)
+
+        if self._settings['show']:
+            show(plot)
+
+
+
+
 
 
 
@@ -306,13 +372,3 @@ class Timeline:
 
 
 
-
-
-    def _create_timeline(self):
-        """
-        Creates the timeline
-        """
-        raise NotImplementedError
-        
-
-    

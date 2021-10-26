@@ -1,5 +1,18 @@
-plot:
+timeline:
   base_coord: 0 # y coordinate of the timeline
   timeline_space: 9 # space between the middle y coordinates of two timelines
-  state_height: 1
-  action_height: 4
+  state_height: 0.5
+  action_height: 3
+plot:
+  title: Timeline for a student
+  sizing_mode: stretch_both
+  xlabel: time(s)
+  ylabel: students
+  xrange: [0, 300]
+image:
+  report_folder: 'timelines'
+paths:
+  crawl_path: '../data/parsed simulations/'
+  new_path: '../reports/timelines/vector binary/'
+  timelines_path: '../reports/timelines/colour timelines/'
+  sorted_path: '../reports/timelines/vector binary/'

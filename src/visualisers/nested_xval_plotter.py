@@ -115,17 +115,17 @@ class NestedXValPlotter:
         dots = {}
         params = []
         for fold in range(10):
-                dots[fold] = {}
-                dots[fold]['data'] = df.iloc[fold]['auc']
-                
-                dots[fold]['algorithm'] = df.iloc[fold]['algorithm']
-                params.append('algorithm')
-                
-                dots[fold]['reproduction'] = 'EDM2021'
-                params.append('reproduction')
-                
-                dots[fold]['fold'] = fold
-                
+            dots[fold] = {}
+            dots[fold]['data'] = df.iloc[fold]['auc']
+            
+            dots[fold]['algorithm'] = df.iloc[fold]['algorithm']
+            params.append('algorithm')
+            
+            dots[fold]['reproduction'] = 'EDM2021'
+            params.append('reproduction')
+            
+            dots[fold]['fold'] = fold
+            
         dots_df = pd.DataFrame(dots).transpose()
         
         # statistics

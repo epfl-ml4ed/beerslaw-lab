@@ -73,7 +73,6 @@ class Sequencing:
         ruler_pos, ruler_ts = simulation.get_ruler_position()
         ruler_pos = self._process_ruler_measuring(ruler_pos, ruler_ts, simulation.get_last_timestamp())
         self._ruler_measuring, self._ruler_not_measuring = ruler_pos
-        
         # actions
         labels = []
         begins = []
@@ -95,7 +94,7 @@ class Sequencing:
         preset = simulation.get_wl_preset()
         begins = begins + preset['begin'][1:]
         ends = ends + list(np.array(preset['begin'][1:]) + self._click_interval)
-        labels = labels + [self._label_map['preset'] for l in preset['begin']]
+        labels = labels + [self._label_map['preset'] for l in preset['begin'][1:]]
         # wavelength variable
         wlvar = simulation.get_wl_variable()
         begins = begins + wlvar['begin']
@@ -136,7 +135,7 @@ class Sequencing:
         begins, ends, labels = self._process_firing(restarts, begins, ends, labels, self._label_map['restarts'])
         # pdf
         pdf = simulation.get_pdf()
-        begins, ends, labels = self._process_radiobox_seq(pdf, begins, ends, labels, self._label_map['pdf'])
+        begins, ends, labels = self._process_dragging(pdf, begins, ends, labels, self._label_map['pdf'])
         # concentration lab
         concentrationlab = simulation.get_concentrationlab_actions()
         begins, ends, labels = self._process_dragging(concentrationlab[0], begins, ends, labels, self._label_map['concentrationlab'])
@@ -152,7 +151,6 @@ class Sequencing:
         self._begins = bs
         self._ends = es
         self._labels = ls
-        
         
     # Process sequences into begins, ends and labels list
     def _process_measure_observed(self, values: list, timestamps: list, last_timestamp: float) -> Tuple[dict, dict]:
