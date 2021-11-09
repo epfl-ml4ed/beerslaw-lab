@@ -13,10 +13,12 @@ import pandas as pd
 
 from visualisers.timelines.Timeline import Timeline
 from visualisers.timelines.ColourTimeline import ColourTimeline
+from visualisers.timelines.seri_timeline import SeriTimeline
 
 def generate_all_timelines(settings):
     timeliner = ColourTimeline(settings)
     simulations = os.listdir(settings['paths']['crawl_path'])
+    simulations = [sim for sim in simulations if 'simulation.pkl' in sim]
     for sim in simulations:
         print(sim)
         with open(settings['paths']['crawl_path'] + sim, 'rb') as fp:
@@ -48,27 +50,18 @@ def sort_all_timelines(settings):
         direction = new_path(label) + timeline
         copyfile(source, direction)
 
-def update_rankings(settings):
-    parsed_simulations = os.listdir(settings['paths']['crawl_path'])
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
-        rankings = pickle.load(fp)
-        rankings = rankings.set_index('username')
-
-    for sim in parsed_simulations:
-        with open(settings['paths']['crawl_path'] + sim, 'rb') as fp:
-            simu = pickle.load(fp)
-        try:
-            permu = rankings.loc[simu.get_learner_id()]
-            simu.set_permutation(permu['ranking'])
-        except KeyError:
-            simu.set_permutation('missing')
-        
 def test(settings):
-    with open('../data/parsed simulations/perm_lid4k4dk9pu_t1v_simulation.pkl', 'rb') as fp:
-        sim = pickle.load(fp)
+    simulations = [
+        '../data/parsed simulations/perm3210_lid22wyn9xy_t1v_simulation.pkl'
 
-    timeliner = ColourTimeline(settings)
-    timeliner.create_timeline(sim)
+    ]
+    for sim_path in simulations:
+        with open(sim_path, 'rb') as fp:
+            sim = pickle.load(fp)
+
+        timeliner = ColourTimeline(settings)
+        timeliner.create_timeline(sim)
+
 
 def main(settings):
     if settings['test']:
@@ -80,8 +73,6 @@ def main(settings):
     if settings['sort']:
         sort_all_timelines(settings)
 
-    if settings['updateranking']:
-        update_rankings(settings)
 
 
 if __name__ == '__main__':

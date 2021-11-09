@@ -61,8 +61,11 @@ class Simulation:
         event_name = event.get_name()
         event_type = event.get_type()
         event_component = event.get_component()
-        if len(event.get_params().keys()) != 0:
-            event_params = event.get_params()
+        if event.get_params() != None:
+            if len(event.get_params().keys()) != 0:
+                event_params = event.get_params()
+            else:
+                event_params = {}
         else:
             event_params = {}
             
@@ -141,7 +144,7 @@ class Simulation:
         
         task = int(path[-5])
         self._task = str(task)
-        self._learner_id = path.split('\\')[-1].split('-')[0]
+        self._learner_id = path.split('/')[-1][:-6]
         self._simulation_id = self._learner_id + '_' + str(task)
         self._permutation = ''
         
@@ -360,6 +363,12 @@ class Simulation:
       
     def _load_variablesmap(self):
         self._variablesmap = {
+            'beersLawLab.sim.showHomeScreenProperty': {
+                'changed': self._no_update
+            },
+            'beersLawLab.sim.screenIndexProperty': {
+                'changed': self._no_update
+            },
             'beersLawLab.beersLawScreen.model.detector.probe.locationProperty':{
                 'changed': self._update_magnifier_position
             },
@@ -447,7 +456,7 @@ class Simulation:
                 on{begin, end}:  beginning and end timestamps of the period when the radio box is set on transmittance
                 off{begin, end}: beginning and end timestamps of the period when the radio box is set on absorbance
         """
-        return  self._checkbox_transmittance.get_switch_on(), self._wavelength_variable.get_switch_off()
+        return  self._checkbox_transmittance.get_switch_on(), self._checkbox_transmittance.get_switch_off()
     
     def get_wavelength(self) -> Tuple[list, list]:
         """Looks into the values of the wavelength throughout the simulation
@@ -758,6 +767,7 @@ class Simulation:
         try:
             self._event_map[pid][event_name](event, timestamp)
         except KeyError:
+            print('Event not caught')
             print(pid, event_name)
             exit(1)
         except AssertionError:
@@ -777,13 +787,13 @@ class Simulation:
         ]
         children = children.sort_values(['year', 'month', 'day', 'hour', 'minute', 'second', 'message_index'])    
         children = children[children['message_index'] != event.get_message_index()]
-        
+
         for i, child in children.iterrows():
             child_event = Event(child)
             event_name = child_event.get_name()
             pid = child_event.get_phetio_id()
             
-            if event_name not in self._variablesmap[pid] or pid not in self._variablesmap:
+            if pid not in self._variablesmap or event_name not in self._variablesmap[pid]:
                 print(event_name, pid)
             self._variablesmap[pid][event_name](child_event, timestamp)
             
@@ -857,6 +867,7 @@ class Simulation:
             
     # magnifier probe catching the laser
     def _magnifier_dragstart(self, event:Event, timestamp:datetime.datetime):
+        self._filter_children(event, timestamp)
         self._measure.set_state(self._measure.get_state(), timestamp)
         self._magnifier.start_dragging(self._measure.get_state, timestamp)
         self._timeline.append('startdrag_magnifier')
@@ -869,12 +880,14 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _magnifier_enddrag(self, event:Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._magnifier.stop_dragging(self._magnifier_position.get_state(), timestamp)
         self._timeline.append('stopdrag_magnifier')
         self._timestamps.append(timestamp)
         
     # flask
     def _flask_dragstart(self, event:Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._flask.start_dragging(self._width.get_state(), timestamp)
         self._timeline.append('startdrag_flask')
         self._timestamps.append(timestamp)
@@ -886,6 +899,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _flask_enddrag(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._flask.stop_dragging(self._width.get_state(), timestamp)
         self._timeline.append('stopdrag_flask')
         self._timestamps.append(timestamp)
@@ -909,6 +923,7 @@ class Simulation:
        
     # wavelength radio buttons
     def _wlvariable_toggle(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._wl_variable.switch(True, timestamp)
         self._wl_preset.switch(False, timestamp)
         self._timeline.append('toggle_wlvariable')
@@ -923,6 +938,7 @@ class Simulation:
         
     # wavelength slider
     def _wlslider_startdrag(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._wl_slider.start_dragging(self._wavelength.get_state(), timestamp)
         self._timeline.append('startdrag_wl')
         self._timestamps.append(timestamp)
@@ -934,6 +950,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _wlslider_enddrag(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._wl_slider.stop_dragging(self._wavelength.get_state(), timestamp)
         self._timeline.append('stopdrag_wl')
         self._timestamps.append(timestamp)
@@ -945,6 +962,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _wlslider_untouch(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._wl_slider.stop_dragging(self._wavelength.get_state(), timestamp)
         self._timeline.append('untouch_wl')
         self._timestamps.append(timestamp)
@@ -964,6 +982,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _concentration_startdrag(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._concentration_slider.start_dragging(self._concentration.get_state(), timestamp)
         self._timeline.append('startdrag_concentration')
         self._timestamps.append(timestamp)
@@ -975,6 +994,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _concentration_enddrag(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._concentration_slider.stop_dragging(self._concentration.get_state(), timestamp)
         self._timeline.append('stopdrag_concentration')
         self._timestamps.append(timestamp)
@@ -986,6 +1006,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _concentration_untouch(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._concentration_slider.stop_dragging(self._concentration.get_state(), timestamp)
         self._timeline.append('untouch_concentration')
         self._timestamps.append(timestamp)
@@ -1005,11 +1026,13 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _solution_shown(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._solution_menu.start_dragging(self._solution.get_state(), timestamp)
         self._timeline.append('show_solution')
         self._timestamps.append(timestamp)
         
     def _solution_hidden(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._solution_menu.stop_dragging(self._solution.get_state(), timestamp)
         self._timeline.append('hide_solution')
         self._timestamps.append(timestamp)
@@ -1021,6 +1044,7 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _ruler_startdrag(self, event: Event, timestamp:datetime):
+        self._filter_children(event, timestamp)
         self._ruler.start_dragging(self._ruler_position.get_state(), timestamp)
         self._timeline.append('startdrag_ruler')
         self._timestamps.append(timestamp)
@@ -1032,17 +1056,20 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _ruler_stopdrag(self, event: Event, timestamp:datetime):
+        self._filter_children(event, timestamp)
         self._ruler.stop_dragging(self._ruler_position.get_state(), timestamp)
         self._timeline.append('enddrag_ruler')
         self._timestamps.append(timestamp)
         
     def _absorbance_click(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._checkbox_absorbance.switch(1, timestamp)
         self._checkbox_transmittance.switch(0, timestamp)
         self._timeline.append('toggle_absorbance')
         self._timestamps.append(timestamp)
         
     def _transmittance_click(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._checkbox_transmittance.switch(1, timestamp)
         self._checkbox_absorbance.switch(0, timestamp)
         self._timeline.append('toggle_transmittance')
@@ -1077,16 +1104,19 @@ class Simulation:
         self._timestamps.append(timestamp)
         
     def _visit_menu(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._menu_state.switch(1, timestamp)
         self._timeline.append('visit_menu')
         self._timestamps.append(timestamp)
         
     def _look_menu(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._menu_state.switch(1, timestamp)
         self._timeline.append('look_menu')
         self._timestamps.append(timestamp)
         
     def _unlook_menu(self, event: Event, timestamp: float):
+        self._filter_children(event, timestamp)
         self._menu_state.switch(0, timestamp)
         self._timeline.append('unlook_menu')
         self._timestamps.append(timestamp)
@@ -1145,10 +1175,10 @@ class Simulation:
     def close(self):
         self._close_simulation()
         
-    def save(self, version='') -> str:
-        
-        path = '../data/parsed simulations/perm_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
-        # path = '//ic1files.epfl.ch/D-VET/Projects/ChemLab/04_Processing/Jade Parsing/' + perm' + self._permutation + '_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
+    def save(self, version='', path='') -> str:
+        # path = '../data/parsed simulations/perm_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
+        if path == '':
+            path = '../data/parsed simulations/' + 'perm' + self._permutation + '_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
         with open(path, 'wb') as fp:
             dill.dump(self, fp)
 

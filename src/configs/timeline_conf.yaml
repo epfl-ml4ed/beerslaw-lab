@@ -8,7 +8,7 @@ plot:
   sizing_mode: stretch_both
   xlabel: time(s)
   ylabel: students
-  xrange: [0, 300]
+  xrange: [0, 1000]
 image:
   report_folder: 'timelines'
 paths:

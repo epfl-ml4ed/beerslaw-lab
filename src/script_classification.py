@@ -16,6 +16,7 @@ from utils.config_handler import ConfigHandler
 
 
 from ml.xval_maker import XValMaker
+from extractors.sequencer.lstm_encoding import LSTMEncoding
 
 def full_prediction_classification(settings):
     """Uses the config settings to:
@@ -205,7 +206,22 @@ def early_prediction_classification(settings):
                 config['data']['adjuster']['limit'] = limit
                 xval = XValMaker(config)
                 xval.train(['place'], ['holder'])
-            
+
+def test(settings):
+    with open('../data/parsed simulations/perm3210_lid22wyn9xy_t1v_simulation.pkl', 'rb') as fp:
+        sim = pickle.load(fp)
+
+    seq = LSTMEncoding()
+    labs, begins, ends = seq.get_sequences(sim)
+    for i, lab in enumerate(labs):
+        print(begins[i], ends[i], lab)
+
+    # for i, time in enumerate(sim._timeline):
+    #     print(sim._timestamps[i], time)
+
+
+
+
 def main(settings):
     # Argument
     if settings['sequencer'] != '':
@@ -236,10 +252,10 @@ def main(settings):
             }
             
         
-    
-        
-        
     # Task
+    if settings['test']:
+        test(settings)
+
     if settings['classification']:
         full_prediction_classification(settings)
         
@@ -260,6 +276,7 @@ if __name__ == '__main__':
     # Experiment arguments
     
     # actions
+    parser.add_argument('--test', dest='test', default=False, help='testing method', action='store_true')
     parser.add_argument('--full', dest='classification', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--fullcombinations', dest='classification_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--sgcomparison', dest='skipgram_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')

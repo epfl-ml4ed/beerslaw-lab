@@ -83,6 +83,9 @@ class Sequencing:
         begins, ends, labels = self._process_radiobox_seq(wavelength_radiobox, begins, ends, labels, self._label_map['wavelength_radiobox'])
         # transmittance / absorbance radiobox
         transmittance_absorbance = simulation.get_checkbox_transmittance()
+        #debug
+        print('t-a')
+        print(transmittance_absorbance)
         begins, ends, labels = self._process_radiobox_seq(transmittance_absorbance, begins, ends, labels, self._label_map['transmittance_absorbance'])
         # magnifier interactions
         magnif = dict(self._magnifier_position)
@@ -151,6 +154,11 @@ class Sequencing:
         self._begins = bs
         self._ends = es
         self._labels = ls
+
+        # debug
+        print('find')
+        for i, lab in enumerate(ls):
+            print(bs[i], es[i], lab)
         
     # Process sequences into begins, ends and labels list
     def _process_measure_observed(self, values: list, timestamps: list, last_timestamp: float) -> Tuple[dict, dict]:
@@ -308,7 +316,9 @@ class Sequencing:
             values ([list]): crossed values
             value: value of that variable at that timestep
         """
-        if timestamps[0] <= timestep and timestamps[1] >= timestep:
+        if len(timestamps) == 1 and timestamps[0] <= timestep:
+            return timestamps, values, values[0]
+        if timestamps[0] <= timestep and timestamps[1] > timestep:
             return timestamps, values, values[0]
         elif timestamps[0] < timestep and timestamps[1] <= timestep:
             return self._get_value_timestep(timestamps[1:], values[1:], timestep)
@@ -317,13 +327,13 @@ class Sequencing:
         if begin == [] or end == []:
             return False, begin, end
 
-        elif timestep >= begin[0] and timestep <= end[0]:
+        elif timestep >= begin[0] and timestep < end[0]:
             return True, begin, end
         
         elif timestep < begin[0]:
             return False, begin, end
 
-        elif timestep > end[0]:
+        elif timestep >= end[0]:
             begin = begin[1:]
             end = end[1:]
             return self._state_return(begin, end, timestep)
@@ -342,6 +352,41 @@ class Sequencing:
                 es.append(ends[i])
                 ls.append(labels[i])
         return bs, es, ls
+
+    def get_absorbance_transmittance_nothing(self, sim: Simulation):
+        """Returns the timesteps and values of when the absorbance was displayed, 
+        whether the transmittance was displayed, or whether nothing was displayed
+
+        Args:
+            sim (Simulation): Simulation
+
+        Return:
+            - labels (list): list of labels [transmittance, absorbance, none]
+            - timesteps (list): ts of potential changes
+        """
+        values_displayed, timestamps_displayed = sim.get_measure_display()
+        values_displayed = [str(v).replace('â€ª', '') for v in values_displayed]
+        values_displayed = [str(v).replace('%â€¬', '') for v in values_displayed]
+
+        values = []
+        ts = []
+        for i, val in enumerate(values_displayed):
+            ts.append(timestamps_displayed[i])
+            if '%' in val:
+                values.append('transmittance')
+            elif val == '-':
+                values.append('none')
+            else:
+                values.append('absorbance')
+
+        labels = [values[0]]
+        timesteps = [ts[0]]
+        for i, v in enumerate(values[1:]):
+            if v != labels[-1]:
+                labels.append(v)
+                timesteps.append(ts[i+1])
+
+        return labels, timesteps
         
     
     def get_sequences(self, simulation: Simulation) -> Tuple[list, list, list]:

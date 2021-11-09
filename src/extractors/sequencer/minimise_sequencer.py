@@ -18,7 +18,7 @@ class MinimiseSequencing(Sequencing):
         - whether or not the student can observe the transmittance or observance
         - the colour of the solution: red, green or other
         - whether the ruler is measuring the flask or not
-        - whether the wavelength is 20 or not
+        - whether the wavelength is 520 or not
         - the action
             other
                 laser clicks

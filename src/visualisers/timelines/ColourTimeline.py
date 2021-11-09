@@ -273,6 +273,11 @@ class ColourTimeline(Timeline):
         """
 
         values, timesteps = plotter.get_absorbance_transmittance_nothing(sim)
+        values = [values[0]] + values
+        timesteps = [0] + timesteps
+        #debug
+        for i, val in enumerate(values):
+            print(timesteps[i], val)
         
         values.append(values[-1])
         timesteps.append(sim.get_last_timestamp())
