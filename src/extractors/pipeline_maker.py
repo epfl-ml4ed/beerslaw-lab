@@ -167,6 +167,10 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'bin1hotext':
             self._sequencer = Bin1hotExtendedSequencing()
             self._sequencer_path = 'bin1hotext'
+        if self._data_settings['pipeline']['sequencer'] == 'lstmencoding':
+            self._sequencer_path = 'lstmencoding'
+        if self._data_settings['pipeline']['sequencer'] == 'lstmencoding12':
+            self._sequencer_path = 'lstmencoding_12'
             
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']

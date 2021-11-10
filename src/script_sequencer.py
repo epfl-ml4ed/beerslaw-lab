@@ -16,6 +16,7 @@ from extractors.sequencer.sequencing import Sequencing
 from extractors.sequencer.set1_sequencer import Set1Sequencing
 from extractors.sequencer.set2_sequencer import Set2Sequencing
 from extractors.sequencer.basic_sequencer import BasicSequencing
+from extractors.sequencer.lstm_encoding import LSTMEncoding
 from extractors.sequencer.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.extended_sequencer import ExtendedSequencing
 from extractors.sequencer.onehotminimise_sequencer import OneHotMinimiseSequencing
@@ -47,7 +48,8 @@ def sequence_simulations(settings):
         'extended': ExtendedSequencing,
         'onehotmini': OneHotMinimiseSequencing,
         'bin1hotmini': Bin1HotMinimiseSequencing,
-        'bin1hotext': Bin1hotExtendedSequencing
+        'bin1hotext': Bin1hotExtendedSequencing,
+        'lstmencoding': LSTMEncoding
     }
     sequencer = sequencer_map[settings['sequencing']['sequencer']]()
     
@@ -76,21 +78,14 @@ def sequence_simulations(settings):
     # list of parsed files
     ps_path = settings['paths']['parsed_simulations']
     files = os.listdir(ps_path)
+    files = [f for f in files if 'simulation' in f]
     # path of sequenced files
     s_path = '../data/sequenced simulations/' + settings['sequencing']['sequencer'] + '/'
     
     # ranking correspondance
-    with open('//ic1files.epfl.ch/D-VET/Projects/ChemLab/04_Processing/Processing/Data/PostTest/post_test.pkl', 'rb') as fp:
-        post_test = pickle.load(fp)
-        ranks = pd.DataFrame()
-        ranks['lid'] = post_test[0, 'username']
-        ranks['gender'] = post_test[0, 'gender']
-        ranks['year'] = post_test[0, 'year']
-        ranks['ranks'] = post_test[6, 'ranks']
-        
-        ranks = ranks[ranks['ranks'].notna()]
-        ranks['permutation'] = ranks['ranks'].apply(lambda x: ''.join([str(r) for r in x]))
-        ranks = ranks.set_index('lid')
+    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        ranks = pickle.load(fp)
+        ranks = ranks.set_index('username')
     
     # regex expression to retrieve id and task number
     id_regex = re.compile('lid([^_]+)_')
@@ -98,35 +93,42 @@ def sequence_simulations(settings):
     i = 0
     while len(files) != 0:
         file = files[0]
+        print(file)
         lid = id_regex.findall(file)[0]
         print(lid)
-        
         try:
-            permutation = ranks.loc[lid]['permutation']
+            permutation = ranks.loc[lid]['ranking']
+            print(permutation)
             gender = ranks.loc[lid]['gender']
             year = ranks.loc[lid]['year']
         except KeyError:
+            print('hello')
             logging.info('No ranking for that id: {}'.format(lid))
             files_noranking = []
-            files_noranking.append('perm_lid' + str(lid) + '_t1v_simulation.pkl')
-            files_noranking.append('perm_lid' + str(lid) + '_t2v_simulation.pkl')
-            files_noranking.append('perm_lid' + str(lid) + '_t3v_simulation.pkl')
+            files_noranking.append('permmissing_lid' + str(lid) + '_t1v_simulation.pkl')
+            files_noranking.append('permmissing_lid' + str(lid) + '_t2v_simulation.pkl')
+            files_noranking.append('permmissing_lid' + str(lid) + '_t3v_simulation.pkl')
+            files_noranking.append('permwrong field_lid' + str(lid) + '_t1v_simulation.pkl')
+            files_noranking.append('permwrong field_lid' + str(lid) + '_t2v_simulation.pkl')
+            files_noranking.append('permwrong field_lid' + str(lid) + '_t3v_simulation.pkl')
+            print(files_noranking)
             for f in files_noranking:
                 if f in files:
                     files.remove(f)
+                    print(f)
             continue
             
         
         for n_task in range(1, 4):
-            file_path = 'perm_lid' + str(lid) + '_t' + str(n_task) + 'v_simulation.pkl'
-            # file_path = 'perm' + str(permutation) + '_lid' + str(lid) + '_t' + str(n_task) + 'v_simulation.pkl'
+            # file_path = 'perm_lid' + str(lid) + '_t' + str(n_task) + 'v_simulation.pkl'
+            file_path = 'perm' + str(permutation) + '_lid' + str(lid) + '_t' + str(n_task) + 'v_simulation.pkl'
             try:
                 with open(ps_path + file_path, 'rb') as fp:
                     sim = dill.load(fp)
                     sim.set_permutation(permutation)
                     sim.save()
-                
-                files.remove(file_path)
+                if file_path in files:
+                    files.remove(file_path)
                 labels, begins, ends = sequencer.get_sequences(sim)
                 last_timestamp = sim.get_last_timestamp()
             except FileNotFoundError:
@@ -146,7 +148,7 @@ def sequence_simulations(settings):
                 'gender': gender,
                 'year': year
             }
-            path = s_path + 'p_' + sim.get_permutation() + '_lid' + lid + '_t' + str(n_task) + '_sequenced.pkl'
+            path = s_path + 'p_' + permutation + '_lid' + lid + '_t' + str(n_task) + '_sequenced.pkl'
             with open(path, 'wb') as fp:
                 pickle.dump(sim_dict, fp)
             

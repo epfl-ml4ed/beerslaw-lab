@@ -101,15 +101,22 @@ def test(settings):
     )
     
     paths = [
-        '../data/temp/Session 40/22wyn9xy-1.log',
-        '../data/temp/Session 40/22wyn9xy-2.log',
-        '../data/temp/Session 40/22wyn9xy-3.log'
+        '../data/temp/Session 30/krd7m9vb-1.log',
+        '../data/temp/Session 30/krd7m9vb-2.log',
+        '../data/temp/Session 30/krd7m9vb-3.log'
     ]
+    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        rankings = pickle.load(fp)
+        rankings = rankings.set_index('username')
+
     for path in paths:
         print(path)
         sim = ChemlabSimulation(path)
+        print(rankings.loc[sim.get_learner_id()]['ranking'])
         sim.parse_simulation()
-        sim.save(path='../data/temp parsed/' + path.split('/')[-1])
+        sim.set_permutation(rankings.loc[sim.get_learner_id()]['ranking'])
+        sim.save(path='../data/temp parsed/'+ sim.get_permutation() + path.split('/')[-1])
+        print()
 
 
 

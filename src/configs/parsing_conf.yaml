@@ -1,7 +1,7 @@
 paths:
   parsed_simulations: '../data/parsed simulations/'
   sequenced_simulations: '../data/sequenced simulations/'
-  crawl_path: '../data/parsed simulations without permutations/'
+  crawl_path: '../data/temp/'
 sequencing:
-  sequencer : bin1hotext
+  sequencer : lstmencoding
   length_limit: 10

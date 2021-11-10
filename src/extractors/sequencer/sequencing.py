@@ -84,8 +84,6 @@ class Sequencing:
         # transmittance / absorbance radiobox
         transmittance_absorbance = simulation.get_checkbox_transmittance()
         #debug
-        print('t-a')
-        print(transmittance_absorbance)
         begins, ends, labels = self._process_radiobox_seq(transmittance_absorbance, begins, ends, labels, self._label_map['transmittance_absorbance'])
         # magnifier interactions
         magnif = dict(self._magnifier_position)
@@ -155,10 +153,6 @@ class Sequencing:
         self._ends = es
         self._labels = ls
 
-        # debug
-        print('find')
-        for i, lab in enumerate(ls):
-            print(bs[i], es[i], lab)
         
     # Process sequences into begins, ends and labels list
     def _process_measure_observed(self, values: list, timestamps: list, last_timestamp: float) -> Tuple[dict, dict]:

@@ -30,10 +30,10 @@ def full_prediction_classification(settings):
         settings: config flag + arguments
     """
     settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
-    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['data']['pipeline']['encoder']
+    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['data']['pipeline']['encoder'] + '/'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_settings()
-    log_path = '../experiments/' + settings['experiment']['root_name'] + '/training_logs.txt'
+    log_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/training_logs.txt'
     logging.basicConfig(
         filename=log_path,
         level=logging.INFO, 
@@ -251,7 +251,6 @@ def main(settings):
                 0: ['raw', 'noagg'],
             }
             
-        
     # Task
     if settings['test']:
         test(settings)

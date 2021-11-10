@@ -24,7 +24,7 @@ class BreakFilter:
         e = [0] + end 
         
         breaks = list(np.array(b) - np.array(e))
-        breaks = breaks[1:-1]
+        breaks = breaks[:-1]
         
         breaks = [b for b in breaks if b > 0]
         logging.info('cur: {}'.format(breaks))

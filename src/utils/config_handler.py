@@ -11,31 +11,6 @@ class ConfigHandler:
     def get_settings(self):
         return dict(self._settings)
         
-    def handle_gridsearch(self):
-        if self._settings['ML']['pipeline']['model'] == '1nn':
-            path = './configs/gridsearch/gs_1nn.yaml'
-            with open(path, 'r') as fp:
-                gs = yaml.load(fp, Loader=yaml.FullLoader)
-                self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
-                
-        elif self._settings['ML']['pipeline']['model'] == 'rf':
-            path = './configs/gridsearch/gs_rf.yaml'
-            with open(path, 'r') as fp:
-                gs = yaml.load(fp, Loader=yaml.FullLoader)
-                self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
-                
-        elif self._settings['ML']['pipeline']['model'] == 'sknn':
-            path = './configs/gridsearch/gs_sknn.yaml'
-            with open(path, 'r') as fp:
-                gs = yaml.load(fp, Loader=yaml.FullLoader)
-                self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
-                
-        elif self._settings['ML']['pipeline']['model'] == 'sknn':
-            path = './configs/gridsearch/gs_svc.yaml'
-            with open(path, 'r') as fp:
-                gs = yaml.load(fp, Loader=yaml.FullLoader)
-                self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
-
     def get_experiment_name(self):
         """Creates the experiment name in the following path:
             '../experiments/experiment root/yyyy_mm_dd_index/'
@@ -81,7 +56,6 @@ class ConfigHandler:
         return self._settings
         
     def handle_settings(self) -> dict:
-        self.handle_gridsearch()
         self.get_experiment_name()
         with open(self._experiment_path + 'config.yaml', 'w') as fp:
             doc = yaml.dump(self._settings, fp)

@@ -1,0 +1,96 @@
+---
+paths:
+  sequenced_simulations: '../data/sequenced simulations/'
+experiment:
+  class_name: 'binconcepts'
+  root_name: lstm_test
+  random_seed: 42
+  n_folds: 2
+  n_classes: 2
+data:
+  min_length: 10
+  pipeline:
+    sequencer: lstmencoding_12
+    concatenator:
+      type: chemconcat
+      tasks: 
+        - '1'
+        - '2'
+    event_filter: nofilt
+    break_filter: cumul1hot80br
+    adjuster: full
+    encoder: raw
+    skipgram_weights: ''
+    skipgram_map: ''
+    aggregator: noagg
+    encoders_aggregators_pairs:
+      0: 
+      - raw
+      - noagg
+    encoders:
+      - dummy
+  adjuster:
+    limit: 9320
+    limits: 
+      - x
+ML:
+  pipeline:
+    splitter: stratkf
+    sampler: nosplr
+    task: classification
+    model: lstm
+    scorer: 2clfscorer
+    gridsearch: supgs
+    test_pad: False
+    val_pad: False
+    train_pad: True
+    models:
+      - lstm
+      # - adaboost
+  models:
+    classifiers:
+      rf:
+        dummy_parameters:
+          - blank
+      1nn:
+        dummy_parameters:
+          - blank
+      sknn:
+        dummy_parameters:
+          - blank
+      svc:
+        dummy_parameters:
+          - blank
+      sgd:
+        dummy_parameters:
+          - blank
+      knn:
+        dummy_parameters:
+          blank
+      adaboost:
+        dummy_parameters:
+          blank
+      lstm:
+        dummy_parameters:
+          blank
+  splitters:
+    n_folds: 10
+    stratkf:
+      shuffle: True
+      stratifier_col: y
+  xvalidators:
+    nested_xval:
+      inner_n_folds: 2
+      outer_n_folds: 2
+      optim_scoring: roc
+  scorers:
+    scoring_metrics:
+      - accuracy
+      - balanced_accuracy
+      - precision
+      - recall
+      - roc
+      - balanced_auc
+      - overall_auc
+    carry_on: True
+...

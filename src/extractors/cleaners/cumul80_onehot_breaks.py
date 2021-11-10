@@ -22,7 +22,7 @@ class Cumul80OneHotBreakFilter(BreakFilter):
         # Compute the threshold
         breaks = self._get_all_breaks(begin, end)
         breaks.sort()
-        threshold = int(0.6 * len(breaks))
+        threshold = int(0.8 * len(breaks))
         threshold = breaks[threshold]
         
         begins = []
