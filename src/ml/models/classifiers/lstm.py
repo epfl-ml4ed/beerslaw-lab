@@ -44,16 +44,20 @@ class LSTMModel(Model):
     
     def _get_rnn_layer(self, return_sequences:bool):
         if self._model_settings['cell_type'] == 'LSTM':
-            layer = layers.LSTM
+            layer = layers.LSTM(units=self._model_settings['n_cells'], return_sequences=return_sequences)
         elif self._model_settings['cell_type'] == 'GRU':
-            layer = layers.GRU
+            layer = layers.GRU(units=self._model_settings['n_cells'], return_sequences=return_sequences)
         elif self._model_settings['cell_type'] == 'RNN':
-            layer = layers.SimpleRNN
+            layer = layers.SimpleRNN(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+        elif self._model_settings['cell_type'] == 'BiLSTM':
+            layer = layers.LSTM(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+            layer = layers.Bidirectional(layer=layer)
             
-        return layer(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+        return layer
 
     def _get_csvlogger_path(self) -> str:
-        csv_path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/logger/' 
+        csv_path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
+        csv_path += str(self._outer_fold) + '/logger/' 
         csv_path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
         csv_path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
         csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']

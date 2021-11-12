@@ -46,14 +46,15 @@ class NestedXVal(XValidator):
         #debug
         self._model = model
         
-    def _init_gs(self):
+    def _init_gs(self, fold):
         self._scorer.set_optimiser_function(self._xval_settings['nested_xval']['optim_scoring'])
         self._gs = self._gridsearch(
             model=self._model,
             grid=self._xval_settings['nested_xval']['param_grid'],
             scorer=self._scorer,
             splitter = self._splitter(self._settings),
-            settings=self._settings
+            settings=self._settings,
+            outer_fold=fold
         )
         
     def xval(self, x:list, y:list, indices:list) -> dict:
@@ -98,7 +99,7 @@ class NestedXVal(XValidator):
             results[f]['y_resampled'] = y_resampled
             
             # Train
-            self._init_gs()
+            self._init_gs(f)
             #debuf
             self._gs.fit(x_resampled, y_resampled, x_val, y_val, f)
             

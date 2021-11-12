@@ -33,6 +33,9 @@ class Model:
 
     def set_gridsearch_fold(self, fold:int):
         self._gs_fold = fold
+
+    def set_outer_fold(self, fold:int):
+        self._outer_fold = fold
             
     def get_settings(self):
         return dict(self._model_settings)

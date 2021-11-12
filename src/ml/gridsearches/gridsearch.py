@@ -13,9 +13,10 @@ from ml.splitters.splitter import Splitter
 from ml.scorers.scorer import Scorer
 
 class GridSearch:
-    def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict):
+    def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int):
         self._name = 'gridsearch'
         self._notation = 'gs'
+        self._outer_fold = outer_fold
         self._model = model
         self._best_model = 'not yet'
         self._grid = dict(grid)

@@ -12,8 +12,8 @@ from ml.scorers.scorer import Scorer
 from ml.gridsearches.gridsearch import GridSearch
 
 class SupervisedGridSearch(GridSearch):
-    def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict):
-        super().__init__(model, grid, scorer, splitter, settings)
+    def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int):
+        super().__init__(model, grid, scorer, splitter, settings, outer_fold)
         self._name = 'supervised gridsearch'
         self._notation = 'supgs'
         
@@ -28,6 +28,7 @@ class SupervisedGridSearch(GridSearch):
                 yy_train = [y_train[yy] for yy in train_index]
                 
                 model = self._model(self._settings)
+                model.set_outer_fold(self._outer_fold)
                 model.set_gridsearch_fold(f)
                 model.set_gridsearch_parameters(self._parameters, combination)
                 model.fit(xx_train, yy_train, x_val=x_val, y_val=y_val)
