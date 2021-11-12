@@ -42,6 +42,7 @@ from extractors.lengths.timestep_cropped import TimestepCropper
 from extractors.sequencer.sequencing import Sequencing
 from extractors.sequencer.basic_sequencer import BasicSequencing
 from extractors.sequencer.extended_sequencer import ExtendedSequencing
+from extractors.sequencer.lstm_encoding import LSTMEncoding
 from extractors.sequencer.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.bin1hot_minimise_sequencer import Bin1HotMinimiseSequencing
@@ -169,8 +170,10 @@ class PipelineMaker:
             self._sequencer_path = 'bin1hotext'
         if self._data_settings['pipeline']['sequencer'] == 'lstmencoding':
             self._sequencer_path = 'lstmencoding'
-        if self._data_settings['pipeline']['sequencer'] == 'lstmencoding12':
+            self._sequencer = LSTMEncoding()
+        if self._data_settings['pipeline']['sequencer'] == 'lstmencoding_12':
             self._sequencer_path = 'lstmencoding_12'
+            self._sequencer = LSTMEncoding()
             
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']
@@ -302,14 +305,15 @@ class PipelineMaker:
             pickle.dump(self._encoder.get_index_state(), fp)
     
     def _save_experiment_maps(self):
-        state_index_path = '../experiments/' + self._experiment_root + '/state_index.pkl'
+        state_index_path = '../experiments/' + self._experiment_root 
+        state_index_path += self._experiment_name + '/state_index.pkl'
         with open(state_index_path, 'wb') as fp:
             pickle.dump(self._encoder.get_state_index(), fp)
             
-        index_state_path = '../experiments/' + self._experiment_root + '/index_state.pkl'
+        index_state_path = '../experiments/' + self._experiment_root 
+        index_state_path += self._experiment_name + '/index_state.pkl'
         with open(index_state_path, 'wb') as fp:
             pickle.dump(self._encoder.get_index_state(), fp)
-        
         
     def _build_feature(self, sim_seq:dict) -> list:
         logging.debug('ori: {}'.format(sim_seq))
@@ -344,7 +348,7 @@ class PipelineMaker:
             self._save_experiment_maps()
             return sequences, labels, self._id_dictionary
         except FileNotFoundError:
-            self._save_index_maps()
+            # self._save_index_maps()
             sequences = []
             labels = []
             indices = []
