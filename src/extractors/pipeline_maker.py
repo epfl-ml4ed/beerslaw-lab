@@ -49,6 +49,8 @@ from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bi
 
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
 from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
+from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
+from extractors.sequencer.one_hot_encoded.stateaction_sampledlstm import StateActionLSTMSampling
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -177,18 +179,18 @@ class PipelineMaker:
                 self._sequencer_path = 'lstmencoding_12'
                 self._sequencer = LSTMEncoding()
             
-        if self._data_settings['pipeline']['sequencer'] == 'base_lstmencoding':
+        if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
             self._sequencer = BaseLSTMEncoding()
-            self._sequencer_path = 'base_lstmencoding'
-        if self._data_settings['pipeline']['sequencer'] == 'base_lstmencoding_12':
+            self._sequencer_path = 'base_encodedlstm'
+        if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm_12':
             self._sequencer = BaseLSTMEncoding()
-            self._sequencer_path = 'base_lstmencoding_12'
-        if self._data_settings['pipeline']['sequencer'] == 'base_lstmsampling':
+            self._sequencer_path = 'base_encodedlstm_12'
+        if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm':
             self._sequencer = BaseLSTMSampling()
-            self._sequencer_path = 'base_lstmsampling'
-        if self._data_settings['pipeline']['sequencer'] == 'base_lastmsampling_12':
+            self._sequencer_path = 'base_sampledlstm'
+        if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm_12':
             self._sequencer = BaseLSTMSampling
-            self._sequencer_path = 'base_lstmsampling_12'
+            self._sequencer_path = 'base_sampledlstm_12'
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']
         self._sequenced_directory = self._paths_settings['sequenced_simulations'] + self._sequencer_path + '/'

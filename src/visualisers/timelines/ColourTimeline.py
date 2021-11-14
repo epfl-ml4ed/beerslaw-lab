@@ -13,7 +13,7 @@ from bokeh.io import export_svg
 
 
 from extractors.parser.simulation_parser import Simulation
-from extractors.sequencer.plotter_sequencer import PlotterSequencing
+from extractors.sequencer.flat.plotter_sequencer import PlotterSequencing
 
 from visualisers.timelines.Timeline import Timeline
 

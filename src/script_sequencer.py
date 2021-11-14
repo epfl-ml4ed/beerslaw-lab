@@ -50,7 +50,7 @@ def sequence_simulations(settings):
         'onehotmini': OneHotMinimiseSequencing,
         'bin1hotmini': Bin1HotMinimiseSequencing,
         'bin1hotext': Bin1hotExtendedSequencing,
-        'base_lstmencoding': LSTMEncoding
+        'base_encodedlstm': BaseLSTMEncoding
     }
     sequencer = sequencer_map[settings['sequencing']['sequencer']]()
     

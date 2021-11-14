@@ -10,8 +10,9 @@ from extractors.parser.event_object import Event
 from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
 
-class LSTMEncoding(Sequencing):
+class StateActionLSTMSampling(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
+    Because we are sampling, the starting times and ending times will start at regular intervals.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
     In this particular case, each feature will be made out of a vector encoding:
@@ -28,19 +29,20 @@ class LSTMEncoding(Sequencing):
         - the action
             other
                 laser clicks
-                ruler dragsrestarts
                 transmittance absorbance clicks
-                magnifier movements
                 restarts timestamps
-                wavelength [value is taken into the state]
-                    wavelength slider's drags and clicks
-                    wavelength radio box clicks
-                solution [value is taken into the state]
-                    solution choice and selection
             concentration  
                 concentration slider's drags and clicks
             flask
                 flask's drags (width changes)
+            wavelength
+                wavelength slider's drags and clicks
+                wavelength radio box clicks
+            solution
+                solution choice and selection
+            measuring
+                magnifier movements
+                ruler dragsrestarts
             concentrationlab
                 any interaction in the concentrationlab
             pdf
@@ -56,16 +58,18 @@ class LSTMEncoding(Sequencing):
             6: 1 if ruler is not measuring, else 0
             7: 1 if wavelength is 520, else 0
             8: 1 if wavelength is not 520
-            9: action is on other (laser clicks, ruler, drag restarts, transmittance/absorbance clicks, magnifier movements)
+            9: action is on other (laser clicks, transmittance absorbance clicks, restarts timestamps)
             10: action is on concentration
-            11: action is on flask
-            12: action is on concentrationlab
-            13: action is on pdf
-            14: break
+            11: action is on width
+            12: action is wavelength
+            13: action is on solution
+            14: action is on measuring tools (magnifier and ruler)
+            15: action is on concentrationlab
+            16: action is on pdf
     """
     def __init__(self):
-        self._name = 'lstm sequencer'
-        self._notation = 'lstmsqcr'
+        self._name = 'stateaction sampledlstm sequencer'
+        self._notation = 'saspldlstmsqcr'
         self._states = [
             'absorbance',
             'observed',
@@ -78,31 +82,35 @@ class LSTMEncoding(Sequencing):
             'wlnot520',
             'other',
             'concentration',
-            'width',
+            'width', 
+            'wavelength', 
+            'solution',
+            'tools',
             'concentrationlab',
             'pdf',
-            'break'
         ]
         self._click_interval = 0.05
+        self._sampling_frequency = 0.2
         
         self._load_labelmap()
         
     def _load_labelmap(self):
         self._label_map = {
             'laser': 'other',
-            'ruler': 'other',
             'restarts': 'other',
             'transmittance_absorbance': 'other',
-            'magnifier_position': 'other',
+
+            'magnifier_position': 'tools',
+            'ruler': 'tools',
             
-            'wavelength_radiobox': 'other',
-            'preset': 'other',
-            'wl_variable': 'other',
-            'minus_wl_slider': 'other',
-            'wl_slider': 'other',
-            'plus_wl_slider': 'other',
+            'wavelength_radiobox': 'wavelength',
+            'preset': 'wavelength',
+            'wl_variable': 'wavelength',
+            'minus_wl_slider': 'wavelength',
+            'wl_slider': 'wavelength',
+            'plus_wl_slider': 'wavelength',
             
-            'solution_menu': 'other',
+            'solution_menu': 'solution',
             
             'minus_concentration_slider': 'concentration',
             'plus_concentration_slider': 'concentration',
@@ -111,25 +119,28 @@ class LSTMEncoding(Sequencing):
             'flask': 'width',
             
             'pdf': 'pdf',
+
             'concentrationlab': 'concentrationlab',
         }
         
         self._index_vector = {
-            0:'absorbance',
-            1:'observed',
-            2:'red',
-            3:'green',
-            4:'notrednotgreen_solution',
-            5:'ruler',
-            6:'rulernotmeasuring',
-            7:'wl520',
-            8:'wlnot520',
-            9:'other',
-            10:'concentration',
-            11:'width',
-            12:'concentrationlab',
-            13:'pdf',
-            14:'break'
+            0: 'absorbance',
+            1: 'observed',
+            2: 'red',
+            3: 'green',
+            4: 'notrednotgreen_solution',
+            5: 'ruler',
+            6: 'rulernotmeasuring',
+            7: 'wl520',
+            8: 'wlnot520',
+            9: 'other',
+            10: 'concentration',
+            11: 'width', 
+            12: 'wavelength', 
+            13: 'solution',
+            14: 'tools',
+            15: 'concentrationlab',
+            16: 'pdf',
         }
         
         self._vector_index = {
@@ -143,30 +154,29 @@ class LSTMEncoding(Sequencing):
             'wl520': 7,
             'wlnot520': 8,
             'other': 9,
-            'concentration':10,
-            'width':11,
-            'concentrationlab':12,
-            'pdf':13,
-            'break':14
+            'concentration': 10,
+            'width': 11, 
+            'wavelength': 12, 
+            'solution': 13,
+            'tools': 14,
+            'concentrationlab': 15,
+            'pdf': 16,
         }
     
-        self._vector_size = 15
+        self._vector_size = 18
         self._vector_states = 9
-        self._break_state = 14
         
     def get_vector_size(self):
         return self._vector_size
     def get_vector_states(self):
         return self._vector_states
-    def get_break_state(self):
-        return self._break_state
         
     def _fill_vector(self, attributes: list) -> list:
         """Vector string: [m_obs, sv, wl, rm, lab]
         """
         vector = np.zeros(self._vector_size)
         if attributes[4] == 'concentrationlab':
-            vector[12] = 1
+            vector[15] = 1
             return list(vector)
 
         if attributes[0] == 'absorbance':
@@ -191,8 +201,10 @@ class LSTMEncoding(Sequencing):
         else:
             vector[6]
             
-        vector[self._vector_index[attributes[4]]] = 1
+        if attributes[4] == 'break':
+            return list(vector)
 
+        vector[self._vector_index[attributes[4]]] = 1
         return list(vector)
         
     def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
@@ -223,26 +235,32 @@ class LSTMEncoding(Sequencing):
         wl_values, wl_timestamps = self._process_wl(self._wavelength[0]), self._wavelength[1]
         
         new_labels = []
-        for i, lab in enumerate(labels):
+        new_begins = []
+        new_ends = []
+        for timestep in np.arange(0, ends[-1], self._sampling_frequency):
             # observable or not
-            mm, measure_begin, measure_end = self._state_return(measure_begin, measure_end, begins[i])
+            mm, measure_begin, measure_end = self._state_return(measure_begin, measure_end, timestep)
             
             # transmittance or absorbance
-            dependent_var_ts, dependent_variable, m_obs = self._get_value_timestep(dependent_var_ts, dependent_variable, begins[i])
+            dependent_var_ts, dependent_variable, m_obs = self._get_value_timestep(dependent_var_ts, dependent_variable, timestep)
             
             # ruler measuring
-            rm, ruler_begin, ruler_end = self._state_return(ruler_begin, ruler_end, begins[i])
+            rm, ruler_begin, ruler_end = self._state_return(ruler_begin, ruler_end, timestep)
             
             # sol colour
-            solution_timestamps, solution_values, sv = self._get_value_timestep(solution_timestamps, solution_values, begins[i])
+            solution_timestamps, solution_values, sv = self._get_value_timestep(solution_timestamps, solution_values, timestep)
             
             # wavelength
-            wl_timestamps, wl_values, wl = self._get_value_timestep(wl_timestamps, wl_values, begins[i])
+            wl_timestamps, wl_values, wl = self._get_value_timestep(wl_timestamps, wl_values, timestep)
+
+            lab, begins, ends, labels = self._label_return(begins, ends, labels, timestep)
             
             vector = self._fill_vector([m_obs, sv, wl, rm, lab])
             
             new_labels.append(vector)
-        return new_labels, begins, ends
+            new_begins.append(timestep)
+            new_ends.append(timestep + self._sampling_frequency)
+        return new_labels, new_begins, new_ends
     
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour
@@ -291,7 +309,7 @@ class LSTMEncoding(Sequencing):
         dependent_var_ts = np.array(dependent_var_ts)
 
         for i, beg in enumerate(begins):
-            if labels[i] != 'other':
+            if labels[i] != 'tools':
                 up_begins.append(beg)
                 up_ends.append(ends[i])
                 up_labels.append(labels[i])
@@ -315,6 +333,22 @@ class LSTMEncoding(Sequencing):
     def _process_wl(self, wl_values: list) -> list:
         wl_values = ['wl' if '520' in str(wl) else 'no_wl' for wl in wl_values]
         return wl_values
+
+    def _label_return(self, begin: list, end: list, labels:list, timestep: float) -> Tuple[bool, list, list]:
+        if begin == [] or end == []:
+            return 'no action', begin, end, labels
+
+        elif timestep >= begin[0] and timestep < end[0]:
+            return labels[0], begin, end, labels
+        
+        elif timestep < begin[0]:
+            return 'break', begin, end, labels
+
+        elif timestep >= end[0]:
+            begin = begin[1:]
+            end = end[1:]
+            labels = labels[1:]
+            return self._label_return(begin, end, labels, timestep)
     
     def _proces_absorbance_other(self, metric_observed: bool, absorbance: str):
         if metric_observed and 'absorbance':
