@@ -49,6 +49,7 @@ class SupervisedGridSearch(GridSearch):
             
         config = dict(self._settings)
         model = self._model(config)
+        model.set_outer_fold(self._outer_fold)
         model.set_gridsearch_parameters(self._parameters, combinations)
         model.fit(x_train, y_train, x_test, y_test)
         self._best_model = model

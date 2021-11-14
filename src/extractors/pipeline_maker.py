@@ -40,14 +40,15 @@ from extractors.lengths.seconds_cropped import SecondCropper
 from extractors.lengths.timestep_cropped import TimestepCropper
 
 from extractors.sequencer.sequencing import Sequencing
-from extractors.sequencer.basic_sequencer import BasicSequencing
-from extractors.sequencer.extended_sequencer import ExtendedSequencing
-from extractors.sequencer.lstm_encoding import LSTMEncoding
-from extractors.sequencer.minimise_sequencer import MinimiseSequencing
-from extractors.sequencer.onehotminimise_sequencer import OneHotMinimiseSequencing
-from extractors.sequencer.bin1hot_minimise_sequencer import Bin1HotMinimiseSequencing
-from extractors.sequencer.bin1hot_extended_sequencer import Bin1hotExtendedSequencing
+from extractors.sequencer.flat.basic_sequencer import BasicSequencing
+from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
+from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
 
+from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
+from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -138,43 +139,56 @@ class PipelineMaker:
             
     def _choose_sequencer(self):
         # Capacitor Lab
-        if self._data_settings['pipeline']['sequencer'] == 'basic':
-            self._sequencer = BasicSequencing()
-            self._sequencer_path = 'basic'
-        if self._data_settings['pipeline']['sequencer'] == 'extended':
-            self._sequencer = ExtendedSequencing()
-            self._sequencer_path = 'extended'
-        if self._data_settings['pipeline']['sequencer'] == 'minimise':
-            self._sequencer = MinimiseSequencing()
-            self._sequencer_path = 'minimise'
-        if self._data_settings['pipeline']['sequencer'] == 'basic12':
-            self._sequencer = BasicSequencing()
-            self._sequencer_path = 'basic_12'
-        if self._data_settings['pipeline']['sequencer'] == 'extended12':
-            self._sequencer = ExtendedSequencing()
-            self._sequencer_path = 'extended_12'
-        if self._data_settings['pipeline']['sequencer'] == 'minimised12':
-            self._sequencer = MinimiseSequencing()
-            self._sequencer_path = 'minimise_12'
-        if self._data_settings['pipeline']['sequencer'] == 'onehotmini':
-            self._sequencer = OneHotMinimiseSequencing()
-            self._sequencer_path = 'onehotmini'
-        if self._data_settings['pipeline']['sequencer'] == 'onehotmini12':
-            self._sequencer = OneHotMinimiseSequencing()
-            self._sequencer_path = 'onehotmini_12'
-        if self._data_settings['pipeline']['sequencer'] == 'bin1hotmini':
-            self._sequencer = Bin1HotMinimiseSequencing()
-            self._sequencer_path = 'bin1hotmini'
-        if self._data_settings['pipeline']['sequencer'] == 'bin1hotext':
-            self._sequencer = Bin1hotExtendedSequencing()
-            self._sequencer_path = 'bin1hotext'
-        if self._data_settings['pipeline']['sequencer'] == 'lstmencoding':
-            self._sequencer_path = 'lstmencoding'
-            self._sequencer = LSTMEncoding()
-        if self._data_settings['pipeline']['sequencer'] == 'lstmencoding_12':
-            self._sequencer_path = 'lstmencoding_12'
-            self._sequencer = LSTMEncoding()
+        if False and 'old': # Keeping this for archives of what did not work
+            if self._data_settings['pipeline']['sequencer'] == 'basic':
+                self._sequencer = BasicSequencing()
+                self._sequencer_path = 'basic'
+            if self._data_settings['pipeline']['sequencer'] == 'extended':
+                self._sequencer = ExtendedSequencing()
+                self._sequencer_path = 'extended'
+            if self._data_settings['pipeline']['sequencer'] == 'minimise':
+                self._sequencer = MinimiseSequencing()
+                self._sequencer_path = 'minimise'
+            if self._data_settings['pipeline']['sequencer'] == 'basic12':
+                self._sequencer = BasicSequencing()
+                self._sequencer_path = 'basic_12'
+            if self._data_settings['pipeline']['sequencer'] == 'extended12':
+                self._sequencer = ExtendedSequencing()
+                self._sequencer_path = 'extended_12'
+            if self._data_settings['pipeline']['sequencer'] == 'minimised12':
+                self._sequencer = MinimiseSequencing()
+                self._sequencer_path = 'minimise_12'
+            if self._data_settings['pipeline']['sequencer'] == 'onehotmini':
+                self._sequencer = OneHotMinimiseSequencing()
+                self._sequencer_path = 'onehotmini'
+            if self._data_settings['pipeline']['sequencer'] == 'onehotmini12':
+                self._sequencer = OneHotMinimiseSequencing()
+                self._sequencer_path = 'onehotmini_12'
+            if self._data_settings['pipeline']['sequencer'] == 'bin1hotmini':
+                self._sequencer = Bin1HotMinimiseSequencing()
+                self._sequencer_path = 'bin1hotmini'
+            if self._data_settings['pipeline']['sequencer'] == 'bin1hotext':
+                self._sequencer = Bin1hotExtendedSequencing()
+                self._sequencer_path = 'bin1hotext'
+            if self._data_settings['pipeline']['sequencer'] == 'lstmencoding':
+                self._sequencer_path = 'lstmencoding'
+                self._sequencer = LSTMEncoding()
+            if self._data_settings['pipeline']['sequencer'] == 'lstmencoding_12':
+                self._sequencer_path = 'lstmencoding_12'
+                self._sequencer = LSTMEncoding()
             
+        if self._data_settings['pipeline']['sequencer'] == 'base_lstmencoding':
+            self._sequencer = BaseLSTMEncoding()
+            self._sequencer_path = 'base_lstmencoding'
+        if self._data_settings['pipeline']['sequencer'] == 'base_lstmencoding_12':
+            self._sequencer = BaseLSTMEncoding()
+            self._sequencer_path = 'base_lstmencoding_12'
+        if self._data_settings['pipeline']['sequencer'] == 'base_lstmsampling':
+            self._sequencer = BaseLSTMSampling()
+            self._sequencer_path = 'base_lstmsampling'
+        if self._data_settings['pipeline']['sequencer'] == 'base_lastmsampling_12':
+            self._sequencer = BaseLSTMSampling
+            self._sequencer_path = 'base_lstmsampling_12'
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']
         self._sequenced_directory = self._paths_settings['sequenced_simulations'] + self._sequencer_path + '/'

@@ -13,15 +13,16 @@ import pandas as pd
 from extractors.parser.simulation_parser import Simulation
 
 from extractors.sequencer.sequencing import Sequencing
-from extractors.sequencer.set1_sequencer import Set1Sequencing
-from extractors.sequencer.set2_sequencer import Set2Sequencing
-from extractors.sequencer.basic_sequencer import BasicSequencing
-from extractors.sequencer.lstm_encoding import LSTMEncoding
-from extractors.sequencer.minimise_sequencer import MinimiseSequencing
-from extractors.sequencer.extended_sequencer import ExtendedSequencing
-from extractors.sequencer.onehotminimise_sequencer import OneHotMinimiseSequencing
-from extractors.sequencer.bin1hot_minimise_sequencer import Bin1HotMinimiseSequencing
-from extractors.sequencer.bin1hot_extended_sequencer import Bin1hotExtendedSequencing
+from extractors.sequencer.flat.set1_sequencer import Set1Sequencing
+from extractors.sequencer.flat.set2_sequencer import Set2Sequencing
+from extractors.sequencer.flat.basic_sequencer import BasicSequencing
+from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
+from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
+from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import OneHotMinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import Bin1HotMinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
+
+from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
 
 def sequence_simulations(settings):
     """Creates the sequenced simulation as required for the pipe-lab pipeline (see READ.me)
@@ -49,7 +50,7 @@ def sequence_simulations(settings):
         'onehotmini': OneHotMinimiseSequencing,
         'bin1hotmini': Bin1HotMinimiseSequencing,
         'bin1hotext': Bin1hotExtendedSequencing,
-        'lstmencoding': LSTMEncoding
+        'base_lstmencoding': LSTMEncoding
     }
     sequencer = sequencer_map[settings['sequencing']['sequencer']]()
     
