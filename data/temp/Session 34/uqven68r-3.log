@@ -1,0 +1,97 @@
+{
+  "messageIndex": 0,
+  "eventType": "wrapper",
+  "phetioID": "beersLawLab.simIFrameAPI",
+  "componentType": "TSimIFrameAPI",
+  "event": "invoked",
+  "time": 1631178860159,
+  "parameters": {
+    "phetioID": "phetio",
+    "method": "addExpressions",
+    "args": [
+      []
+    ],
+    "messageID": 2,
+    "protocol": "phet-io-0.0.1"
+  }
+}
+{
+  "messageIndex": 1,
+  "eventType": "wrapper",
+  "phetioID": "beersLawLab.simIFrameAPI",
+  "componentType": "TSimIFrameAPI",
+  "event": "invoked",
+  "time": 1631178860162,
+  "parameters": {
+    "phetioID": "phetio",
+    "method": "launchSimulation",
+    "args": [],
+    "messageID": 3,
+    "protocol": "phet-io-0.0.1"
+  }
+}
+{
+  "messageIndex": 2,
+  "eventType": "model",
+  "phetioID": "beersLawLab.sim",
+  "componentType": "TSim",
+  "event": "simStarted",
+  "time": 1631178860165,
+  "parameters": {
+    "sessionID": null,
+    "simName": "‪Beer's Law Lab‬",
+    "simVersion": "1.6.15-phetio",
+    "url": "https://phet-io.colorado.edu/sims/beers-law-lab/1.6.15-phetio/beers-law-lab_en-phetio.html?production&phetioEmitStates=false&phetioEmitInputEvents=false",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36 Edg/93.0.961.38",
+    "randomSeed": 0.6730044659416066,
+    "provider": "PhET Interactive Simulations, University of Colorado Boulder"
+  },
+  "children": [
+    {
+      "messageIndex": 3,
+      "eventType": "model",
+      "phetioID": "beersLawLab.concentrationScreen.view.concentrationMeterNode.bodyNode.readoutTextNode",
+      "componentType": "TTandemText",
+      "event": "textChanged",
+      "time": 1631178860246,
+      "parameters": {
+        "oldText": "‪1.000 ‪mol/L‬‬",
+        "newText": "-"
+      }
+    },
+    {
+      "messageIndex": 4,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+      "componentType": "TTandemText",
+      "event": "textChanged",
+      "time": 1631178860286,
+      "parameters": {
+        "oldText": "‪100.00%‬",
+        "newText": "-"
+      }
+    }
+  ]
+}
+{
+  "messageIndex": 5,
+  "eventType": "user",
+  "phetioID": "beersLawLab.homeScreen.view.beersLawScreenSmallButton",
+  "componentType": "TScreenButton",
+  "event": "fired",
+  "time": 1631178862812,
+  "children": [
+    {
+      "messageIndex": 6,
+      "eventType": "model",
+      "phetioID": "beersLawLab.sim.screenIndexProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1631178862812,
+      "parameters": {
+        "oldValue": 0,
+        "newValue": 1
+      }
+    }
+  ]
+}

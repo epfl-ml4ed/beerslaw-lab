@@ -1,0 +1,450 @@
+	consent	date	field	gender	lang	level	username	year	ten	label_ten
+0	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	k8x4ru7k	3rd	0.05	smaller
+1	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	cdq4drkk	3rd	0.8	correct
+2	1	2021-04-26 08:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	2pqdkrkw	3rd		nans
+3	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	2xjmtbvz	3rd	0.45	inverse
+4	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	w25mph3c	3rd	0.8	correct
+5	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	bw2rzucq	3rd	1233	DVET
+6	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	3e3k2662	3rd	0.8	correct
+7	1	2021-04-26 08:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	tsrnkj8w	3rd	0.80 wird gemessen.	correct
+8	1	2021-04-26 08:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	3pz22p3a	3rd	0.53	smaller
+9	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	mjh6emdj	3rd	12313	DVET
+10	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	vvtfq98r	3rd	045	inverse
+11	1	2021-04-26 12:50:00	Chemistry	4	Deutsch	Apprenticeship (Low)	suyrrcqe	3rd	0.8	correct
+12	1	2021-04-26 12:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	2dfxa5he	3rd	0.8	correct
+13	1	2021-04-26 12:50:00	Chemistry	4	Deutsch	Apprenticeship (Low)	chm4sr6j	3rd	0.8	correct
+14	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	6ruh7enb	3rd	0.8	correct
+15	1	2021-04-26 12:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	qbf3sp76	3rd	0.8	correct
+16	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	sgsxmkfm	3rd	0.8	correct
+17	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	cjarhqn9	3rd	0.8	correct
+18	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	5278s35u	3rd		nans
+19	1	2021-04-26 12:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	7fj2vydr	3rd	0.8	correct
+20	1	2021-04-26 12:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	qvna6pyz	3rd	0.8	correct
+21	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	enqtt86p	2nd	123	DVET
+22	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	qpmzsb6t	2nd	0.75	larger
+23	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	4vtjgtja	2nd	2.4	quadruple
+24	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	8ethqmkd	2nd	0.6	same
+25	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	6tgyhcuh	2nd	0.75	larger
+26	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	d72hfax6	2nd		nans
+27	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	4v7rjrdb	2nd		nans
+28	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	j6nndaxp	2nd	die absorption auf der Anzeige zeigt 0.8 an	correct
+29	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	nba9d6t2	2nd	0.8	correct
+30	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	ddu7y6bv	2nd	0.8	correct
+31	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	araav4jr	2nd	0.10	smaller
+32	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	wbvxv9ju	2nd		nans
+33	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	smqjhu44	2nd	>0.60	larger
+34	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	upkt7qb4	2nd	0.8	correct
+35	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	6hbvyq5m	2nd	0.75	larger
+36	1	2021-05-04 13:10:00	Chemistry, Textiles	3	Deutsch	Apprenticeship (Low)	mxh6jugj	2nd		nans
+37	1	2021-05-04 13:10:00	Chemistry, Textiles	4	Deutsch	Apprenticeship (Low)	r7pyyp9n	2nd	TEST	DVET
+38	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	xvsgn53d	2nd	0.8	correct
+39	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	7ygreyfc	2nd	Die Absorption betragt 0.80.	correct
+40	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	45dr5g22	2nd		nans
+41	1	2021-05-04 13:10:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	fh76v5qx	2nd	-	nans
+42	1	2021-05-04 13:10:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	nhff2ze9	2nd	asdf	DVET
+43	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	azeb5bc4	2nd	asdfasd	DVET
+44	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	5y535ct3	2nd	0.30	half
+45	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	6bq62prp	2nd	0.8	correct
+46	1	2021-05-04 14:40:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	jwajupwj	2nd	0.8	correct
+47	1	2021-05-04 14:40:00	Chemistry, Textiles	3	Deutsch	Apprenticeship (Low)	w6az39g6	2nd	0.8	correct
+48	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	r74r26kt	2nd	0.8	correct
+49	1	2021-05-04 14:40:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	4rxkb9bc	2nd	eine grossere Absorption, 0.8.	correct
+50	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	bbdd557u	2nd		nans
+51	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	ay2erc3c	2nd	0.8	correct
+52	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	6z8t3mxa	2nd		nans
+53	1	2021-05-04 14:40:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	39ggtzcu	2nd	0.8	correct
+54	1	2021-05-06 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	s7mdq5tk	1st	Hier wird die Zahl grosser sein, da es grosser und ebenfalls wassriger und weniger konzentriert als Beispiel 1.	correct
+55	1	2021-05-06 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	u2ntt4wv	1st	0.2	third
+56	1	2021-05-06 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	7cm9kver	1st	Im Bild rechts wird eine kleinere Absorption gemessen. rechts <0.6	smaller
+57	1	2021-05-06 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	pqd874qd	1st	0.8	correct
+58	1	2021-05-06 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	4rhnvke9	1st	0.6	same
+59	1	2021-05-06 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	qsd9cb5e	1st	0.8	correct
+60	1	2021-05-06 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	7xhcecye	1st	weniger	smaller
+61	1	2021-05-06 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	xtxat8eg	1st	0.8	correct
+62	1	2021-05-06 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	zkrr45y5	1st		nans
+63	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	j9qgkaej	1st	1.25	larger
+64	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	z4nrhe2e	1st	0.20	third
+65	1	2021-05-06 14:00:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	sh6tu9g2	1st	<0.6	smaller
+66	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	yc3vmnuf	1st	0.60	same
+67	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	2hr6mkdc	3rd	0.8	correct
+68	1	2021-05-06 14:00:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	ht865nws	1st	0.76	larger
+69	1	2021-05-06 14:00:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	w7asnymz	1st	Es wird eine hohere Absorption gemessen. Da die Konzentration kleiner ist und mehr Volumen hat.	larger
+70	1	2021-05-06 14:00:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	sp82v9ds	1st	Auf dem rechten Bild wird einen hohere Absorption gemessen und in einem grosseren Gefass.	larger
+71	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	zgyc948n	1st	2.8	larger
+72	1	2021-05-06 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	gvqh7qr2	1st	Da das Gefass grosser und die Konzentration kleiner ist, sollte das Ergebnis auch kleiner als das von links sein.	smaller
+73	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	rve4n5nv	1st	Absorption im Bild rechts ist um einiges tiefer als links. -> 0.10	smaller
+74	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	m35ub35g	1st	0.8	correct
+75	1	2021-05-06 14:00:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	djnysnd6	1st	1.20	double
+76	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	4b4dkjuw	3rd	0.8	correct
+77	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	ujpk3gf4	3rd	0.80	correct
+78	1	2021-05-07 08:30:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	e93na59g	3rd	0.45	inverse
+79	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	76wvaew4	3rd	0.80	correct
+80	1	2021-05-07 08:30:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	bm89te3c	3rd	0.51	smaller
+81	1	2021-05-07 08:30:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	fddsxudu	3rd	Eine schwachere Absorption	unrelated
+82	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	d7777ske	3rd	0.8	correct
+83	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	u5ebbg3v	3rd	Die Konzentration nimmt um Faktor 3 ab, also wird die Absorption auf 0.20 reduziert. Die vierfache Schichtdicke erhoht den Wert auf 0.80	third
+84	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	m3d89p29	3rd	0.8	correct
+85	1	2021-05-07 08:30:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	mhek2323	3rd	0.45	inverse
+86	1	2021-05-07 08:30:00	Chemistry, Textiles	3	Deutsch	Apprenticeship (Low)	tcnba4ca	3rd	0.72	larger
+87	1	2021-05-07 08:30:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	etxwsdtx	3rd	0.9	larger
+88	1	2021-05-07 08:30:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	4bu2rkv3	3rd	0.60	same
+89	1	2021-05-07 08:30:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	5h9umyr6	3rd	2.4	quadruple
+90	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	47ce49e4	3rd	0.05	smaller
+91	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	a3tffvsb	3rd	eine hohere als im linken Bild	larger
+92	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	m749z8u9	3rd	Es wird eine Absorption von 0.8 gemessen.	correct
+93	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	mgr68u6f	3rd		nans
+94	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	43e33t3h	3rd	0.8	correct
+95	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	g2vjxfvw	3rd		nans
+96	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	bg7x3db2	3rd	0.3	half
+97	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	ky8kttpv	3rd	8.31	larger
+98	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	s2up6gmm	3rd	0.8	correct
+99	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	ke6msbfr	3rd	die Konzentration ist dreimal schwacher, die Schichtdicke jedoch 4 mal breiter. Aus diesem Grund wird mehr Absorption gemessen.	quadruple
+100	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	9bp6yz7m	3rd	2.4	quadruple
+101	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	fj5tdybn	3rd	0.80	correct
+102	1	2021-05-07 10:20:00	Chemistry, Textiles	2	Deutsch	Apprenticeship (Low)	t6rjyw6s	3rd	Rechts wird die hohere Absorption gemessen.	larger
+103	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	2ae6q3hw	3rd	Wellenlange = gleich Solution = gleich breite = 4* so gross Konzentration = 3* weniger d.h.0.60 * 4 = 2.4 2.4 / 3= 0.80	correct
+104	1	2021-05-07 10:20:00	Chemistry, Textiles	1	Deutsch	Apprenticeship (Low)	8nh4zvcp	3rd	84.15 %	unrelated
+105	1	2021-05-10 14:30:00	Chemistry	2	Deutsch	Apprenticeship (High)	p5t7d3sb	2nd	0.05	smaller
+106	1	2021-05-10 14:30:00	Chemistry	3	Deutsch	Apprenticeship (High)	zy256ycq	2nd	0.80	correct
+107	1	2021-05-10 14:30:00	Chemistry	1	Deutsch	Apprenticeship (High)	evqzjs5p	2nd	0.8	correct
+108	1	2021-05-10 14:30:00	Chemistry	2	Deutsch	Apprenticeship (High)	s43ut7tg	2nd	0.8	correct
+109	1	2021-05-10 14:30:00	Chemistry	1	Deutsch	Apprenticeship (High)	u9gxp77h	2nd	0.8	correct
+110	1	2021-05-10 14:30:00	Chemistry	2	Deutsch	Apprenticeship (High)	jwntt96k	2nd	0.8	correct
+111	1	2021-05-10 14:30:00	Chemistry	2	Deutsch	Apprenticeship (High)	q4z45p85	2nd	0.8	correct
+112	1	2021-05-10 14:30:00	Chemistry	1	Deutsch	Apprenticeship (High)	fu6nsdhs	2nd	0.8	correct
+113	1	2021-05-10 14:30:00	Chemistry	2	Deutsch	Apprenticeship (High)	suz5fszu	2nd	0.8	correct
+114	1	2021-05-10 14:30:00	Chemistry	1	Deutsch	Apprenticeship (High)	du727jdw	2nd	0.15	fourth
+115	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	txg5vjzw	1st	0.8	correct
+116	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	htf3xwbw	1st	0.8	correct
+117	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	nyyfpabq	1st	0.8	correct
+118	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	rqpdjumr	1st	2.4	quadruple
+119	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	pt2nbb4w	1st	Im Bild rechts wird eine etwas kleinere Absorption wie im ersten Bild gemessen werden.	smaller
+120	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	phcrjd9q	1st	Hier wurde die breite grosser dafur die Konz. kleiner. Etwa 0.68	larger
+121	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	z5dzzgk5	1st	0.8	correct
+122	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	xq567sht	1st	0.6	same
+123	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	baqyfz2h	1st	0.8	correct
+124	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	f5wa2gzf	1st	0.75	larger
+125	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	habxmccr	1st	durch die kleinere KOnzentration wird der wert um 3 mal grosser 1.8 jedoch wird er wieder 4 mal kleinere ,da die breite sich um 4 mal vergrossert.	correct
+126	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	eq6xvgmg	1st	0.8	correct
+127	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	n238pypu	1st	0.8	correct
+128	1	2021-05-11 09:10:00	Chemistry	2	Deutsch	Apprenticeship (High)	p44vw7td	1st	eine grossere Apsorption wie links also ca. 1	larger
+129	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	kcv4kfm2	1st	0.60/4 = 0.15 0.60*3= 1.80 es wird vier mal weniger und auch 3 mal grosser also halb so gross	correct
+130	1	2021-05-11 09:10:00	Chemistry	1	Deutsch	Apprenticeship (High)	786zpupn	1st	0.8	correct
+131	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	e2825x2d	2nd	0.8	correct
+132	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	akzsmgnj	2nd	0.8	correct
+133	1	2021-05-11 14:30:00	Chemistry	4	Deutsch	Apprenticeship (Low)	ktd99zh9	2nd	0.4	smaller
+134	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	8p35t5qs	2nd	0.8	correct
+135	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	jukxh9s4	2nd	0.8	correct
+136	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	tbdn5up8	2nd	0.8	correct
+137	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	7sfwehhm	2nd		nans
+138	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	p5ac3mu7	2nd	0.40	smaller
+139	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	s3ufctgg	2nd	0.025	smaller
+140	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	wef64erj	2nd	0.8	correct
+141	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	ebt3e6ae	2nd	0.8	correct
+142	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	ft5xsvy4	2nd	1.2	double
+143	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	ww2m3qch	2nd	2	larger
+144	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	usa5gyb9	2nd	Man erhaltet eine tiefere absorption ca 0.15	fourth
+145	1	2021-05-11 14:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	wvxkvhne	2nd	0.8	correct
+146	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	9x24tp6b	2nd	0.75	larger
+147	1	2021-05-11 14:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	r8n3bcnu	2nd	0.6	same
+148	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	sctj44cs	1st	0.15	fourth
+149	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	39htvmt5	1st	0.60	same
+150	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	sqrqdsge	1st	es wird wegen der Schichtdicke weniger Absorption	smaller
+151	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	6mrsnksc	1st	0.8	correct
+152	1	2021-05-12 11:55:00	Chemistry	1	Deutsch	General	dubyutqd	1st	0.80	correct
+153	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	84khcu2r	1st	2.0	larger
+154	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	zxmtbzda	1st	0.6	same
+155	1	2021-05-12 11:55:00	Chemistry	1	Deutsch	General	rqyaqs75	1st	Ein Licht mit der Wellenlange von 544 nm durch eine Losung von KMnO4 mit einer Konzentration von 200 yM (Gefassbreite: 2cm)	unrelated
+156	1	2021-05-12 11:55:00	Chemistry	1	Deutsch	General	da4vrrwz	1st	0.8	correct
+157	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	8n8w8zkd	1st	0.2	third
+158	1	2021-05-12 11:55:00	Chemistry	1	Deutsch	General	57nwt7qa	1st	0.45	inverse
+159	1	2021-05-12 11:55:00	Chemistry	1	Deutsch	General	rwu8yjw9	1st	0.8	correct
+160	1	2021-05-12 11:55:00	Chemistry	2	Deutsch	General	wu7kdm6q	1st	0.2	third
+161	1	2021-05-28 09:10:00	Chemistry	1	Deutsch	General	3w54b2bu	3rd		nans
+162	1	2021-05-28 09:10:00	Chemistry	1	Deutsch	General	4aaspwgs	3rd	0.6	same
+163	1	2021-05-28 11:05:00	Chemistry	1	Deutsch	Apprenticeship (High)	npkrjraq	3rd	0.8	correct
+164	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	jcrv9m9j	1st	0.6	same
+165	1	2021-05-21 14:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	pmd5dyu3	1st	0.8	correct
+166	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	jnjd79vh	1st	0.6	same
+167	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	qevswkvj	1st	0.3	half
+168	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	jamrhf3h	1st	0.15	fourth
+169	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	5xuzjwdp	1st	0.4	smaller
+170	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	qqf6nsga	1st	0.8	correct
+171	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	rwax4gk7	1st	0.8	correct
+172	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	vqumj3t3	2nd	0.8	correct
+173	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	rmd35un4	2nd	0.05	smaller
+174	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	tsvcrpeg	2nd	0.8	correct
+175	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	xngb9hff	2nd	0.8	correct
+176	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	rfand3tt	2nd	0.8	correct
+177	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	sbjxmaqm	2nd		nans
+178	1	2021-05-21 16:25:00	Chemistry	4	Deutsch	Apprenticeship (Low)	y7p64n6z	2nd	Eine Absorption von 0.8	correct
+179	1	2021-05-21 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	552gbupp	1st	1/3 der Konzentration	third
+180	1	2021-05-21 14:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	xz56yha8	1st	0.06	smaller
+181	1	2021-05-21 14:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	bebyve9b	1st	abc	DVET
+182	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	rsc5fnwz	2nd		nans
+183	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	t7728bqp	2nd	0.8	correct
+184	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	33asfz2u	2nd	666.6666667	larger
+185	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	g43q3d94	2nd	0.8	correct
+186	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	ew6cfr37	2nd	0.8	correct
+187	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	cwgvxrvx	2nd	0.8	correct
+188	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	892r4czm	2nd	0.8	correct
+189	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	gyerx2d9	2nd	0.8	correct
+190	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	z8dtc572	2nd	0.60	same
+191	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	55yavcue	2nd	0.8	correct
+192	1	2021-05-21 16:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	4vuc8rr3	2nd	0.8	correct
+193	1	2021-05-21 16:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	c6tpxq9a	2nd		nans
+194	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	vwfpuqaz	3rd	0.8	correct
+195	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	neuwx57b	3rd	0.8	correct
+196	1	2021-05-28 09:10:00	Chemistry	1	Deutsch	General	knun7j9s	3rd	0.8	correct
+197	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	26z3wbqz	3rd	0.80	correct
+198	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	jx3yyy26	3rd	0.	smaller
+199	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	s47edumx	3rd	0.8	correct
+200	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	v5w2e3zw	3rd	0.60	same
+201	1	2021-05-28 09:10:00	Chemistry	4	Deutsch	General	b8g49nvw	3rd	0.8	correct
+202	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	3s6pz8qy	3rd	8	larger
+203	1	2021-05-28 09:10:00	Chemistry	1	Deutsch	General	kg43uepa	3rd	0.8	correct
+204	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	v2cxb3a5	3rd	0.8	correct
+205	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	xsxkdf7k	3rd	0.80	correct
+206	1	2021-05-28 09:10:00	Chemistry	1	Deutsch	General	ryfqnvfh	3rd	0.8	correct
+207	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	7hrf6cdu	3rd	0.8	correct
+208	1	2021-05-28 09:10:00	Chemistry	1	Deutsch	General	dq4zzkyt	3rd	0.4	smaller
+209	1	2021-05-28 09:10:00	Chemistry	2	Deutsch	General	uswb2jez	3rd	0.8	correct
+210	1	2021-05-28 11:05:00	Chemistry	1	Deutsch	Apprenticeship (High)	zs35fg8g	3rd	Die gleiche, da die verhaltnisse immer noch gleich sind	same
+211	1	2021-05-28 11:05:00	Chemistry	1	Deutsch	Apprenticeship (High)	nrxpa2ac	3rd	0.8	correct
+212	1	2021-05-28 11:05:00	Chemistry	2	Deutsch	Apprenticeship (High)	t3dwkezr	3rd	0.45	inverse
+213	1	2021-05-28 11:05:00	Chemistry	2	Deutsch	Apprenticeship (High)	a6t5p3sb	3rd	0.15	fourth
+214	1	2021-05-28 11:05:00	Chemistry	2	Deutsch	Apprenticeship (High)	qner25zp	3rd	0.75	larger
+215	1	2021-05-28 11:05:00	Chemistry	2	Deutsch	Apprenticeship (High)	mnhmyuhb	3rd	0.288	smaller
+216	1	2021-05-28 11:05:00	Chemistry	3	Deutsch	Apprenticeship (High)	cp7mfn24	3rd	0.8	correct
+217	1	2021-05-28 11:05:00	Chemistry	2	Deutsch	Apprenticeship (High)	88kjzd8b	3rd	0.8	correct
+218	1	2021-05-28 11:05:00	Chemistry	1	Deutsch	Apprenticeship (High)	h75kp27p	3rd	0.8	correct
+219	1	2021-05-28 11:05:00	Chemistry	2	Deutsch	Apprenticeship (High)	6tg95rzr	3rd	0.2	third
+220	1	2021-05-28 11:05:00	Chemistry	1	Deutsch	Apprenticeship (High)	aurjfgnn	3rd	0.8	correct
+221	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	5a69aw4h	2nd	0.8	correct
+222	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	eb9iv6v2	2nd	0.60	same
+223	1	2021-05-31 07:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	e3b96acv	2nd	0.6	same
+224	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	dbt5na3s	2nd	0.60	same
+225	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	ssz3uyqn	2nd	Es wird 0.8 gemessen.	correct
+226	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	3qwayak9	2nd	muss allerdings weniger sein als im Bild links. 0.005	smaller
+227	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	r2e3h3tm	2nd		nans
+228	1	2021-05-31 07:50:00	Chemistry	1	Deutsch	Apprenticeship (Low)	s8w65sm5	2nd	0.45	inverse
+229	1	2021-05-31 07:50:00	Chemistry	2	Deutsch	Apprenticeship (Low)	8ga2zn5h	2nd	0.4	smaller
+230	1	2021-06-10 09:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	bf4iuomx	1st	2.4	quadruple
+231	1	2021-06-10 09:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	qsx2cc4b	1st	0.8 (0.60/3*4)	correct
+232	1	2021-06-10 09:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	ac4q67z9	1st	das gleiche wie bei frage 4	smaller
+233	1	2021-06-10 09:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	kq2e6dgu	1st	von wo soll ich das wissen	nans
+234	1	2021-06-10 09:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	uhbpoog9	1st	0.8	correct
+235	1	2021-06-10 09:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	xau6wapw	1st	0.8	correct
+236	1	2021-06-10 09:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	o9ffsiwt	1st	0.3	half
+237	1	2021-06-10 09:30:00	Chemistry	2	Deutsch	Apprenticeship (Low)	ecaf72fu	1st	0.80	correct
+238	1	2021-06-10 09:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	oikzz9af	1st	-	nans
+239	1	2021-06-10 09:30:00	Chemistry	1	Deutsch	Apprenticeship (Low)	bw4svfmn	1st	dfhdfhk	DVET
+240	1	2021-06-16 13:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	nmgve3yy	2nd	0.8	correct
+241	1	2021-06-16 13:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	4s7gthwf	2nd	0.8	correct
+242	1	2021-06-16 13:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	sjz2rptd	2nd	0.8	correct
+243	1	2021-06-16 13:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	wger3sfa	2nd	0.8	correct
+244	1	2021-06-16 13:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	fm5rcvdy	2nd	Beim rechten Bild ist die Extinktion entweder 0.8 oder 0.05, ich bin mir nicht sicher wie ich dies Berechnen muss. Nachdem ich mit einem Dreisatz berechnet habe, dass in 200uM die Extinktion 0.2 sein sollte, musste ich nun die Zentimeter in meinen Berechnungen einbauen. Entweder teile ich 0.2 mit dem Faktor 4, oder multipliziere es. Jedoch bin ich mir nicht ganz sicher, weil ich schon lange keine Photometer Aufgaben betatigt habe und vergessen habe, ob die Extinktion grosser oder kleiner wird, wenn die Breite der Kuvette grosser wird...	to check
+245	1	2021-06-16 13:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	3st3y5gc	2nd	0.8	correct
+246	1	2021-06-16 13:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	fyf6ag5v	2nd	0.8	correct
+247	1	2021-06-21 10:05:00	Chemistry	2	Français	Apprenticeship (Low)	v2kw3kup	1st	0.6 x 4 : 3 = 0.8	correct
+248	1	2021-06-21 10:05:00	Chemistry	2	Français	Apprenticeship (Low)	temu2736	1st	0.8	correct
+249	1	2021-06-21 10:05:00	Chemistry	2	Français	Apprenticeship (Low)	xuwyv9hz	1st	544	unrelated
+250	1	2021-06-21 10:05:00	Chemistry	2	Français	Apprenticeship (Low)	wxz98urt	1st	0.2	third
+251	1	2021-06-21 10:05:00	Chemistry	2	Français	Apprenticeship (Low)	r42kwnt7	1st	0.80	correct
+252	1	2021-06-21 10:05:00	Chemistry	1	Français	Apprenticeship (Low)	qk6q49f4	1st	0.8	correct
+253	1	2021-06-21 10:05:00	Chemistry	2	Français	Apprenticeship (Low)	mcjaj2aj	1st	0.80 car la concentration et la distance changent	correct
+254	1	2021-06-21 10:05:00	Chemistry	1	Français	Apprenticeship (Low)	h543nsc8	1st	0.45	inverse
+255	1	2021-06-22 14:10:00	Biology	2	Français	Apprenticeship (Low)	jvxejtp9	2nd	0.8	correct
+256	1	2021-06-22 14:10:00	Biology	1	Français	Apprenticeship (Low)	vh8vedkw	2nd	0.8	correct
+257	1	2021-06-22 14:10:00	Biology	2	Français	Apprenticeship (Low)	m9u6p93a	2nd	0.8	correct
+258	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	egg8756y	2nd	0.8	correct
+259	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	b2q8ay65	2nd	0.8	correct
+260	1	2021-06-22 15:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	va43652k	2nd	0.8	correct
+261	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	eau7bsmq	2nd	0.45	inverse
+262	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	zxp438xr	2nd	0.2	third
+263	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	p6ut882m	2nd	>0.6	larger
+264	1	2021-06-22 15:25:00	Chemistry	1	Deutsch	Apprenticeship (Low)	9p9gwu88	2nd	0.44	inverse
+265	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	pyamv67t	2nd	0.6	same
+266	1	2021-06-22 15:25:00	Chemistry	2	Deutsch	Apprenticeship (Low)	u96tpd55	2nd	0.8	correct
+267	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	wyj76ntd	1st	0.8	correct
+268	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	jydsy777	1st	konzentration veringert auf 200 und breite auf 2cm erhoht	to check
+269	1	2021-06-22 08:55:00	Pharma Chemistry	2	Deutsch	Apprenticeship (Low)	9qvk2wew	1st	2.4	quadruple
+270	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	beypwbck	1st	0.45	inverse
+271	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	9p4h3zdx	1st	0.45	inverse
+272	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	v5gwycag	1st	0.8	correct
+273	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	5es5yqs8	1st	0.80	correct
+274	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	uamuwrx2	1st	0.9	larger
+275	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	unkrat9w	1st	0.7	larger
+276	1	2021-06-22 10:40:00	Pharma Chemistry	2	Deutsch	Apprenticeship (Low)	vckta85p	1st	0.80	correct
+277	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	urxv4evt	1st	0.8	correct
+278	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	rdbqasqa	1st	1.23	larger
+279	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	qjfn2j8z	1st	0.6	same
+280	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	f3h5amf9	1st		nans
+281	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	jpccnav5	1st	0.45	inverse
+282	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	wnurkn96	1st	0.60	larger
+283	1	2021-06-22 08:55:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	uhq3p7yr	1st	2.4	quadruple
+284	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	a57jkjgv	1st	0.8	correct
+285	1	2021-06-22 10:40:00	Pharma Chemistry	2	Deutsch	Apprenticeship (Low)	qn4qjrvd	1st	0.8	correct
+286	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	x844md8u	1st	klasjfoaijfraifpoaowjuoiwekfoajfpo	DVET
+287	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	uagxrke6	1st	2.4	quadruple
+288	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	gu7jpyum	1st	2.4	quadruple
+289	1	2021-06-22 10:40:00	Pharma Chemistry	3	Deutsch	Apprenticeship (Low)	s9prcjfd	1st	0.60	same
+290	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	yez72a8b	1st	0.80	correct
+291	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	h4hxzc6s	1st	0.52	smaller
+292	1	2021-06-22 10:40:00	Pharma Chemistry	1	Deutsch	Apprenticeship (Low)	sgdgynxy	1st	1.3	larger
+293	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	3xcaamq9	2nd	2.1	larger
+294	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	fzagvhvf	2nd	0.8	correct
+295	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	w9w2hw35	2nd	544 nm	unrelated
+296	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	upp6pqmx	2nd	0.3	half
+297	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	tzpqpfaa	2nd	0.3	half
+298	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	hg7zc2sv	2nd	0.45	inverse
+299	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	2ep3hayy	2nd	60	larger
+300	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	y9tk3ysm	2nd	0.6	same
+301	1	2021-06-23 00:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	favvtnnf	2nd	weis ich nicht	nans
+302	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	wpszzhxa	2nd	0.05	smaller
+303	1	2021-06-22 14:10:00	Biology	2	Français	Apprenticeship (Low)	abqwb5km	2nd		nans
+304	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	6h5vmwys	1st	0.55	smaller
+305	1	2021-06-24 14:20:00	Chemistry	3	Deutsch	Apprenticeship (Low)	5vvwhzqs	1st	die von Kaliumpermanganat bei der Wellenlange 544 nm	unrelated
+306	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	8pskk9tr	1st	0.8	correct
+307	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	6uakv8nx	1st	0.8	correct
+308	1	2021-06-24 14:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	7e4jt9hn	1st	0.96	larger
+309	1	2021-06-24 15:05:00	Chemistry	1	Deutsch	Apprenticeship (Low)	2xh9zuvc	1st	0.05	smaller
+310	1	2021-06-24 15:05:00	Chemistry	3	Deutsch	Apprenticeship (Low)	6cs3annc	1st	ka	unrelated
+311	1	2021-06-24 15:05:00	Chemistry	1	Deutsch	Apprenticeship (Low)	7xwv3xfe	1st	0.6	same
+312	1	2021-06-24 15:05:00	Chemistry	2	Deutsch	Apprenticeship (Low)	2cetp8yc	1st	KMnO4	unrelated
+313	1	2021-06-24 15:05:00	Chemistry	1	Deutsch	Apprenticeship (Low)	7ck7mq6a	1st	kleiner	smaller
+314	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	pggnv6xw	2nd	-	nans
+315	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	63xqh9t5	2nd	0.80	correct
+316	1	2021-06-23 13:35:00	Chemistry	1	Deutsch	Apprenticeship (Low)	r78kg7d3	2nd	0.6	same
+317	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	eru7f2dt	2nd		nans
+318	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	xpyjyx4m	2nd	0.8	correct
+319	1	2021-06-23 13:35:00	Chemistry	1	Deutsch	Apprenticeship (Low)	yxf7q6ap	2nd	0.8	correct
+320	1	2021-06-23 13:35:00	Chemistry	1	Deutsch	Apprenticeship (Low)	uqzxsym7	2nd	1.2	double
+321	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	63v3czy6	2nd	0.3	half
+322	1	2021-06-23 13:35:00	Chemistry	2	Deutsch	Apprenticeship (Low)	8jp62suc	2nd	0.7	larger
+323	1	2021-06-23 13:35:00	Chemistry	4	Deutsch	Apprenticeship (Low)	kj5abt7s	2nd		nans
+324	1	2021-06-23 00:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	4k4dk9pu	2nd	0.8	correct
+325	1	2021-06-23 00:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	e8zdytr2	2nd	0.8	correct
+326	1	2021-06-23 00:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	fryxwskq	2nd	2.4	quadruple
+327	1	2021-06-23 00:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	tzbaaz7e	2nd	0.80	correct
+328	1	2021-06-23 00:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	qyz6cdae	2nd		nans
+329	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	mvhzrv2y	2nd	Die Absorbierung bei 200 MikroMol	unrelated
+330	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	nj859xxh	2nd	0.80	correct
+331	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	jhrkm85q	2nd	0.45	inverse
+332	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	nw65tu6j	2nd	0.80	correct
+333	1	2021-06-25 14:50:00	Biology	4	Deutsch	Apprenticeship (Low)	k7p5eryf	2nd	--	nans
+334	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	h8624awf	2nd	0.15	fourth
+335	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	aweu2ac8	1st		nans
+336	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	rgeb7wr9	1st	Konzentration ist dreimal so klein, dafur der Durchmesser viermal so gross. Die Absorption ware 1.25mal so stark. 0.80.	correct
+337	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	krd7m9vb	1st	1.8	triple
+338	1	2021-06-24 14:20:00	Chemistry	2	Deutsch	Apprenticeship (Low)	my6csh6m	1st	2.4	quadruple
+339	1	2021-06-24 14:20:00	Chemistry	1	Deutsch	Apprenticeship (Low)	eqdntxer	1st	0.80	correct
+340	1	2021-06-24 15:05:00	Chemistry	2	Deutsch	Apprenticeship (Low)	xcmyd5r5	1st	0.6	same
+341	1	2021-06-24 15:05:00	Chemistry	1	Deutsch	Apprenticeship (Low)	g4xpwwac	1st	Keine Ahnung	nans
+342	1	2021-06-24 15:05:00	Chemistry	1	Deutsch	Apprenticeship (Low)	npatrq7r	1st	Lila	unrelated
+343	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	p6mkaa4e	2nd	0.8	correct
+344	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	4k4kc2k6	2nd	hoher	larger
+345	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	uekptbwk	2nd		nans
+346	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	pesfpzbv	2nd	niedrig	smaller
+347	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	p6269reg	2nd	0.8	correct
+348	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	2kk326rj	2nd		nans
+349	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	a3vdjxy9	2nd	Die gleiche 0.6	same
+350	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	eh9jq2bp	2nd	0.45	inverse
+351	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	crak75dx	2nd	Die Absorption	unrelated
+352	1	2021-06-25 14:50:00	Biology	1	Deutsch	Apprenticeship (Low)	mkw5afyy	2nd	0.69	larger
+353	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	6j6u2yct	2nd	ungefahr gleich	same
+354	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	nfshnktq	2nd	keine ahnung	nans
+355	1	2021-06-25 14:50:00	Biology	2	Deutsch	Apprenticeship (Low)	gc9jecfa	2nd	Absorption	unrelated
+356	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	qkeyp2rg	1st	Es wird eine viel schwachere Extinktion gemessern, da das volumen vergrossert und die Konzentration verringert wird. 0.5	smaller
+357	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	85pdk9mq	1st	Die Extinktion rechts wird grosser sein als links.	larger
+358	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	v9sra3j2	1st	Einen kleineren Wert als in Bild Links, denn es wird mehr absorbiert.	smaller
+359	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	3kzp9bet	1st	0.6	same
+360	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	svdphyjs	1st	0.8	correct
+361	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	982cf4dn	1st	0.8	correct
+362	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	2ejxq2u8	1st	eine Hohere, da zwar die Konzentration kleiner ist aber dafur die lange 4 mal so gross	quadruple
+363	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	6rfakyp7	1st	Extinktion von D	unrelated
+364	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	4ak6da99	1st	0.2176	smaller
+365	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	xw9qt6r4	1st	eine tiefere	to check
+366	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	5zqfzwjg	1st	2.4	quadruple
+367	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	mwfdr4ys	1st	0.8	correct
+368	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	mzjq6z9t	1st	Es wird moglicherweise eine ca. gleichstarke (eventuell schwachere) Extinktion gemessen.	correct
+369	1	2021-06-28 11:00:00	Chemistry	1	Deutsch	Apprenticeship (Low)	sm8sfpcg	1st	Lange wird vervierfacht: 0.6*4 =2.4 Konzentration ist noch ein drittel also geteilt: 2.4/3= 0.8	correct
+370	1	2021-06-28 11:00:00	Chemistry	2	Deutsch	Apprenticeship (Low)	sz8qvgyv	1st	0.8	correct
+371	1	2021-06-28 08:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	j9ukgkp5	1st	Die Extinktion nimmt zuerst um 4Mal ab, da der Durchmesser damit zunimmt. Die Konzentration nimmt um 3 Mal dan noch zu also nimmt die Extinktion nochmal damit ab. Das Ergebnis sollte ca. 0.05 sein	correct
+372	1	2021-06-28 08:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	amqnxthw	1st	0.8	correct
+373	1	2021-06-28 08:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	dnvedphf	1st	0.6	same
+374	1	2021-06-28 08:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	szvqb37f	1st	Absorption nimmt ganz leicht zu, da die Konzentration zwar um 2/3 abnimmt jedoch die Kuvettenbreite um 3/4 zunimmt. (Schatzungsweise: 0.9)	correct
+375	1	2021-06-28 08:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	bed4zkv2	1st	Wenn es sich proportional verhalten wurde wahre die abs. der Probe 0.80	correct
+376	1	2021-06-28 08:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	padezf8m	1st	0.8	correct
+377	1	2021-06-28 08:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	n6zakrku	1st	0.05	smaller
+378	1	2021-06-28 08:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	p2u7xw38	1st	Die Absobtion des Lichtes bei einer unterschiedlich langer Strecke durch die Losungbei unterschiedlicher Lonzentration der Losung.	smaller
+379	1	2021-06-28 08:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	ytrbygud	1st	0.6	same
+380	1	2021-06-28 08:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	r2q9q35x	1st	Hier ist der Wert rechts grosser, da der Weg den das Licht machen muss, viel grosser ist als der linke. Wert=1	larger
+381	1	2021-06-28 08:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	vqebanqv	1st	0.8	correct
+382	1	2021-06-28 08:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	chca7sdb	1st	1.2	double
+383	1	2021-06-29 15:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	dzakgq29	2nd	2cm glaube ich	unrelated
+384	1	2021-06-29 15:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	zgs84jfy	2nd	0.800000000000000000000	correct
+385	1	2021-06-29 15:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	ntqpqkpq	2nd	0.3	half
+386	1	2021-06-29 15:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	bezdgyya	2nd	1.25	larger
+387	1	2021-06-29 15:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	x5sm9pfu	2nd	0.8	correct
+388	1	2021-06-29 15:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	y8qbtkmf	2nd	0.60	same
+389	1	2021-06-29 15:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	r29wzm6f	2nd	0.8	correct
+390	1	2021-06-29 15:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	b72hbgvw	2nd	0.3	half
+391	1	2021-06-29 15:55:00	Chemistry	1	Deutsch	Apprenticeship (Low)	sr34qyfx	2nd	0.45	inverse
+392	1	2021-06-29 15:55:00	Chemistry	2	Deutsch	Apprenticeship (Low)	ybxahrra	2nd	0.8	correct
+393	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	aj47uhb9	1st	0.8	correct
+394	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	uqven68r	1st	je sais pas	nans
+395	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	nemddmx6	1st	0.8	correct
+396	1	2021-09-09 10:20:00	Biology	3	Français	Apprenticeship (Low)	xdxyjh8j	1st	On divise par 3 pis on multiplie par 4 => 0.8	correct
+397	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	nmptx7nj	1st	0.8	correct
+398	1	2021-09-10 11:05:00	Biology	2	Français	Apprenticeship (Low)	qdp9ant4	2nd	0.2	third
+399	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	ujp9fgpn	2nd	A = 0.8	correct
+400	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	dmdc53tx	1st	0.8	correct
+401	1	2021-09-10 11:05:00	Biology	1	Français	Apprenticeship (Low)	g6z8qykr	2nd	0.45	inverse
+402	1	2021-09-09 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	puzxz678	1st	0.8	correct
+403	1	2021-09-09 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	cb3z5rjs	1st	0.2	third
+404	1	2021-09-09 08:20:00	Chemistry	4	Français	Apprenticeship (Low)	3gqs3sgc	1st	0.8	correct
+405	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	urwu33jd	1st	0.80	correct
+406	1	2021-09-09 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	tt5n8d2r	1st	0.12	smaller
+407	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	9sgu2tbg	1st	A = 0.8	correct
+408	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	cb6wcvyn	1st	Je ne sais pas	nans
+409	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	pbxyuw7u	1st	0.8	correct
+410	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	qfu6r8c7	1st	0.8	correct
+411	1	2021-09-09 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	n977pem4	1st	0.80	correct
+412	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	addf7f7d	1st	1.28	larger
+413	1	2021-09-09 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	2crhmbq7	1st	0.8	correct
+414	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	ur9sxzx7	1st	0.80	correct
+415	1	2021-09-09 08:20:00	Chemistry	4	Français	Apprenticeship (Low)	e22ppyf7	1st	0.85	larger
+416	1	2021-09-09 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	dk43m2pe	1st	0.05	smaller
+417	1	2021-09-09 10:20:00	Biology	1	Français	Apprenticeship (Low)	hrhu4yph	1st	0.8	correct
+418	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	zbabnwym	1st	A = 0.2	third
+419	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	srmr7pcp	1st	0.60	same
+420	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	fw2ajjmt	1st	0.80	correct
+421	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	4e438nww	1st	Je ne sais pas	nans
+422	1	2021-09-09 10:20:00	Biology	1	Français	Apprenticeship (Low)	drccqhk4	1st	0.8	correct
+423	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	rg4fgfyh	1st	0.6 --> 600uM --> 0.5 cm 0.2 --> 200uM --> 0.5 cm 0.8 --> 200uM --> 2 cm	unrelated
+424	1	2021-09-09 10:20:00	Biology	2	Français	Apprenticeship (Low)	u4zu9xxc	1st	0.8	correct
+425	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	hkvk9vt9	2nd	A=Elc 0.6*(2/0.5)= 2.4 2.4*(200/600)= 0.8 abs sur image de droite	correct
+426	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	akgpua6j	2nd	0.3686	smaller
+427	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	mwwddfvg	2nd	Elle sera de 0.8	correct
+428	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	xj86wyup	2nd	0.80	correct
+429	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	nsj6k2rg	2nd	0.8	correct
+430	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	5zrt4f8z	2nd	1.28	smaller
+431	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	ydws5xx9	2nd	0.8	correct
+432	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	84nmc3df	2nd	0.8	correct
+433	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	9aagpn4d	2nd	0.8	correct
+434	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	3se7z466	2nd	0.8	correct
+435	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	xe7c36dk	2nd	0.9	larger
+436	1	2021-09-10 08:20:00	Chemistry	2	Français	Apprenticeship (Low)	sx3vqc32	2nd	0.8	correct
+437	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	jkbx6axr	2nd	?	nans
+438	1	2021-09-10 08:20:00	Chemistry	1	Français	Apprenticeship (Low)	k2erarrf	2nd		nans
+439	1	2021-09-10 11:05:00	Biology	4	Français	Apprenticeship (Low)	vhsgf3xa	2nd	0.8	correct
+440	1	2021-09-10 11:05:00	Biology	3	Français	Apprenticeship (Low)	s78drqcg	2nd	0.8	correct
+441	1	2021-09-10 11:05:00	Biology	2	Français	Apprenticeship (Low)	rrykpeqz	2nd	A = 0.2	third
+442	1	2021-09-10 11:05:00	Biology	2	Français	Apprenticeship (Low)	h9t9mxtx	2nd	A= 0.8	correct
+443	1	2021-09-10 11:05:00	Biology	1	Français	Apprenticeship (Low)	uthx49rq	2nd	0.80	correct
+444	1	2021-09-10 11:05:00	Biology	1	Français	Apprenticeship (Low)	mb8mn3zx	2nd		nans
+445	1	2021-09-10 11:05:00	Biology	2	Français	Apprenticeship (Low)	caq55qe8	2nd	0.20	third
+446	1	2021-09-10 11:05:00	Biology	1	Français	Apprenticeship (Low)	8rtwmb8t	2nd		nans
+447	1	2021-09-10 11:05:00	Biology	1	Français	Apprenticeship (Low)	prr8qsns	2nd	0.8	correct
+448	1	2021-09-10 11:05:00	Biology	1	Français	Apprenticeship (Low)	fjwcmt6y	2nd		nans

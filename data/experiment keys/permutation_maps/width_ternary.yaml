@@ -1,0 +1,38 @@
+---
+labels: 
+  width
+  inv_width
+  no_width
+target_index:
+  width: 0
+  inv_width: 1
+  no_width: 2
+index_target:
+  0: width
+  1: inv_width
+  2: no_width
+map: 
+  '2031': width
+  '2013': width
+  '3210': width
+  '3120': width
+  '2130': width
+  '1302': inv_width
+  '3102': inv_width
+  '0123': inv_width
+  '0213': inv_width
+  '0312': inv_width
+  '2103': no_width
+  '0132': no_width
+  '1023': no_width
+  '1032': no_width
+  '2301': no_width
+  '2310': no_width
+  '3201': no_width
+  '0231': no_width
+  '1320': no_width
+  '0321': no_width
+  '1203': no_width
+  '1230': no_width
+  '3021': no_width
+  '3012': no_width

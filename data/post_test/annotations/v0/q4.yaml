@@ -1,0 +1,68 @@
+annotate: true
+annotator: !!python/name:annotators.text_radiobox_annotator.TextRadioboxAnnotator ''
+chemlab: true
+data:
+  demographics:
+  - consent
+  - date
+  - field
+  - gender
+  - language
+  - level
+  - username
+  - year
+  filename: non_labelled.pkl
+  label_col: label_ten
+  sample_col: q4
+labelling:
+  annotated_folder: questions
+  file_name: q4
+  labels:
+  - correct
+  - inverse
+  - double
+  - half
+  - third
+  - triple
+  - quadruple
+  - fourth
+  - larger
+  - same
+  - smaller
+  - unrelated
+  - to check
+  - nans
+  - none
+  - DVET
+  rules: " Original number: 0.6 \n \n correct: the answer is the one we expected (0.8)\
+    \ \n half: 0.3, third: 0.2, fourth: 0.15 \n triple: 1.8, quadruple: 2.4 \n smaller:\
+    \ the answer is smaller than the original configuration \n larger: the answer\
+    \ is larger than the original configuration \n # inverse: the relation is inverted\
+    \ compared to what it should be (0.1777) \n \n unrelated: not related to the question\
+    \ \n mathematical: small math error (0.36 to 0.38)\n nans: no answer given \n\
+    \ none: no absorbance measured \n to check: to check post processing \n \n DvET:\
+    \ entries from me, chris and Peter "
+  texts:
+  - '0.8'
+  - '0.45'
+  - '1.2'
+  - '0.3'
+  - '0.2'
+  - '1.8'
+  - '2.4'
+  - '0.15'
+  - '> 0.6'
+  - '0.6'
+  - <0.6
+  - unrelated
+  - to check
+  - nans
+  - none
+  - DVET
+mc: false
+prep: false
+print: false
+radio: true
+root: chemlab
+save: true
+test: false

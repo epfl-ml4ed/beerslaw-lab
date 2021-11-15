@@ -1,0 +1,53 @@
+annotate: true
+chemlab: true
+data:
+  demographics:
+  - consent
+  - date
+  - field
+  - gender
+  - lang
+  - level
+  - username
+  - year
+  filename: flatten_test.pkl
+  label_col: label_seven
+  sample_col: seven
+labelling:
+  annotated_folder: annotated_jade
+  config_name: seven_config.yaml
+  file_name: seven.csv
+  labels:
+  - correct
+  - inverse
+  - smaller
+  - same
+  - larger
+  - unrelated
+  - mathematical
+  - to check
+  - nans
+  - none
+  - DVET
+  rules: " Original number: 0.74 \n \n correct: the answer is the one we expected\
+    \ (0.37) \n smaller: the answer is smaller than the original configuration \n\
+    \ larger: the answer is larger than the original configuration \n inverse: the\
+    \ relation is inverted compared to what it should be (1.48) \n \n unrelated: not\
+    \ related to the question \n mathematical: small math error (0.36 to 0.38)\n to\
+    \ check: to check post processing \n \n DvET: entries from me, chris and Peter "
+  texts:
+  - correct
+  - inverse
+  - smaller
+  - same
+  - larger
+  - unrelated
+  - mathematical
+  - to check
+  - nans
+  - none
+  - DVET
+prep: false
+root: chemlab
+save: true
+test: false

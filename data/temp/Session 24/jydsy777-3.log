@@ -1,0 +1,5725 @@
+{
+  "messageIndex": 0,
+  "eventType": "wrapper",
+  "phetioID": "beersLawLab.simIFrameAPI",
+  "componentType": "TSimIFrameAPI",
+  "event": "invoked",
+  "time": 1624347081840,
+  "parameters": {
+    "phetioID": "phetio",
+    "method": "addExpressions",
+    "args": [
+      []
+    ],
+    "messageID": 2,
+    "protocol": "phet-io-0.0.1"
+  }
+}
+{
+  "messageIndex": 1,
+  "eventType": "wrapper",
+  "phetioID": "beersLawLab.simIFrameAPI",
+  "componentType": "TSimIFrameAPI",
+  "event": "invoked",
+  "time": 1624347081845,
+  "parameters": {
+    "phetioID": "phetio",
+    "method": "launchSimulation",
+    "args": [],
+    "messageID": 3,
+    "protocol": "phet-io-0.0.1"
+  }
+}
+{
+  "messageIndex": 2,
+  "eventType": "model",
+  "phetioID": "beersLawLab.sim",
+  "componentType": "TSim",
+  "event": "simStarted",
+  "time": 1624347081853,
+  "parameters": {
+    "sessionID": null,
+    "simName": "‪Beer's Law Lab‬",
+    "simVersion": "1.6.15-phetio",
+    "url": "https://phet-io.colorado.edu/sims/beers-law-lab/1.6.15-phetio/beers-law-lab_en-phetio.html?production&phetioEmitStates=false&phetioEmitInputEvents=false",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36 Edg/91.0.864.54",
+    "randomSeed": 0.6617059618998593,
+    "provider": "PhET Interactive Simulations, University of Colorado Boulder"
+  },
+  "children": [
+    {
+      "messageIndex": 3,
+      "eventType": "model",
+      "phetioID": "beersLawLab.concentrationScreen.view.concentrationMeterNode.bodyNode.readoutTextNode",
+      "componentType": "TTandemText",
+      "event": "textChanged",
+      "time": 1624347082058,
+      "parameters": {
+        "oldText": "‪1.000 ‪mol/L‬‬",
+        "newText": "-"
+      }
+    },
+    {
+      "messageIndex": 4,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+      "componentType": "TTandemText",
+      "event": "textChanged",
+      "time": 1624347082158,
+      "parameters": {
+        "oldText": "‪100.00%‬",
+        "newText": "-"
+      }
+    }
+  ]
+}
+{
+  "messageIndex": null,
+  "eventType": "user",
+  "phetioID": "beersLawLab.wrapper",
+  "componentType": "WrapperButton",
+  "event": "showPDF",
+  "time": 1624347085550,
+  "parameters": null
+}
+{
+  "messageIndex": null,
+  "eventType": "user",
+  "phetioID": "beersLawLab.wrapper",
+  "componentType": "WrapperButton",
+  "event": "hidePDF",
+  "time": 1624347134114,
+  "parameters": null
+}
+{
+  "messageIndex": 5,
+  "eventType": "user",
+  "phetioID": "beersLawLab.homeScreen.view.beersLawScreenSmallButton",
+  "componentType": "TScreenButton",
+  "event": "fired",
+  "time": 1624347135436,
+  "children": [
+    {
+      "messageIndex": 6,
+      "eventType": "model",
+      "phetioID": "beersLawLab.sim.screenIndexProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347135436,
+      "parameters": {
+        "oldValue": 0,
+        "newValue": 1
+      }
+    }
+  ]
+}
+{
+  "messageIndex": 7,
+  "eventType": "user",
+  "phetioID": "beersLawLab.homeScreen.view.beersLawScreenLargeButton",
+  "componentType": "TScreenButton",
+  "event": "fired",
+  "time": 1624347135581,
+  "children": [
+    {
+      "messageIndex": 8,
+      "eventType": "model",
+      "phetioID": "beersLawLab.sim.showHomeScreenProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347135581,
+      "parameters": {
+        "oldValue": true,
+        "newValue": false
+      }
+    }
+  ]
+}
+{
+  "messageIndex": 9,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.lightNode.button",
+  "componentType": "TToggleButton",
+  "event": "toggled",
+  "time": 1624347139964,
+  "parameters": {
+    "oldValue": false,
+    "newValue": true
+  },
+  "children": [
+    {
+      "messageIndex": 10,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.light.onProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347139964,
+      "parameters": {
+        "oldValue": false,
+        "newValue": true
+      },
+      "children": [
+        {
+          "messageIndex": 11,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347139964,
+          "parameters": {
+            "oldValue": null,
+            "newValue": 31.188895840939367
+          },
+          "children": [
+            {
+              "messageIndex": 12,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347139964,
+              "parameters": {
+                "oldText": "-",
+                "newText": "‪31.19%‬"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 13,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.absorbanceRadioButton",
+  "componentType": "TRadioButton",
+  "event": "fired",
+  "time": 1624347147102,
+  "parameters": {
+    "value": "absorbance"
+  },
+  "children": [
+    {
+      "messageIndex": 14,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.detector.modeProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347147102,
+      "parameters": {
+        "oldValue": "transmittance",
+        "newValue": "absorbance"
+      },
+      "children": [
+        {
+          "messageIndex": 15,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347147102,
+          "parameters": {
+            "oldValue": 31.188895840939367,
+            "newValue": 0.506
+          },
+          "children": [
+            {
+              "messageIndex": 16,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347147102,
+              "parameters": {
+                "oldText": "‪31.19%‬",
+                "newText": "0.51"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 17,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragStarted",
+  "time": 1624347149161,
+  "parameters": {
+    "x": 765,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 18,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347149472,
+  "parameters": {
+    "x": 764,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 19,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347149473,
+      "parameters": {
+        "oldValue": 0.1,
+        "newValue": 0.095
+      },
+      "children": [
+        {
+          "messageIndex": 20,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347149473,
+          "parameters": {
+            "oldValue": 0.506,
+            "newValue": 0.48069999999999996
+          },
+          "children": [
+            {
+              "messageIndex": 21,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347149473,
+              "parameters": {
+                "oldText": "0.51",
+                "newText": "0.48"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 22,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347149588,
+  "parameters": {
+    "x": 763,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 23,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347149604,
+  "parameters": {
+    "x": 762,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 24,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347149604,
+      "parameters": {
+        "oldValue": 0.095,
+        "newValue": 0.09
+      },
+      "children": [
+        {
+          "messageIndex": 25,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347149604,
+          "parameters": {
+            "oldValue": 0.48069999999999996,
+            "newValue": 0.45539999999999997
+          },
+          "children": [
+            {
+              "messageIndex": 26,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347149604,
+              "parameters": {
+                "oldText": "0.48",
+                "newText": "0.46"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 27,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347149654,
+  "parameters": {
+    "x": 761,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 28,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347150120,
+  "parameters": {
+    "x": 760,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 29,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347150120,
+      "parameters": {
+        "oldValue": 0.09,
+        "newValue": 0.085
+      },
+      "children": [
+        {
+          "messageIndex": 30,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347150120,
+          "parameters": {
+            "oldValue": 0.45539999999999997,
+            "newValue": 0.4301
+          },
+          "children": [
+            {
+              "messageIndex": 31,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347150120,
+              "parameters": {
+                "oldText": "0.46",
+                "newText": "0.43"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 32,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347150287,
+  "parameters": {
+    "x": 759,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 33,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347150370,
+  "parameters": {
+    "x": 758,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 34,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347150370,
+      "parameters": {
+        "oldValue": 0.085,
+        "newValue": 0.08
+      },
+      "children": [
+        {
+          "messageIndex": 35,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347150370,
+          "parameters": {
+            "oldValue": 0.4301,
+            "newValue": 0.4048
+          },
+          "children": [
+            {
+              "messageIndex": 36,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347150370,
+              "parameters": {
+                "oldText": "0.43",
+                "newText": "0.40"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 37,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347150453,
+  "parameters": {
+    "x": 757,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 38,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347150752,
+  "parameters": {
+    "x": 756,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 39,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347150753,
+      "parameters": {
+        "oldValue": 0.08,
+        "newValue": 0.075
+      },
+      "children": [
+        {
+          "messageIndex": 40,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347150753,
+          "parameters": {
+            "oldValue": 0.4048,
+            "newValue": 0.37949999999999995
+          },
+          "children": [
+            {
+              "messageIndex": 41,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347150753,
+              "parameters": {
+                "oldText": "0.40",
+                "newText": "0.38"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 42,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347151019,
+  "parameters": {
+    "x": 755,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 43,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347151019,
+      "parameters": {
+        "oldValue": 0.075,
+        "newValue": 0.07
+      },
+      "children": [
+        {
+          "messageIndex": 44,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347151019,
+          "parameters": {
+            "oldValue": 0.37949999999999995,
+            "newValue": 0.3542
+          },
+          "children": [
+            {
+              "messageIndex": 45,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347151019,
+              "parameters": {
+                "oldText": "0.38",
+                "newText": "0.35"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 46,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347151251,
+  "parameters": {
+    "x": 754,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 47,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347151584,
+  "parameters": {
+    "x": 753,
+    "y": 461
+  },
+  "children": [
+    {
+      "messageIndex": 48,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347151584,
+      "parameters": {
+        "oldValue": 0.07,
+        "newValue": 0.065
+      },
+      "children": [
+        {
+          "messageIndex": 49,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347151585,
+          "parameters": {
+            "oldValue": 0.3542,
+            "newValue": 0.32889999999999997
+          },
+          "children": [
+            {
+              "messageIndex": 50,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347151585,
+              "parameters": {
+                "oldText": "0.35",
+                "newText": "0.33"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 51,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347152466,
+  "parameters": {
+    "x": 752,
+    "y": 461
+  }
+}
+{
+  "messageIndex": 52,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347152666,
+  "parameters": {
+    "x": 752,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 53,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347153049,
+  "parameters": {
+    "x": 751,
+    "y": 460
+  },
+  "children": [
+    {
+      "messageIndex": 54,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347153049,
+      "parameters": {
+        "oldValue": 0.065,
+        "newValue": 0.06
+      },
+      "children": [
+        {
+          "messageIndex": 55,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347153049,
+          "parameters": {
+            "oldValue": 0.32889999999999997,
+            "newValue": 0.3036
+          },
+          "children": [
+            {
+              "messageIndex": 56,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347153049,
+              "parameters": {
+                "oldText": "0.33",
+                "newText": "0.30"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 58,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347153148,
+  "parameters": {
+    "x": 750,
+    "y": 459
+  }
+}
+{
+  "messageIndex": 57,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347153132,
+  "parameters": {
+    "x": 750,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 59,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragEnded",
+  "time": 1624347154082
+}
+{
+  "messageIndex": 60,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.plusButton",
+  "componentType": "TPushButton",
+  "event": "fired",
+  "time": 1624347156514,
+  "children": [
+    {
+      "messageIndex": 61,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347156514,
+      "parameters": {
+        "oldValue": 0.06,
+        "newValue": 0.061
+      },
+      "children": [
+        {
+          "messageIndex": 62,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347156514,
+          "parameters": {
+            "oldValue": 0.3036,
+            "newValue": 0.30866
+          },
+          "children": [
+            {
+              "messageIndex": 63,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347156514,
+              "parameters": {
+                "oldText": "0.30",
+                "newText": "0.31"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 64,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.plusButton",
+  "componentType": "TPushButton",
+  "event": "fired",
+  "time": 1624347156963,
+  "children": [
+    {
+      "messageIndex": 65,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347156963,
+      "parameters": {
+        "oldValue": 0.061,
+        "newValue": 0.062
+      },
+      "children": [
+        {
+          "messageIndex": 66,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347156963,
+          "parameters": {
+            "oldValue": 0.30866,
+            "newValue": 0.31372
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 67,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.plusButton",
+  "componentType": "TPushButton",
+  "event": "fired",
+  "time": 1624347158335,
+  "children": [
+    {
+      "messageIndex": 68,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347158335,
+      "parameters": {
+        "oldValue": 0.062,
+        "newValue": 0.063
+      },
+      "children": [
+        {
+          "messageIndex": 69,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347158335,
+          "parameters": {
+            "oldValue": 0.31372,
+            "newValue": 0.31877999999999995
+          },
+          "children": [
+            {
+              "messageIndex": 70,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347158335,
+              "parameters": {
+                "oldText": "0.31",
+                "newText": "0.32"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": null,
+  "eventType": "user",
+  "phetioID": "beersLawLab.wrapper",
+  "componentType": "WrapperButton",
+  "event": "showPDF",
+  "time": 1624347159896,
+  "parameters": null
+}
+{
+  "messageIndex": null,
+  "eventType": "user",
+  "phetioID": "beersLawLab.wrapper",
+  "componentType": "WrapperButton",
+  "event": "hidePDF",
+  "time": 1624347165650,
+  "parameters": null
+}
+{
+  "messageIndex": 71,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragStarted",
+  "time": 1624347168091,
+  "parameters": {
+    "x": 605,
+    "y": 292
+  }
+}
+{
+  "messageIndex": 72,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168315,
+  "parameters": {
+    "x": 606,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 73,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168315,
+      "parameters": {
+        "oldValue": 1,
+        "newValue": 1.008
+      },
+      "children": [
+        {
+          "messageIndex": 74,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168315,
+          "parameters": {
+            "oldValue": 0.31877999999999995,
+            "newValue": 0.32133023999999993
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 75,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168357,
+  "parameters": {
+    "x": 607,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 76,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168357,
+      "parameters": {
+        "oldValue": 1.008,
+        "newValue": 1.016
+      },
+      "children": [
+        {
+          "messageIndex": 77,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168358,
+          "parameters": {
+            "oldValue": 0.32133023999999993,
+            "newValue": 0.32388047999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 78,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168441,
+  "parameters": {
+    "x": 608,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 79,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168441,
+      "parameters": {
+        "oldValue": 1.016,
+        "newValue": 1.024
+      },
+      "children": [
+        {
+          "messageIndex": 80,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168441,
+          "parameters": {
+            "oldValue": 0.32388047999999997,
+            "newValue": 0.32643071999999995
+          },
+          "children": [
+            {
+              "messageIndex": 81,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347168441,
+              "parameters": {
+                "oldText": "0.32",
+                "newText": "0.33"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 82,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168507,
+  "parameters": {
+    "x": 609,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 83,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168507,
+      "parameters": {
+        "oldValue": 1.024,
+        "newValue": 1.032
+      },
+      "children": [
+        {
+          "messageIndex": 84,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168508,
+          "parameters": {
+            "oldValue": 0.32643071999999995,
+            "newValue": 0.32898096
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 85,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168524,
+  "parameters": {
+    "x": 610,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 86,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168524,
+      "parameters": {
+        "oldValue": 1.032,
+        "newValue": 1.04
+      },
+      "children": [
+        {
+          "messageIndex": 87,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168524,
+          "parameters": {
+            "oldValue": 0.32898096,
+            "newValue": 0.33153119999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 88,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168541,
+  "parameters": {
+    "x": 611,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 89,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168541,
+      "parameters": {
+        "oldValue": 1.04,
+        "newValue": 1.048
+      },
+      "children": [
+        {
+          "messageIndex": 90,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168541,
+          "parameters": {
+            "oldValue": 0.33153119999999997,
+            "newValue": 0.33408144
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 91,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168590,
+  "parameters": {
+    "x": 612,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 92,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168590,
+      "parameters": {
+        "oldValue": 1.048,
+        "newValue": 1.056
+      },
+      "children": [
+        {
+          "messageIndex": 93,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168590,
+          "parameters": {
+            "oldValue": 0.33408144,
+            "newValue": 0.33663168
+          },
+          "children": [
+            {
+              "messageIndex": 94,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347168590,
+              "parameters": {
+                "oldText": "0.33",
+                "newText": "0.34"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 95,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168690,
+  "parameters": {
+    "x": 613,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 96,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168690,
+      "parameters": {
+        "oldValue": 1.056,
+        "newValue": 1.064
+      },
+      "children": [
+        {
+          "messageIndex": 97,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168690,
+          "parameters": {
+            "oldValue": 0.33663168,
+            "newValue": 0.33918192
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 98,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168724,
+  "parameters": {
+    "x": 614,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 99,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168724,
+      "parameters": {
+        "oldValue": 1.064,
+        "newValue": 1.072
+      },
+      "children": [
+        {
+          "messageIndex": 100,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168724,
+          "parameters": {
+            "oldValue": 0.33918192,
+            "newValue": 0.34173216
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 101,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168757,
+  "parameters": {
+    "x": 615,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 102,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168757,
+      "parameters": {
+        "oldValue": 1.072,
+        "newValue": 1.08
+      },
+      "children": [
+        {
+          "messageIndex": 103,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168757,
+          "parameters": {
+            "oldValue": 0.34173216,
+            "newValue": 0.34428240000000004
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 104,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168823,
+  "parameters": {
+    "x": 616,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 105,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168823,
+      "parameters": {
+        "oldValue": 1.08,
+        "newValue": 1.088
+      },
+      "children": [
+        {
+          "messageIndex": 106,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168823,
+          "parameters": {
+            "oldValue": 0.34428240000000004,
+            "newValue": 0.34683264
+          },
+          "children": [
+            {
+              "messageIndex": 107,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347168823,
+              "parameters": {
+                "oldText": "0.34",
+                "newText": "0.35"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 108,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168873,
+  "parameters": {
+    "x": 617,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 109,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168873,
+      "parameters": {
+        "oldValue": 1.088,
+        "newValue": 1.096
+      },
+      "children": [
+        {
+          "messageIndex": 110,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168874,
+          "parameters": {
+            "oldValue": 0.34683264,
+            "newValue": 0.34938287999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 114,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168907,
+  "parameters": {
+    "x": 619,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 115,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168907,
+      "parameters": {
+        "oldValue": 1.104,
+        "newValue": 1.112
+      },
+      "children": [
+        {
+          "messageIndex": 116,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168907,
+          "parameters": {
+            "oldValue": 0.35193312,
+            "newValue": 0.35448335999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 111,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168890,
+  "parameters": {
+    "x": 618,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 112,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168890,
+      "parameters": {
+        "oldValue": 1.096,
+        "newValue": 1.104
+      },
+      "children": [
+        {
+          "messageIndex": 113,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168890,
+          "parameters": {
+            "oldValue": 0.34938287999999995,
+            "newValue": 0.35193312
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 117,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168923,
+  "parameters": {
+    "x": 620,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 118,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168923,
+      "parameters": {
+        "oldValue": 1.112,
+        "newValue": 1.12
+      },
+      "children": [
+        {
+          "messageIndex": 119,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168923,
+          "parameters": {
+            "oldValue": 0.35448335999999997,
+            "newValue": 0.3570336
+          },
+          "children": [
+            {
+              "messageIndex": 120,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347168923,
+              "parameters": {
+                "oldText": "0.35",
+                "newText": "0.36"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 121,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168973,
+  "parameters": {
+    "x": 622,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 122,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168973,
+      "parameters": {
+        "oldValue": 1.12,
+        "newValue": 1.1360000000000001
+      },
+      "children": [
+        {
+          "messageIndex": 123,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168974,
+          "parameters": {
+            "oldValue": 0.3570336,
+            "newValue": 0.36213408
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 124,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347168990,
+  "parameters": {
+    "x": 624,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 125,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347168990,
+      "parameters": {
+        "oldValue": 1.1360000000000001,
+        "newValue": 1.152
+      },
+      "children": [
+        {
+          "messageIndex": 126,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347168990,
+          "parameters": {
+            "oldValue": 0.36213408,
+            "newValue": 0.36723455999999993
+          },
+          "children": [
+            {
+              "messageIndex": 127,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347168990,
+              "parameters": {
+                "oldText": "0.36",
+                "newText": "0.37"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 128,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169023,
+  "parameters": {
+    "x": 625,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 129,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169023,
+      "parameters": {
+        "oldValue": 1.152,
+        "newValue": 1.16
+      },
+      "children": [
+        {
+          "messageIndex": 130,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169023,
+          "parameters": {
+            "oldValue": 0.36723455999999993,
+            "newValue": 0.36978479999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 131,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169040,
+  "parameters": {
+    "x": 626,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 132,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169040,
+      "parameters": {
+        "oldValue": 1.16,
+        "newValue": 1.168
+      },
+      "children": [
+        {
+          "messageIndex": 133,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169040,
+          "parameters": {
+            "oldValue": 0.36978479999999997,
+            "newValue": 0.37233503999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 137,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169073,
+  "parameters": {
+    "x": 628,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 138,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169073,
+      "parameters": {
+        "oldValue": 1.176,
+        "newValue": 1.184
+      },
+      "children": [
+        {
+          "messageIndex": 139,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169073,
+          "parameters": {
+            "oldValue": 0.37488528,
+            "newValue": 0.37743551999999997
+          },
+          "children": [
+            {
+              "messageIndex": 140,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347169073,
+              "parameters": {
+                "oldText": "0.37",
+                "newText": "0.38"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 134,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169056,
+  "parameters": {
+    "x": 627,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 135,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169056,
+      "parameters": {
+        "oldValue": 1.168,
+        "newValue": 1.176
+      },
+      "children": [
+        {
+          "messageIndex": 136,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169056,
+          "parameters": {
+            "oldValue": 0.37233503999999995,
+            "newValue": 0.37488528
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 141,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169106,
+  "parameters": {
+    "x": 629,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 142,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169106,
+      "parameters": {
+        "oldValue": 1.184,
+        "newValue": 1.192
+      },
+      "children": [
+        {
+          "messageIndex": 143,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169106,
+          "parameters": {
+            "oldValue": 0.37743551999999997,
+            "newValue": 0.37998575999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 144,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169123,
+  "parameters": {
+    "x": 630,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 145,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169123,
+      "parameters": {
+        "oldValue": 1.192,
+        "newValue": 1.2
+      },
+      "children": [
+        {
+          "messageIndex": 146,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169123,
+          "parameters": {
+            "oldValue": 0.37998575999999995,
+            "newValue": 0.38253599999999993
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 147,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169140,
+  "parameters": {
+    "x": 631,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 148,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169140,
+      "parameters": {
+        "oldValue": 1.2,
+        "newValue": 1.208
+      },
+      "children": [
+        {
+          "messageIndex": 149,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169140,
+          "parameters": {
+            "oldValue": 0.38253599999999993,
+            "newValue": 0.38508623999999997
+          },
+          "children": [
+            {
+              "messageIndex": 150,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347169140,
+              "parameters": {
+                "oldText": "0.38",
+                "newText": "0.39"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 151,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169173,
+  "parameters": {
+    "x": 632,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 152,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169173,
+      "parameters": {
+        "oldValue": 1.208,
+        "newValue": 1.216
+      },
+      "children": [
+        {
+          "messageIndex": 153,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169173,
+          "parameters": {
+            "oldValue": 0.38508623999999997,
+            "newValue": 0.38763647999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 154,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169278,
+  "parameters": {
+    "x": 634,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 155,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169278,
+      "parameters": {
+        "oldValue": 1.216,
+        "newValue": 1.232
+      },
+      "children": [
+        {
+          "messageIndex": 156,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169278,
+          "parameters": {
+            "oldValue": 0.38763647999999995,
+            "newValue": 0.39273695999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 157,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169306,
+  "parameters": {
+    "x": 635,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 158,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169306,
+      "parameters": {
+        "oldValue": 1.232,
+        "newValue": 1.24
+      },
+      "children": [
+        {
+          "messageIndex": 159,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169306,
+          "parameters": {
+            "oldValue": 0.39273695999999997,
+            "newValue": 0.39528719999999995
+          },
+          "children": [
+            {
+              "messageIndex": 160,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347169306,
+              "parameters": {
+                "oldText": "0.39",
+                "newText": "0.40"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 161,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169372,
+  "parameters": {
+    "x": 636,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 162,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169372,
+      "parameters": {
+        "oldValue": 1.24,
+        "newValue": 1.248
+      },
+      "children": [
+        {
+          "messageIndex": 163,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169372,
+          "parameters": {
+            "oldValue": 0.39528719999999995,
+            "newValue": 0.39783744
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 164,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169605,
+  "parameters": {
+    "x": 637,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 165,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169605,
+      "parameters": {
+        "oldValue": 1.248,
+        "newValue": 1.256
+      },
+      "children": [
+        {
+          "messageIndex": 166,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169606,
+          "parameters": {
+            "oldValue": 0.39783744,
+            "newValue": 0.40038767999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 167,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347169972,
+  "parameters": {
+    "x": 638,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 168,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347169972,
+      "parameters": {
+        "oldValue": 1.256,
+        "newValue": 1.264
+      },
+      "children": [
+        {
+          "messageIndex": 169,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347169972,
+          "parameters": {
+            "oldValue": 0.40038767999999997,
+            "newValue": 0.40293792
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 170,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170055,
+  "parameters": {
+    "x": 639,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 171,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170055,
+      "parameters": {
+        "oldValue": 1.264,
+        "newValue": 1.272
+      },
+      "children": [
+        {
+          "messageIndex": 172,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170055,
+          "parameters": {
+            "oldValue": 0.40293792,
+            "newValue": 0.40548816
+          },
+          "children": [
+            {
+              "messageIndex": 173,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170055,
+              "parameters": {
+                "oldText": "0.40",
+                "newText": "0.41"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 174,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170071,
+  "parameters": {
+    "x": 640,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 175,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170071,
+      "parameters": {
+        "oldValue": 1.272,
+        "newValue": 1.28
+      },
+      "children": [
+        {
+          "messageIndex": 176,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170072,
+          "parameters": {
+            "oldValue": 0.40548816,
+            "newValue": 0.4080384
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 177,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170088,
+  "parameters": {
+    "x": 642,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 178,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170088,
+      "parameters": {
+        "oldValue": 1.28,
+        "newValue": 1.296
+      },
+      "children": [
+        {
+          "messageIndex": 179,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170088,
+          "parameters": {
+            "oldValue": 0.4080384,
+            "newValue": 0.41313888
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 180,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170105,
+  "parameters": {
+    "x": 644,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 181,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170105,
+      "parameters": {
+        "oldValue": 1.296,
+        "newValue": 1.312
+      },
+      "children": [
+        {
+          "messageIndex": 182,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170105,
+          "parameters": {
+            "oldValue": 0.41313888,
+            "newValue": 0.41823936
+          },
+          "children": [
+            {
+              "messageIndex": 183,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170105,
+              "parameters": {
+                "oldText": "0.41",
+                "newText": "0.42"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 184,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170121,
+  "parameters": {
+    "x": 645,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 185,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170121,
+      "parameters": {
+        "oldValue": 1.312,
+        "newValue": 1.32
+      },
+      "children": [
+        {
+          "messageIndex": 186,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170121,
+          "parameters": {
+            "oldValue": 0.41823936,
+            "newValue": 0.4207896
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 187,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170138,
+  "parameters": {
+    "x": 646,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 188,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170138,
+      "parameters": {
+        "oldValue": 1.32,
+        "newValue": 1.328
+      },
+      "children": [
+        {
+          "messageIndex": 189,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170138,
+          "parameters": {
+            "oldValue": 0.4207896,
+            "newValue": 0.42333983999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 190,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170155,
+  "parameters": {
+    "x": 647,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 191,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170155,
+      "parameters": {
+        "oldValue": 1.328,
+        "newValue": 1.336
+      },
+      "children": [
+        {
+          "messageIndex": 192,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170155,
+          "parameters": {
+            "oldValue": 0.42333983999999997,
+            "newValue": 0.42589008
+          },
+          "children": [
+            {
+              "messageIndex": 193,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170155,
+              "parameters": {
+                "oldText": "0.42",
+                "newText": "0.43"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 194,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170188,
+  "parameters": {
+    "x": 648,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 195,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170188,
+      "parameters": {
+        "oldValue": 1.336,
+        "newValue": 1.344
+      },
+      "children": [
+        {
+          "messageIndex": 196,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170188,
+          "parameters": {
+            "oldValue": 0.42589008,
+            "newValue": 0.42844032
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 197,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170271,
+  "parameters": {
+    "x": 649,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 198,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170271,
+      "parameters": {
+        "oldValue": 1.344,
+        "newValue": 1.3519999999999999
+      },
+      "children": [
+        {
+          "messageIndex": 199,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170271,
+          "parameters": {
+            "oldValue": 0.42844032,
+            "newValue": 0.43099055999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 200,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170371,
+  "parameters": {
+    "x": 650,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 201,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170371,
+      "parameters": {
+        "oldValue": 1.3519999999999999,
+        "newValue": 1.3599999999999999
+      },
+      "children": [
+        {
+          "messageIndex": 202,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170371,
+          "parameters": {
+            "oldValue": 0.43099055999999997,
+            "newValue": 0.43354079999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 203,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170504,
+  "parameters": {
+    "x": 651,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 204,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170504,
+      "parameters": {
+        "oldValue": 1.3599999999999999,
+        "newValue": 1.3679999999999999
+      },
+      "children": [
+        {
+          "messageIndex": 205,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170504,
+          "parameters": {
+            "oldValue": 0.43354079999999995,
+            "newValue": 0.43609103999999993
+          },
+          "children": [
+            {
+              "messageIndex": 206,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170504,
+              "parameters": {
+                "oldText": "0.43",
+                "newText": "0.44"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 207,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170620,
+  "parameters": {
+    "x": 652,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 208,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170621,
+      "parameters": {
+        "oldValue": 1.3679999999999999,
+        "newValue": 1.376
+      },
+      "children": [
+        {
+          "messageIndex": 209,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170621,
+          "parameters": {
+            "oldValue": 0.43609103999999993,
+            "newValue": 0.4386412799999999
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 210,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170770,
+  "parameters": {
+    "x": 653,
+    "y": 293
+  },
+  "children": [
+    {
+      "messageIndex": 211,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170771,
+      "parameters": {
+        "oldValue": 1.376,
+        "newValue": 1.384
+      },
+      "children": [
+        {
+          "messageIndex": 212,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170771,
+          "parameters": {
+            "oldValue": 0.4386412799999999,
+            "newValue": 0.4411915199999999
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 213,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170787,
+  "parameters": {
+    "x": 653,
+    "y": 292
+  }
+}
+{
+  "messageIndex": 214,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170804,
+  "parameters": {
+    "x": 655,
+    "y": 292
+  },
+  "children": [
+    {
+      "messageIndex": 215,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170804,
+      "parameters": {
+        "oldValue": 1.384,
+        "newValue": 1.4
+      },
+      "children": [
+        {
+          "messageIndex": 216,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170804,
+          "parameters": {
+            "oldValue": 0.4411915199999999,
+            "newValue": 0.4462919999999999
+          },
+          "children": [
+            {
+              "messageIndex": 217,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170804,
+              "parameters": {
+                "oldText": "0.44",
+                "newText": "0.45"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 218,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170820,
+  "parameters": {
+    "x": 656,
+    "y": 291
+  },
+  "children": [
+    {
+      "messageIndex": 219,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170820,
+      "parameters": {
+        "oldValue": 1.4,
+        "newValue": 1.408
+      },
+      "children": [
+        {
+          "messageIndex": 220,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170820,
+          "parameters": {
+            "oldValue": 0.4462919999999999,
+            "newValue": 0.44884223999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 221,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170837,
+  "parameters": {
+    "x": 658,
+    "y": 291
+  },
+  "children": [
+    {
+      "messageIndex": 222,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170837,
+      "parameters": {
+        "oldValue": 1.408,
+        "newValue": 1.424
+      },
+      "children": [
+        {
+          "messageIndex": 223,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170837,
+          "parameters": {
+            "oldValue": 0.44884223999999995,
+            "newValue": 0.45394271999999997
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 224,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170853,
+  "parameters": {
+    "x": 660,
+    "y": 291
+  },
+  "children": [
+    {
+      "messageIndex": 225,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170853,
+      "parameters": {
+        "oldValue": 1.424,
+        "newValue": 1.44
+      },
+      "children": [
+        {
+          "messageIndex": 226,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170853,
+          "parameters": {
+            "oldValue": 0.45394271999999997,
+            "newValue": 0.4590432
+          },
+          "children": [
+            {
+              "messageIndex": 227,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170853,
+              "parameters": {
+                "oldText": "0.45",
+                "newText": "0.46"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 228,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170871,
+  "parameters": {
+    "x": 662,
+    "y": 291
+  },
+  "children": [
+    {
+      "messageIndex": 229,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170871,
+      "parameters": {
+        "oldValue": 1.44,
+        "newValue": 1.456
+      },
+      "children": [
+        {
+          "messageIndex": 230,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170871,
+          "parameters": {
+            "oldValue": 0.4590432,
+            "newValue": 0.46414367999999995
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 231,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170887,
+  "parameters": {
+    "x": 665,
+    "y": 290
+  },
+  "children": [
+    {
+      "messageIndex": 232,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170887,
+      "parameters": {
+        "oldValue": 1.456,
+        "newValue": 1.48
+      },
+      "children": [
+        {
+          "messageIndex": 233,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170887,
+          "parameters": {
+            "oldValue": 0.46414367999999995,
+            "newValue": 0.47179439999999995
+          },
+          "children": [
+            {
+              "messageIndex": 234,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170887,
+              "parameters": {
+                "oldText": "0.46",
+                "newText": "0.47"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 235,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170903,
+  "parameters": {
+    "x": 668,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 236,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170903,
+      "parameters": {
+        "oldValue": 1.48,
+        "newValue": 1.504
+      },
+      "children": [
+        {
+          "messageIndex": 237,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170904,
+          "parameters": {
+            "oldValue": 0.47179439999999995,
+            "newValue": 0.47944511999999995
+          },
+          "children": [
+            {
+              "messageIndex": 238,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170904,
+              "parameters": {
+                "oldText": "0.47",
+                "newText": "0.48"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 239,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170920,
+  "parameters": {
+    "x": 669,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 240,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170920,
+      "parameters": {
+        "oldValue": 1.504,
+        "newValue": 1.512
+      },
+      "children": [
+        {
+          "messageIndex": 241,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170920,
+          "parameters": {
+            "oldValue": 0.47944511999999995,
+            "newValue": 0.48199536
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 242,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170937,
+  "parameters": {
+    "x": 671,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 243,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170937,
+      "parameters": {
+        "oldValue": 1.512,
+        "newValue": 1.528
+      },
+      "children": [
+        {
+          "messageIndex": 244,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170937,
+          "parameters": {
+            "oldValue": 0.48199536,
+            "newValue": 0.48709584
+          },
+          "children": [
+            {
+              "messageIndex": 245,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347170937,
+              "parameters": {
+                "oldText": "0.48",
+                "newText": "0.49"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 246,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170953,
+  "parameters": {
+    "x": 672,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 247,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170953,
+      "parameters": {
+        "oldValue": 1.528,
+        "newValue": 1.536
+      },
+      "children": [
+        {
+          "messageIndex": 248,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170954,
+          "parameters": {
+            "oldValue": 0.48709584,
+            "newValue": 0.48964608
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 249,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347170987,
+  "parameters": {
+    "x": 673,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 250,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347170987,
+      "parameters": {
+        "oldValue": 1.536,
+        "newValue": 1.544
+      },
+      "children": [
+        {
+          "messageIndex": 251,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347170987,
+          "parameters": {
+            "oldValue": 0.48964608,
+            "newValue": 0.49219632
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 252,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347171004,
+  "parameters": {
+    "x": 674,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 253,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347171004,
+      "parameters": {
+        "oldValue": 1.544,
+        "newValue": 1.552
+      },
+      "children": [
+        {
+          "messageIndex": 254,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347171004,
+          "parameters": {
+            "oldValue": 0.49219632,
+            "newValue": 0.49474656
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 259,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragEnded",
+  "time": 1624347171229,
+  "children": [
+    {
+      "messageIndex": 260,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347171229,
+      "parameters": {
+        "oldValue": 1.56,
+        "newValue": 1.6
+      },
+      "children": [
+        {
+          "messageIndex": 261,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347171229,
+          "parameters": {
+            "oldValue": 0.4972968,
+            "newValue": 0.5100480000000001
+          },
+          "children": [
+            {
+              "messageIndex": 262,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347171229,
+              "parameters": {
+                "oldText": "0.50",
+                "newText": "0.51"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 255,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347171020,
+  "parameters": {
+    "x": 675,
+    "y": 289
+  },
+  "children": [
+    {
+      "messageIndex": 256,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347171020,
+      "parameters": {
+        "oldValue": 1.552,
+        "newValue": 1.56
+      },
+      "children": [
+        {
+          "messageIndex": 257,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347171020,
+          "parameters": {
+            "oldValue": 0.49474656,
+            "newValue": 0.4972968
+          },
+          "children": [
+            {
+              "messageIndex": 258,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347171020,
+              "parameters": {
+                "oldText": "0.49",
+                "newText": "0.50"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 263,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragStarted",
+  "time": 1624347179796,
+  "parameters": {
+    "x": 761,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 264,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347180105,
+  "parameters": {
+    "x": 760,
+    "y": 460
+  },
+  "children": [
+    {
+      "messageIndex": 265,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347180105,
+      "parameters": {
+        "oldValue": 0.063,
+        "newValue": 0.06
+      },
+      "children": [
+        {
+          "messageIndex": 266,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347180106,
+          "parameters": {
+            "oldValue": 0.5100480000000001,
+            "newValue": 0.48575999999999997
+          },
+          "children": [
+            {
+              "messageIndex": 267,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347180106,
+              "parameters": {
+                "oldText": "0.51",
+                "newText": "0.49"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 268,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347180255,
+  "parameters": {
+    "x": 759,
+    "y": 460
+  },
+  "children": [
+    {
+      "messageIndex": 269,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347180255,
+      "parameters": {
+        "oldValue": 0.06,
+        "newValue": 0.055
+      },
+      "children": [
+        {
+          "messageIndex": 270,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347180255,
+          "parameters": {
+            "oldValue": 0.48575999999999997,
+            "newValue": 0.44528
+          },
+          "children": [
+            {
+              "messageIndex": 271,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347180255,
+              "parameters": {
+                "oldText": "0.49",
+                "newText": "0.45"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 272,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347180355,
+  "parameters": {
+    "x": 758,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 273,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347180604,
+  "parameters": {
+    "x": 757,
+    "y": 460
+  },
+  "children": [
+    {
+      "messageIndex": 274,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347180604,
+      "parameters": {
+        "oldValue": 0.055,
+        "newValue": 0.05
+      },
+      "children": [
+        {
+          "messageIndex": 275,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347180605,
+          "parameters": {
+            "oldValue": 0.44528,
+            "newValue": 0.40480000000000005
+          },
+          "children": [
+            {
+              "messageIndex": 276,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347180605,
+              "parameters": {
+                "oldText": "0.45",
+                "newText": "0.40"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 277,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347180938,
+  "parameters": {
+    "x": 756,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 278,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347181237,
+  "parameters": {
+    "x": 755,
+    "y": 460
+  },
+  "children": [
+    {
+      "messageIndex": 279,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347181237,
+      "parameters": {
+        "oldValue": 0.05,
+        "newValue": 0.045
+      },
+      "children": [
+        {
+          "messageIndex": 280,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347181237,
+          "parameters": {
+            "oldValue": 0.40480000000000005,
+            "newValue": 0.36432
+          },
+          "children": [
+            {
+              "messageIndex": 281,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347181237,
+              "parameters": {
+                "oldText": "0.40",
+                "newText": "0.36"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 282,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347181379,
+  "parameters": {
+    "x": 754,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 283,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347181487,
+  "parameters": {
+    "x": 753,
+    "y": 460
+  },
+  "children": [
+    {
+      "messageIndex": 284,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347181487,
+      "parameters": {
+        "oldValue": 0.045,
+        "newValue": 0.04
+      },
+      "children": [
+        {
+          "messageIndex": 285,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347181487,
+          "parameters": {
+            "oldValue": 0.36432,
+            "newValue": 0.32384
+          },
+          "children": [
+            {
+              "messageIndex": 286,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347181487,
+              "parameters": {
+                "oldText": "0.36",
+                "newText": "0.32"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 287,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragged",
+  "time": 1624347181852,
+  "parameters": {
+    "x": 752,
+    "y": 460
+  }
+}
+{
+  "messageIndex": 288,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler",
+  "componentType": "TTandemDragHandler",
+  "event": "dragEnded",
+  "time": 1624347182117
+}
+{
+  "messageIndex": 289,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347480889
+}
+{
+  "messageIndex": 290,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupHidden",
+  "time": 1624347482512
+}
+{
+  "messageIndex": 291,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347485833
+}
+{
+  "messageIndex": 292,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347488413,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.cobaltChloride"
+  },
+  "children": [
+    {
+      "messageIndex": 293,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347488413,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.drinkMix",
+        "newValue": "beersLawLab.beersLawScreen.solutions.cobaltChloride"
+      },
+      "children": [
+        {
+          "messageIndex": 294,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347488413,
+          "parameters": {
+            "oldValue": 508,
+            "newValue": 549
+          },
+          "children": [
+            {
+              "messageIndex": 295,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347488413,
+              "parameters": {
+                "oldValue": 0.32384,
+                "newValue": 0.18752000000000002
+              },
+              "children": [
+                {
+                  "messageIndex": 296,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347488413,
+                  "parameters": {
+                    "oldText": "0.32",
+                    "newText": "0.19"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 297,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347488414,
+              "parameters": {
+                "oldText": "‪508 ‪nm‬‬",
+                "newText": "‪549 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 298,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347488414,
+          "parameters": {
+            "oldValue": 0.18752000000000002,
+            "newValue": 0.4627200000000001
+          },
+          "children": [
+            {
+              "messageIndex": 299,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347488414,
+              "parameters": {
+                "oldText": "0.19",
+                "newText": "0.46"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 300,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347488414,
+          "parameters": {
+            "oldValue": 0.4627200000000001,
+            "newValue": 1.1568000000000003
+          },
+          "children": [
+            {
+              "messageIndex": 301,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347488414,
+              "parameters": {
+                "oldText": "0.46",
+                "newText": "1.16"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": null,
+  "eventType": "user",
+  "phetioID": "beersLawLab.wrapper",
+  "componentType": "WrapperButton",
+  "event": "showPDF",
+  "time": 1624347496686,
+  "parameters": null
+}
+{
+  "messageIndex": null,
+  "eventType": "user",
+  "phetioID": "beersLawLab.wrapper",
+  "componentType": "WrapperButton",
+  "event": "hidePDF",
+  "time": 1624347506965,
+  "parameters": null
+}
+{
+  "messageIndex": 302,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347513463
+}
+{
+  "messageIndex": 303,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347514339,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.copperSulfate"
+  },
+  "children": [
+    {
+      "messageIndex": 304,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347514339,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.cobaltChloride",
+        "newValue": "beersLawLab.beersLawScreen.solutions.copperSulfate"
+      },
+      "children": [
+        {
+          "messageIndex": 305,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347514339,
+          "parameters": {
+            "oldValue": 549,
+            "newValue": 780
+          },
+          "children": [
+            {
+              "messageIndex": 306,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347514339,
+              "parameters": {
+                "oldValue": 1.1568000000000003,
+                "newValue": 0.3088
+              },
+              "children": [
+                {
+                  "messageIndex": 307,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347514339,
+                  "parameters": {
+                    "oldText": "1.16",
+                    "newText": "0.31"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 308,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347514340,
+              "parameters": {
+                "oldText": "‪549 ‪nm‬‬",
+                "newText": "‪780 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 309,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347514340,
+          "parameters": {
+            "oldValue": 0.3088,
+            "newValue": 1.5376
+          },
+          "children": [
+            {
+              "messageIndex": 310,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347514340,
+              "parameters": {
+                "oldText": "0.31",
+                "newText": "1.54"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 311,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347516706
+}
+{
+  "messageIndex": 312,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347518132,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.potassiumPermanganate"
+  },
+  "children": [
+    {
+      "messageIndex": 313,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347518132,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.copperSulfate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.potassiumPermanganate"
+      },
+      "children": [
+        {
+          "messageIndex": 314,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347518132,
+          "parameters": {
+            "oldValue": 780,
+            "newValue": 544
+          },
+          "children": [
+            {
+              "messageIndex": 315,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347518132,
+              "parameters": {
+                "oldValue": 1.5376,
+                "newValue": 0.011200000000000002
+              },
+              "children": [
+                {
+                  "messageIndex": 316,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347518132,
+                  "parameters": {
+                    "oldText": "1.54",
+                    "newText": "0.01"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 317,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347518133,
+              "parameters": {
+                "oldText": "‪780 ‪nm‬‬",
+                "newText": "‪544 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 318,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347518133,
+          "parameters": {
+            "oldValue": 0.011200000000000002,
+            "newValue": 319.46880000000004
+          },
+          "children": [
+            {
+              "messageIndex": 319,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347518133,
+              "parameters": {
+                "oldText": "0.01",
+                "newText": "319.47"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 320,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347518133,
+          "parameters": {
+            "oldValue": 319.46880000000004,
+            "newValue": 0.31946880000000005
+          },
+          "children": [
+            {
+              "messageIndex": 321,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347518133,
+              "parameters": {
+                "oldText": "319.47",
+                "newText": "0.32"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 322,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347519278
+}
+{
+  "messageIndex": 323,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347521222,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.nickelIIChloride"
+  },
+  "children": [
+    {
+      "messageIndex": 324,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347521222,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.potassiumPermanganate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.nickelIIChloride"
+      },
+      "children": [
+        {
+          "messageIndex": 325,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347521222,
+          "parameters": {
+            "oldValue": 544,
+            "newValue": 433
+          },
+          "children": [
+            {
+              "messageIndex": 326,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347521222,
+              "parameters": {
+                "oldValue": 0.31946880000000005,
+                "newValue": 0.0388224
+              },
+              "children": [
+                {
+                  "messageIndex": 327,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347521222,
+                  "parameters": {
+                    "oldText": "0.32",
+                    "newText": "0.04"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 328,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347521223,
+              "parameters": {
+                "oldText": "‪544 ‪nm‬‬",
+                "newText": "‪433 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 329,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347521223,
+          "parameters": {
+            "oldValue": 0.0388224,
+            "newValue": 0.0008496
+          },
+          "children": [
+            {
+              "messageIndex": 330,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347521223,
+              "parameters": {
+                "oldText": "0.04",
+                "newText": "0.00"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 331,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347521223,
+          "parameters": {
+            "oldValue": 0.0008496,
+            "newValue": 0.8496000000000001
+          },
+          "children": [
+            {
+              "messageIndex": 332,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347521223,
+              "parameters": {
+                "oldText": "0.00",
+                "newText": "0.85"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 333,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347522726
+}
+{
+  "messageIndex": 334,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347522985,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.potassiumPermanganate"
+  },
+  "children": [
+    {
+      "messageIndex": 335,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347522985,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.nickelIIChloride",
+        "newValue": "beersLawLab.beersLawScreen.solutions.potassiumPermanganate"
+      },
+      "children": [
+        {
+          "messageIndex": 336,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347522985,
+          "parameters": {
+            "oldValue": 433,
+            "newValue": 544
+          },
+          "children": [
+            {
+              "messageIndex": 337,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347522985,
+              "parameters": {
+                "oldValue": 0.8496000000000001,
+                "newValue": 0.008000000000000002
+              },
+              "children": [
+                {
+                  "messageIndex": 338,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347522985,
+                  "parameters": {
+                    "oldText": "0.85",
+                    "newText": "0.01"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 339,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347522986,
+              "parameters": {
+                "oldText": "‪433 ‪nm‬‬",
+                "newText": "‪544 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 340,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347522986,
+          "parameters": {
+            "oldValue": 0.008000000000000002,
+            "newValue": 319.46880000000004
+          },
+          "children": [
+            {
+              "messageIndex": 341,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347522986,
+              "parameters": {
+                "oldText": "0.01",
+                "newText": "319.47"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 342,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347522986,
+          "parameters": {
+            "oldValue": 319.46880000000004,
+            "newValue": 0.31946880000000005
+          },
+          "children": [
+            {
+              "messageIndex": 343,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347522986,
+              "parameters": {
+                "oldText": "319.47",
+                "newText": "0.32"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 344,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347525106
+}
+{
+  "messageIndex": 345,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347526769,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.potassiumDichromate"
+  },
+  "children": [
+    {
+      "messageIndex": 346,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347526769,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.potassiumPermanganate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.potassiumDichromate"
+      },
+      "children": [
+        {
+          "messageIndex": 347,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347526769,
+          "parameters": {
+            "oldValue": 544,
+            "newValue": 392
+          },
+          "children": [
+            {
+              "messageIndex": 348,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347526769,
+              "parameters": {
+                "oldValue": 0.31946880000000005,
+                "newValue": 0.06569280000000001
+              },
+              "children": [
+                {
+                  "messageIndex": 349,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347526769,
+                  "parameters": {
+                    "oldText": "0.32",
+                    "newText": "0.07"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 350,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347526770,
+              "parameters": {
+                "oldText": "‪544 ‪nm‬‬",
+                "newText": "‪392 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 351,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347526770,
+          "parameters": {
+            "oldValue": 0.06569280000000001,
+            "newValue": 0.5914448000000001
+          },
+          "children": [
+            {
+              "messageIndex": 352,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347526770,
+              "parameters": {
+                "oldText": "0.07",
+                "newText": "0.59"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 353,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347528441
+}
+{
+  "messageIndex": 354,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347529440,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.potassiumChromate"
+  },
+  "children": [
+    {
+      "messageIndex": 355,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347529440,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.potassiumDichromate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.potassiumChromate"
+      },
+      "children": [
+        {
+          "messageIndex": 356,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347529440,
+          "parameters": {
+            "oldValue": 392,
+            "newValue": 411
+          },
+          "children": [
+            {
+              "messageIndex": 357,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347529440,
+              "parameters": {
+                "oldValue": 0.5914448000000001,
+                "newValue": 0.5193184000000001
+              },
+              "children": [
+                {
+                  "messageIndex": 358,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347529440,
+                  "parameters": {
+                    "oldText": "0.59",
+                    "newText": "0.52"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 359,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347529440,
+              "parameters": {
+                "oldText": "‪392 ‪nm‬‬",
+                "newText": "‪411 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 360,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347529440,
+          "parameters": {
+            "oldValue": 0.5193184000000001,
+            "newValue": 0.7632112000000001
+          },
+          "children": [
+            {
+              "messageIndex": 361,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347529440,
+              "parameters": {
+                "oldText": "0.52",
+                "newText": "0.76"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 362,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347530295
+}
+{
+  "messageIndex": 363,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347531446,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.nickelIIChloride"
+  },
+  "children": [
+    {
+      "messageIndex": 364,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347531447,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.potassiumChromate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.nickelIIChloride"
+      },
+      "children": [
+        {
+          "messageIndex": 365,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347531447,
+          "parameters": {
+            "oldValue": 411,
+            "newValue": 433
+          },
+          "children": [
+            {
+              "messageIndex": 366,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347531447,
+              "parameters": {
+                "oldValue": 0.7632112000000001,
+                "newValue": 0.47973280000000007
+              },
+              "children": [
+                {
+                  "messageIndex": 367,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347531447,
+                  "parameters": {
+                    "oldText": "0.76",
+                    "newText": "0.48"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 368,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347531447,
+              "parameters": {
+                "oldText": "‪411 ‪nm‬‬",
+                "newText": "‪433 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 369,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347531447,
+          "parameters": {
+            "oldValue": 0.47973280000000007,
+            "newValue": 0.0008496
+          },
+          "children": [
+            {
+              "messageIndex": 370,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347531447,
+              "parameters": {
+                "oldText": "0.48",
+                "newText": "0.00"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 371,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347531447,
+          "parameters": {
+            "oldValue": 0.0008496,
+            "newValue": 0.8496000000000001
+          },
+          "children": [
+            {
+              "messageIndex": 372,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347531447,
+              "parameters": {
+                "oldText": "0.00",
+                "newText": "0.85"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 373,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347532698
+}
+{
+  "messageIndex": 374,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347533499,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.copperSulfate"
+  },
+  "children": [
+    {
+      "messageIndex": 375,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347533499,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.nickelIIChloride",
+        "newValue": "beersLawLab.beersLawScreen.solutions.copperSulfate"
+      },
+      "children": [
+        {
+          "messageIndex": 376,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347533499,
+          "parameters": {
+            "oldValue": 433,
+            "newValue": 780
+          },
+          "children": [
+            {
+              "messageIndex": 377,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347533499,
+              "parameters": {
+                "oldValue": 0.8496000000000001,
+                "newValue": 0.3376
+              },
+              "children": [
+                {
+                  "messageIndex": 378,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347533499,
+                  "parameters": {
+                    "oldText": "0.85",
+                    "newText": "0.34"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 379,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347533499,
+              "parameters": {
+                "oldText": "‪433 ‪nm‬‬",
+                "newText": "‪780 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 380,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347533499,
+          "parameters": {
+            "oldValue": 0.3376,
+            "newValue": 1.5376
+          },
+          "children": [
+            {
+              "messageIndex": 381,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347533499,
+              "parameters": {
+                "oldText": "0.34",
+                "newText": "1.54"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 382,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347535155
+}
+{
+  "messageIndex": 383,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347537000,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.drinkMix"
+  },
+  "children": [
+    {
+      "messageIndex": 384,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347537000,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.copperSulfate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.drinkMix"
+      },
+      "children": [
+        {
+          "messageIndex": 385,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347537000,
+          "parameters": {
+            "oldValue": 780,
+            "newValue": 508
+          },
+          "children": [
+            {
+              "messageIndex": 386,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347537000,
+              "parameters": {
+                "oldValue": 1.5376,
+                "newValue": 0.008000000000000002
+              },
+              "children": [
+                {
+                  "messageIndex": 387,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347537000,
+                  "parameters": {
+                    "oldText": "1.54",
+                    "newText": "0.01"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 388,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347537001,
+              "parameters": {
+                "oldText": "‪780 ‪nm‬‬",
+                "newText": "‪508 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 389,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347537001,
+          "parameters": {
+            "oldValue": 0.008000000000000002,
+            "newValue": 0.8096000000000001
+          },
+          "children": [
+            {
+              "messageIndex": 390,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347537001,
+              "parameters": {
+                "oldText": "0.01",
+                "newText": "0.81"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 391,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347537001,
+          "parameters": {
+            "oldValue": 0.8096000000000001,
+            "newValue": 0.32384
+          },
+          "children": [
+            {
+              "messageIndex": 392,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347537001,
+              "parameters": {
+                "oldText": "0.81",
+                "newText": "0.32"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 393,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347538320
+}
+{
+  "messageIndex": 394,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347540029,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.cobaltIINitrate"
+  },
+  "children": [
+    {
+      "messageIndex": 395,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347540029,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.drinkMix",
+        "newValue": "beersLawLab.beersLawScreen.solutions.cobaltIINitrate"
+      },
+      "children": [
+        {
+          "messageIndex": 396,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347540029,
+          "parameters": {
+            "oldValue": 508,
+            "newValue": 549
+          },
+          "children": [
+            {
+              "messageIndex": 397,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347540029,
+              "parameters": {
+                "oldValue": 0.32384,
+                "newValue": 0.18752000000000002
+              },
+              "children": [
+                {
+                  "messageIndex": 398,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347540029,
+                  "parameters": {
+                    "oldText": "0.32",
+                    "newText": "0.19"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 399,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347540029,
+              "parameters": {
+                "oldText": "‪508 ‪nm‬‬",
+                "newText": "‪549 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 400,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347540029,
+          "parameters": {
+            "oldValue": 0.18752000000000002,
+            "newValue": 0.30208
+          },
+          "children": [
+            {
+              "messageIndex": 401,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347540029,
+              "parameters": {
+                "oldText": "0.19",
+                "newText": "0.30"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 402,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347540030,
+          "parameters": {
+            "oldValue": 0.30208,
+            "newValue": 0.7552
+          },
+          "children": [
+            {
+              "messageIndex": 403,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347540030,
+              "parameters": {
+                "oldText": "0.30",
+                "newText": "0.76"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 404,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347542082
+}
+{
+  "messageIndex": 405,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347542951,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.cobaltChloride"
+  },
+  "children": [
+    {
+      "messageIndex": 406,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347542952,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.cobaltIINitrate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.cobaltChloride"
+      },
+      "children": [
+        {
+          "messageIndex": 407,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347542952,
+          "parameters": {
+            "oldValue": 0.7552,
+            "newValue": 1.1568000000000003
+          },
+          "children": [
+            {
+              "messageIndex": 408,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347542952,
+              "parameters": {
+                "oldText": "0.76",
+                "newText": "1.16"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 409,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "popupShown",
+  "time": 1624347543944
+}
+{
+  "messageIndex": 410,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.solutionControls.comboBox",
+  "componentType": "TComboBox",
+  "event": "fired",
+  "time": 1624347545225,
+  "parameters": {
+    "value": "beersLawLab.beersLawScreen.solutions.potassiumDichromate"
+  },
+  "children": [
+    {
+      "messageIndex": 411,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347545225,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.cobaltChloride",
+        "newValue": "beersLawLab.beersLawScreen.solutions.potassiumDichromate"
+      },
+      "children": [
+        {
+          "messageIndex": 412,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347545225,
+          "parameters": {
+            "oldValue": 549,
+            "newValue": 392
+          },
+          "children": [
+            {
+              "messageIndex": 413,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347545225,
+              "parameters": {
+                "oldValue": 1.1568000000000003,
+                "newValue": 1.0592000000000001
+              },
+              "children": [
+                {
+                  "messageIndex": 414,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347545225,
+                  "parameters": {
+                    "oldText": "1.16",
+                    "newText": "1.06"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 415,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347545225,
+              "parameters": {
+                "oldText": "‪549 ‪nm‬‬",
+                "newText": "‪392 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 416,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347545225,
+          "parameters": {
+            "oldValue": 1.0592000000000001,
+            "newValue": 591.4448000000001
+          },
+          "children": [
+            {
+              "messageIndex": 417,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347545225,
+              "parameters": {
+                "oldText": "1.06",
+                "newText": "591.44"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 418,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347545225,
+          "parameters": {
+            "oldValue": 591.4448000000001,
+            "newValue": 0.5914448000000001
+          },
+          "children": [
+            {
+              "messageIndex": 419,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347545225,
+              "parameters": {
+                "oldText": "591.44",
+                "newText": "0.59"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "messageIndex": 420,
+  "eventType": "user",
+  "phetioID": "beersLawLab.beersLawScreen.view.resetAllButton",
+  "componentType": "TPushButton",
+  "event": "fired",
+  "time": 1624347548062,
+  "children": [
+    {
+      "messageIndex": 421,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347548062,
+      "parameters": {
+        "oldValue": 0.04,
+        "newValue": 0.1
+      }
+    },
+    {
+      "messageIndex": 422,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.solutionProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347548062,
+      "parameters": {
+        "oldValue": "beersLawLab.beersLawScreen.solutions.potassiumDichromate",
+        "newValue": "beersLawLab.beersLawScreen.solutions.drinkMix"
+      },
+      "children": [
+        {
+          "messageIndex": 423,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.light.wavelengthProperty",
+          "componentType": "TProperty",
+          "event": "changed",
+          "time": 1624347548062,
+          "parameters": {
+            "oldValue": 392,
+            "newValue": 508
+          },
+          "children": [
+            {
+              "messageIndex": 424,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+              "componentType": "TDerivedProperty",
+              "event": "changed",
+              "time": 1624347548062,
+              "parameters": {
+                "oldValue": 0.5914448000000001,
+                "newValue": 0.06731840000000001
+              },
+              "children": [
+                {
+                  "messageIndex": 425,
+                  "eventType": "model",
+                  "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+                  "componentType": "TTandemText",
+                  "event": "textChanged",
+                  "time": 1624347548063,
+                  "parameters": {
+                    "oldText": "0.59",
+                    "newText": "0.07"
+                  }
+                }
+              ]
+            },
+            {
+              "messageIndex": 426,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347548063,
+              "parameters": {
+                "oldText": "‪392 ‪nm‬‬",
+                "newText": "‪508 ‪nm‬‬"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 427,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347548063,
+          "parameters": {
+            "oldValue": 0.06731840000000001,
+            "newValue": 0.0008096000000000001
+          },
+          "children": [
+            {
+              "messageIndex": 428,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347548063,
+              "parameters": {
+                "oldText": "0.07",
+                "newText": "0.00"
+              }
+            }
+          ]
+        },
+        {
+          "messageIndex": 429,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347548063,
+          "parameters": {
+            "oldValue": 0.0008096000000000001,
+            "newValue": 0.8096000000000001
+          },
+          "children": [
+            {
+              "messageIndex": 430,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347548063,
+              "parameters": {
+                "oldText": "0.00",
+                "newText": "0.81"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "messageIndex": 431,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.light.onProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347548064,
+      "parameters": {
+        "oldValue": true,
+        "newValue": false
+      },
+      "children": [
+        {
+          "messageIndex": 432,
+          "eventType": "model",
+          "phetioID": "beersLawLab.beersLawScreen.model.detector.valueProperty",
+          "componentType": "TDerivedProperty",
+          "event": "changed",
+          "time": 1624347548064,
+          "parameters": {
+            "oldValue": 0.8096000000000001,
+            "newValue": null
+          },
+          "children": [
+            {
+              "messageIndex": 433,
+              "eventType": "model",
+              "phetioID": "beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode",
+              "componentType": "TTandemText",
+              "event": "textChanged",
+              "time": 1624347548064,
+              "parameters": {
+                "oldText": "0.81",
+                "newText": "-"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "messageIndex": 434,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.cuvette.widthProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347548064,
+      "parameters": {
+        "oldValue": 1.6,
+        "newValue": 1
+      }
+    },
+    {
+      "messageIndex": 435,
+      "eventType": "model",
+      "phetioID": "beersLawLab.beersLawScreen.model.detector.modeProperty",
+      "componentType": "TProperty",
+      "event": "changed",
+      "time": 1624347548065,
+      "parameters": {
+        "oldValue": "absorbance",
+        "newValue": "transmittance"
+      }
+    }
+  ]
+}

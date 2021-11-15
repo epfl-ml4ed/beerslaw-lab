@@ -1,0 +1,529 @@
+	index	consent	field	gender	language	level	username	year	q3	label_q3	flag_label_q3
+0	0	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	7sfwehhm	2nd	wrong field	nans	
+1	1	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	786zpupn	1st	0.96	correct	
+2	2	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	pt2nbb4w	1st	Die Absorption wird etwa die gleiche sein wie im ersten Bild, da die Küvette zwar kleiner ist, aber die Konzentration auch doppelt so hoch ist.	correct	
+3	3	1.0	Chemistry	2.0	Deutsch	General	sqrqdsge	1st	es wird eine Absorption weniger als 0.96 gemessen	correct	
+4	4	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	h8624awf	2nd	0.48	half	
+5	5	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	du727jdw	2nd	1.92	double	
+6	6	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	a3tffvsb	3rd	"der gleiche wert
+0.96
+"	correct	
+7	7	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	y8qbtkmf	2nd	0.48	half	
+8	8	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	sr34qyfx	2nd	0.96	correct	
+9	9	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	ntqpqkpq	2nd	0.96	correct	
+10	10	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	r29wzm6f	2nd	0.96	correct	
+11	11	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	zgs84jfy	2nd	0.96	correct	
+12	12	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	dzakgq29	2nd	Jetzt nur noch 0.5cm	unrelated	
+13	13	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	ybxahrra	2nd	0.96	correct	
+14	14	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	x5sm9pfu	2nd	0.96	correct	
+15	15	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	b72hbgvw	2nd	0.96	correct	
+16	16	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	g43q3d94	2nd	0.96	correct	
+17	17	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	vqumj3t3	2nd	die gleiche	correct	
+18	18	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	4vuc8rr3	2nd	0.96	correct	
+19	19	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	cwgvxrvx	2nd	0.96	correct	
+20	20	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	rmd35un4	2nd	0.96	correct	
+21	21	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	55yavcue	2nd	0.96	correct	
+22	22	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	33asfz2u	2nd	106.1666667	larger	
+23	23	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	rfand3tt	2nd	0.96	correct	
+24	24	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	ew6cfr37	2nd	0.96	correct	
+25	25	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	z8dtc572	2nd	0.96	correct	
+26	26	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	t7728bqp	2nd	0.96	correct	
+27	27	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	tsvcrpeg	2nd	0.96	correct	
+28	28	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	xngb9hff	2nd	0.96	correct	
+29	29	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	gyerx2d9	2nd	0.96	correct	
+30	30	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	wvxkvhne	2nd	0.90	smaller	
+31	31	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	o9ffsiwt	1st	0.48	half	
+32	32	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	ecaf72fu	1st	0.96	correct	
+33	33	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	bf4iuomx	1st	0.48	half	
+34	34	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	qsx2cc4b	1st	"0.96
+(0.96*2*0.5)"	correct	
+35	35	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	kq2e6dgu	1st	200nm	unrelated	
+36	36	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	oikzz9af	1st	1.92	double	
+37	37	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	xau6wapw	1st	0.96	correct	
+38	38	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	ac4q67z9	1st	Die Konzentration und die dicke der Küwette 	unrelated	
+39	39	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	r2q9q35x	1st	Ich denke es hebt sich auf	correct	
+40	40	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	p2u7xw38	1st	Die Absobtion des Lichtes bei unterschiedlicher Konzentration, bei einem unterschiedlich langem weg dur die lösung.	unrelated	
+41	41	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	n6zakrku	1st	0.24	smaller	
+42	42	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	padezf8m	1st	0.96	correct	
+43	43	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	amqnxthw	1st	0.96	correct	
+44	44	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	j9ukgkp5	1st	Die Extinktion nimmt um 4Mal ab da der Durchmesser abnimmt und auch die Konzentration. Das Ergebnis sollte 0.24 sein.	smaller	
+45	45	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	szvqb37f	1st	Bleibt ungefähr gleich, da die Extinktion durch die Küvettenbreite abnimmt jedoch durch die Konzentrationserhöhung wieder zunimmt.	correct	
+46	46	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	dnvedphf	1st	0.95	smaller	
+47	47	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	chca7sdb	1st	0.96	correct	
+48	48	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	temu2736	1st	0,96	correct	
+49	49	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	v2kw3kup	1st	0.96 	correct	
+50	50	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	mcjaj2aj	1st	0,96 vu que la concentration est doublée et la distance est diminué par la moitié, alors la valeur de l'absorbance reste la même	correct	
+51	51	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	xuwyv9hz	1st	780	unrelated	
+52	52	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	h543nsc8	1st	0.96	correct	
+53	53	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	wxz98urt	1st	1.92	double	
+54	54	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	qk6q49f4	1st	0,96	correct	
+55	55	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	r42kwnt7	1st	0.96	correct	
+56	56	1.0	Biology	2.0	Français	Apprenticeship (Low)	jvxejtp9	2nd	0,96	correct	
+57	57	1.0	Biology	1.0	Français	Apprenticeship (Low)	vh8vedkw	2nd	3.84	quadruple	
+58	58	1.0	Biology	2.0	Français	Apprenticeship (Low)	m9u6p93a	2nd	0.96	correct	
+59	59	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	4s7gthwf	2nd	0.96 	correct	
+60	60	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	nmgve3yy	2nd	0.96	correct	
+61	61	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	3st3y5gc	2nd	0.96	correct	
+62	62	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	fyf6ag5v	2nd	3.84	quadruple	
+63	63	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	fm5rcvdy	2nd	Man misst ebenso mit der Extinktion 0.96, genauso wie beim linken Bild.	correct	
+64	64	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	wger3sfa	2nd	0.96 da der Faktor b halbiert wird, und der Faktor c verdoppelt wird. Somit hebt sich die veränderung auf.	correct	
+65	65	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	sjz2rptd	2nd	0.96	correct	
+66	66	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	b2q8ay65	2nd	0.96	correct	
+67	67	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	u96tpd55	2nd	0.96	correct	
+68	68	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	9p9gwu88	2nd	0.96	correct	
+69	69	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	pyamv67t	2nd	0.96	correct	
+70	70	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	p6ut882m	2nd	0.96	correct	
+71	71	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	egg8756y	2nd	0.96	correct	
+72	72	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	eau7bsmq	2nd	0.96	correct	
+73	73	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	zxp438xr	2nd	1.98	larger	
+74	74	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	va43652k	2nd	0.96	correct	
+75	75	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	p44vw7td	1st	eine ungefähr gleichgrosse absorption wie rechts. 	correct	
+76	76	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	z5dzzgk5	1st	0.96	correct	
+77	77	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	baqyfz2h	1st	0.96	correct	
+78	78	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	mzjq6z9t	1st	Es wird ca. die gleiche Extinktion gemessen wie im Bild links, da sich der Radius und die Konzentrationsunterschiede ausgleichen.	correct	
+79	79	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	v9sra3j2	1st	< 0.96	smaller	
+80	80	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	4ak6da99	1st	78	larger	
+81	81	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	5zqfzwjg	1st	0.48	half	
+82	82	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	sz8qvgyv	1st	0.96	correct	
+83	83	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	xw9qt6r4	1st	Eine Identische, 0.96	correct	
+84	84	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	85pdk9mq	1st	Die Extinktion rechts wird ca. gleich sein da die Breite zwar um die Hälfte abnimmt, die Konzentration aber verdoppelt wird. (kommt auf die Proportionalität drauf an ...)	correct	
+85	85	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	svdphyjs	1st	0.96	correct	
+86	86	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	982cf4dn	1st	0,48	half	
+87	87	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	6rfakyp7	1st	Extinktion von Becher D	unrelated	
+88	88	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	3kzp9bet	1st	0.96	correct	
+89	89	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	2ejxq2u8	1st	die Gleiche	correct	
+90	90	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	qkeyp2rg	1st	die 4-Fache Extinktion, weil halb so viel Volumen und die doppelte Konzentration vorhanden ist	quadruple	
+91	91	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	sm8sfpcg	1st	die gleiche... da zuerst der Abstand halbiert wurde und dann die Konzentration verdoppelt wurde... /2 und *2 hebt sich auf, deshalb die gleiche Konzentration	correct	
+92	92	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	eb9iv6v2	2nd	0.96	correct	
+93	93	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	ssz3uyqn	2nd	Sie bleibt genau gleich.	correct	
+94	94	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	s8w65sm5	2nd	0.96	correct	
+95	95	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	5a69aw4h	2nd	0,96	correct	
+96	96	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	dbt5na3s	2nd	0.96	correct	
+97	97	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	e3b96acv	2nd	>0.96	larger	
+98	98	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	5y535ct3	2nd	0.96	correct	
+99	99	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	6bq62prp	2nd	0.96	correct	
+100	100	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	ay2erc3c	2nd	0.96	correct	
+101	101	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	r74r26kt	2nd	0.96	correct	
+102	102	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	jwajupwj	2nd	0.96	correct	
+103	103	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	j6nndaxp	2nd	Die Absorption bleibt gleich. Da hier 2 Faktoren verändert werden muss man in 2 schritten rechnen und kommt so am Schluss wieder auf 0.96.	correct	
+104	104	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	4vtjgtja	2nd	0,48	half	
+105	105	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	araav4jr	2nd	0.96	correct	
+106	106	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	xvsgn53d	2nd	0.96	correct	
+107	107	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	7ygreyfc	2nd	Der Wert bleibt bei 0.96. Es gleicht sich durch den schmaleren Becher, aber die höhere Konzentration aus.	correct	
+108	108	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	nba9d6t2	2nd	0.96	correct	
+109	109	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	smqjhu44	2nd	0.96	correct	
+110	110	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	qpmzsb6t	2nd	0.96	correct	
+111	111	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	8ethqmkd	2nd	0.96	correct	
+112	112	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	upkt7qb4	2nd	0.96	correct	
+113	113	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	xe7c36dk	2nd	0.96	correct	
+114	114	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	ydws5xx9	2nd	0.96	correct	
+115	115	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	3se7z466	2nd	0.96	correct	
+116	116	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	akgpua6j	2nd	0.63	smaller	
+117	117	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	84nmc3df	2nd	0.96	correct	
+118	118	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	nsj6k2rg	2nd	0.96	correct	
+119	119	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	sx3vqc32	2nd	0.96	correct	
+120	120	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	9aagpn4d	2nd	A = 200*0,5*(0,96/100)= 0,96	correct	
+121	121	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	mwwddfvg	2nd	Elle sera toujours de 0.96	correct	
+122	122	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	xj86wyup	2nd	0.96	correct	
+123	123	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	hkvk9vt9	2nd	"Si on continue sur la logique des deux questions précédentes ;
+A=Elc
+
+Gauche  l = 1 c = 100
+Droite l = 0.5 c = 200
+Donc l/2 et c*2
+Donc 0.96/2 = 0.48
+0.48*2=0.96
+Donc l'absorbance ne bouge pas"	correct	
+124	124	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	jkbx6axr	2nd	0.48	half	
+125	125	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	ujp9fgpn	2nd	A = 0,96 	correct	
+126	126	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	5zrt4f8z	2nd	0,96	correct	
+127	127	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	tzpqpfaa	2nd	0.96	correct	
+128	128	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	2ep3hayy	2nd	96	correct	
+129	129	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	e8zdytr2	2nd	0,96	correct	
+130	130	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	hg7zc2sv	2nd	0.48	half	
+131	131	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	3xcaamq9	2nd	780 nm	unrelated	
+132	132	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	4k4dk9pu	2nd	0.48	half	
+133	133	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	fzagvhvf	2nd	0.96	correct	
+134	134	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	y9tk3ysm	2nd	0.96	correct	
+135	135	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	tzbaaz7e	2nd	0.96	correct	
+136	136	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	sgsxmkfm	3rd	0.96	correct	
+137	137	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	cjarhqn9	3rd	0.96	correct	
+138	138	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	6ruh7enb	3rd	0.96	correct	
+139	139	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	7fj2vydr	3rd	0.96	correct	
+140	140	1.0	Chemistry	4.0	Deutsch	Apprenticeship (Low)	suyrrcqe	3rd	0.96	correct	
+141	141	1.0	Chemistry	4.0	Deutsch	Apprenticeship (Low)	chm4sr6j	3rd	0.96	correct	
+142	142	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	gvqh7qr2	1st	Die Absorption ist kleiner, da das Gefäss halbiert worden ist. Da aber die Konzentration um das 2 Fache grösser ist ist die Lösungen noch mal 2.  Also ist es auch 0.96	correct	
+143	143	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	zkrr45y5	1st	  	nans	
+144	144	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	4rhnvke9	1st	0.58	smaller	
+145	145	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	7xhcecye	1st	mehr	larger	
+146	146	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	qsd9cb5e	1st	0.96	correct	
+147	147	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	s7mdq5tk	1st	Das ergibt das Gleiche, da das Glas kleiner ist, aber dafür konzentrierter, als Beispiel 1. 	correct	
+148	148	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	pbxyuw7u	1st	0.96	correct	
+149	149	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	dk43m2pe	1st	3.84	quadruple	
+150	150	1.0	Chemistry	4.0	Français	Apprenticeship (Low)	e22ppyf7	1st	1.25	larger	
+151	151	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	ur9sxzx7	1st	4 fois plus concentré. 3.84	quadruple	
+152	152	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	aj47uhb9	1st	0.96	correct	
+153	153	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	cb6wcvyn	1st	La même	correct	
+154	154	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	nmptx7nj	1st	1.35	larger	
+155	155	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	puzxz678	1st	0.96	correct	
+156	156	1.0	Chemistry	4.0	Français	Apprenticeship (Low)	3gqs3sgc	1st	"0.96
+"	correct	
+157	157	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	tt5n8d2r	1st	0.96	correct	
+158	158	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	2crhmbq7	1st	0,96	correct	
+159	159	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	urwu33jd	1st	0.96	correct	
+160	160	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	n977pem4	1st	0.96	correct	
+161	161	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	qfu6r8c7	1st	0.96	correct	
+162	162	1.0	Chemistry	2.0	Français	Apprenticeship (Low)	cb3z5rjs	1st	1.92	double	
+163	163	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	dmdc53tx	1st	3,84	quadruple	
+164	164	1.0	Biology	2.0	Français	Apprenticeship (Low)	fw2ajjmt	1st	0.96	correct	
+165	165	1.0	Biology	2.0	Français	Apprenticeship (Low)	rg4fgfyh	1st	"0.96 ---> 100mM ---> 1cm 
+1.92 ---> 200mM ---> 1cm
+0.96 ---> 200mM ---> 0,5cm"	correct	
+166	166	1.0	Biology	2.0	Français	Apprenticeship (Low)	srmr7pcp	1st	0.96	correct	
+167	167	1.0	Biology	2.0	Français	Apprenticeship (Low)	uqven68r	1st	0,48	half	
+168	168	1.0	Biology	2.0	Français	Apprenticeship (Low)	u4zu9xxc	1st	0.96	correct	
+169	169	1.0	Biology	1.0	Français	Apprenticeship (Low)	hrhu4yph	1st	0.96	correct	
+170	170	1.0	Biology	2.0	Français	Apprenticeship (Low)	zbabnwym	1st	A = 1.92	double	
+171	171	1.0	Biology	3.0	Français	Apprenticeship (Low)	xdxyjh8j	1st	Le résultat reste le même car la concentration double mais la taille diminue de moitié => 0.96	correct	
+172	172	1.0	Biology	2.0	Français	Apprenticeship (Low)	4e438nww	1st	0.96	correct	
+173	173	1.0	Biology	1.0	Français	Apprenticeship (Low)	drccqhk4	1st	0.96	correct	
+174	174	1.0	Biology	2.0	Français	Apprenticeship (Low)	nemddmx6	1st	0.96	correct	
+175	175	1.0	Chemistry	1.0	Deutsch	General	dubyutqd	1st	0.96	correct	
+176	176	1.0	Chemistry	2.0	Deutsch	General	wu7kdm6q	1st	0.95	smaller	
+177	177	1.0	Chemistry	2.0	Deutsch	General	39htvmt5	1st	0,96	correct	
+178	178	1.0	Chemistry	2.0	Deutsch	General	sctj44cs	1st	4.8	larger	
+179	179	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	jnjd79vh	1st	0.96	correct	
+180	180	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	qqf6nsga	1st	0.48	half	
+181	181	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	qevswkvj	1st	0.96	correct	
+182	182	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	xz56yha8	1st	0.96	correct	
+183	183	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	bebyve9b	1st	1.44 nm	larger	
+184	184	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	pmd5dyu3	1st	0.96	correct	
+185	185	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	rwax4gk7	1st	0.96	correct	
+186	186	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	jcrv9m9j	1st	0.96	correct	
+187	187	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	jamrhf3h	1st	0.96	correct	
+188	188	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	552gbupp	1st	Die halbe Küvettendicke jedoch die doppelte Konzentration	unrelated	
+189	189	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	5xuzjwdp	1st	0.96	correct	
+190	190	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	mkw5afyy	2nd	0.65	smaller	
+191	191	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	nw65tu6j	2nd	0.96	correct	
+192	192	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	nfshnktq	2nd	immernoch ka	unrelated	
+193	193	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	eh9jq2bp	2nd	0.96	correct	
+194	194	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	p6269reg	2nd	0,96	correct	
+195	195	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	p6mkaa4e	2nd	0.96	correct	
+196	196	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	4k4kc2k6	2nd	gleiche	correct	
+197	197	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	a3vdjxy9	2nd	Die gleiche 0,96	correct	
+198	198	1.0	Biology	1.0	Deutsch	Apprenticeship (Low)	nj859xxh	2nd	0.96	correct	
+199	199	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	crak75dx	2nd	Die Absorption	unrelated	
+200	200	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	jhrkm85q	2nd	0.96	correct	
+201	201	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	6j6u2yct	2nd	niedriger	smaller	
+202	202	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	5es5yqs8	1st	0.96	correct	
+203	203	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	unkrat9w	1st	3.5	larger	
+204	204	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	beypwbck	1st	0.96	correct	
+205	205	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	wnurkn96	1st	0.455	smaller	
+206	206	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	jydsy777	1st	Hier wurde die konzentration erhöht um das doppelte aber die dicke veringet um die hälfte	unrelated	
+207	207	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	uamuwrx2	1st	1.44	larger	
+208	208	1.0	Pharma Chemistry	2.0	Deutsch	Apprenticeship (Low)	9qvk2wew	1st	0.48	half	
+209	209	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	uhq3p7yr	1st	1.92	double	
+210	210	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	9p4h3zdx	1st	0.96	correct	
+211	211	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	v5gwycag	1st	0.96	correct	
+212	212	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	wyj76ntd	1st	0.96	correct	
+213	213	1.0		2.0	Français		4jchqv4d	1st	0.48	half	
+214	214	1.0		1.0	Français		u6c3cp6c	1st	0.96	correct	
+215	215	1.0		1.0	Français		m4zvafhs	1st	"plus petite que celle de gauche
+"	smaller	
+216	216	1.0		1.0	Français		u25vrfyy	1st	0.96	correct	
+217	217	1.0		1.0	Français		c9dj36r7	1st	0.96	correct	
+218	218	1.0		3.0	Français		fy29cvrj	1st	je sais toujours pas	nans	
+219	219	1.0		2.0	Français		st3mf78y	1st	le même car celle de droite est plus intense et a une largeur plus petit	correct	
+220	220	1.0		1.0	Français		5f4q4ng5	1st	0.78	smaller	
+221	221	1.0		1.0	Français		f54jkrsw	1st	"A= e * d * c
+0.96 = e * 1 * 0.1
+e = 9.6 
+9.6*0.5*0.2 =0.96 
+A = 0.96"	correct	
+222	222	1.0		1.0	Français		6z7nfy2j	1st	9.6	larger	
+223	223	1.0		1.0	Français		rdy7sx9b	1st	la même chose que dans la première	correct	
+224	224	1.0		1.0	Français		5j7hdews	1st	3.84	quadruple	
+225	225	1.0		1.0	Français		uad7cmhv	1st	Son absorbance sera la même, vu qu'on réduit les dimensions de la cuve, mais la concentration est doublée	correct	
+226	226	1.0		1.0	Français		hrxpbujy	1st	0.96	correct	
+227	227	1.0		1.0	Français		wbdyh5vk	1st	0.96	correct	
+228	228	1.0		1.0	Français		wktpsvp8	1st	0.96	correct	
+229	229	1.0		1.0	Français		22wyn9xy	1st	0.96	correct	
+230	230	1.0		1.0	Français		3vsn2h9f	1st	0.96	correct	
+231	231	1.0		2.0	Français		9wdm7zue	1st	0.96	correct	
+232	232	1.0		1.0	Français		5m3ka2m2	1st	Ca absorbera le double car la concentration a doublé mais comme la longueur a était réduite de moitié l'absorbance sera la même, soit 0.96	correct	
+233	233	1.0		1.0	Français		9yv4uxn3	1st	1.92	double	
+234	234	1.0		4.0	Français		vjr7tshm	1st	La meme	correct	
+235	235	1.0		1.0	Français		c87kgzbr	1st	0.96	correct	
+236	236	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	qjfn2j8z	1st	0.96	correct	
+237	237	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	h4hxzc6s	1st	1.10	larger	
+238	238	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	rdbqasqa	1st	0.96	correct	
+239	239	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	yez72a8b	1st	0.96	correct	
+240	240	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	gu7jpyum	1st	0.48	half	
+241	241	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	x844md8u	1st	"0.96
+"	correct	
+242	242	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	a57jkjgv	1st	0.96	correct	
+243	243	1.0	Pharma Chemistry	2.0	Deutsch	Apprenticeship (Low)	qn4qjrvd	1st	0.96	correct	
+244	244	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	urxv4evt	1st	"es kommt weniger durch aber die da die breite von links nach rechts mehr wird bleibt es gleich
+0.96"	correct	
+245	245	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	sgdgynxy	1st	0.7	smaller	
+246	246	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	uagxrke6	1st	0.52	smaller	
+247	247	1.0	Pharma Chemistry	3.0	Deutsch	Apprenticeship (Low)	s9prcjfd	1st	"0.96
+"	correct	
+248	248	1.0	Pharma Chemistry	2.0	Deutsch	Apprenticeship (Low)	vckta85p	1st	0,96	correct	
+249	249	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	63xqh9t5	2nd	0.96	correct	
+250	250	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	upp6pqmx	2nd	0.96	correct	
+251	251	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	yxf7q6ap	2nd	0.96	correct	
+252	252	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	wpszzhxa	2nd	3.84	quadruple	
+253	253	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	xpyjyx4m	2nd	0.96	correct	
+254	254	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	w9w2hw35	2nd	780 nm	unrelated	
+255	255	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	pggnv6xw	2nd	-	nans	
+256	256	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	qner25zp	3rd	0.96	correct	
+257	257	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	mnhmyuhb	3rd	0.96	correct	
+258	258	1.0	Chemistry	3.0	Deutsch	Apprenticeship (High)	cp7mfn24	3rd	0.96	correct	
+259	259	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	t3dwkezr	3rd	viel höhere extinktion. ca 3	larger	
+260	260	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	npkrjraq	3rd	0.96	correct	
+261	261	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	zs35fg8g	3rd	Die gleiche 0.96	correct	
+262	262	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	aurjfgnn	3rd	0.96	correct	
+263	263	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	nrxpa2ac	3rd	0.96	correct	
+264	264	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	a6t5p3sb	3rd	1.92	double	
+265	265	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	6tg95rzr	3rd	0.096	smaller	
+266	266	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	h75kp27p	3rd	0.96	correct	
+267	267	1.0	Chemistry	2.0	Deutsch	General	v2cxb3a5	3rd	0.96	correct	
+268	268	1.0	Chemistry	1.0	Deutsch	General	kg43uepa	3rd	0.96	correct	
+269	269	1.0	Chemistry	1.0	Deutsch	General	4aaspwgs	3rd	0.48	half	
+270	270	1.0	Chemistry	2.0	Deutsch	General	v5w2e3zw	3rd	0.96	correct	
+271	271	1.0	Chemistry	2.0	Deutsch	General	s47edumx	3rd	0.96	correct	
+272	272	1.0	Chemistry	1.0	Deutsch	General	knun7j9s	3rd	0.96	correct	
+273	273	1.0	Chemistry	2.0	Deutsch	General	3s6pz8qy	3rd	0.96	correct	
+274	274	1.0	Chemistry	4.0	Deutsch	General	b8g49nvw	3rd	3.72	larger	
+275	275	1.0	Chemistry	1.0	Deutsch	General	dq4zzkyt	3rd	0.96	correct	
+276	276	1.0	Chemistry	1.0	Deutsch	General	ryfqnvfh	3rd	0.96	correct	
+277	277	1.0	Chemistry	2.0	Deutsch	General	uswb2jez	3rd	0.96	correct	
+278	278	1.0	Chemistry	2.0	Deutsch	General	xsxkdf7k	3rd	0.96	correct	
+279	279	1.0	Chemistry	2.0	Deutsch	General	neuwx57b	3rd	0.96	correct	
+280	280	1.0	Chemistry	2.0	Deutsch	General	26z3wbqz	3rd	0.96	correct	
+281	281	1.0	Chemistry	2.0	Deutsch	General	jx3yyy26	3rd	Extionktion	smaller	
+282	282	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	g4xpwwac	1st	Keine Ahnung	nans	
+283	283	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	2cetp8yc	1st	CuSO4	unrelated	
+284	284	1.0	Chemistry	3.0	Deutsch	Apprenticeship (Low)	6cs3annc	1st	ka	unrelated	
+285	285	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	npatrq7r	1st	Blau	unrelated	
+286	286	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	7xwv3xfe	1st	0.96	correct	
+287	287	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	xcmyd5r5	1st	0.96	correct	
+288	288	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	7ck7mq6a	1st	höher	larger	
+289	289	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	2xh9zuvc	1st	3.84	quadruple	
+290	290	1.0	Biology	2.0	Français	Apprenticeship (Low)	qdp9ant4	2nd	0.48	half	
+291	291	1.0	Biology	2.0	Français	Apprenticeship (Low)	rrykpeqz	2nd	"0,96 = E . 1. 0,1 =
+ E: 9,6
+
+A= 9,6 . 0,5 . 0,2
+A = 0,96"	correct	
+292	292	1.0	Biology	1.0	Français	Apprenticeship (Low)	g6z8qykr	2nd	"0.96 mais je sais que mon résonnement n'est pas logique ( diviser par 2 et multiplier par "" XD)"	correct	
+293	293	1.0	Biology	1.0	Français	Apprenticeship (Low)	prr8qsns	2nd	0.48	half	
+294	294	1.0	Biology	2.0	Français	Apprenticeship (Low)	h9t9mxtx	2nd	A= 0.96 	correct	
+295	295	1.0	Biology	2.0	Français	Apprenticeship (Low)	caq55qe8	2nd	1.92	double	
+296	296	1.0	Biology	4.0	Français	Apprenticeship (Low)	vhsgf3xa	2nd	0.48	half	
+297	297	1.0		1.0	Français		knbr3qun	2nd	0.96	correct	
+298	298	1.0		2.0	Français		7g36g5tz	2nd	"Absorbance=0.96*2/2=0.96
+Car la concentration a doublé et la longueur de la cuve a diminué de moitié."	correct	
+299	299	1.0		2.0	Français		bqmcqxyx	2nd	0.95	smaller	
+300	300	1.0		1.0	Français		fs32fqe3	2nd	0.96	correct	
+301	301	1.0		1.0	Français		9xc2v9vu	2nd	"Cela sera la même car étant donné que la distance de la cuve est divisé par deux mais que la concentration est multipliée par deux alors cela s'annule
+"	correct	
+302	302	1.0		2.0	Français		xmh5qd3z	2nd	la concentration sera de 8.07	unrelated	1
+303	303	1.0		1.0	Français		gpq26qq9	2nd	0,96	correct	
+304	304	1.0		2.0	Français		5pt9tpaj	2nd	1.8	larger	
+305	305	1.0		1.0	Français		gc663sap	2nd	0.96	correct	
+306	306	1.0		2.0	Français		4rjjdez9	2nd	0.96	correct	
+307	307	1.0		2.0	Français		rjx9d3gf	2nd	la même absorbance  (0.96)	correct	
+308	308	1.0		1.0	Français		7zjqat99	2nd	0.96	correct	
+309	309	1.0		2.0	Français		m4frzqy6	2nd	3.84	quadruple	
+310	310	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	jwntt96k	2nd	0.96	correct	
+311	311	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	q4z45p85	2nd	0.96	correct	
+312	312	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	p5t7d3sb	2nd	3.84	quadruple	
+313	313	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	evqzjs5p	2nd	3.84	quadruple	
+314	314	1.0	Chemistry, Textiles	3.0	Deutsch	Apprenticeship (Low)	tcnba4ca	3rd	0.26	smaller	
+315	315	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	4bu2rkv3	3rd	0.96	correct	
+316	316	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	d7777ske	3rd	0.96	correct	
+317	317	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	mhek2323	3rd	3,84	quadruple	
+318	318	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	e93na59g	3rd	0.96	correct	
+319	319	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	ujpk3gf4	3rd	0.96 abs	correct	
+320	320	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	fddsxudu	3rd	Viel höher als beim Bild links.	larger	
+321	321	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	76wvaew4	3rd	0.96	correct	
+322	322	1.0		1.0	Français		z6ur4njh	2nd	0.96	correct	
+323	323	1.0		1.0	Français		6fkbh35u	2nd	0.96	correct	
+324	324	1.0		1.0	Français		9pjrsbth	2nd	L'absorbance sera la même	correct	
+325	325	1.0		1.0	Français		26mtbtye	2nd	0.96	correct	
+326	326	1.0		1.0	Français		ecy9k833	2nd	0.96	correct	
+327	327	1.0		1.0	Français		uqw5vh3j	2nd	La cuve a été diminué de moitié mais l'absorbance a doublé, la réponse sera donc inchangé.	correct	
+328	328	1.0		2.0	Français		wwj8nq34	2nd	0.96	correct	
+329	329	1.0		1.0	Français		tvtbbfhg	2nd	0.96	correct	
+330	330	1.0		2.0	Français		9hdhrrat	2nd	0.96	correct	
+331	331	1.0		1.0	Français		edmrufua	2nd	0.96	correct	
+332	332	1.0	Fast track	2.0	Français	Apprenticeship (Low)	gk7r7cee	1st	3.70	larger	
+333	333	1.0	Fast track	2.0	Français	Apprenticeship (Low)	vbym9sms	1st	0.96	correct	
+334	334	1.0	Fast track	2.0	Français	Apprenticeship (Low)	hf8uz5t3	1st	0.96	correct	
+335	335	1.0	Fast track	2.0	Français	Apprenticeship (Low)	bje92qp8	1st	780*0.5*200= Abs	larger	
+336	336	1.0	Fast track	2.0	Français	Apprenticeship (Low)	mp2aa258	1st	0.96	correct	
+337	337	1.0	Fast track	2.0	Français	Apprenticeship (Low)	4zsmj6s3	1st	1.92	double	
+338	338	1.0	Fast track	1.0	Français	Apprenticeship (Low)	wguewwkp	1st	l'absorbance sera de 0.96	correct	
+339	339	1.0	Fast track	1.0	Français	Apprenticeship (Low)	uenn9vgu	1st	0.48	half	
+340	340	1.0	Fast track	2.0	Français	Apprenticeship (Low)	kq4eymtu	1st	Moins que 0.96	correct	
+341	341	1.0	Fast track	2.0	Français	Apprenticeship (Low)	bswtap2v	1st	La concentration par rapport a la quantité d'ou passe la lumière	unrelated	
+342	342	1.0	Fast track	2.0	Français	Apprenticeship (Low)	9rked2x5	1st	0.45	smaller	
+343	343	1.0	Fast track	2.0	Français	Apprenticeship (Low)	phupma28	1st	0.84	smaller	
+344	344	1.0	Fast track	2.0	Français	Apprenticeship (Low)	7t9zwtmr	1st	0.48	half	
+345	345	1.0	Fast track	2.0	Français	Apprenticeship (Low)	n3977erj	1st	distance plus courte donc absorbe plus	larger	
+346	346	1.0	Fast track	2.0	Français	Apprenticeship (Low)	x3ykresy	1st	1,32	larger	
+347	347	1.0	Fast track	2.0	Français	Apprenticeship (Low)	v5wcy2tt	1st	Absorbance plus grande que 0.96, car la concentration est plus élevée 	larger	
+348	348	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	7e4jt9hn	1st	0.37	smaller	
+349	349	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	6uakv8nx	1st	0.96	correct	
+350	350	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	8pskk9tr	1st	Ebenfalls 0.96 (Konzentration halbiert sich aber Länge nimmt zu. 	correct	
+351	351	1.0	Chemistry	3.0	Deutsch	Apprenticeship (Low)	5vvwhzqs	1st	die von Kupfersulfat bei der Wellenlänge 780nm	unrelated	
+352	352	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	eqdntxer	1st	0.96	correct	
+353	353	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	rgeb7wr9	1st	0.48	half	
+354	354	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	6h5vmwys	1st	Der extinktions wert bleibt gleich	correct	
+355	355	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	ht865nws	1st	0.85	smaller	
+356	356	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	sh6tu9g2	1st	>0.96	larger	
+357	357	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	sp82v9ds	1st	Hier wird auch wieder eine tiefere Absorption gemessen, und in einem kleinerem Gefäss.	smaller	
+358	358	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	m35ub35g	1st	0.96	correct	
+359	359	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	w7asnymz	1st	Die Absorption ist gleich gross. 	correct	
+360	360	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	j9qgkaej	1st	Die Konzentation des Stoffes und die Beite des Gefässes.	unrelated	
+361	361	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	rve4n5nv	1st	"gleiche Absorption wie im linken Bild
+-> 0.96"	correct	
+362	362	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	djnysnd6	1st	"0.96
+"	correct	
+363	363	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	z4nrhe2e	1st	1.20	larger	
+364	364	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	zgyc948n	1st	0.45	smaller	
+365	365	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	cdq4drkk	3rd	0.96	correct	
+366	366	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	w25mph3c	3rd	0.96	correct	
+367	367	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	tsrnkj8w	3rd	Ebenfalls 0.96.	correct	
+368	368	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	2xjmtbvz	3rd	0.96	correct	
+369	369	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	3e3k2662	3rd	0.96	correct	
+370	370	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	k8x4ru7k	3rd	3.84	quadruple	
+371	371	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	m749z8u9	3rd	Es wird eine Absorption von 0.96 gemessen.	correct	
+372	372	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	bg7x3db2	3rd	0.96	correct	
+373	373	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	43e33t3h	3rd	0.96	correct	
+374	374	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	ky8kttpv	3rd	99.89	larger	
+375	375	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	9bp6yz7m	3rd	0.48	half	
+376	376	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	ke6msbfr	3rd	"gleiche Absorption
+
+rechts ist es dünner, jedoch stärker Konzentriert. (gleiches Verhältnis)"	correct	
+377	377	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	t6rjyw6s	3rd	Es wird die gleiche Absorption gemessen. halbe schichtdicke, dafür doppelte Konzentration 	correct	
+378	378	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	r8n3bcnu	2nd	>0.96	larger	
+379	379	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	e2825x2d	2nd	0.96	correct	
+380	380	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	akzsmgnj	2nd	0.96	correct	
+381	381	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	p5ac3mu7	2nd	0.96	correct	
+382	382	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	tbdn5up8	2nd	0.96	correct	
+383	383	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	ebt3e6ae	2nd	0.24	smaller	
+384	384	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	ww2m3qch	2nd	0.2	smaller	
+385	385	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	jukxh9s4	2nd	0.96	correct	
+386	386	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	s3ufctgg	2nd	0.96	correct	
+387	387	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	usa5gyb9	2nd	Ca 1.2 da die konzentration höher wird	larger	
+388	388	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	wef64erj	2nd	0.96	correct	
+389	389	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	ft5xsvy4	2nd	0.96	correct	
+390	390	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	8p35t5qs	2nd	0.96	correct	
+391	391	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	9x24tp6b	2nd	0.96	correct	
+392	392	1.0	Chemistry	4.0	Deutsch	Apprenticeship (Low)	ktd99zh9	2nd	0.96	correct	
+393	393	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	txg5vjzw	1st	0.96	correct	
+394	394	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	xq567sht	1st	0.48	half	
+395	395	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	f5wa2gzf	1st	Die Menge und die Färbung der Lösung.	unrelated	
+396	396	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	n238pypu	1st	3.84	quadruple	
+397	397	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	habxmccr	1st	der selbe wert, da sich nach der verränderung der KOnzentration und der veränderung der sobreite, alles wieder ausgleicht. Also 0.96	correct	
+398	398	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	rqpdjumr	1st	"0.48
+"	half	
+399	399	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	nyyfpabq	1st	0.96	correct	
+400	400	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	kcv4kfm2	1st	Es wird die selbe absorption gemessen, also auch 0.96	correct	
+401	401	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	eq6xvgmg	1st	0.96	correct	
+402	402	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	phcrjd9q	1st	Hier wurde beides angepasst. Die breite wurde verkleinert somit tiefere Absorbtion aber die Konzentraation wurde höher als höhere absorption. Etwa 0.98	larger	
+403	403	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	htf3xwbw	1st	0.96	correct	
+404	404	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	39ggtzcu	2nd	0.96	correct	
+405	405	1.0	Chemistry, Textiles	3.0	Deutsch	Apprenticeship (Low)	w6az39g6	2nd	0.96	correct	
+406	406	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	4rxkb9bc	2nd	die gleiche, 0.96	correct	
+407	407	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	ddu7y6bv	2nd	0.96	correct	
+408	408	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	6hbvyq5m	2nd	0.96	correct	
+409	409	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	vvtfq98r	3rd	0.96	correct	
+410	410	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	qbf3sp76	3rd	0.96	correct	
+411	411	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	2dfxa5he	3rd	0.96	correct	
+412	412	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	u2ntt4wv	1st	0.96	correct	
+413	413	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	xtxat8eg	1st	0.96	correct	
+414	414	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	pqd874qd	1st	0.96	correct	
+415	415	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	7cm9kver	1st	"Im Bild rechts wird eine höhere Absorption gemessen.
+Bild rechts > 0.96
+"	correct	
+416	416	1.0	Chemistry	1.0	Deutsch	General	da4vrrwz	1st	0.96	correct	
+417	417	1.0	Chemistry	2.0	Deutsch	General	6mrsnksc	1st	0.48	half	
+418	418	1.0	Chemistry	2.0	Deutsch	General	zxmtbzda	1st	0.96	correct	
+419	419	1.0	Chemistry	2.0	Deutsch	General	8n8w8zkd	1st	0.96	correct	
+420	420	1.0	Chemistry	2.0	Deutsch	General	84khcu2r	1st	0.48	half	
+421	421	1.0	Chemistry	1.0	Deutsch	General	rqyaqs75	1st	Licht mit einer Wellenlänge von 780 nm durch eine Lösung von CuSO4 (Konzetration= 200 mM/ 0.5cm Lösung)	unrelated	
+422	422	1.0	Chemistry	1.0	Deutsch	General	rwu8yjw9	1st	0.96	correct	
+423	423	1.0	Chemistry	1.0	Deutsch	General	57nwt7qa	1st	0.96	correct	
+424	424	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	mvhzrv2y	2nd	Die Absorbierung bei einer Konzentration von 200mM	unrelated	
+425	425	1.0		1.0	Français		demo	1st	"
+1.59"	larger	1
+426	426	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	suz5fszu	2nd	0.24	smaller	
+427	427	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	u9gxp77h	2nd	3.84	quadruple	
+428	428	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	s43ut7tg	2nd	0.96	correct	
+429	429	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	etxwsdtx	3rd	2.5	larger	
+430	430	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	u5ebbg3v	3rd	Die selbe, da beide Grössen um den selben Faktor zu- und abgenommen haben (c und d), also 0.96	correct	
+431	431	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	bm89te3c	3rd	1,23	larger	
+432	432				Français		missing	2nd	missing	nans	
+433	433	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	3pz22p3a	3rd	1,398	larger	
+434	434	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	bezdgyya	2nd	1.04	larger	
+435	435	1.0	Chemistry	4.0	Deutsch	Apprenticeship (Low)	y7p64n6z	2nd	Es gibt eine Absorbtion von 0.96	correct	
+436	436	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	892r4czm	2nd	0.96	correct	
+437	437	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	uhbpoog9	1st	0.96	correct	
+438	438	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	bed4zkv2	1st	Es bleibt gleich 0.96	correct	
+439	439	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	ytrbygud	1st	1.06	larger	
+440	440	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	vqebanqv	1st	0.96	correct	
+441	441	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	mwfdr4ys	1st	1.92	double	
+442	442	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	r2e3h3tm	2nd	missing	nans	
+443	443	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	8ga2zn5h	2nd	0.96	correct	
+444	444	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	3qwayak9	2nd	2.84	larger	
+445	445	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	fh76v5qx	2nd	1.40	larger	
+446	446	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	6tgyhcuh	2nd	0.90	smaller	
+447	447	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	d72hfax6	2nd	missing	nans	
+448	448	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	fryxwskq	2nd	1,92	double	
+449	449	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	favvtnnf	2nd	ich weis es nicht	nans	
+450	450	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	qvna6pyz	3rd	0.96	correct	
+451	451	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	addf7f7d	1st	0.96	correct	
+452	452	1.0	Chemistry	1.0	Français	Apprenticeship (Low)	9sgu2tbg	1st	A = 0.96	correct	
+453	453	1.0	Biology	4.0	Deutsch	Apprenticeship (Low)	k7p5eryf	2nd	-	nans	
+454	454	1.0	Biology	2.0	Deutsch	Apprenticeship (Low)	pesfpzbv	2nd	gleich	correct	
+455	455	1.0	Pharma Chemistry	1.0	Deutsch	Apprenticeship (Low)	jpccnav5	1st	0.96	correct	
+456	456	1.0		2.0	Français		xtnmv9qf	1st	0.96	correct	
+457	457	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	r78kg7d3	2nd	0.96	correct	
+458	458	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	uqzxsym7	2nd	0.96 bleibt gleich	correct	
+459	459	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	8jp62suc	2nd	0.5	smaller	
+460	460	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	63v3czy6	2nd	1.3	larger	
+461	461	1.0	Chemistry	2.0	Deutsch	Apprenticeship (High)	88kjzd8b	3rd	1.92	double	
+462	462	1.0	Chemistry	2.0	Deutsch	General	7hrf6cdu	3rd	0.96	correct	
+463	463	1.0	Chemistry	2.0	Deutsch	General	vwfpuqaz	3rd	0.96	correct	
+464	464	1.0	Chemistry	1.0	Deutsch	General	3w54b2bu	3rd	0.48	half	
+465	465	1.0	Biology	3.0	Français	Apprenticeship (Low)	s78drqcg	2nd	0.96	correct	
+466	466	1.0	Biology	1.0	Français	Apprenticeship (Low)	8rtwmb8t	2nd	missing	nans	
+467	467	1.0	Biology	1.0	Français	Apprenticeship (Low)	uthx49rq	2nd	0.96	correct	
+468	468	1.0		2.0	Français		bjy2zpww	2nd	missing	nans	
+469	469	1.0	Chemistry	3.0	Deutsch	Apprenticeship (High)	zy256ycq	2nd	0.96	correct	
+470	470	1.0	Chemistry	1.0	Deutsch	Apprenticeship (High)	fu6nsdhs	2nd	0.96	correct	
+471	471	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	m3d89p29	3rd	0.96	correct	
+472	472	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	5h9umyr6	3rd	0.48	half	
+473	473	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	4b4dkjuw	3rd	0.96	correct	
+474	474	1.0	Fast track	2.0	Français	Apprenticeship (Low)	46bty2zg	1st	missing	nans	
+475	475	1.0	Fast track	1.0	Français	Apprenticeship (Low)	z8hvrhwb	1st	~0,9	smaller	
+476	476	1.0	Chemistry	2.0	Deutsch	Apprenticeship (Low)	my6csh6m	1st	?	nans	
+477	477	1.0	Chemistry	1.0	Deutsch	Apprenticeship (Low)	krd7m9vb	1st	0,96	correct	
+478	478	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	yc3vmnuf	1st	0.48	half	
+479	479	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	2ae6q3hw	3rd	"Wellenlänge = gleich
+Breite = nun 0.5cm
+Solution = gleich
+Konzentration = doppelt so hoch
+
+Ich nehme an: Im rechten Bild wird einerseits die breite des Glases um die Hälfte verringert. d.h. Konzentration automatisch doppelt so gross. Plus wird die Konzentration erhöht (doppelt so gross) Ergebnis mit Faktor 4 verrechnen.
+
+0.96 * 4= 3.84 "	quadruple	
+480	480	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	2hr6mkdc	3rd	0.96	correct	
+481	481	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	8nh4zvcp	3rd	89 %	unrelated	
+482	482	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	s2up6gmm	3rd	0.96	correct	
+483	483	1.0	Chemistry, Textiles	2.0	Deutsch	Apprenticeship (Low)	47ce49e4	3rd	1.28	larger	
+484	484	1.0	Chemistry, Textiles	1.0	Deutsch	Apprenticeship (Low)	fj5tdybn	3rd	0.99	larger	
