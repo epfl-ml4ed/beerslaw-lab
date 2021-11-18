@@ -1,7 +1,7 @@
 ---
 paths:
   parsed_simulations: '../data/parsed simulations/'
-  sequenced_simulations: '../data/sequenced simulations/'
+  sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
   root_name: blank

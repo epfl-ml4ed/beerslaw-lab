@@ -16,8 +16,8 @@ from utils.config_handler import ConfigHandler
 
 
 from ml.xval_maker import XValMaker
-from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import LSTMEncoding
-from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import LSTMSampling
+from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
+from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
 
 def full_prediction_classification(settings):
     """Uses the config settings to:
@@ -212,10 +212,10 @@ def test(settings):
     with open('../data/parsed simulations/perm3210_lid22wyn9xy_t1v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
-    seq = LSTMSampling()
-    labs, begins, ends = seq.get_sequences(sim)
-    for i, lab in enumerate(labs):
-        print(begins[i], ends[i], lab)
+    # seq = LSTMSampling()
+    # labs, begins, ends = seq.get_sequences(sim)
+    # for i, lab in enumerate(labs):
+    #     print(begins[i], ends[i], lab)
 
     # for i, time in enumerate(sim._timeline):
     #     print(sim._timestamps[i], time)
@@ -228,20 +228,20 @@ def main(settings):
     if settings['sequencer'] != '':
         settings['data']['pipeline']['sequencer'] = settings['sequencer']
         settings['experiment']['root_name'] += '/' + settings['sequencer']
-        # settings['experiment']['root_name'] = settings['sequencer']
-        if settings['sequencer'] == 'extended12' or settings['sequencer'] == 'minimised12':
-            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                0: ['1hot', 'aveagg'],
-                1: ['actionspan', 'normagg']
-            }
-            settings['data']['pipeline']['break_filter'] = 'cumul80br'
-            
-        if settings['sequencer'] == 'bin1hotext' or settings['sequencer'] == 'bin1hotmini':
-            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                0: ['raw', 'cumulaveagg'],
-                1: ['1hotactionspan', 'cumulaveagg']
-            }
-            settings['data']['pipeline']['break_filter'] = 'cumul1hot80br'
+        if 'old' == 'not in use': # Old parameters, here for archive
+            if settings['sequencer'] == 'extended12' or settings['sequencer'] == 'minimised12':
+                settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+                settings['data']['pipeline']['break_filter'] = 'cumul80br'
+                
+            if settings['sequencer'] == 'bin1hotext' or settings['sequencer'] == 'bin1hotmini':
+                settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['raw', 'cumulaveagg'],
+                    1: ['1hotactionspan', 'cumulaveagg']
+                }
+                settings['data']['pipeline']['break_filter'] = 'cumul1hot80br'
         
     if settings['classname'] != '':
         settings['experiment']['class_name'] = settings['classname']

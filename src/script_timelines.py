@@ -27,7 +27,7 @@ def generate_all_timelines(settings):
 
 def sort_all_timelines(settings):
     # labels
-    label_map = '../data/experiment keys/permutation_maps/vector_binary.yaml'
+    label_map = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
     with open(label_map) as fp:
             label_map = yaml.load(fp, Loader=yaml.FullLoader)
     # paths

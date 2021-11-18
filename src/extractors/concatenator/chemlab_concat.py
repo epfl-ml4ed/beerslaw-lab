@@ -11,7 +11,7 @@ class ChemlabConcatenate:
         self._name = 'chemlab concatenator'
         self._notation = 'chemconcat'
         
-        self._path = path # path where to find the sequenced simulations
+        self._path = path # path where to find the sequenced_simulations
         self._tasks = tasks # tasks to concatenate
         self._limit = limit # minimum sequence size
         
@@ -55,22 +55,17 @@ class ChemlabConcatenate:
                 
                 lt += sequenced['last_timestamp']
                 
-                if sim_dict['year'] == '3rd':
-                    third = True
-                    break
-                
-            if not third:
-                path = self._path + 'p_' + sim_dict['permutation'] + '_lid' + sim_dict['learner_id'] + '_t' + str(''.join(self._tasks)) + '_sequenced.pkl'
-                with open(path, 'wb') as fp:
-                    pickle.dump(sim_dict, fp)
-                
-                if len(sim_dict['sequence']) >= self._limit:
-                    id_dictionary['sequences'][i] = {
-                        'path': path,
-                        'length': len(sim_dict['sequence']),
-                        'learner_id': sim_dict['learner_id']
-                    }
-                    id_dictionary['index'][sim_dict['learner_id']] = i
+            path = self._path + 'p_' + sim_dict['permutation'] + '_lid' + sim_dict['learner_id'] + '_t' + str(''.join(self._tasks)) + '_sequenced.pkl'
+            with open(path, 'wb') as fp:
+                pickle.dump(sim_dict, fp)
+            
+            if len(sim_dict['sequence']) >= self._limit:
+                id_dictionary['sequences'][i] = {
+                    'path': path,
+                    'length': len(sim_dict['sequence']),
+                    'learner_id': sim_dict['learner_id']
+                }
+                id_dictionary['index'][sim_dict['learner_id']] = i
                 
         with open(self._path + 'id_dictionary.pkl', 'wb') as fp:
             pickle.dump(id_dictionary, fp)

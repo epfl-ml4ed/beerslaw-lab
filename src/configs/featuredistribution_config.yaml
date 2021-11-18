@@ -3,7 +3,7 @@ experiment:
   root_name: out
   name: out
 paths:
-  sequenced_simulations: '../data/sequenced simulations/'
+  sequenced_simulations: '../data/sequenced_simulations/'
 data:
   min_length: 10
   pipeline:

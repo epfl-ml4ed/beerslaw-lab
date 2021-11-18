@@ -1,5 +1,5 @@
 experiment:
-  name: binary_concepts
+  name: basicencoding_biLSTM/binconcepts/raw/2021_11_14_0
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:

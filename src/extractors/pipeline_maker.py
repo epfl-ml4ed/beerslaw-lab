@@ -21,6 +21,7 @@ from extractors.cleaners.no_break_filter import NoBreakFilter
 from extractors.cleaners.cumul60_break_filter import Cumul60BreakFilter
 from extractors.cleaners.cumul60_statebreak_filter import Cumul60StateBreakFilter
 from extractors.cleaners.cumul80_break_filter import Cumul80BreakFilter
+from extractors.cleaners.cumul60_onehot_breaks import Cumul60OneHotBreakFilter
 from extractors.cleaners.cumul80_onehot_breaks import Cumul80OneHotBreakFilter
 from extractors.cleaners.cumul90_break_filter import Cumul90BreakFilter
 from extractors.cleaners.event_filter import EventFilter
@@ -92,46 +93,46 @@ class PipelineMaker:
     def _get_label_map(self):
         self._settings['experiment']['class_name']
         if self._settings['experiment']['class_name'] == 'colbin':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/colour_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'colbinsg':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/colour_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_binary.yaml'
             self._settings['experiment']['n_classes'] = 68
         elif self._settings['experiment']['class_name'] == 'conbin':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/concentration_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/concentration_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'widbin':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/width_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/width_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'coltri':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/colour_ternary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_ternary.yaml'
             self._settings['experiment']['n_classes'] = 3
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'contri':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/concentration_ternary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/concentration_ternary.yaml'
             self._settings['experiment']['n_classes'] = 3
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'widtri':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/width_ternary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/width_ternary.yaml'
             self._settings['experiment']['n_classes'] = 3
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'nconcepts':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/nconcepts_4.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/nconcepts_4.yaml'
             self._settings['experiment']['n_classes'] = 4
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'binconcepts':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/nconcepts_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/nconcepts_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'vector_labels':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/vector_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
             self._settings['experiment']['n_classes'] = 8
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'hierarchical':
-            self._settings['experiment']['class_map'] = '../data/experiment keys/permutation_maps/hierarchical.yaml'
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/hierarchical.yaml'
             self._settings['experiment']['n_classes'] = 4
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
                         
@@ -181,10 +182,10 @@ class PipelineMaker:
             
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
             self._sequencer = BaseLSTMEncoding()
-            self._sequencer_path = 'base_encodedlstm'
+            self._sequencer_path = 'base_lstmencoded'
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm_12':
             self._sequencer = BaseLSTMEncoding()
-            self._sequencer_path = 'base_encodedlstm_12'
+            self._sequencer_path = 'base_lstmencoded_12'
         if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm':
             self._sequencer = BaseLSTMSampling()
             self._sequencer_path = 'base_sampledlstm'
@@ -229,6 +230,8 @@ class PipelineMaker:
         elif self._data_settings['pipeline']['break_filter'] == 'cumul80br':
             self._break_filter = Cumul80BreakFilter(self._sequencer)
             
+        elif self._data_settings['pipeline']['break_filter'] == 'cumul1hot60br':
+            self._break_filter = Cumul60OneHotBreakFilter(self._sequencer)
         elif self._data_settings['pipeline']['break_filter'] == 'cumul1hot80br':
             self._break_filter = Cumul80OneHotBreakFilter(self._sequencer)
         

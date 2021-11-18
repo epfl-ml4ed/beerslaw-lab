@@ -1,5 +1,5 @@
 path:
-  sequenced_simulations: '../data/sequenced simulations/'
+  sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   name: extended
   algorithm: rf

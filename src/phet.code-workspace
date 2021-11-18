@@ -4,7 +4,7 @@
             "path": "."
         },
         {
-            "path": "..\\data\\experiment keys"
+            "path": "..\\data\\experiment_keys"
         },
         {
             "path": "ml\\gridsearch"

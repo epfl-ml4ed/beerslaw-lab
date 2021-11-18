@@ -1,7 +1,7 @@
 paths:
   parsed_simulations: '../data/parsed simulations/'
-  sequenced_simulations: '../data/sequenced simulations/'
+  sequenced_simulations: '../data/sequenced_simulations/'
   crawl_path: '../data/temp/'
 sequencing:
-  sequencer : lstmencoding
+  sequencer : base_lstmencoded
   length_limit: 10

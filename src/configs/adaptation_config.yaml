@@ -1,7 +1,7 @@
 ---
 paths:
   newsim_parsed: '../data/parsed simulations/beerslaw-lab/sim2/'
-  sequenced_simulations: '../data/sequenced simulations/'
+  sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
   root_name: simname

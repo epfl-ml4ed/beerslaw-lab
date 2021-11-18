@@ -18,8 +18,8 @@ from extractors.sequencer.flat.set2_sequencer import Set2Sequencing
 from extractors.sequencer.flat.basic_sequencer import BasicSequencing
 from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
-from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import OneHotMinimiseSequencing
-from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import Bin1HotMinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
+from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
 
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
@@ -50,7 +50,7 @@ def sequence_simulations(settings):
         'onehotmini': OneHotMinimiseSequencing,
         'bin1hotmini': Bin1HotMinimiseSequencing,
         'bin1hotext': Bin1hotExtendedSequencing,
-        'base_encodedlstm': BaseLSTMEncoding
+        'base_lstmencoded': BaseLSTMEncoding
     }
     sequencer = sequencer_map[settings['sequencing']['sequencer']]()
     
@@ -81,7 +81,8 @@ def sequence_simulations(settings):
     files = os.listdir(ps_path)
     files = [f for f in files if 'simulation' in f]
     # path of sequenced files
-    s_path = '../data/sequenced simulations/' + settings['sequencing']['sequencer'] + '/'
+    s_path = '../data/sequenced_simulations/' + settings['sequencing']['sequencer'] + '/'
+    os.makedirs(s_path, exist_ok=True)
     
     # ranking correspondance
     with open('../data/post_test/rankings.pkl', 'rb') as fp:

@@ -1,6 +1,6 @@
 ---
 paths:
-  sequenced_simulations: '../data/sequenced simulations/'
+  sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
   root_name: lstm_test
