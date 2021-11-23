@@ -67,9 +67,10 @@ class StateActionLSTMSampling(Sequencing):
             15: action is on concentrationlab
             16: action is on pdf
     """
-    def __init__(self):
+    def __init__(self, settings):
         self._name = 'stateaction sampledlstm sequencer'
         self._notation = 'saspldlstmsqcr'
+        self._settings = settings
         self._states = [
             'absorbance',
             'observed',
@@ -199,7 +200,7 @@ class StateActionLSTMSampling(Sequencing):
         if attributes[3]:
             vector[5] = 1
         else:
-            vector[6]
+            vector[6] = 1
             
         if attributes[4] == 'break':
             return list(vector)

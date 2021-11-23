@@ -8,10 +8,11 @@ from extractors.sequencer.sequencing import Sequencing
 class BreakFilter:
     """This class creates the breaks and inputes them into the sequences
     """
-    def __init__(self, sequencer: Sequencing):
+    def __init__(self, sequencer: Sequencing, break_threshold: float):
         self._name = 'break filter'
         self._notation = 'brfilt'
         self._sequencer = sequencer
+        self._break_threshold = break_threshold
         
     def get_name(self):
         return self._name
@@ -30,6 +31,17 @@ class BreakFilter:
         logging.info('cur: {}'.format(breaks))
         
         return breaks
+
+    def get_threshold(self, begins:list, ends:list, threshold:float):
+        begin = [b for b in begins]
+        end = [e for e in ends]
+        breaks = self._get_all_breaks(begin, end)
+        if len(breaks) == 0:
+            return 0
+        breaks.sort()
+        threshold = int(np.floor(self._break_threshold * len(breaks)))
+        threshold = breaks[threshold]
+        return threshold
         
     def inpute_all_breaks(self, labels: list, begin: list, end: list) -> Tuple[list, list, list]:
         raise NotImplementedError

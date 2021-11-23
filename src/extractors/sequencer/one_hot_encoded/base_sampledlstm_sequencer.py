@@ -64,9 +64,10 @@ class BaseLSTMSampling(Sequencing):
             13: action is on pdf
             14: break
     """
-    def __init__(self):
+    def __init__(self, settings):
         self._name = 'lstm sequencer'
         self._notation = 'lstmsqcr'
+        self._settings = settings
         self._states = [
             'absorbance',
             'observed',
@@ -191,7 +192,7 @@ class BaseLSTMSampling(Sequencing):
         if attributes[3]:
             vector[5] = 1
         else:
-            vector[6]
+            vector[6] = 1
             
         vector[self._vector_index[attributes[4]]] = 1
 

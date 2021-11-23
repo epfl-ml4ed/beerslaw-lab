@@ -3,5 +3,10 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
   crawl_path: '../data/temp/'
 sequencing:
-  sequencer : base_lstmencoded
+  sequencer : stateaction_adaptivelstm
   length_limit: 10
+  interval: 0.3
+  break_threshold: 0.6
+  dragasclick: True
+
+

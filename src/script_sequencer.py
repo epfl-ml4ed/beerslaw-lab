@@ -23,6 +23,26 @@ from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import On
 from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
 
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
+from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
+from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
+
+def process_adaptive_interval(settings):
+    interval = str(settings['sequencing']['interval'])
+    interval = interval.replace('.', '-')
+    break_threshold = str(settings['sequencing']['break_threshold'])
+    break_threshold = break_threshold.replace('.', '-')
+    name = settings['sequencing']['sequencer'] + '_' + interval
+    name += '_' + break_threshold
+    if settings['sequencing']['dragasclick']:
+        name += '_dac'
+    settings['data'] = {
+        'pipeline': {
+            'sequencer_interval': settings['sequencing']['interval'],
+            'break_threshold': settings['sequencing']['break_threshold'],
+            'sequencer_dragasclick': settings['sequencing']['dragasclick']
+        }
+    }
+    return name, StateActionAdaptiveLSTM, settings
 
 def sequence_simulations(settings):
     """Creates the sequenced simulation as required for the pipe-lab pipeline (see READ.me)
@@ -50,9 +70,16 @@ def sequence_simulations(settings):
         'onehotmini': OneHotMinimiseSequencing,
         'bin1hotmini': Bin1HotMinimiseSequencing,
         'bin1hotext': Bin1hotExtendedSequencing,
-        'base_lstmencoded': BaseLSTMEncoding
+        'base_lstmencoded': BaseLSTMEncoding,
+        'stateaction_secondslstm': StateActionSecondsLSTM,
+        'stateaction_adaptivelstm': process_adaptive_interval
     }
-    sequencer = sequencer_map[settings['sequencing']['sequencer']]()
+    if settings['sequencing']['sequencer'] == 'stateaction_adaptivelstm':
+        name, sequencer, settings = process_adaptive_interval(settings)
+        sequencer_map[name] = sequencer
+        settings['sequencing']['sequencer'] = name
+        
+    sequencer = sequencer_map[settings['sequencing']['sequencer']](settings)
     
     # Setting up the data structure
     id_dictionary1 = {

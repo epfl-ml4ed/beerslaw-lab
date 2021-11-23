@@ -18,6 +18,7 @@ from utils.config_handler import ConfigHandler
 from ml.xval_maker import XValMaker
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
 from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
+from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
 
 def full_prediction_classification(settings):
     """Uses the config settings to:
@@ -212,10 +213,10 @@ def test(settings):
     with open('../data/parsed simulations/perm3210_lid22wyn9xy_t1v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
-    # seq = LSTMSampling()
-    # labs, begins, ends = seq.get_sequences(sim)
-    # for i, lab in enumerate(labs):
-    #     print(begins[i], ends[i], lab)
+    seq = StateActionAdaptiveLSTM(settings)
+    labs, begins, ends = seq.get_sequences(sim)
+    for i, lab in enumerate(labs):
+        print(begins[i], ends[i], lab)
 
     # for i, time in enumerate(sim._timeline):
     #     print(sim._timestamps[i], time)

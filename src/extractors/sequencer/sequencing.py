@@ -13,12 +13,12 @@ class Sequencing:
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     """
-    def __init__(self):
+    def __init__(self, settings):
         self._name = 'sequencer'
         self._notation = 'sqcr'
         self._states = ['not initialised']
         self._click_interval = 0.05
-        
+        self._settings = settings
         self._load_labelmap()
         
     def get_name(self):
@@ -29,6 +29,9 @@ class Sequencing:
         
     def get_states(self):
         return [x for x in self._states]
+
+    def get_settings(self):
+        return dict(self._settings)
     
     def _load_labelmap(self):
         """Should be customised per sequencer, according to the label we want to give to each action

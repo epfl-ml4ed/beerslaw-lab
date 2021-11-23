@@ -18,12 +18,9 @@ from extractors.aggregator.normalised_aggregator import NormalisedAggregator
 
 from extractors.cleaners.break_filter import BreakFilter
 from extractors.cleaners.no_break_filter import NoBreakFilter
-from extractors.cleaners.cumul60_break_filter import Cumul60BreakFilter
-from extractors.cleaners.cumul60_statebreak_filter import Cumul60StateBreakFilter
-from extractors.cleaners.cumul80_break_filter import Cumul80BreakFilter
-from extractors.cleaners.cumul60_onehot_breaks import Cumul60OneHotBreakFilter
-from extractors.cleaners.cumul80_onehot_breaks import Cumul80OneHotBreakFilter
-from extractors.cleaners.cumul90_break_filter import Cumul90BreakFilter
+from extractors.cleaners.cumul_break_filter import CumulBreakFilter
+from extractors.cleaners.cumul_statebreak_filter import CumulStateBreakFilter
+from extractors.cleaners.cumul_onehot_breaks import CumulOneHotBreakFilter
 from extractors.cleaners.event_filter import EventFilter
 from extractors.cleaners.no_transitions_event_filter import NoTransitionFilters
 from extractors.cleaners.no_event_filter import NoEventFilter
@@ -181,16 +178,16 @@ class PipelineMaker:
                 self._sequencer = LSTMEncoding()
             
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
-            self._sequencer = BaseLSTMEncoding()
+            self._sequencer = BaseLSTMEncoding(self._settings)
             self._sequencer_path = 'base_lstmencoded'
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm_12':
-            self._sequencer = BaseLSTMEncoding()
+            self._sequencer = BaseLSTMEncoding(self._settings)
             self._sequencer_path = 'base_lstmencoded_12'
         if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm':
-            self._sequencer = BaseLSTMSampling()
+            self._sequencer = BaseLSTMSampling(self._settings)
             self._sequencer_path = 'base_sampledlstm'
         if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm_12':
-            self._sequencer = BaseLSTMSampling
+            self._sequencer = BaseLSTMSampling(self._settings)
             self._sequencer_path = 'base_sampledlstm_12'
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']
@@ -220,26 +217,19 @@ class PipelineMaker:
             self._event_filter = NoTransitionFilters()
             
     def _choose_break_filter(self):
+        break_threshold = self._data_settings['pipeline']['break_threshold']
         self._pipeline_name += self._data_settings['pipeline']['break_filter']
-        if self._data_settings['pipeline']['break_filter'] == 'cumul60br':
-            self._break_filter = Cumul60BreakFilter(self._sequencer)
+        if self._data_settings['pipeline']['break_filter'] == 'cumulbr':
+            self._break_filter = CumulBreakFilter(self._sequencer, break_threshold)
             
-        elif self._data_settings['pipeline']['break_filter'] == 'cumul60stbr':
-            self._break_filter = Cumul60StateBreakFilter(self._sequencer)
+        elif self._data_settings['pipeline']['break_filter'] == 'cumulstbr':
+            self._break_filter = CumulStateBreakFilter(self._sequencer, break_threshold)
             
-        elif self._data_settings['pipeline']['break_filter'] == 'cumul80br':
-            self._break_filter = Cumul80BreakFilter(self._sequencer)
-            
-        elif self._data_settings['pipeline']['break_filter'] == 'cumul1hot60br':
-            self._break_filter = Cumul60OneHotBreakFilter(self._sequencer)
-        elif self._data_settings['pipeline']['break_filter'] == 'cumul1hot80br':
-            self._break_filter = Cumul80OneHotBreakFilter(self._sequencer)
-        
-        elif self._data_settings['pipeline']['break_filter'] == 'cumul90br':
-            self._break_filter = Cumul90BreakFilter(self._sequencer)
+        elif self._data_settings['pipeline']['break_filter'] == 'cumul1hotbr':
+            self._break_filter = CumulOneHotBreakFilter(self._sequencer, break_threshold)
             
         elif self._data_settings['pipeline']['break_filter'] == 'nobrfilt':
-            self._break_filter = NoBreakFilter(self._sequencer)
+            self._break_filter = NoBreakFilter(self._sequencer, break_threshold)
             
     def _choose_lengther(self):
         self._pipeline_name += self._data_settings['pipeline']['adjuster']

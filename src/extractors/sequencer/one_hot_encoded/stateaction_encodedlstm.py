@@ -67,9 +67,10 @@ class StateActionLSTMEncoding(Sequencing):
             16: action is on pdf
             17: break
     """
-    def __init__(self):
+    def __init__(self, settings):
         self._name = 'stateaction encodedlstm sequencer'
         self._notation = 'saenclstmsqcr'
+        self._settings = settings
         self._states = [
             'absorbance',
             'observed',
@@ -204,7 +205,7 @@ class StateActionLSTMEncoding(Sequencing):
         if attributes[3]:
             vector[5] = 1
         else:
-            vector[6]
+            vector[6] = 1
             
         vector[self._vector_index[attributes[4]]] = 1
 
