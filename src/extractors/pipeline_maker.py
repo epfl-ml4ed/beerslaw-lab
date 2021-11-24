@@ -15,12 +15,15 @@ from extractors.aggregator.cumulative_aggregator import CumulativeAverageAggrega
 from extractors.aggregator.flatten_aggregator import FlattenAggregator
 from extractors.aggregator.no_aggregator import NoAggregator
 from extractors.aggregator.normalised_aggregator import NormalisedAggregator
+from extractors.aggregator.onehot_minmax_normaliser import OneHotMinMaxNormaliserAggregator
 
 from extractors.cleaners.break_filter import BreakFilter
 from extractors.cleaners.no_break_filter import NoBreakFilter
 from extractors.cleaners.cumul_break_filter import CumulBreakFilter
 from extractors.cleaners.cumul_statebreak_filter import CumulStateBreakFilter
 from extractors.cleaners.cumul_onehot_breaks import CumulOneHotBreakFilter
+from extractors.cleaners.cumul_onehot_secondsbreaks import CumulOneHotSecondsBreakFilter
+
 from extractors.cleaners.event_filter import EventFilter
 from extractors.cleaners.no_transitions_event_filter import NoTransitionFilters
 from extractors.cleaners.no_event_filter import NoEventFilter
@@ -47,6 +50,8 @@ from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bi
 
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
 from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
+from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
+from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
 from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
 from extractors.sequencer.one_hot_encoded.stateaction_sampledlstm import StateActionLSTMSampling
 
@@ -190,6 +195,20 @@ class PipelineMaker:
             self._sequencer = BaseLSTMSampling(self._settings)
             self._sequencer_path = 'base_sampledlstm_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'stateaction_secondslstm':
+            self._sequencer = StateActionSecondsLSTM(self._settings)
+            self._sequencer_path = 'stateaction_secondslstm'
+        if self._data_settings['pipeline']['sequencer'] == 'stateaction_secondslstm_12':
+            self._sequencer = StateActionSecondsLSTM(self._settings)
+            self._sequencer_path = 'stateaction_secondslstm_12'
+        
+        if self._data_settings['pipeline']['sequencer'] == 'stateaction_encodedlstm':
+            self._sequencer = StateActionLSTMEncoding(self._settings)
+            self._sequencer_path = 'stateaction_encodedlstm'
+        if self._data_settings['pipeline']['sequencer'] == 'stateaction_encodedlstm_12':
+            self._sequencer = StateActionLSTMEncoding(self._settings)
+            self._sequencer_path = 'stateaction_encodedlstm_12'
+
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
             interval = str(self._data_settings['pipeline']['sequencer_interval'])
             interval = interval.replace('.', '-')
@@ -245,6 +264,9 @@ class PipelineMaker:
             
         elif self._data_settings['pipeline']['break_filter'] == 'nobrfilt':
             self._break_filter = NoBreakFilter(self._sequencer, break_threshold)
+
+        elif self._data_settings['pipeline']['break_filter'] == 'cumulseconds':
+            self._break_filter = CumulOneHotSecondsBreakFilter(self._sequencer, break_threshold)
             
     def _choose_lengther(self):
         self._pipeline_name += self._data_settings['pipeline']['adjuster']
@@ -292,6 +314,9 @@ class PipelineMaker:
             
         elif self._data_settings['pipeline']['aggregator'] == 'normagg':
             self._aggregator = NormalisedAggregator()
+
+        elif self._data_settings['pipeline']['aggregator'] == 'minmax':
+            self._aggregator = OneHotMinMaxNormaliserAggregator()
         
     def _build_pipeline(self):
         self._choose_sequencer()

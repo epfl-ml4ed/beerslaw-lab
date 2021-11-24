@@ -169,8 +169,7 @@ class StateActionAdaptiveLSTM(Sequencing):
             'solution': 13,
             'tools': 14,
             'concentrationlab': 15,
-            'pdf': 16,
-            'break': 17
+            'pdf': 16
         }
     
         self._vector_size = 18
@@ -213,14 +212,13 @@ class StateActionAdaptiveLSTM(Sequencing):
             new_ends = new_ends + ees
 
             if i < len(begins) - 1:
-                if begins[i+1] - ends[i] > self._break_threshold:
-                    break_vector = list(np.zeros(self._vector_size))
-                    break_vector[0:self._vector_states] = new_labels[-1][0:self._vector_states]
-                    break_vector[self._break_state] = 1
-                    labs, bes, ees = self._duplicate_events(break_vector, ends[i], begins[i+1])
-                    new_labels = new_labels + labs
-                    new_begins = new_begins + bes
-                    new_ends = new_ends + ees
+                # if begins[i+1] - ends[i] > self._break_threshold:
+                break_vector = list(np.zeros(self._vector_size))
+                break_vector[0:self._vector_states] = new_labels[-1][0:self._vector_states]
+                labs, bes, ees = self._duplicate_events(break_vector, ends[i], begins[i+1])
+                new_labels = new_labels + labs
+                new_begins = new_begins + bes
+                new_ends = new_ends + ees
 
         return new_labels, new_begins, new_ends
 

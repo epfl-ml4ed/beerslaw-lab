@@ -244,6 +244,15 @@ def main(settings):
                 }
                 settings['data']['pipeline']['break_filter'] = 'cumul1hot80br'
         
+        if 'stateaction_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+        
+        if 'stateaction_encodedlstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+
+
     if settings['classname'] != '':
         settings['experiment']['class_name'] = settings['classname']
     if settings['models'] != '':

@@ -25,6 +25,7 @@ from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bi
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
 from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
 from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
+from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
 
 def process_adaptive_interval(settings):
     interval = str(settings['sequencing']['interval'])
@@ -72,7 +73,8 @@ def sequence_simulations(settings):
         'bin1hotext': Bin1hotExtendedSequencing,
         'base_lstmencoded': BaseLSTMEncoding,
         'stateaction_secondslstm': StateActionSecondsLSTM,
-        'stateaction_adaptivelstm': process_adaptive_interval
+        'stateaction_adaptivelstm': process_adaptive_interval,
+        'stateaction_encodedlstm': StateActionLSTMEncoding
     }
     if settings['sequencing']['sequencer'] == 'stateaction_adaptivelstm':
         name, sequencer, settings = process_adaptive_interval(settings)

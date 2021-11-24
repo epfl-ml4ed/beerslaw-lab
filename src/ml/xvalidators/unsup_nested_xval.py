@@ -27,16 +27,16 @@ class UnsupNestedXVal(XValidator):
         XValidator (XValidators): Inherits from the model class
     """
     
-    def __init__(self, settings:dict, gridsearch:GridSearch, splitter:Splitter, sampler:Sampler, model:Model, scorer:Scorer):
-        super().__init__(settings, splitter, model, scorer)
+    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
+        super().__init__(settings, inner_splitter, model, scorer)
         self._name = 'unsupervised nested cross validator'
         self._notation = 'unsup_nested_xval'
         
         self._inner_folds = settings['ML']['xvalidators']['unsup_nested_xval']['inner_n_folds']
-        self._inner_splitter =  splitter(settings)
+        self._inner_splitter =  inner_splitter(settings)
         self._inner_splitter.set_n_folds(settings['ML']['xvalidators']['unsup_nested_xval']['inner_n_folds'])
-        self._outer_splitter = splitter(settings)
-        self._splitter = splitter
+        self._outer_splitter = outer_splitter(settings)
+        self._splitter = inner_splitter
         self._sampler = sampler()
         self._scorer = scorer(settings)
         self._gridsearch = gridsearch
@@ -50,7 +50,7 @@ class UnsupNestedXVal(XValidator):
             model=self._model,
             grid=self._xval_settings['unsup_nested_xval']['param_grid'],
             scorer=self._scorer,
-            splitter = self._splitter(self._settings),
+            splitter = self._inner_splitter(self._settings),
             settings=self._settings
         )
         

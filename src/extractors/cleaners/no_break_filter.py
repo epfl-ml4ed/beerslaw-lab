@@ -11,8 +11,8 @@ class NoBreakFilter(BreakFilter):
     Args:
         BreakFilter (BreakFilter): inherits from the breakfilter class
     """
-    def __init__(self, sequencer: Sequencing):
-        super().__init__(sequencer)
+    def __init__(self, sequencer: Sequencing, break_threshold: float):
+        super().__init__(sequencer, break_threshold)
         self._name = 'no break filter' 
         self._notation = 'nobrfilt'
         

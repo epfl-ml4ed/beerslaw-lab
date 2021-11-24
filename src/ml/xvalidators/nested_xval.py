@@ -29,16 +29,15 @@ class NestedXVal(XValidator):
         XValidator (XValidators): Inherits from the model class
     """
     
-    def __init__(self, settings:dict, gridsearch:GridSearch, splitter:Splitter, sampler:Sampler, model:Model, scorer:Scorer):
-        super().__init__(settings, splitter, model, scorer)
+    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
+        super().__init__(settings, inner_splitter, model, scorer)
         self._name = 'nested cross validator'
         self._notation = 'nested_xval'
         
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
-        self._inner_splitter =  splitter(settings)
+        self._inner_splitter =  inner_splitter(settings)
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['outer_n_folds']
-        self._outer_splitter = splitter(settings)
-        self._splitter = splitter
+        self._outer_splitter = outer_splitter(settings)
         self._sampler = sampler()
         self._scorer = scorer(settings)
         self._gridsearch = gridsearch
@@ -48,6 +47,7 @@ class NestedXVal(XValidator):
         
     def _init_gs(self, fold):
         self._scorer.set_optimiser_function(self._xval_settings['nested_xval']['optim_scoring'])
+        self._settings['ML']['splitters']['n_folds'] = self._settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
         self._gs = self._gridsearch(
             model=self._model,
             grid=self._xval_settings['nested_xval']['param_grid'],
@@ -65,7 +65,8 @@ class NestedXVal(XValidator):
         results['y'] = y
         results['indices'] = indices
         logging.debug('x:{}, y:{}'.format(x, y))
-        results['optim_scoring'] = self._xval_settings['nested_xval']['optim_scoring']
+        results['optim_scoring'] = self._xval_settings['nested_xval']['optim_scoring'] #debug
+        self._outer_splitter.set_indices(indices)
         for f, (train_index, test_index) in enumerate(self._outer_splitter.split(x, y)):
             print(f)
             logging.info('- ' * 30)

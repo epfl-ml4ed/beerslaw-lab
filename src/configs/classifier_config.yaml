@@ -3,15 +3,15 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
-  root_name: test_gpu
+  root_name: gpu-baselines
   random_seed: 42
-  n_folds: 10
+  n_folds: blank
   n_classes: 2
 data:
   min_length: 10
   pipeline:
-    sequencer: base_encodedlstm_12
-    sequencer_interval: 0.5
+    sequencer: blank
+    sequencer_interval: 5
     sequencer_dragasclick: True
     concatenator:
       type: chemconcat
@@ -19,18 +19,20 @@ data:
         - '1'
         - '2'
     event_filter: nofilt
-    break_filter: cumul1hotbr
+    break_filter: blank
     break_threshold: 0.6
     adjuster: full
     encoder: raw
     skipgram_weights: ''
     skipgram_map: ''
-    aggregator: noagg
+    aggregator: blank
   adjuster:
     limit: 1250
 ML:
   pipeline:
     splitter: stratkf
+    inner_splitter: stratkf
+    outer_splitter: flatstrat
     sampler: nosplr
     task: classification
     model: lstm
@@ -52,10 +54,13 @@ ML:
     stratkf:
       shuffle: True
       stratifier_col: y
+    flatstrat:
+      test_path: '../data/experiment_keys/flatstrat_testusernames.pkl'
+      train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
   xvalidators:
     nested_xval:
       inner_n_folds: 10
-      outer_n_folds: 10
+      outer_n_folds: 1
       optim_scoring: roc
   scorers:
     scoring_metrics:

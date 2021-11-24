@@ -14,7 +14,7 @@ class CumulBreakFilter(BreakFilter):
         BreakFilter (BreakFilter): inherits from the breakfilter class
     """
     def __init__(self, sequencer: Sequencing, break_threshold: float):
-        super().__init__(sequencer)
+        super().__init__(sequencer, break_threshold)
         self._name = 'cumul ' + str(break_threshold) + ' break filter' 
         self._notation = 'cumul ' + str(break_threshold) + ' br'
         self._break_threshold = break_threshold
