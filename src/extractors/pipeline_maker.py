@@ -189,6 +189,21 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm_12':
             self._sequencer = BaseLSTMSampling(self._settings)
             self._sequencer_path = 'base_sampledlstm_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
+            interval = str(self._data_settings['pipeline']['sequencer_interval'])
+            interval = interval.replace('.', '-')
+            break_threshold = str(self._data_settings['pipeline']['break_threshold'])
+            break_threshold = break_threshold.replace('.', '-')
+            name = self._data_settings['pipeline']['sequencer'] + '_' + interval
+            name += '_' + break_threshold
+            if self._data_settings['pipeline']['sequencer_dragasclick']:
+                name += '_dac'
+            tasks = self._data_settings['pipeline']['concatenator']['tasks']
+            if '1' in tasks and '2' in tasks:
+                name += '_12'
+                self._sequencer = StateActionLSTMSampling(self._settings)
+                self._sequencer_path = name
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']
         self._sequenced_directory = self._paths_settings['sequenced_simulations'] + self._sequencer_path + '/'
