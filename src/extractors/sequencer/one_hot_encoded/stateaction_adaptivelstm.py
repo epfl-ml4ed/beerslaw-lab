@@ -197,9 +197,9 @@ class StateActionAdaptiveLSTM(Sequencing):
             Tuple[labels, begins, ends]: [description]
         """
         labels, begins, ends = self._sequencer.get_sequences(simulation)
-        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
         if len(labels) == 0:
             return [], [], []
+        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
         break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
         if self._settings['data']['pipeline']['sequencer_dragasclick']:
             labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)

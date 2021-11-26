@@ -3,9 +3,9 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
   crawl_path: '../data/temp/'
 sequencing:
-  sequencer : stateaction_secondslstm
+  sequencer : stateaction_adaptivelstm
   length_limit: 10
-  interval: 5
+  interval: 1
   break_threshold: 0.6
   dragasclick: True
 

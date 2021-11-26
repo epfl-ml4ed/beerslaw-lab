@@ -214,6 +214,8 @@ class StateActionLSTMSampling(Sequencing):
         begins = [x for x in self._begins]
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
+        if len(labels) == 0:
+            return [], [], []
         begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
         labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
         
@@ -290,47 +292,6 @@ class StateActionLSTMSampling(Sequencing):
         solution_values = [s.replace('beersLawLab.beersLawScreen.solutions.', '') for s in solution_values]
         solution_values = [colour_map[s] for s in solution_values]
         return solution_values
-
-    def _change_magnifier_states(self, begins:list, ends:list, labels: list, simulation:Simulation) -> Tuple[list, list, list]:
-        """While the magnifier is moving, the state of the simulation may change (the transmittance/absorbance might change) as the magnifier
-        goes in front of the laser or not
-
-        Args:
-            begins (list): beginning timestamps
-            ends (list): ends timestamps
-            labels (list): labels
-
-        Returns:
-            Tuple[list, list, list]: updated begins, updated ends, updated labels
-        """
-        up_begins = []
-        up_ends = []
-        up_labels = []
-
-        dependent_variable, dependent_var_ts = self.get_absorbance_transmittance_nothing(simulation)
-        dependent_var_ts = np.array(dependent_var_ts)
-
-        for i, beg in enumerate(begins):
-            if labels[i] != 'tools':
-                up_begins.append(beg)
-                up_ends.append(ends[i])
-                up_labels.append(labels[i])
-
-            else:
-                states = np.where((dependent_var_ts >= beg) & (dependent_var_ts < ends[i]))
-                states = [dependent_var_ts[s] for s in states]
-                old_begin = beg
-                if len(states[0]) > 0:
-                    for s in states[0]:
-                        up_begins.append(old_begin)
-                        up_ends.append(s)
-                        up_labels.append('other')
-                        old_begin = s
-                    up_begins.append(old_begin)
-                    up_ends.append(ends[i])
-                    up_labels.append('other')
-
-        return up_begins, up_ends, up_labels
 
     def _process_wl(self, wl_values: list) -> list:
         wl_values = ['wl' if '520' in str(wl) else 'no_wl' for wl in wl_values]
