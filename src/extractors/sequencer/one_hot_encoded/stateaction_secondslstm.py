@@ -9,6 +9,7 @@ from extractors.parser.checkbox_object import Checkbox
 from extractors.parser.event_object import Event
 from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
+from extractors.cleaners.break_filter import BreakFilter
 
 class StateActionSecondsLSTM(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
@@ -96,6 +97,8 @@ class StateActionSecondsLSTM(Sequencing):
         self._click_interval = 0.05
         
         self._load_labelmap()
+        self._break_threshold = self._settings['data']['pipeline']['break_threshold']
+        self._break_filter = BreakFilter(self, self._break_threshold)
         
     def _load_labelmap(self):
         self._label_map = {
@@ -220,7 +223,13 @@ class StateActionSecondsLSTM(Sequencing):
         begins = [x for x in self._begins]
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
+        if len(labels) == 0:
+            return [], [], []
         begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
+        break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
+        if self._settings['data']['pipeline']['sequencer_dragasclick']:
+            labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
+        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
         
         # whether the measure is displayed
         measure_displayed = dict(self._measure_displayed)

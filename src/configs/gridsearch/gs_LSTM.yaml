@@ -25,6 +25,6 @@ batch_size:
 shuffle:
   - True
 epochs:
-  - 1
+  - 200
 verbose:
   - 1

@@ -36,13 +36,6 @@ def process_adaptive_interval(settings):
     name += '_' + break_threshold
     if settings['sequencing']['dragasclick']:
         name += '_dac'
-    settings['data'] = {
-        'pipeline': {
-            'sequencer_interval': settings['sequencing']['interval'],
-            'break_threshold': settings['sequencing']['break_threshold'],
-            'sequencer_dragasclick': settings['sequencing']['dragasclick']
-        }
-    }
     return name, StateActionAdaptiveLSTM, settings
 
 def sequence_simulations(settings):
@@ -75,6 +68,13 @@ def sequence_simulations(settings):
         'stateaction_secondslstm': StateActionSecondsLSTM,
         'stateaction_adaptivelstm': process_adaptive_interval,
         'stateaction_encodedlstm': StateActionLSTMEncoding
+    }
+    settings['data'] = {
+        'pipeline': {
+            'sequencer_interval': settings['sequencing']['interval'],
+            'break_threshold': settings['sequencing']['break_threshold'],
+            'sequencer_dragasclick': settings['sequencing']['dragasclick']
+        }
     }
     if settings['sequencing']['sequencer'] == 'stateaction_adaptivelstm':
         name, sequencer, settings = process_adaptive_interval(settings)
@@ -200,12 +200,32 @@ def sequence_simulations(settings):
         pickle.dump(id_dictionary3, fp)
         
 def test_sequence(settings):
-    "hello world"
+    settings['data'] = {
+        'pipeline': {
+            'sequencer_interval': settings['sequencing']['interval'],
+            'break_threshold': settings['sequencing']['break_threshold'],
+            'sequencer_dragasclick': settings['sequencing']['dragasclick']
+        }
+    }
+    with open('../data/parsed simulations/perm3012_lidv2kw3kup_t1v_simulation.pkl', 'rb') as fp:
+        sim = pickle.load(fp)
+
+    seq = StateActionLSTMEncoding(settings)
+    labs, begins, ends = seq.get_sequences(sim)
+    for i, lab in enumerate(labs):
+        print(begins[i], ends[i], lab)
+    print(len(begins))
+
+    # for i, time in enumerate(sim._timeline):
+    #     print(sim._timestamps[i], time)
+
     
     
 def main(settings):
     if settings['sequence']:
         sequence_simulations(settings)
+    if settings['test_sequence']:
+        test_sequence(settings)
 
 if __name__ == '__main__':
     with open('./configs/parsing_conf.yaml', 'r') as f:
@@ -213,6 +233,7 @@ if __name__ == '__main__':
         
     parser = argparse.ArgumentParser(description='Logs / Simulations manipulations')
     parser.add_argument('--sequence', dest='sequence', default=False, action='store_true')
+    parser.add_argument('--test', dest='test_sequence', default=False, action='store_true')
     settings.update(vars(parser.parse_args()))
         
     main(settings)

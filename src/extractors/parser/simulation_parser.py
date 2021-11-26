@@ -7,6 +7,7 @@ import re
 import datetime
 from typing import Tuple
 
+
 import pandas as pd
 import numpy as np
 
@@ -159,7 +160,7 @@ class Simulation:
         for event in logs:
             e_df = self._process_event(event)
             event_df.append(e_df)
-            
+                
         df = pd.DataFrame(event_df)
         if len(df) != 0:
             df.columns = [
@@ -167,7 +168,37 @@ class Simulation:
                 'phetio_id', 'event_name', 'event_type', 'event_component', 'event_params', 'event_children'
             ]
             df = df.sort_values(['year', 'month', 'day', 'hour', 'minute', 'second', 'message_index'])
-        self._event_df = df
+
+        new_df = []
+        for i in range(len(df)):
+            event = list(df.iloc[i])
+            new_df.append(list(df.iloc[i]))
+            if i < len(df) - 1:
+                if event[9] == 'showPDF' and df.iloc[i + 1][9] != 'hidePDF':
+                    hide_event = [x for x in event]
+                    hide_event[9] = 'hidePDF'
+                    hide_event[1] = df.iloc[i+1][1]
+                    hide_event[2] = df.iloc[i+1][2]
+                    hide_event[3] = df.iloc[i+1][3]
+                    hide_event[4] = df.iloc[i+1][4]
+                    hide_event[5] = df.iloc[i+1][5]
+                    hide_event[6] = df.iloc[i+1][6]
+                    hide_event[7] = df.iloc[i+1][7]
+                    new_df.append(hide_event)
+            else:
+                if event[9] == 'showPDF':
+                    hide_event = [x for x in event]
+                    hide_event[9] = 'hidePDF'
+                    hide_event[7] += 0.5
+                    new_df.append(hide_event)
+        
+        new_df = pd.DataFrame(new_df)
+        if len(new_df) != 0:
+            new_df.columns = [
+                'message_index', 'timestamp', 'year', 'month', 'day', 'hour', 'minute', 'second',
+                'phetio_id', 'event_name', 'event_type', 'event_component', 'event_params', 'event_children'
+            ]
+        self._event_df = new_df
 
     def _initialise_simulation_parameters(self):
         self._started = 0
@@ -1130,7 +1161,7 @@ class Simulation:
         self._timeline.append('reset')
         self._timestamps.append(timestamp)
         self._timestamps_restarts.append(timestamp)
-        
+
     ########## CLose Simulation
     def _close_simulation(self):
         self._wavelength.close(self._last_timestamp)
@@ -1171,7 +1202,7 @@ class Simulation:
         self._concentration_actions.close(self._last_timestamp)
         self._chemlab_state.close(self._last_timestamp)
         self._menu_state.close(self._last_timestamp)
-        
+
     def close(self):
         self._close_simulation()
         

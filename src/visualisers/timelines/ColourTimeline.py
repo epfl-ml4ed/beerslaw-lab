@@ -1,3 +1,4 @@
+import os
 from bokeh.models.tools import Toolbar
 import yaml
 import json
@@ -343,16 +344,20 @@ class ColourTimeline(Timeline):
         if self._settings['saveimg']:
             plot.output_backend = 'svg'
             path = '../reports/' + self._settings['image']['report_folder']
-            path += '/colour timelines/p' + sim.get_permutation() 
-            path += '_t' + str(sim.get_task())
-            path += '_l' + sim.get_learner_id() + '.svg'
+            path += '/colour timelines/'
+            os.makedirs(path, exist_ok=True)
+            path += 'p' + sim.get_permutation() 
+            path += '_l' + sim.get_learner_id()
+            path += '_t' + str(sim.get_task()) + '.svg'
             export_svg(plot, filename=path)
 
         if self._settings['save']:
             path = '../reports/' + self._settings['image']['report_folder']
-            path += '/colour timelines/p' + sim.get_permutation() 
-            path += '_t' + str(sim.get_task())
-            path += '_l' + sim.get_learner_id() + '.html'
+            path += '/colour timelines/'
+            os.makedirs(path, exist_ok=True)
+            path += 'p' + sim.get_permutation() 
+            path += '_l' + sim.get_learner_id()
+            path += '_t' + str(sim.get_task()) + '.html'
             save(plot, filename=path)
 
         if self._settings['show']:

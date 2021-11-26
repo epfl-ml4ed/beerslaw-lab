@@ -384,7 +384,43 @@ class Sequencing:
                 timesteps.append(ts[i+1])
 
         return labels, timesteps
-        
+    
+    def _filter_clickasdrag(self, labels, begins, ends, break_threshold):
+        new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
+        for i in range(1, len(labels)):
+            if labels[i] != new_labels[-1]:
+                new_labels.append(labels[i])
+                new_begins.append(begins[i])
+                new_ends.append(ends[i])
+            elif begins[i] - new_ends[-1] < break_threshold:
+                new_ends[-1] = ends[i]
+            else:
+                new_labels.append(labels[i])
+                new_begins.append(begins[i])
+                new_ends.append(ends[i])
+        return labels, begins, ends
+
+    def _filter_concentrationlab(self, labels, begins, ends):
+        """Filters the events "concentrationlab" such that recording each click in that simulation, we record being in this simulation an action.
+
+        Args:
+            labels ([type]): labels
+            begins ([type]): beginning timestamps
+            ends ([type]): end timestamps
+
+        Returns:
+            [type]: labels, begins, ends
+        """
+        new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
+        for i in range(1, len(labels)):
+            if labels[i] == 'concentrationlab' and new_labels[-1] == 'concentrationlab':
+                new_ends[-1] = ends[i]
+
+            else:
+                new_labels.append(labels[i])
+                new_begins.append(begins[i])
+                new_ends.append(ends[i])
+        return new_labels, new_begins, new_ends
     
     def get_sequences(self, simulation: Simulation) -> Tuple[list, list, list]:
         raise NotImplementedError

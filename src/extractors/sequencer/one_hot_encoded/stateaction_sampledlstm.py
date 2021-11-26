@@ -215,6 +215,7 @@ class StateActionLSTMSampling(Sequencing):
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
         begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
+        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
         
         # whether the measure is displayed
         measure_displayed = dict(self._measure_displayed)

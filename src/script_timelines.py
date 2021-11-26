@@ -51,10 +51,34 @@ def sort_all_timelines(settings):
         copyfile(source, direction)
 
 def test(settings):
-    simulations = [
-        '../data/parsed simulations/perm3210_lid22wyn9xy_t1v_simulation.pkl'
-
+    simulations = os.listdir('../data/parsed simulations/')
+    usernames = [
+        'xz56yha8',
+        'jydsy777',
+        '7ck7mq6a',
+        's8w65sm5',
+        'xtnmv9qf',
+        'x844md8u',
+        'qjfn2j8z',
+        'mcjaj2aj',
+        '9p9gwu88',
+        'wxz98urt',
+        'qk6q49f4',
+        'v2kw3kup',
+        'wktpsvp8',
+        'm4zvafhs',
+        'va43652k',
+        'vjr7tshm',
+        '2ep3hayy',
+        'h543nsc8',
+        'pesfpzbv',
+        'p6269reg',
     ]
+    files = []
+    for username in usernames:
+        files = files + [sim for sim in simulations if username in sim and ('t1' in sim or 't2' in sim)]
+    simulations = ['../data/parsed simulations/' + file for file in files]
+    
     for sim_path in simulations:
         with open(sim_path, 'rb') as fp:
             sim = pickle.load(fp)

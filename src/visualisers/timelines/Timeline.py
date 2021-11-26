@@ -5,7 +5,7 @@ from typing import Tuple
 import numpy as np
 
 from extractors.parser.simulation_parser import Simulation
-from extractors.sequencer.plotter_sequencer import PlotterSequencing
+from extractors.sequencer.flat.plotter_sequencer import PlotterSequencing
 
 import bokeh
 from bokeh.plotting import figure, output_file, show

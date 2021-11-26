@@ -197,6 +197,7 @@ class StateActionAdaptiveLSTM(Sequencing):
             Tuple[labels, begins, ends]: [description]
         """
         labels, begins, ends = self._sequencer.get_sequences(simulation)
+        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
         if len(labels) == 0:
             return [], [], []
         break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
@@ -222,21 +223,6 @@ class StateActionAdaptiveLSTM(Sequencing):
 
         return new_labels, new_begins, new_ends
 
-    def _filter_clickasdrag(self, labels, begins, ends, break_threshold):
-        new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
-        for i in range(1, len(labels)):
-            if labels[i] != new_labels[-1]:
-                new_labels.append(labels[i])
-                new_begins.append(begins[i])
-                new_ends.append(ends[i])
-            elif begins[i] - new_ends[-1] < break_threshold:
-                new_ends[-1] = ends[i]
-            else:
-                new_labels.append(labels[i])
-                new_begins.append(begins[i])
-                new_ends.append(ends[i])
-        return labels, begins, ends
-            
     def _duplicate_events(self, label, begin, end):
         if end - begin < self._sampling_interval:
             return [label], [begin], [end]
