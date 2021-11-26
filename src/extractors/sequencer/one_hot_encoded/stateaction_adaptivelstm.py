@@ -105,7 +105,7 @@ class StateActionAdaptiveLSTM(Sequencing):
     def _load_labelmap(self):
         self._label_map = {
             'laser': 'other',
-            'restarts': 'other',
+            'restarts': 'restart',
             'transmittance_absorbance': 'other',
 
             'magnifier_position': 'tools',
@@ -174,7 +174,7 @@ class StateActionAdaptiveLSTM(Sequencing):
     
         self._vector_size = 18
         self._vector_states = 9
-        self._break_state = 17
+        self._break_state = -1
         
     def get_vector_size(self):
         return self._vector_size
@@ -199,10 +199,6 @@ class StateActionAdaptiveLSTM(Sequencing):
         labels, begins, ends = self._sequencer.get_sequences(simulation)
         if len(labels) == 0:
             return [], [], []
-        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
-        break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
-        if self._settings['data']['pipeline']['sequencer_dragasclick']:
-            labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
 
         new_labels, new_begins, new_ends = [], [], []
 

@@ -53,12 +53,11 @@ def sort_all_timelines(settings):
 def test(settings):
     simulations = os.listdir('../data/parsed simulations/')
     usernames = [
-        'a57jkjgv',
-        'm749z8u9'
+        'perm2031_lid2ae6q3hw_t1v_simulation'
     ]
     files = []
     for username in usernames:
-        files = files + [sim for sim in simulations if username in sim and ('t1' in sim or 't2' in sim)]
+        files = files + [sim for sim in simulations if username in sim and ('t1' in sim or 't2' in sim or 't3' in sim)]
     simulations = ['../data/parsed simulations/' + file for file in files]
     
     for sim_path in simulations:

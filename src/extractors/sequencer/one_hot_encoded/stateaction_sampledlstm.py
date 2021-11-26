@@ -98,7 +98,7 @@ class StateActionLSTMSampling(Sequencing):
     def _load_labelmap(self):
         self._label_map = {
             'laser': 'other',
-            'restarts': 'other',
+            'restarts': 'restart',
             'transmittance_absorbance': 'other',
 
             'magnifier_position': 'tools',
@@ -216,8 +216,7 @@ class StateActionLSTMSampling(Sequencing):
         labels = [x for x in self._labels]
         if len(labels) == 0:
             return [], [], []
-        begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
-        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
+        labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)
         
         # whether the measure is displayed
         measure_displayed = dict(self._measure_displayed)

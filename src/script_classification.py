@@ -19,6 +19,7 @@ from ml.xval_maker import XValMaker
 from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
 from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
 from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
+from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
 
 def full_prediction_classification(settings):
     """Uses the config settings to:
@@ -210,13 +211,48 @@ def early_prediction_classification(settings):
                 xval.train(['place'], ['holder'])
 
 def test(settings):
-    with open('../data/parsed simulations/perm3210_lid22wyn9xy_t1v_simulation.pkl', 'rb') as fp:
-        sim = pickle.load(fp)
+    # with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t1v_simulation.pkl', 'rb') as fp:
+    #     sim1 = pickle.load(fp)
+    with open('../data/parsed simulations/perm2031_lidnpkrjraq_t2v_simulation.pkl', 'rb') as fp:
+        sim2 = pickle.load(fp)
 
-    seq = StateActionAdaptiveLSTM(settings)
-    labs, begins, ends = seq.get_sequences(sim)
+    seq = StateActionSecondsLSTM(settings)
+    # labs, begins, ends = seq.get_sequences(sim1)
+    # print(sum(np.array(ends) - np.array(begins)))
+    # print(sim1.get_last_timestamp())
+    # b = begins + [0]
+    # e = [0] + ends
+
+    # breaks = list(np.array(b) - np.array(e))
+    # breaks = breaks[:-1]
+
+    # breaks = [b for b in breaks if b > 0]
+    # breaks = float(np.sum(breaks))
+    # print(breaks)
+
+    print()
+    labs, begins, ends = seq.get_sequences(sim2)
+    print(sum(np.array(ends) - np.array(begins)))
+    print(sim2.get_last_timestamp())
+    b = begins + [0]
+    e = [0] + ends
+
+    breaks = list(np.array(b) - np.array(e))
+    breaks = breaks[:-1]
+
+    breaks = [b for b in breaks if b > 0]
+    breaks = float(np.sum(breaks))
+    print(breaks)
+    print()
+    # for i in range(1, len(labs)):
+    #     if begins[i] < ends[i-1]:
+    #         print('-', begins[i-1], ends[i-1], labs[i-1])
+    #         print('-', begins[i], ends[i], labs[i])
+    # print('here')
     for i, lab in enumerate(labs):
-        print(begins[i], ends[i], lab)
+        print('*', begins[i], ends[i], lab)
+
+    # print(sim2.get_last_timestamp())
 
     # for i, time in enumerate(sim._timeline):
     #     print(sim._timestamps[i], time)

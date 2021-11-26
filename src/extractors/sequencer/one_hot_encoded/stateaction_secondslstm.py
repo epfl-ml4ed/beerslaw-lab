@@ -103,7 +103,7 @@ class StateActionSecondsLSTM(Sequencing):
     def _load_labelmap(self):
         self._label_map = {
             'laser': 'other',
-            'restarts': 'other',
+            'restarts': 'restart',
             'transmittance_absorbance': 'other',
 
             'magnifier_position': 'tools',
@@ -214,7 +214,6 @@ class StateActionSecondsLSTM(Sequencing):
             vector[6] = second
             
         vector[self._vector_index[attributes[4]]] = second
-
         return list(vector)
         
     def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
@@ -225,12 +224,7 @@ class StateActionSecondsLSTM(Sequencing):
         labels = [x for x in self._labels]
         if len(labels) == 0:
             return [], [], []
-        begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
-        
-        break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
-        if self._settings['data']['pipeline']['sequencer_dragasclick']:
-            labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
-        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
+        labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)
         
         # whether the measure is displayed
         measure_displayed = dict(self._measure_displayed)

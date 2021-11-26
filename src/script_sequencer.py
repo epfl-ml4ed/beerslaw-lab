@@ -207,7 +207,7 @@ def test_sequence(settings):
             'sequencer_dragasclick': settings['sequencing']['dragasclick']
         }
     }
-    with open('../data/parsed simulations/perm3012_lidv2kw3kup_t1v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
     seq = StateActionLSTMEncoding(settings)

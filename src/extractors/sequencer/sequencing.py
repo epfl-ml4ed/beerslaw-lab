@@ -104,15 +104,15 @@ class Sequencing:
         begins = begins + wlvar['begin']
         ends = ends + list(np.array(wlvar['begin']) + self._click_interval)
         labels = labels + [self._label_map['wl_variable'] for l in wlvar['begin']]
-        # minus wl slider
-        minus_wl_slider = simulation.get_wl_slider_minus()
-        begins, ends, labels = self._process_firing(minus_wl_slider, begins, ends, labels, self._label_map['minus_wl_slider'])
+        # # minus wl slider
+        # minus_wl_slider = simulation.get_wl_slider_minus()
+        # begins, ends, labels = self._process_firing(minus_wl_slider, begins, ends, labels, self._label_map['minus_wl_slider'])
         # wl slider
         wl_slider = simulation.get_wl_slider()
         begins, ends, labels = self._process_dragging(wl_slider[0], begins, ends, labels, self._label_map['wl_slider'])
         # plus wl slider
-        plus_wl_slider = simulation.get_wl_slider_plus()
-        begins, ends, labels = self._process_firing(plus_wl_slider, begins, ends, labels, self._label_map['plus_wl_slider'])
+        # plus_wl_slider = simulation.get_wl_slider_plus()
+        # begins, ends, labels = self._process_firing(plus_wl_slider, begins, ends, labels, self._label_map['plus_wl_slider'])
         # solution menu
         solution_menu = simulation.get_solution_menu()
         begins, ends, labels = self._process_dragging(solution_menu[0], begins, ends, labels, self._label_map['solution_menu'])
@@ -459,13 +459,129 @@ class Sequencing:
         new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
         for i in range(1, len(labels)):
             if labels[i] == 'concentrationlab' and new_labels[-1] == 'concentrationlab':
-                new_ends[-1] = ends[i]
+                if new_ends[-1] < ends[i]:
+                    new_ends[-1] = ends[i]
 
             else:
                 new_labels.append(labels[i])
                 new_begins.append(begins[i])
                 new_ends.append(ends[i])
         return new_labels, new_begins, new_ends
+
+    def _filter_doubleeveents(self, labels, begins, ends):
+        """Sometimes, events are registered as double in the event logs. We filter them here.
+
+        Args:
+            labels ([type]): [description]
+            begins ([type]): [description]
+            ends ([type]): [description]
+        """
+        new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
+        for i in range(len(labels)):
+            if labels[i] == new_labels[-1] and begins[i] == new_begins[-1] and ends[i] == new_ends[-1]:
+                continue
+            if begins[i] == ends[i]:
+                continue
+            if begins[i] == new_begins[-1] and ends[i] == new_ends[-1] and (labels[i] == 'other' or new_labels[-1] == 'other'):
+                if new_labels[-1] == 'other':
+                    new_labels[-1] = labels[i]
+            else:
+                new_labels.append(labels[i])
+                new_begins.append(begins[i])
+                new_ends.append(ends[i])
+        return new_labels, new_begins, new_ends
+
+    def _filter_menusolution_pdf(self, labels, begins, ends):
+        """It is possible for the students to open the solution menu, then the pdf menu, 
+        the close the pdf, then still have the solution menu. The parsing has not taken that into account, as it is true that 
+        the solution menu remains opened when the pdf menu is on.
+        We correct it here:
+        [solution opens, pdf opens, ..., pdf closes, solution closes]
+        is turned into
+        [solution opens, solution closes, pdf opens, pdf closes, solution opens, solution closes]
+
+        Args:
+            labels ([type]): [description]
+            begins ([type]): [description]
+            ends ([type]): [description]
+        """
+        new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
+        index_skip = -1
+        for i in range(1, len(labels)):
+            if i <= index_skip:
+                continue
+            if begins[i] < ends[i-1]:
+                print('**problem')
+                print(begins[i-1], ends[i-1], labels[i-1])
+                print(begins[i], ends[i], labels[i])
+                print()
+                pdfs_begs = []
+                pdfs_ends = []
+                pdfs_labs = []
+                for j in range(i, len(labels)):
+                    if begins[j] < ends[i-1]:
+                        pdfs_begs.append(begins[j])
+                        pdfs_ends.append(ends[j])
+                        pdfs_labs.append(labels[j])
+                    else:
+                        break
+                for j in range(len(pdfs_begs)):
+                    new_labels.append(pdfs_labs[j])
+                    new_begins.append(pdfs_begs[j])
+                    new_ends.append(pdfs_ends[j])
+                    if j + 1 < len(pdfs_labs):
+                        new_labels.append(labels[i-1])
+                        new_begins.append(pdfs_ends[j])
+                        new_ends.append(pdfs_begs[j+1])
+                index_skip = i + len(pdfs_begs) - 1
+                new_labels.append(labels[i-1])
+                new_begins.append(pdfs_ends[j])
+                new_ends.append(new_ends[i-1])
+                new_ends[i-1] = pdfs_begs[0]
+            else:
+                new_labels.append(labels[i])
+                new_begins.append(begins[i])
+                new_ends.append(ends[i])
+        return new_labels, new_begins, new_ends
+
+    def _filter_restarts(self, labels, begins, ends):
+        """Restarts change the simulation, so some events are "fired" without anything really changing.
+
+        Args:
+            labels ([type]): [description]
+            begins ([type]): [description]
+            ends ([type]): [description]
+        """
+        indices = [i for i in range(len(labels)) if labels[i] == 'restart']
+        restart_begins = [begins[i] for i in indices]
+        restart_ends = [ends[i] for i in indices]
+
+        new_labels = []
+        new_begins = []
+        new_ends = []
+        for i in range(len(labels)):
+            if begins[i] in restart_begins and ends[i] in restart_ends and labels[i] != 'restart':
+                continue
+            elif labels[i] == 'restart':
+                new_labels.append('other')
+            else:
+                new_labels.append(labels[i])
+            new_begins.append(begins[i])
+            new_ends.append(ends[i])
+        return new_labels, new_begins, new_ends
+
+    def _basic_common_filtering(self, labels, begins, ends, simulation):
+        labels, begins, ends = self._filter_restarts(labels, begins, ends)
+        labels, begins, ends = self._filter_doubleeveents(labels, begins, ends)
+        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
+        labels, begins, ends = self._filter_menusolution_pdf(labels, begins, ends)
+        begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
+
+        if self._settings['data']['pipeline']['sequencer_dragasclick']:
+            break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
+            labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
+        return labels, begins, ends
+
     
     def get_sequences(self, simulation: Simulation) -> Tuple[list, list, list]:
         raise NotImplementedError

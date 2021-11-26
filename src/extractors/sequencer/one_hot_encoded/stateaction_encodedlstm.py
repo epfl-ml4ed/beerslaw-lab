@@ -102,7 +102,7 @@ class StateActionLSTMEncoding(Sequencing):
     def _load_labelmap(self):
         self._label_map = {
             'laser': 'other',
-            'restarts': 'other',
+            'restarts': 'restart',
             'transmittance_absorbance': 'other',
 
             'magnifier_position': 'tools',
@@ -223,10 +223,7 @@ class StateActionLSTMEncoding(Sequencing):
         labels = [x for x in self._labels]
         if len(labels) == 0:
             return [], [], []
-        break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
-        if self._settings['data']['pipeline']['sequencer_dragasclick']:
-            labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
-        labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
+        labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)
         
         # whether the measure is displayed
         measure_displayed = dict(self._measure_displayed)
