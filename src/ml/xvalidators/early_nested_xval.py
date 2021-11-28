@@ -138,7 +138,7 @@ class EarlyNestedXVal(XValidator):
             test_index, x_test, y_test, short_test = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, test_indices, self._settings['ML']['pipeline']['test_pad'])
             
             # Inner loop
-            ttrain_index, val_index = next(self._inner_splitter.split(x_train, y_train))
+            ttrain_index, val_index = self._inner_splitter.next_split(x_train, y_train)
             val_indices = [indices_train[tti] for tti in val_index]
             val_indices, x_val, y_val, short_val = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, val_indices, self._settings['ML']['pipeline']['val_pad'])
             

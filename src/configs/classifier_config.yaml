@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
-  root_name: gpu-baselines
+  root_name: cpu-baselines-outer
   random_seed: 42
   n_folds: blank
   n_classes: 2
@@ -27,11 +27,11 @@ data:
     skipgram_map: ''
     aggregator: blank
   adjuster:
-    limit: 1250
+    limit: 900
 ML:
   pipeline:
     splitter: stratkf
-    inner_splitter: stratkf
+    inner_splitter: 1kfold
     outer_splitter: flatstrat
     sampler: nosplr
     task: classification
@@ -59,8 +59,8 @@ ML:
       train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
   xvalidators:
     nested_xval:
-      inner_n_folds: 10
-      outer_n_folds: 1
+      inner_n_folds: 1
+      outer_n_folds: 10
       optim_scoring: roc
   scorers:
     scoring_metrics:

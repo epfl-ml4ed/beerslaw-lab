@@ -35,6 +35,7 @@ from ml.gridsearches.gridsearch import GridSearch
 from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
 from ml.gridsearches.unsupervised_gridsearch import UnsupervisedGridSearch
 from ml.splitters.flat_stratified import FlatStratified
+from ml.splitters.one_fold import OneFoldSplit
 
 class XValMaker:
     """This script assembles the machine learning component and creates the training pipeline according to:
@@ -57,21 +58,23 @@ class XValMaker:
         
         self._build_pipeline()
         
-    def _choose_splitter(self):
-        if self._pipeline_settings['splitter'] == 'stratkf':
-            self._splitter = StratifiedKSplit
+    # def _choose_splitter(self):
+    #     if self._pipeline_settings['splitter'] == 'stratkf':
+    #         self._splitter = StratifiedKSplit
 
-    def __choose_splitter(self, splitter:str) -> Splitter:
+    def _choose_splitter(self, splitter:str) -> Splitter:
         if splitter == 'stratkf':
             return StratifiedKSplit
         if splitter == 'flatstrat':
             return FlatStratified
+        if splitter == '1kfold':
+            return OneFoldSplit
     
     def _choose_inner_splitter(self):
-        self._inner_splitter = self.__choose_splitter(self._pipeline_settings['inner_splitter'])
+        self._inner_splitter = self._choose_splitter(self._pipeline_settings['inner_splitter'])
 
     def _choose_outer_splitter(self):
-        self._outer_splitter = self.__choose_splitter(self._pipeline_settings['outer_splitter'])
+        self._outer_splitter = self._choose_splitter(self._pipeline_settings['outer_splitter'])
             
     def _choose_sampler(self):
         if self._pipeline_settings['sampler'] == 'nosplr':

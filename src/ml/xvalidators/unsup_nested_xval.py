@@ -89,7 +89,7 @@ class UnsupNestedXVal(XValidator):
             y_test = [y[yy] for yy in test_index]
             
             # Inner loop
-            ttrain_index, val_index = next(self._inner_splitter.split(x_train, y_train))
+            ttrain_index, val_index = self._inner_splitter.next_split(x_train, y_train)
             x_val = [x_train[xx] for xx in val_index]
             x_train = [x_train[xx] for xx in ttrain_index]
             train_dict, x_train = self._flatten(x_train)

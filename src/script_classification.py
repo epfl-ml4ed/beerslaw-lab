@@ -213,7 +213,7 @@ def early_prediction_classification(settings):
 def test(settings):
     # with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t1v_simulation.pkl', 'rb') as fp:
     #     sim1 = pickle.load(fp)
-    with open('../data/parsed simulations/perm2031_lidnpkrjraq_t2v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm0321_lid6tgyhcuh_t1v_simulation.pkl', 'rb') as fp:
         sim2 = pickle.load(fp)
 
     seq = StateActionSecondsLSTM(settings)
@@ -287,6 +287,13 @@ def main(settings):
         if 'stateaction_encodedlstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
             settings['data']['pipeline']['aggregator'] = 'noagg'
+    
+    if settings['fulltime']:
+        settings['data']['pipeline']['adjuster'] = 'full'
+        settings['data']['adjuster']['limit'] = 900
+
+    if settings['scrop']:
+        settings['data']['pipeline']['adjuster'] = 'scrop'
 
 
     if settings['classname'] != '':
@@ -333,7 +340,9 @@ if __name__ == '__main__':
     parser.add_argument('--classname', dest='classname', default='', help='class to use: colbin, conbin, widbin', action='store')
     parser.add_argument('--skipgram', dest='skipgram', default='', help='0 or 1', action='store')
     parser.add_argument('--models', dest='models', default='', help='rf, sknn, svc, sgd, knn, or adaboost', action='store')
-    
+    parser.add_argument('--fulltime', dest='fulltime', default=False, action='store_true')
+    parser.add_argument('--scrop', dest='scrop', default=False, action='store_true')
+
     settings.update(vars(parser.parse_args()))
     
     main(settings)

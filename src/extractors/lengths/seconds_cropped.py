@@ -28,7 +28,8 @@ class SecondCropper(Adjuster):
             sequence.append(labels[i])
             b.append(begin[i])
             e.append(end[i])
-        e[-1] = second
+        if e[-1] > second:
+            e[-1] = second
             
         return sequence, b, e
             

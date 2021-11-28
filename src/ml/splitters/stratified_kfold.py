@@ -39,6 +39,9 @@ class StratifiedKSplit(Splitter):
         else:
             fakey = [xx[self._splitter_settings['stratifier_col']] for xx in x]
             return self._splitter.split(x, fakey)
+
+    def next_split(self, x, y):
+        return next(self.split(x, y))
             
         
         

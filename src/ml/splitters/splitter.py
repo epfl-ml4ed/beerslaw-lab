@@ -45,5 +45,8 @@ class Splitter:
             test_indices: list
         """
         raise NotImplementedError
+
+    def next_split(self, x, y):
+        raise NotImplementedError
         
         
