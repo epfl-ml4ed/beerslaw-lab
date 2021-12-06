@@ -349,6 +349,7 @@ class ColourTimeline(Timeline):
             path += 'p' + sim.get_permutation() 
             path += '_l' + sim.get_learner_id()
             path += '_t' + str(sim.get_task()) + '.svg'
+            print(path)
             export_svg(plot, filename=path)
 
         if self._settings['save']:

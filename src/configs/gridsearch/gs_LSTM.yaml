@@ -1,7 +1,7 @@
 padding_value: 
   - -1
 cell_type:
-  - LSTM
+  # - LSTM
   - BiLSTM
 n_layers:
   # - 1
@@ -17,7 +17,7 @@ dropout:
 optimiser:
   - adam
 loss:
-  - cce
+  - auc
 early_stopping:
   - False
 batch_size:

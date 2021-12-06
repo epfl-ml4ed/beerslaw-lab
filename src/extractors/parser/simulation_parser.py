@@ -696,7 +696,10 @@ class Simulation:
         Returns:
             list: [description]
         """
-        return self._timestamps_restarts[1:]
+        if len(self._timestamps_restarts) > 1:
+            return self._timestamps_restarts[1:]
+        else:
+            return []
     
     def get_concentrationlab_state(self) -> dict:
         """Returns when the concentration lab is in use or not

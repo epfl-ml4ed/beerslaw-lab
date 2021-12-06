@@ -28,6 +28,9 @@ from extractors.cleaners.event_filter import EventFilter
 from extractors.cleaners.no_transitions_event_filter import NoTransitionFilters
 from extractors.cleaners.no_event_filter import NoEventFilter
 
+from extractors.filters.filter import Filter
+from extractors.filters.chemlab_filter import ChemLabFilter
+
 from extractors.encoding.encoder import Encoder
 from extractors.encoding.actionspans_encoder import ActionSpansEncoder
 from extractors.encoding.onehot_encoder import OneHotEncoder
@@ -241,6 +244,11 @@ class PipelineMaker:
             self._id_dictionary = pickle.load(fp)
             self._id_indices = list(self._id_dictionary['sequences'].keys())
         self._sequenced_files = os.listdir(self._sequenced_directory)
+
+    def _filter_data(self):
+        if self._data_settings['pipeline']['demographic_filter'] == 'chemlab':
+            chemlab = ChemLabFilter(self._settings, self._id_dictionary)
+            self._id_dictionary = chemlab.filter_data()
         
     def _choose_event_filter(self):
         self._pipeline_name += self._data_settings['pipeline']['event_filter']
@@ -322,6 +330,7 @@ class PipelineMaker:
         self._choose_sequencer()
         self._concatenate_sequences()
         self._load_sequences()
+        self._filter_data()
         self._pipeline_name += '_'
         self._choose_event_filter()
         self._pipeline_name += '_'

@@ -63,8 +63,12 @@ class Styler:
             algo = 'sgd'
         elif 'knn' in path:
             algo = 'knn'
-        elif 'adaboost':
+        elif 'adaboost' in path:
             algo = 'adaboost'
+        elif 'BiLSTM' in path:
+            algo = 'BiLSTM'
+        elif 'lstm' in path:
+            algo = 'LSTM'
         return algo
     
     def _get_feature(self, path:str) -> str:
@@ -82,6 +86,14 @@ class Styler:
             feature = 'shortpw'
         elif 'sgenc' in path:
             feature = 'pw'
+        elif 'raw_full' in path and 'stateaction_secondslstm':
+            feature = 'seconds_pad'
+        elif 'raw_scrop' in path and 'stateaction_secondslstm':
+            feature = 'seconds_crop'
+        elif 'raw_full' in path and 'stateaction_encodedlstm':
+            feature = 'encoded_pad'
+        elif 'raw_scrop' in path and 'stateaction_secondslstm':
+            feature = 'encoded_crop'
         return feature
     
     def _get_alpha(self, path:str) -> str:
@@ -120,6 +132,14 @@ class Styler:
             feature = 'actionspan_normagg'
         elif 'actionspan_normagg' in path:
             feature = 'actionspan_normagg'
+        elif 'raw_full' in path and 'stateaction_secondslstm':
+            feature = 'seconds_pad'
+        elif 'raw_scrop' in path and 'stateaction_secondslstm':
+            feature = 'seconds_crop'
+        elif 'raw_full' in path and 'stateaction_encodedlstm':
+            feature = 'encoded_pad'
+        elif 'raw_scrop' in path and 'stateaction_secondslstm':
+            feature = 'encoded_crop'
         return feature
         
     def _algofeatures_plot_styling(self, paths:list) -> dict:

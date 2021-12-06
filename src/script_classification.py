@@ -33,13 +33,13 @@ def full_prediction_classification(settings):
         settings: config flag + arguments
     """
     settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
-    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['data']['pipeline']['encoder'] + '/'
+    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_settings()
     log_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/training_logs.txt'
     logging.basicConfig(
         filename=log_path,
-        level=logging.INFO, 
+        level=logging.DEBUG, 
         format='', 
         datefmt=''
     )
@@ -213,10 +213,11 @@ def early_prediction_classification(settings):
 def test(settings):
     # with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t1v_simulation.pkl', 'rb') as fp:
     #     sim1 = pickle.load(fp)
-    with open('../data/parsed simulations/perm0321_lid6tgyhcuh_t1v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm3201_lidtcnba4ca_t2v_simulation.pkl', 'rb') as fp:
         sim2 = pickle.load(fp)
 
     seq = StateActionSecondsLSTM(settings)
+    print(seq)
     # labs, begins, ends = seq.get_sequences(sim1)
     # print(sum(np.array(ends) - np.array(begins)))
     # print(sim1.get_last_timestamp())

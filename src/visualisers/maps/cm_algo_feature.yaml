@@ -64,5 +64,14 @@ adaboost:
   ac_cum: turquoise
   vas: lightseagreen
   vac: turquoise
-  
+BiLSTM:
+  seconds_pad: darkolivegreen
+  encoded_pad: olive
+  seconds_crop: yellowgreen
+  encoded_crop: palegreen
+LSTM:
+  seconds_pad: mediumvioletred
+  encoded_pad: crimson
+  seconds_crop: deeppink
+  encoded_crop: hotpink
 

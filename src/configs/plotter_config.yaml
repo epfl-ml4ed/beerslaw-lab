@@ -1,5 +1,5 @@
 experiment:
-  name: basicencoding_biLSTM/binconcepts/raw/2021_11_14_0
+  name: "debug/stateaction_secondslstm_12/binconcepts/lstm/raw_full/2021_12_01_16"
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:
@@ -24,7 +24,7 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
-      - nconcepts
+      - binconcepts
       # - conbin
       # - widbin
       # - coltri

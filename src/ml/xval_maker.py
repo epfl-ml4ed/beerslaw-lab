@@ -75,6 +75,9 @@ class XValMaker:
 
     def _choose_outer_splitter(self):
         self._outer_splitter = self._choose_splitter(self._pipeline_settings['outer_splitter'])
+
+    def _choose_gridsearch_splitter(self):
+        self._gs_splitter = self._choose_splitter(self._pipeline_settings['gs_splitter'])
             
     def _choose_sampler(self):
         if self._pipeline_settings['sampler'] == 'nosplr':
@@ -148,12 +151,13 @@ class XValMaker:
             self._xval = UnsupNestedXVal
         if self._pipeline_settings['xvalidator'] == 'early_nested_xval':
             self._xval = EarlyNestedXVal
-        self._xval = self._xval(self._settings, self._gridsearch, self._inner_splitter, self._outer_splitter, self._sampler, self._model, self._scorer)
+        self._xval = self._xval(self._settings, self._gridsearch, self._inner_splitter, self._gs_splitter, self._outer_splitter, self._sampler, self._model, self._scorer)
                 
     def _build_pipeline(self):
         # self._choose_splitter()
         self._choose_inner_splitter()
         self._choose_outer_splitter()
+        self._choose_gridsearch_splitter()
         self._choose_sampler()
         self._choose_model()
         self._choose_scorer()

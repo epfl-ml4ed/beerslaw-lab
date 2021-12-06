@@ -21,7 +21,8 @@ class UnsupervisedGridSearch(GridSearch):
         for i, combination in enumerate(self._combinations):
             logging.info('Testing parameters: {}'.format(combination))
             folds = []
-            for f, (train_index, validation_index) in enumerate(self._splitter.split(x_train, y_train)):
+            splitter = self._splitter(self._settings)
+            for f, (train_index, validation_index) in enumerate(splitter.split(x_train, y_train)):
                 x_val = [x_train[xx] for xx in validation_index]
                 xx_train = [x_train[xx] for xx in train_index]
                 

@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
-  root_name: cpu-baselines-outer
+  root_name: cluster-baselines
   random_seed: 42
   n_folds: blank
   n_classes: 2
@@ -16,8 +16,9 @@ data:
     concatenator:
       type: chemconcat
       tasks: 
-        - '1'
+        # - '1'
         - '2'
+    demographic_filter: chemlab
     event_filter: nofilt
     break_filter: blank
     break_threshold: 0.6
@@ -28,10 +29,13 @@ data:
     aggregator: blank
   adjuster:
     limit: 900
+  filters:
+    timelimit: 120
+    interactionlimit: 10
 ML:
   pipeline:
-    splitter: stratkf
-    inner_splitter: 1kfold
+    gs_splitter: stratkf
+    inner_splitter: stratkf
     outer_splitter: flatstrat
     sampler: nosplr
     task: classification
@@ -59,8 +63,8 @@ ML:
       train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
   xvalidators:
     nested_xval:
-      inner_n_folds: 1
-      outer_n_folds: 10
+      inner_n_folds: 10
+      outer_n_folds: 1
       optim_scoring: roc
   scorers:
     scoring_metrics:

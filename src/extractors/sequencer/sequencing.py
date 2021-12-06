@@ -96,9 +96,10 @@ class Sequencing:
         begins, ends, labels = self._process_radiobox_seq(laser, begins, ends, labels, self._label_map['laser'])
         # preset variable
         preset = simulation.get_wl_preset()
-        begins = begins + preset['begin'][1:]
-        ends = ends + list(np.array(preset['begin'][1:]) + self._click_interval)
-        labels = labels + [self._label_map['preset'] for l in preset['begin'][1:]]
+        if len(preset['begin']) > 1:
+            begins = begins + preset['begin'][1:]
+            ends = ends + list(np.array(preset['begin'][1:]) + self._click_interval)
+            labels = labels + [self._label_map['preset'] for l in preset['begin'][1:]]
         # wavelength variable
         wlvar = simulation.get_wl_variable()
         begins = begins + wlvar['begin']
@@ -151,7 +152,6 @@ class Sequencing:
         ls = [labels[i] for i in indices]
         
         bs, es, ls = self._clean_closing(bs, es, ls, simulation.get_last_timestamp())
-        
         self._begins = bs
         self._ends = es
         self._labels = ls
@@ -319,6 +319,8 @@ class Sequencing:
             return timestamps, values, values[0]
         elif timestamps[0] < timestep and timestamps[1] <= timestep:
             return self._get_value_timestep(timestamps[1:], values[1:], timestep)
+        elif len(timestamps) == 2 and timestamps[0] == timestamps[1]:
+            return [timestamps[0]], [values[0]], values[0]
         
     def _state_return(self, begin: list, end: list, timestep: float) -> Tuple[bool, list, list]:
         if begin == [] or end == []:
@@ -344,7 +346,7 @@ class Sequencing:
     def _clean_closing(self, begins:str, ends:list, labels:list, last_timestamp:float) -> Tuple[list, list, list]:
         bs, es, ls = [], [], []
         for i, b in enumerate(begins):
-            if b != last_timestamp:
+            if b <= last_timestamp  and labels[i] != 'other':
                 bs.append(b)
                 es.append(ends[i])
                 ls.append(labels[i])
@@ -491,9 +493,11 @@ class Sequencing:
                 new_ends.append(ends[i])
         return new_labels, new_begins, new_ends
 
-    def _filter_menusolution_pdf(self, labels, begins, ends):
+    def _filter_overlaps(self, labels, begins, ends):
         """It is possible for the students to open the solution menu, then the pdf menu, 
-        the close the pdf, then still have the solution menu. The parsing has not taken that into account, as it is true that 
+        the close the pdf, then still have the solution menu. It is also possible that the parsing is having some issues, and some overlaps
+        are observed.
+        The parsing has not taken that into account, as it is true that 
         the solution menu remains opened when the pdf menu is on.
         We correct it here:
         [solution opens, pdf opens, ..., pdf closes, solution closes]
@@ -505,39 +509,44 @@ class Sequencing:
             begins ([type]): [description]
             ends ([type]): [description]
         """
-        new_labels, new_begins, new_ends = [labels[0]], [begins[0]], [ends[0]]
+        new_labels, new_begins, new_ends = [], [], []
         index_skip = -1
-        for i in range(1, len(labels)):
-            if i <= index_skip:
+        for i in range(len(labels)):
+            if i < index_skip:
                 continue
-            if begins[i] < ends[i-1]:
-                print('**problem')
-                print(begins[i-1], ends[i-1], labels[i-1])
-                print(begins[i], ends[i], labels[i])
-                print()
-                pdfs_begs = []
-                pdfs_ends = []
-                pdfs_labs = []
-                for j in range(i, len(labels)):
-                    if begins[j] < ends[i-1]:
-                        pdfs_begs.append(begins[j])
-                        pdfs_ends.append(ends[j])
-                        pdfs_labs.append(labels[j])
-                    else:
-                        break
-                for j in range(len(pdfs_begs)):
-                    new_labels.append(pdfs_labs[j])
-                    new_begins.append(pdfs_begs[j])
-                    new_ends.append(pdfs_ends[j])
-                    if j + 1 < len(pdfs_labs):
-                        new_labels.append(labels[i-1])
-                        new_begins.append(pdfs_ends[j])
-                        new_ends.append(pdfs_begs[j+1])
-                index_skip = i + len(pdfs_begs) - 1
-                new_labels.append(labels[i-1])
-                new_begins.append(pdfs_ends[j])
-                new_ends.append(new_ends[i-1])
-                new_ends[i-1] = pdfs_begs[0]
+            overlap_labels, overlap_begins, overlap_ends = [labels[i]], [begins[i]], [ends[i]]
+            for j in range(i+1, len(labels)):
+                if begins[j] < ends[i]:
+                    print('** problem')
+                    print(labels[i], begins[i], ends[i])
+                    print(labels[j], begins[j], ends[j])
+                    overlap_labels.append(labels[j])
+                    overlap_begins.append(begins[j])
+                    overlap_ends.append(ends[j])
+                else:
+                    break
+
+            if len(overlap_labels) > 1:
+                sort_indices = np.argsort(overlap_begins)
+                new_ov_labels = [overlap_labels[idx] for idx in sort_indices]
+                new_ov_begins = [overlap_begins[idx] for idx in sort_indices] + [ends[i]]
+                new_ov_ends = [overlap_ends[idx] for idx in sort_indices]
+
+                new_labels.append(new_ov_labels[0])
+                new_begins.append(new_ov_begins[0])
+                new_ends.append(new_ov_begins[1])
+                for k in range(1, len(overlap_labels)):
+                    new_labels.append(new_ov_labels[k])
+                    new_begins.append(new_ov_begins[k])
+                    new_ends.append(new_ov_ends[k])
+
+                    if new_ov_begins[k+1] >= new_ov_ends[k]:
+                        new_labels.append(new_ov_labels[0])
+                        new_begins.append(new_ov_ends[k])
+                        new_ends.append(new_ov_begins[k+1])
+
+                index_skip = i + len(overlap_labels)
+
             else:
                 new_labels.append(labels[i])
                 new_begins.append(begins[i])
@@ -574,7 +583,7 @@ class Sequencing:
         labels, begins, ends = self._filter_restarts(labels, begins, ends)
         labels, begins, ends = self._filter_doubleeveents(labels, begins, ends)
         labels, begins, ends = self._filter_concentrationlab(labels, begins, ends)
-        labels, begins, ends = self._filter_menusolution_pdf(labels, begins, ends)
+        labels, begins, ends = self._filter_overlaps(labels, begins, ends)
         begins, ends, labels = self._change_magnifier_states(begins, ends, labels, simulation)
 
         if self._settings['data']['pipeline']['sequencer_dragasclick']:

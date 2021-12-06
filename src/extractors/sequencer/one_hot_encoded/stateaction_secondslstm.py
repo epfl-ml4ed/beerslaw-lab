@@ -246,6 +246,7 @@ class StateActionSecondsLSTM(Sequencing):
         wl_values, wl_timestamps = self._process_wl(self._wavelength[0]), self._wavelength[1]
         
         new_labels = []
+
         for i, lab in enumerate(labels):
             # observable or not
             mm, measure_begin, measure_end = self._state_return(measure_begin, measure_end, begins[i])

@@ -33,6 +33,7 @@ class NestedXValPlotter:
             xval_path.extend(files)
         kw = self._settings['experiment']['keyword']
         xval_path = [xval for xval in xval_path if kw in xval]
+        xval_path = [xval for xval in xval_path if 'exclude' not in xval]
         
         # Load xvals
         xvs = {}

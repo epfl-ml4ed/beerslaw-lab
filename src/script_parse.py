@@ -99,11 +99,10 @@ def test(settings):
         format='', 
         datefmt=''
     )
-    
     paths = [
-        '../data/temp/Session 40/c9dj36r7-1.log',
-        '../data/temp/Session 40/c9dj36r7-2.log',
-        '../data/temp/Session 40/c9dj36r7-3.log'
+        '../data/temp/Session 7/e93na59g-1.log',
+        '../data/temp/Session 7/e93na59g-2.log',
+        '../data/temp/Session 7/e93na59g-3.log'
     ]
     with open('../data/post_test/rankings.pkl', 'rb') as fp:
         rankings = pickle.load(fp)
@@ -115,6 +114,7 @@ def test(settings):
         print(rankings.loc[sim.get_learner_id()]['ranking'])
         sim.parse_simulation()
         sim.set_permutation(rankings.loc[sim.get_learner_id()]['ranking'])
+        print('save')
         sim.save(path='../data/temp parsed/perm'+ sim.get_permutation() + '_lid' + path.split('/')[-1])
         print()
 

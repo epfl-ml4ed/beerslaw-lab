@@ -27,7 +27,7 @@ class UnsupNestedXVal(XValidator):
         XValidator (XValidators): Inherits from the model class
     """
     
-    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
+    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, gs_splitter: Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
         super().__init__(settings, inner_splitter, model, scorer)
         self._name = 'unsupervised nested cross validator'
         self._notation = 'unsup_nested_xval'

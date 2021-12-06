@@ -10,7 +10,7 @@ plot:
   ylabel: students
   xrange: [0, 1000]
 image:
-  report_folder: 'timelines/EDA/long sequences'
+  report_folder: 'timelines/'
 paths:
   crawl_path: '../data/parsed simulations/'
   new_path: '../reports/timelines/vector binary/'

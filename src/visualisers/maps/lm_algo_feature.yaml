@@ -10,6 +10,10 @@ abbreviations:
   sgenc_short: short skipgram
   vas: vec action span
   vac: vec action count
+  seconds_pad: seconds padded
+  seconds_crop: seconds cropped
+  encoded_pad: flat padded
+  encoded_crop: flat cropped
 full_names:
   1hot_aveagg: action count with average cumulative aggregation
   actionspan_noagg: non normalised action span
@@ -22,6 +26,10 @@ full_names:
   sgenc_short: pairwise embeddings with low dimensionality
   vas: vector action span
   vac: vector action count
+  seconds_pad: flat encoding with the notion of seconds, padded
+  seconds_crop: flat encoding with the notion of seconds, cropped
+  encoded_pad: flat encoding, padded
+  encoded_crop: flat encoding, cropped
 colour_map:
   1hot_aveagg: ac_av
   actionspan_noagg: as
@@ -34,4 +42,8 @@ colour_map:
   sgenc_short: shortpw
   vas: vas
   vac: vac
+  seconds_pad: seconds_pad
+  seconds_crop: seconds_crop
+  encoded_pad: encoded_pad
+  encoded_crop: encoded_crop
   

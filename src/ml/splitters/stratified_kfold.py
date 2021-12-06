@@ -24,9 +24,13 @@ class StratifiedKSplit(Splitter):
         self.__init_splitter()
         
     def set_n_folds(self, n_folds):
+        if n_folds == 1:
+            n_folds = 2
         self._n_folds = n_folds
         
     def __init_splitter(self):
+        if self._n_folds == 1:
+            self._n_folds = 2
         self._splitter = StratifiedKFold(
             n_splits=self._n_folds,
             random_state=self._random_seed,

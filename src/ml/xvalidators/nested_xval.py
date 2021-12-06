@@ -29,15 +29,17 @@ class NestedXVal(XValidator):
         XValidator (XValidators): Inherits from the model class
     """
     
-    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
+    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, gridsearch_splitter: Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
         super().__init__(settings, inner_splitter, model, scorer)
         self._name = 'nested cross validator'
         self._notation = 'nested_xval'
         
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
-        self._inner_splitter =  inner_splitter(settings)
+        self._gs_splitter = gridsearch_splitter # To create the folds within the gridsearch from the train set 
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['outer_n_folds']
-        self._outer_splitter = outer_splitter(settings)
+        self._inner_splitter =  inner_splitter(settings)
+        self._outer_splitter = outer_splitter(settings) # to create the folds between development and test
+        
         self._sampler = sampler()
         self._scorer = scorer(settings)
         self._gridsearch = gridsearch
@@ -52,7 +54,7 @@ class NestedXVal(XValidator):
             model=self._model,
             grid=self._xval_settings['nested_xval']['param_grid'],
             scorer=self._scorer,
-            splitter = self._splitter(self._settings),
+            splitter = self._gs_splitter,
             settings=self._settings,
             outer_fold=fold
         )
@@ -98,6 +100,15 @@ class NestedXVal(XValidator):
             results[f]['val_index'] = val_index
             results[f]['x_resampled'] = x_resampled
             results[f]['y_resampled'] = y_resampled
+
+            logging.debug('  * data format: x [{}], y [{}]'.format(np.array(x_resampled).shape, np.array(y_resampled).shape))
+    
+            logging.debug('  * data details, mean: {};{} - std {};{}'.format(
+                np.mean([np.mean(idx) for idx in x_resampled]),
+                np.mean([np.mean(idx) for idx in y_resampled]),
+                np.std([np.std(idx) for idx in x_resampled]),
+                np.std([np.std(idx) for idx in y_resampled])
+            ))
             
             # Train
             self._init_gs(f)
