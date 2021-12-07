@@ -1,5 +1,5 @@
 experiment:
-  name: "debug/stateaction_secondslstm_12/binconcepts/lstm/raw_full/2021_12_01_16"
+  name: cap
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:

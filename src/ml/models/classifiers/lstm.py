@@ -83,7 +83,7 @@ class LSTMModel(Model):
             self._model.add(layers.Dropout(self._model_settings['dropout']))
             
         # output layer
-        self._model.add(layers.Dense(self._settings['experiment']['n_classes'], activation="softmax", use_bias=False))
+        self._model.add(layers.Dense(self._settings['experiment']['n_classes'], activation="softmax"))
         
         # compiling
         cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
@@ -105,7 +105,6 @@ class LSTMModel(Model):
         csv_path = self._get_csvlogger_path()
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
-        print(self._model.summary())
         
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)

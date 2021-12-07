@@ -18,6 +18,7 @@ from extractors.sequencer.flat.set2_sequencer import Set2Sequencing
 from extractors.sequencer.flat.basic_sequencer import BasicSequencing
 from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
+from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
@@ -67,7 +68,8 @@ def sequence_simulations(settings):
         'base_lstmencoded': BaseLSTMEncoding,
         'stateaction_secondslstm': StateActionSecondsLSTM,
         'stateaction_adaptivelstm': process_adaptive_interval,
-        'stateaction_encodedlstm': StateActionLSTMEncoding
+        'stateaction_encodedlstm': StateActionLSTMEncoding,
+        'chem2cap': Chem2CapSequencer
     }
     settings['data'] = {
         'pipeline': {

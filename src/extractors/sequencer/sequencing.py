@@ -51,7 +51,7 @@ class Sequencing:
             'flask': 'flask',
             'ruler': 'other',
             'pdf': 'pdf',
-            'restarts': 'other',
+            'restarts': 'restart',
             'concentrationlab': 'concentrationlab',
             'transmittance_absorbance': 'other',
             'magnifier_position': 'other'
@@ -94,17 +94,18 @@ class Sequencing:
         # laser
         laser = simulation.get_laser()
         begins, ends, labels = self._process_radiobox_seq(laser, begins, ends, labels, self._label_map['laser'])
+        
         # preset variable
         preset = simulation.get_wl_preset()
         if len(preset['begin']) > 1:
-            begins = begins + preset['begin'][1:]
-            ends = ends + list(np.array(preset['begin'][1:]) + self._click_interval)
-            labels = labels + [self._label_map['preset'] for l in preset['begin'][1:]]
+            begins = begins + preset['begin'][1:-1]
+            ends = ends + list(np.array(preset['begin'][1:-1]) + self._click_interval)
+            labels = labels + [self._label_map['preset'] for l in preset['begin'][1:-1]]
         # wavelength variable
         wlvar = simulation.get_wl_variable()
-        begins = begins + wlvar['begin']
-        ends = ends + list(np.array(wlvar['begin']) + self._click_interval)
-        labels = labels + [self._label_map['wl_variable'] for l in wlvar['begin']]
+        begins = begins + wlvar['begin'][:-1]
+        ends = ends + list(np.array(wlvar['begin'][:-1]) + self._click_interval)
+        labels = labels + [self._label_map['wl_variable'] for l in wlvar['begin'][:-1]]
         # # minus wl slider
         # minus_wl_slider = simulation.get_wl_slider_minus()
         # begins, ends, labels = self._process_firing(minus_wl_slider, begins, ends, labels, self._label_map['minus_wl_slider'])
@@ -138,6 +139,7 @@ class Sequencing:
         restarts = simulation.get_restarts()
         restarts = {'timestamps': restarts}
         begins, ends, labels = self._process_firing(restarts, begins, ends, labels, self._label_map['restarts'])
+        
         # pdf
         pdf = simulation.get_pdf()
         begins, ends, labels = self._process_dragging(pdf, begins, ends, labels, self._label_map['pdf'])
@@ -346,10 +348,17 @@ class Sequencing:
     def _clean_closing(self, begins:str, ends:list, labels:list, last_timestamp:float) -> Tuple[list, list, list]:
         bs, es, ls = [], [], []
         for i, b in enumerate(begins):
-            if b <= last_timestamp  and labels[i] != 'other':
+            if b < last_timestamp  and labels[i] != 'other':
                 bs.append(b)
                 es.append(ends[i])
                 ls.append(labels[i])
+
+        if len(ls) > 1:
+            if ls[-1] in ['concentration', 'solution'] and ls[-2] in ['concentration', 'solution'] and ls[-1] == ls[-2]:
+                if bs[-1] == bs[-2] and es[-1] == es[-2]:
+                    bs = bs[:-2]
+                    es = es[:-2]
+                    ls = ls[:-2]
         return bs, es, ls
 
     def get_absorbance_transmittance_nothing(self, sim: Simulation):
@@ -564,6 +573,8 @@ class Sequencing:
         indices = [i for i in range(len(labels)) if labels[i] == 'restart']
         restart_begins = [begins[i] for i in indices]
         restart_ends = [ends[i] for i in indices]
+        debug_indices = [i for i in range(len(labels)) if begins[i] == 44.791]
+        debug_labels = [labels[idx] for idx in debug_indices]
 
         new_labels = []
         new_begins = []

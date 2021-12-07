@@ -8,7 +8,7 @@ n_layers:
   - 2
 n_cells:
   - 32
-  - 64
+  # - 64
   # - 128 # If time allows it
 dropout:
   # - 0
@@ -25,6 +25,6 @@ batch_size:
 shuffle:
   - True
 epochs:
-  - 200
+  - 50
 verbose:
   - 1

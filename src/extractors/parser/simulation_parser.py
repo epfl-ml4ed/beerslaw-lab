@@ -796,7 +796,7 @@ class Simulation:
         if 'concentrationScreen' in pid and 'concentrationScreenButton' not in pid:
             pid = 'concentration_lab'
         
-        timestamp = self._get_timestamp(event.get_timestamp()   )
+        timestamp = self._get_timestamp(event.get_timestamp())
         
         try:
             self._event_map[pid][event_name](event, timestamp)

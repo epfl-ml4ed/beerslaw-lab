@@ -17,21 +17,17 @@ class SupervisedGridSearch(GridSearch):
         self._name = 'supervised gridsearch'
         self._notation = 'supgs'
         
-    def fit(self, x_train:list, y_train:list, x_test:list, y_test:list, fold:int):
+    def fit(self, x_train:list, y_train:list, fold:int):
         for i, combination in enumerate(self._combinations):
             logging.info('Testing parameters: {}'.format(combination))
             folds = []
             splitter = self._splitter(self._settings)
             for f, (train_index, validation_index) in enumerate(splitter.split(x_train, y_train)):
-                
+                logging.debug('    inner fold, train length: {}, test length: {}'.format(len(train_index), len(validation_index)))
                 x_val = [x_train[xx] for xx in validation_index]
                 y_val = [y_train[yy] for yy in validation_index]
                 xx_train = [x_train[xx] for xx in train_index]
                 yy_train = [y_train[yy] for yy in train_index]
-                print('xval', [len(idxx) for idxx in x_val])    
-                print('xx_train', [len(idxx) for idxx in xx_train])   
-                print('xval 0', [len(idxx) for idxx in x_val if len(idxx) == 0])    
-                print('xx_train 0', [len(idxx) for idxx in xx_train if len(idxx) == 0]) 
                 logging.debug('  *f{} data format: x [{}], y [{}]'.format(f, np.array(x_val).shape, np.array(y_val).shape))
                 logging.debug('  *f{} data format: x [{}], y [{}]'.format(f, np.array(xx_train).shape, np.array(yy_train).shape))
         
@@ -47,10 +43,10 @@ class SupervisedGridSearch(GridSearch):
                 model.set_gridsearch_parameters(self._parameters, combination)
                 model.fit(xx_train, yy_train, x_val=x_val, y_val=y_val)
                 
-                y_pred = model.predict(x_test)
-                y_proba = model.predict_proba(x_test)
+                y_pred = model.predict(x_val)
+                y_proba = model.predict_proba(x_val)
                 
-                score = self._scoring_function(y_test, y_pred, y_proba)
+                score = self._scoring_function(y_val, y_pred, y_proba)
                 logging.info('    Score for fold {}: {} {}'.format(f, score, self._scoring_name))
                 folds.append(score)
             self._add_score(combination, folds)
@@ -65,7 +61,7 @@ class SupervisedGridSearch(GridSearch):
         model = self._model(config)
         model.set_outer_fold(self._outer_fold)
         model.set_gridsearch_parameters(self._parameters, combinations)
-        model.fit(x_train, y_train, x_test, y_test)
+        model.fit(x_train, y_train, x_val, y_val)
         self._best_model = model
         
             

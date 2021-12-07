@@ -37,7 +37,6 @@ class NestedXVal(XValidator):
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
         self._gs_splitter = gridsearch_splitter # To create the folds within the gridsearch from the train set 
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['outer_n_folds']
-        self._inner_splitter =  inner_splitter(settings)
         self._outer_splitter = outer_splitter(settings) # to create the folds between development and test
         
         self._sampler = sampler()
@@ -70,15 +69,17 @@ class NestedXVal(XValidator):
         results['optim_scoring'] = self._xval_settings['nested_xval']['optim_scoring'] #debug
         self._outer_splitter.set_indices(indices)
         for f, (train_index, test_index) in enumerate(self._outer_splitter.split(x, y)):
-            print(f)
+            logging.debug('outer fold, length train: {}, length test: {}'.format(len(train_index), len(test_index)))
+            logging.debug('outer fold: {}'.format(f))
             logging.info('- ' * 30)
             logging.info('  Fold {}'.format(f))
             logging.debug('    train indices: {}'.format(train_index))
             logging.debug('    test indices: {}'.format(test_index))
             results[f] = {}
             results[f]['train_index'] = train_index
+            results[f]['train_indices'] = [indices[idx] for idx in train_index]
             results[f]['test_index'] = test_index
-            results[f]['test_indices'] = [indices[iid] for iid in test_index]
+            results[f]['test_indices'] = [indices[idx] for idx in test_index]
             
             # division train / test
             x_train = [x[xx] for xx in train_index]
@@ -87,17 +88,9 @@ class NestedXVal(XValidator):
             y_test = [y[yy] for yy in test_index]
             
             # Inner loop
-            ttrain_index, val_index = self._inner_splitter.next_split(x_train, y_train)
-            x_val = [x_train[xx] for xx in val_index]
-            y_val = [y_train[yy] for yy in val_index]
-            x_train = [x_train[xx] for xx in ttrain_index]
-            y_train = [y_train[yy] for yy in ttrain_index]
             x_resampled, y_resampled = self._sampler.sample(x_train, y_train)
             
             temp_indices = [indices[iid] for iid in train_index]
-            results[f]['train_indices'] = [temp_indices[iid] for iid in ttrain_index]
-            results[f]['val_indices'] = [temp_indices[iid] for iid in val_index]
-            results[f]['val_index'] = val_index
             results[f]['x_resampled'] = x_resampled
             results[f]['y_resampled'] = y_resampled
 
@@ -113,7 +106,7 @@ class NestedXVal(XValidator):
             # Train
             self._init_gs(f)
             #debuf
-            self._gs.fit(x_resampled, y_resampled, x_val, y_val, f)
+            self._gs.fit(x_resampled, y_resampled, f)
             
             # Predict
             y_pred = self._gs.predict(x_test)

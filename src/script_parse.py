@@ -100,9 +100,9 @@ def test(settings):
         datefmt=''
     )
     paths = [
-        '../data/temp/Session 7/e93na59g-1.log',
-        '../data/temp/Session 7/e93na59g-2.log',
-        '../data/temp/Session 7/e93na59g-3.log'
+        # '../data/temp/Session 7/43e33t3h-1.log',
+        # '../data/temp/Session 7/43e33t3h-2.log',
+        '../data/temp/Session 8/2ae6q3hw-1.log'
     ]
     with open('../data/post_test/rankings.pkl', 'rb') as fp:
         rankings = pickle.load(fp)

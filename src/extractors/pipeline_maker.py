@@ -47,6 +47,7 @@ from extractors.sequencer.sequencing import Sequencing
 from extractors.sequencer.flat.basic_sequencer import BasicSequencing
 from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
 from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
+from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
@@ -198,6 +199,10 @@ class PipelineMaker:
             self._sequencer = BaseLSTMSampling(self._settings)
             self._sequencer_path = 'base_sampledlstm_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'chem2cap':
+            self._sequencer = Chem2CapSequencer(self._settings)
+            self._sequencer_path = 'chem2cap'
+
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_secondslstm':
             self._sequencer = StateActionSecondsLSTM(self._settings)
             self._sequencer_path = 'stateaction_secondslstm'
@@ -249,6 +254,9 @@ class PipelineMaker:
         if self._data_settings['pipeline']['demographic_filter'] == 'chemlab':
             chemlab = ChemLabFilter(self._settings, self._id_dictionary)
             self._id_dictionary = chemlab.filter_data()
+
+            with open('../notebooks/debug_filter_data.pkl', 'wb') as fp:
+                pickle.dump(self._id_dictionary, fp)
         
     def _choose_event_filter(self):
         self._pipeline_name += self._data_settings['pipeline']['event_filter']

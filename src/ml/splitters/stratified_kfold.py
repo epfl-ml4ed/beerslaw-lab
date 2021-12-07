@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import logging
 from typing import Tuple
 
 from sklearn.model_selection import StratifiedKFold
@@ -29,13 +30,17 @@ class StratifiedKSplit(Splitter):
         self._n_folds = n_folds
         
     def __init_splitter(self):
+        logging.debug('init splitter ', self._n_folds)
         if self._n_folds == 1:
             self._n_folds = 2
-        self._splitter = StratifiedKFold(
-            n_splits=self._n_folds,
-            random_state=self._random_seed,
-            shuffle=self._splitter_settings['shuffle']
-            )
+            
+        else:
+            self._splitter = StratifiedKFold(
+                n_splits=self._n_folds,
+                random_state=self._random_seed,
+                shuffle=self._splitter_settings['shuffle']
+                )
+        logging.debug('splitter', self._splitter)
         
     def split(self, x:list, y:list) -> Tuple[list, list]:
         if self._splitter_settings['stratifier_col'] == 'y':

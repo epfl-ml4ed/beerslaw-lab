@@ -217,7 +217,7 @@ class StateActionSecondsLSTM(Sequencing):
         return list(vector)
         
     def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
-        simulation.close()
+        # simulation.close()
         self._load_sequences(simulation)
         begins = [x for x in self._begins]
         ends = [x for x in self._ends]

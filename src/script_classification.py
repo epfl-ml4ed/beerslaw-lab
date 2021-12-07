@@ -213,7 +213,7 @@ def early_prediction_classification(settings):
 def test(settings):
     # with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t1v_simulation.pkl', 'rb') as fp:
     #     sim1 = pickle.load(fp)
-    with open('../data/parsed simulations/perm3201_lidtcnba4ca_t2v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm2031_lid2ae6q3hw_t1v_simulation.pkl', 'rb') as fp:
         sim2 = pickle.load(fp)
 
     seq = StateActionSecondsLSTM(settings)
@@ -288,6 +288,11 @@ def main(settings):
         if 'stateaction_encodedlstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
             settings['data']['pipeline']['aggregator'] = 'noagg'
+
+        if 'chem2cap' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulbr'
+            settings['ML']['xvalidators']['nested_xval']['inner_n_folds'] = 10
+            settings['ML']['xvalidators']['nested_xval']['outer_n_folds'] = 10
     
     if settings['fulltime']:
         settings['data']['pipeline']['adjuster'] = 'full'

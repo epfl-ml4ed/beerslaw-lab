@@ -52,6 +52,14 @@ class Model:
             y: formatted labels
         """
         raise NotImplementedError
+
+    def _categorical_vector(self, class_idx: int):
+        vector = list(np.zeros(self._settings['experiment']['n_classes']))
+        vector[class_idx] = 1
+        return vector
+    def _format_categorical(self, y:list):
+        new_y = [self._categorical_vector(idx) for idx in y]
+        return new_y
     
     def _format_features(self, x: list) -> list:
         """formats the data into list or numpy array according to the library the model comes from
