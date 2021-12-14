@@ -69,6 +69,8 @@ class LSTMModel(Model):
         return csv_path, checkpoint_path
 
     def _init_model(self, x:np.array):
+        print('hello')
+        print(self._model_settings)
         # initial layers
         self._model = keras.Sequential()
         self._model.add(layers.Input((x.shape[1], x.shape[2],)))
@@ -114,7 +116,7 @@ class LSTMModel(Model):
         save_best_only=True)
         self._callbacks.append(model_checkpoint_callback)
 
-    def load_model(self, x):
+    def load_model_architecture(self, x):
         x = self._format_features(x)
         self._init_model(x)
         return self._model
