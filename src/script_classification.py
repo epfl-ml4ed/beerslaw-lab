@@ -53,6 +53,10 @@ def full_prediction_classification(settings):
     logging.info('training! ')
     xval.train(sequences, labels, indices)
 
+    config_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/config.yaml'
+    with open(config_path, 'wb') as fp:
+        pickle.dump(settings, fp)
+
 def full_prediction_classification_comparison(settings):
     enc_adj_pairs = settings['data']['pipeline']['encoders_aggregators_pairs']
     models = settings['ML']['pipeline']['models']
@@ -289,6 +293,12 @@ def main(settings):
             settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
             settings['data']['pipeline']['aggregator'] = 'noagg'
 
+        if 'stateaction_adaptivelstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['sequencer_interval'] = int(settings['adaptiveseconds'])
+
+
         if 'chem2cap' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulbr'
             settings['ML']['xvalidators']['nested_xval']['inner_n_folds'] = 10
@@ -343,6 +353,7 @@ if __name__ == '__main__':
     
     # settings
     parser.add_argument('--sequencer', dest='sequencer', default='', help='sequencer to use', action='store')
+    parser.add_argument('--adaptiveseconds', dest='adaptiveseconds', default='1', help='sequencer to use', action='store')
     parser.add_argument('--classname', dest='classname', default='', help='class to use: colbin, conbin, widbin', action='store')
     parser.add_argument('--skipgram', dest='skipgram', default='', help='0 or 1', action='store')
     parser.add_argument('--models', dest='models', default='', help='rf, sknn, svc, sgd, knn, or adaboost', action='store')

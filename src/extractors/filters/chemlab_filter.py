@@ -28,6 +28,10 @@ class ChemLabFilter:
             with open(self._filter_settings['learner_ids'], 'rb') as fp:
                 learner_ids = pickle.load(fp)
 
+        if self._filter_settings['interactionlimit'] == 10:
+            with open('../data/experiment_keys/over10.pkl', 'rb') as fp:
+                over10 = pickle.load(fp)
+
         index = 0
         for i, idx in enumerate(self._id_dictionary['sequences']):
             with open(self._id_dictionary['sequences'][idx]['path'], 'rb') as fp:
@@ -53,7 +57,10 @@ class ChemLabFilter:
                     continue
             
             if 'interactionlimit' in self._filter_settings:
-                if len(sim_dict['sequence']) < self._filter_settings['interactionlimit']:
+                if self._filter_settings['interactionlimit'] == 10:
+                    if sim_dict['learner_id'] not in over10:
+                        continue
+                elif len(sim_dict['sequence']) < self._filter_settings['interactionlimit']:
                     continue
 
             id_dictionary['sequences'][index] = {

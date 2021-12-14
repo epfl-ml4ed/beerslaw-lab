@@ -127,6 +127,8 @@ class NestedXVal(XValidator):
             logging.info('    estimator path: {}'.format(results[f]['best_estimator']))
             logging.info('    gridsearch path: {}'.format(results[f]['gridsearch_object']))
             
+            print('Best Results on outer fold: {}'.format(test_results))
+            logging.info('Best Results on outer fold: {}'.format(test_results))
             self._model_notation = best_estimator.get_notation()
             self.save_results(results)
         return results

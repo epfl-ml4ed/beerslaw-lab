@@ -294,7 +294,7 @@ class StateActionLSTMEncoding(Sequencing):
         return solution_values
 
     def _process_wl(self, wl_values: list) -> list:
-        wl_values = ['wl' if '520' in str(wl) else 'no_wl' for wl in wl_values]
+        wl_values = ['wl' if (500 <= int(wl) and int(wl) >= 564) else 'no_wl' for wl in wl_values]
         return wl_values
     
     def _proces_absorbance_other(self, metric_observed: bool, absorbance: str):

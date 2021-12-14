@@ -42,19 +42,19 @@ class LSTMModel(Model):
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
     
-    def _get_rnn_layer(self, return_sequences:bool):
+    def _get_rnn_layer(self, return_sequences:bool, l:int):
+        n_cells = self._model_settings['n_cells'][l]
         if self._model_settings['cell_type'] == 'LSTM':
-            layer = layers.LSTM(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+            layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
         elif self._model_settings['cell_type'] == 'GRU':
-            layer = layers.GRU(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+            layer = layers.GRU(units=n_cells, return_sequences=return_sequences)
         elif self._model_settings['cell_type'] == 'RNN':
-            layer = layers.SimpleRNN(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+            layer = layers.SimpleRNN(units=n_cells, return_sequences=return_sequences)
         elif self._model_settings['cell_type'] == 'BiLSTM':
-            layer = layers.LSTM(units=self._model_settings['n_cells'], return_sequences=return_sequences)
+            layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
             layer = layers.Bidirectional(layer=layer)
             
         return layer
-
     def _get_csvlogger_path(self) -> str:
         csv_path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
         csv_path += str(self._outer_fold) + '/logger/' 
@@ -64,8 +64,9 @@ class LSTMModel(Model):
         csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         csv_path += self._name 
         os.makedirs(csv_path, exist_ok=True)
+        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
-        return csv_path
+        return csv_path, checkpoint_path
 
     def _init_model(self, x:np.array):
         # initial layers
@@ -75,8 +76,8 @@ class LSTMModel(Model):
         
         # Recurrent layers
         for l in range(self._model_settings['n_layers'] - 1):
-            self._model.add(self._get_rnn_layer(return_sequences=True))
-        self._model.add(self._get_rnn_layer(return_sequences=False))
+            self._model.add(self._get_rnn_layer(return_sequences=True, l=l))
+        self._model.add(self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1))
         
         # dropout
         if self._model_settings['dropout'] != 0.0:
@@ -102,9 +103,21 @@ class LSTMModel(Model):
             self._callbacks.append(early_stopping)
             
         # csv loggers
-        csv_path = self._get_csvlogger_path()
+        csv_path, checkpoint_path = self._get_csvlogger_path()
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
+
+        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+        filepath=checkpoint_path,
+        monitor='val_auc',
+        mode='max',
+        save_best_only=True)
+        self._callbacks.append(model_checkpoint_callback)
+
+    def load_model(self, x):
+        x = self._format_features(x)
+        self._init_model(x)
+        return self._model
         
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
@@ -137,7 +150,7 @@ class LSTMModel(Model):
         return probs
     
     def save(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '/'
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         self._model = path
@@ -147,11 +160,11 @@ class LSTMModel(Model):
         return path
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '/'
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
         return path
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '_f' + str(fold) + '/'
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path

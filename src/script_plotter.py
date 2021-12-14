@@ -10,6 +10,7 @@ from typing import Tuple
 from ml.gridsearches.gridsearch import GridSearch
 from visualisers.nested_xval_plotter import NestedXValPlotter
 from visualisers.early_pred_plotter import EarlyPredPlotter
+from visualisers.train_validation_plotter import TrainValidationPlotter
 
 def plot_full_sequences(settings):
     config = dict(settings)
@@ -40,6 +41,12 @@ def plot_earlyrepro(settings):
     config = dict(settings)
     plotter = EarlyPredPlotter(config)
     plotter.plot_reproduction()
+
+def test(settings):
+    config = dict(settings)
+    plotter = TrainValidationPlotter(config)
+    for metric in settings['train_validation']['metrics']:
+        plotter.plot(metric)
     
     
 def main(settings):
@@ -55,6 +62,9 @@ def main(settings):
         plot_parameters_distribution(settings)
     if settings['sepparameters']:
         plot_parameters_distribution(settings)
+    if settings['test']:
+        test(settings)
+
         
     
 if __name__ == '__main__': 

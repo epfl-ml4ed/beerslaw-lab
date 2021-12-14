@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
-  root_name: cap
+  root_name: test
   random_seed: 42
   n_folds: blank
   n_classes: 2

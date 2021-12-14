@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
   crawl_path: '../data/temp/'
 sequencing:
-  sequencer : chem2cap
+  sequencer : stateaction_adaptivelstm
   length_limit: 10
   interval: 5
   break_threshold: 0.6

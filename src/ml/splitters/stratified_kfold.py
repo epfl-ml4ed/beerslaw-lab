@@ -30,7 +30,7 @@ class StratifiedKSplit(Splitter):
         self._n_folds = n_folds
         
     def __init_splitter(self):
-        logging.debug('init splitter ', self._n_folds)
+        print('init splitter ', self._n_folds)
         if self._n_folds == 1:
             self._n_folds = 2
             
@@ -40,7 +40,7 @@ class StratifiedKSplit(Splitter):
                 random_state=self._random_seed,
                 shuffle=self._splitter_settings['shuffle']
                 )
-        logging.debug('splitter', self._splitter)
+            # logging.debug('splitter', self._splitter)
         
     def split(self, x:list, y:list) -> Tuple[list, list]:
         if self._splitter_settings['stratifier_col'] == 'y':

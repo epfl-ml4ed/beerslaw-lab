@@ -5,6 +5,7 @@ import itertools
 
 import numpy as np
 import pandas as pd
+from six import b
 
 from ml.models.model import Model
 from ml.splitters.splitter import Splitter
@@ -40,7 +41,6 @@ class SupervisedGridSearch(GridSearch):
                 model = self._model(self._settings)
                 model.set_outer_fold(self._outer_fold)
                 model.set_gridsearch_fold(f)
-                model.set_gridsearch_parameters(self._parameters, combination)
                 model.fit(xx_train, yy_train, x_val=x_val, y_val=y_val)
                 
                 y_pred = model.predict(x_val)

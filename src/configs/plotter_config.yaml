@@ -1,9 +1,9 @@
 experiment:
-  name: cap
+  name: incremental
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Results for the Binary classifiers [extended]
+  title: Results for the Binary classifiers 
   measure: roc
   carry_on: True
   sizing_mode: stretch_both
@@ -30,3 +30,7 @@ plot_style:
       # - coltri
       # - contri
       # - widtri
+train_validation:
+  metrics:
+    - categorical_crossentropy
+    - auc

@@ -1,13 +1,13 @@
 path:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  name: extended
-  algorithm: rf
-  features: actionspan
-  sequencer: extended
-  classname: bin
+  name: incremental
+  algorithm: lstm
+  features: seconds
+  sequencer: stateaction_secondslstm_12
+  classname: binary
 concatenation:
-  report_folder: LAK
+  report_folder: EDM2022
   concatenator: nconcepts # or nconcepts
 scorer:
   type: multi
