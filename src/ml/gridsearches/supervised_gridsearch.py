@@ -40,6 +40,7 @@ class SupervisedGridSearch(GridSearch):
                 ))   
                 model = self._model(self._settings)
                 model.set_outer_fold(self._outer_fold)
+                model.set_gridsearch_parameters(self._parameters, combination)
                 model.set_gridsearch_fold(f)
                 model.fit(xx_train, yy_train, x_val=x_val, y_val=y_val)
                 
