@@ -18,7 +18,7 @@ plot_style:
   ystyle:
     label: roc
     range:
-      - 0.5
+      - 0
       - 1.2
   xstyle:
     label: classes

@@ -53,8 +53,8 @@ class LSTMModel(Model):
         elif self._model_settings['cell_type'] == 'BiLSTM':
             layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
             layer = layers.Bidirectional(layer=layer)
-            
         return layer
+
     def _get_csvlogger_path(self) -> str:
         csv_path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
         csv_path += str(self._outer_fold) + '/logger/' 
@@ -75,7 +75,7 @@ class LSTMModel(Model):
         # initial layers
         self._model = keras.Sequential()
         self._model.add(layers.Input((x.shape[1], x.shape[2],)))
-        self._model.add(layers.Masking(mask_value=-self._model_settings['padding_value']))
+        self._model.add(layers.Masking(mask_value=self._model_settings['padding_value']))
         
         # Recurrent layers
         for l in range(self._model_settings['n_layers'] - 1):

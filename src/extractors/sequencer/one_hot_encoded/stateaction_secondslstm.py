@@ -56,8 +56,8 @@ class StateActionSecondsLSTM(Sequencing):
             4: s for other solution, else 0
             5: s if ruler is measuring, else 0
             6: s if ruler is not measuring, else 0
-            7: s if wavelength is 520, else 0
-            8: s if wavelength is not 520
+            7: s if wavelength is green, else 0
+            8: s if wavelength is not green
             9: s if action is on other (laser clicks, transmittance absorbance clicks, restarts timestamps)
             10: s if action is on concentration
             11: s if action is on width
@@ -192,26 +192,26 @@ class StateActionSecondsLSTM(Sequencing):
             return list(vector)
 
         if attributes[0] == 'absorbance':
-            vector[0] = second
+            vector[0] = 1
         else:
-            vector[1] = second
+            vector[1] = 1
             
         if attributes[1] == 'red':
-            vector[2] = second
+            vector[2] = 1
         elif attributes[1] == 'green':
-            vector[3] = second
+            vector[3] = 1
         else:
-            vector[4] = second
+            vector[4] = 1
             
         if attributes[2] == 'wl':
-            vector[7] = second
+            vector[7] = 1
         else:
-            vector[8] = second
+            vector[8] = 1
             
         if attributes[3]:
-            vector[5] = second
+            vector[5] = 1
         else:
-            vector[6] = second
+            vector[6] = 1
             
         vector[self._vector_index[attributes[4]]] = second
         return list(vector)

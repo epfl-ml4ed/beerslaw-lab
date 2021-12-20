@@ -11,7 +11,7 @@ dropout:
 early_stopping:
 - false
 epochs:
-- 200.0
+- 30
 loss:
 - auc
 n_cells:

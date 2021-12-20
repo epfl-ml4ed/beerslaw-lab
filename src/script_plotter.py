@@ -53,6 +53,10 @@ def test(settings):
     plotter = CheckpointPlotter(settings)
     plotter.test()
 
+def checkpoint_plot(settings):
+    plotter = CheckpointPlotter(settings)
+    plotter.plot()
+
     
 def main(settings):
     if settings['full_sequences']:
@@ -69,6 +73,8 @@ def main(settings):
         plot_parameters_distribution(settings)
     if settings['trainvalidation']:
         train_validation(settings)
+    if settings['checkpoint']:
+        checkpoint_plot(settings)
     if settings['test']:
         test(settings)
 
@@ -88,6 +94,8 @@ if __name__ == '__main__':
     parser.add_argument('--early', dest='early', default=False, action='store_true')
     parser.add_argument('--earlyrepro', dest='earlyrepro', default=False, action='store_true')
     parser.add_argument('--trainvalidation', dest='trainvalidation', default=False, action='store_true')
+    parser.add_argument('--checkpoint', dest='checkpoint', default=False, action='store_true')
+    parser.add_argument('--checkpreds', dest='checkpreds', default=False, action='store_true')
     
 
     # Actions

@@ -1,15 +1,21 @@
 import os
 import pickle
 import yaml
+
+import numpy as np
 import pandas as pd
 
 import re
 from shutil import copyfile, copytree
 
 from extractors.pipeline_maker import PipelineMaker
+from bokeh.plotting import figure, output_file, show, save
 from ml.xval_maker import XValMaker
 from ml.models.classifiers.lstm import LSTMModel
 from ml.samplers.sampler import Sampler
+
+from visualisers.stylers.full_sequences_styler import FullStyler
+import tensorflow as tf
 
 
 
@@ -22,6 +28,16 @@ class CheckpointPlotter:
         self._notation = 'ckptpltr'
 
         self._settings = settings
+        self._load_palette()
+        self._styler = FullStyler(settings)
+
+    def _load_palette(self):
+        self._palette = [
+            '#b7094c', '#a01a58', '#892b64', '#723c70', '#5c4d7d', '#455e89', '#2e6f95', '#1780a1', '#0091ad',
+        ]
+    
+    def _get_colour(self):
+        return np.random.choice(self._palette)
 
     def _crawl_modelcheckpoints(self):
         """Checks the paths where a model checkpoint is found
@@ -246,14 +262,136 @@ class CheckpointPlotter:
 
         return best_models
 
+    def _individual_boxplot_df(self, best_models):
+        dots = {}
+        params = []
+        for fold in best_models['folds']:
+            dots[fold] = {}
+            dots[fold]['data'] = best_models['folds'][fold]['scores']
+            for parameter in best_models['folds'][fold]['architecture']:
+                dots[fold][parameter] = str(best_models['folds'][fold]['architecture'][parameter])
+                params.append(parameter.replace('_', ' '))
+            dots[fold]['fold'] = fold
+            
+        dots_df = pd.DataFrame(dots).transpose()
+            
+        scores_df = pd.DataFrame()
+        scores_df['scores'] = [best_models['folds'][f]['scores'] for f in best_models['folds']]
+        scores_df['model'] = [best_models['folds'][f]['model'] for f in best_models['folds']]
+        scores_df['architecture'] = [best_models['folds'][f]['architecture'] for f in best_models['folds']]
+        scores_df['folds'] = [f for f in best_models['folds']]
+
+        q1 = float(scores_df['scores'].quantile(q=0.25))
+        q2 = float(scores_df['scores'].quantile(q=0.5))
+        q3 = float(scores_df['scores'].quantile(q=0.75))
+        mean = float(scores_df['scores'].mean())
+        std = float(scores_df['scores'].std())
+
+        iqr = q3 - q1
+        upper = q3 + 1.5 * iqr
+        lower = q1 - 1.5 * iqr
+        
+        boxplot = pd.DataFrame()
+        boxplot['q1'] = [q1]
+        boxplot['lower_error'] = [mean - std]
+        boxplot['median'] = [q2]
+        boxplot['mean'] = [mean]
+        boxplot['std'] = std
+        boxplot['upper_error'] = [mean + std]
+        boxplot['q3'] = [q3]
+        boxplot['upper'] = [upper]
+        boxplot['lower'] = [lower]
+        return dots_df, boxplot, list(set(params))
+
+    def _plot_individual_errorplot(self, best_models, name, x, glyphs, plot_styling, p):
+        styler = {
+            'colour': self._get_colour(),
+            'label': name,
+            'alpha': 0.9
+        }
+        plot_styling['colour'].append(styler['colour'])
+        plot_styling['label'].append(styler['label'])
+        plot_styling['alpha'].append(styler['alpha'])
+        plot_styling['labels_colours_alpha'].append({'colour': styler['colour'], 'alpha':styler['alpha']})
+        plot_styling['linedashes'].append('dotted')
+        dots_df, boxplot_df, params = self._individual_boxplot_df(best_models)
+        glyphs, p = self._styler.get_individual_plot(dots_df, params, boxplot_df, glyphs, x, styler, p)
+        return plot_styling, glyphs, p
+
+    def _plot_multiple_boxplots(self):
+        glyphs = {
+            'datapoints': {},
+            'upper_moustache': {},
+            'lower_moustache': {},
+            'upper_rect': {},
+            'lower_rect': {}
+        }
+        x_axis = {
+            'position': [],
+            'ticks' : [],
+            'labels': [],
+            'paths': []
+        }
+        xs = []
+        models = []
+        paths = self._crawl_modelcheckpoints()
+        for i, experiment in enumerate(paths):
+            best_models = self._recreate_folds(experiment, paths[experiment])
+            x_axis['position'].append(i*2)
+            x_axis['ticks'].append(i*2)
+            model_name = list(paths[experiment].keys())[0] # Imply one model per cross validation
+            x_axis['labels'].append(model_name),
+            models.append(best_models)
+            # print(paths[experiment])
+            break
+        
+        plot_styling = {
+            'colour':[],
+            'label': [],
+            'alpha': [],
+            'labels_colours_alpha': [],
+            'linedashes': []
+        }
+        p = self._styler.init_figure(x_axis)
+        for i, model in enumerate(models):
+            plot_styling, glyphs, p = self._plot_individual_errorplot(model, 'tbf', i*2, glyphs, plot_styling, p)
+
+        plot_styling['labels_colours_alpha'] = {
+            'incremental': {
+                'colour': 'red',
+                'alpha': 0.9
+            }
+        }
+        self._styler.add_legend(plot_styling, p)
+        if self._settings['show']:
+            show(p)
+
+
+    def plot(self):
+        tf.get_logger().setLevel('ERROR')
+        # print('Testing the functions')
+        # paths = self._crawl_modelcheckpoints()
+        # first_key = list(paths.keys())[0]
+        # best_models = self._recreate_folds(first_key, paths[first_key])
+        # print('*'*50)
+        # print('BEST MODELS')
+        # print(best_models)
+
+        self._plot_multiple_boxplots()
+    
     def test(self):
+        tf.get_logger().setLevel('ERROR')
         print('Testing the functions')
         paths = self._crawl_modelcheckpoints()
-        first_key = list(paths.keys())[0]
-        best_models = self._recreate_folds(first_key, paths[first_key])
-        print('*'*50)
-        print('BEST MODELS')
-        print(best_models)
+        for key in paths:
+            best_models = self._recreate_folds(key, paths[key])
+            print(best_models['best_validation_model'])
+            print(best_models['test_proba'])
+
+            print('*'*50)
+            print()
+
+        # self._plot_multiple_boxplots()
 
 
         

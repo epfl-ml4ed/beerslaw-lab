@@ -63,7 +63,7 @@ class TrainValidationPlotter:
         plt.plot(model['epoch'], means, color='#ff5c8a')
         plt.fill_between(model['epoch'], means - stds, means + stds, alpha=0.3, color='#ff5c8a', label='validation')
         
-        plt.ylim([0, 2])
+        plt.ylim([0.6, 0.7])
         plt.legend()
         plt.title(pathname)
         
