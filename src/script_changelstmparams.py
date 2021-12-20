@@ -10,23 +10,36 @@ import yaml
 
 import argparse
 
+def process_list(parameters:str):
+    return parameters.split('..')
+
+def process_numerical_list(parameters:str):
+    params = parameters.split('..')
+    return [float(p) for p in params]
+
+def process_int_list(parameters:str):
+    params = parameters.split('..')
+    return [int(p) for p in params]
+
+def process_nested_list(parameters:str):
+    params = parameters.split('..')
+    params = [p.split('.') for p in params]
+    params = [[int(pp) for pp in p] for p in params]
+    return params
+
 def main(settings):
-    n_cells = settings['n_cells']
-    n_cells = n_cells.split('..')
-    n_cells = [nc.split('.') for nc in n_cells]
-    n_cells = [[int(n) for n in c] for c in n_cells]
     lstm_gridsearch = {
         'padding_value':[-1],
-        'cell_type': [settings['cell_type']],
-        'n_layers': [int(settings['n_layers'])],
-        'n_cells': n_cells,
-        'dropout': [float(settings['dropout'])],
+        'cell_type': process_list(settings['cell_type']),
+        'n_layers': process_int_list(settings['n_layers']),
+        'n_cells': process_nested_list(settings['n_cells']),
+        'dropout': process_numerical_list(settings['dropout']),
         'optimiser': ['adam'],
         'loss': ['auc'],
         'early_stopping': [False],
-        'batch_size': [int(settings['batch_size'])],
+        'batch_size': process_int_list(settings['batch_size']),
         'shuffle': [True],
-        'epochs': [int(settings['epochs'])],
+        'epochs': process_int_list(settings['epochs']),
         'verbose': [1]
     }
 

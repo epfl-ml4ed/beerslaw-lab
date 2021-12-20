@@ -17,6 +17,8 @@ class SupervisedGridSearch(GridSearch):
         super().__init__(model, grid, scorer, splitter, settings, outer_fold)
         self._name = 'supervised gridsearch'
         self._notation = 'supgs'
+
+        self._folds = {}
         
     def fit(self, x_train:list, y_train:list, fold:int):
         for i, combination in enumerate(self._combinations):
@@ -29,6 +31,7 @@ class SupervisedGridSearch(GridSearch):
                 y_val = [y_train[yy] for yy in validation_index]
                 xx_train = [x_train[xx] for xx in train_index]
                 yy_train = [y_train[yy] for yy in train_index]
+
                 logging.debug('  *f{} data format: x [{}], y [{}]'.format(f, np.array(x_val).shape, np.array(y_val).shape))
                 logging.debug('  *f{} data format: x [{}], y [{}]'.format(f, np.array(xx_train).shape, np.array(yy_train).shape))
         

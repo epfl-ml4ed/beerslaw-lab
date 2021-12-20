@@ -62,6 +62,15 @@ class XValMaker:
     #     if self._pipeline_settings['splitter'] == 'stratkf':
     #         self._splitter = StratifiedKSplit
 
+    def get_gridsearch_splitter(self):
+        return self._gs_splitter
+
+    def get_sampler(self):
+        return self._sampler
+
+    def get_scorer(self):
+        return self._scorer
+
     def _choose_splitter(self, splitter:str) -> Splitter:
         if splitter == 'stratkf':
             return StratifiedKSplit

@@ -62,15 +62,16 @@ class LSTMModel(Model):
         csv_path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
         csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
-        csv_path += self._name 
+        csv_path += self._notation 
+        # with open(csv_path + '/architecture.pkl', 'wb') as fp:
+        #     pickle.dump(self._model_settings, fp)
+
         os.makedirs(csv_path, exist_ok=True)
         checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
     def _init_model(self, x:np.array):
-        print('hello')
-        print(self._model_settings)
         # initial layers
         self._model = keras.Sequential()
         self._model.add(layers.Input((x.shape[1], x.shape[2],)))
@@ -120,6 +121,20 @@ class LSTMModel(Model):
         x = self._format_features(x)
         self._init_model(x)
         return self._model
+
+    def load_checkpoints(self, checkpoint_path:str, x:list):
+        """Sets the inner model back to the weigths present in the checkpoint folder.
+        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
+        a variables folder, and index and data checkpoint files.
+
+        Args:
+            checpoint_path (str): path to the checkpoint folder
+            x (list): partial sample of data, to format the layers
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        self._model.load_weights(checkpoint_path)
+
         
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
@@ -138,6 +153,7 @@ class LSTMModel(Model):
         self._fold += 1
         
     def predict(self, x:list) -> list:
+        print('hello')
         x_predict = self._format_features(x)
         predictions = self._model.predict(x_predict)
         predictions = [np.argmax(x) for x in predictions]

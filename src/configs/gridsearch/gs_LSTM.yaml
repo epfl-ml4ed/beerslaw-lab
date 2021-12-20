@@ -1,19 +1,33 @@
 batch_size:
-- 16
+- 16.0
+- 32.0
 cell_type:
+- LSTM
 - BiLSTM
 dropout:
 - 0.0
+- 0.2
+- 0.5
 early_stopping:
 - false
 epochs:
-- 200
+- 200.0
 loss:
 - auc
 n_cells:
-- - 8
+- - 4.0
+  - 8.0
+  - 4.0
+- - 8.0
+  - 16.0
+  - 8.0
+- - 16.0
+  - 32.0
+  - 16.0
 n_layers:
-- 1
+- 1.0
+- 2.0
+- 3.0
 optimiser:
 - adam
 padding_value:

@@ -1,5 +1,5 @@
 experiment:
-  name: incremental
+  name: incremental/second round
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:
@@ -34,3 +34,6 @@ train_validation:
   metrics:
     - categorical_crossentropy
     - auc
+model_checkpoint:
+  train_ids: ../data/experiment_keys/flatstrat_trainusernames.pkl
+  test_ids: ../data/experiment_keys/flatstrat_testusernames.pkl

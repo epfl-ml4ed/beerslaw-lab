@@ -11,6 +11,7 @@ from ml.gridsearches.gridsearch import GridSearch
 from visualisers.nested_xval_plotter import NestedXValPlotter
 from visualisers.early_pred_plotter import EarlyPredPlotter
 from visualisers.train_validation_plotter import TrainValidationPlotter
+from visualisers.checkpoint_plotter import CheckpointPlotter
 
 def plot_full_sequences(settings):
     config = dict(settings)
@@ -42,12 +43,16 @@ def plot_earlyrepro(settings):
     plotter = EarlyPredPlotter(config)
     plotter.plot_reproduction()
 
-def test(settings):
+def train_validation(settings):
     config = dict(settings)
     plotter = TrainValidationPlotter(config)
     for metric in settings['train_validation']['metrics']:
         plotter.plot(metric)
     
+def test(settings):
+    plotter = CheckpointPlotter(settings)
+    plotter.test()
+
     
 def main(settings):
     if settings['full_sequences']:
@@ -62,6 +67,8 @@ def main(settings):
         plot_parameters_distribution(settings)
     if settings['sepparameters']:
         plot_parameters_distribution(settings)
+    if settings['trainvalidation']:
+        train_validation(settings)
     if settings['test']:
         test(settings)
 
@@ -80,7 +87,9 @@ if __name__ == '__main__':
     parser.add_argument('--sepparameters', dest='sepparameters', default=False, action='store_true')
     parser.add_argument('--early', dest='early', default=False, action='store_true')
     parser.add_argument('--earlyrepro', dest='earlyrepro', default=False, action='store_true')
+    parser.add_argument('--trainvalidation', dest='trainvalidation', default=False, action='store_true')
     
+
     # Actions
     parser.add_argument('--show', dest='show', default=False, action='store_true')
     parser.add_argument('--save', dest='save', default=False, action='store_true')
