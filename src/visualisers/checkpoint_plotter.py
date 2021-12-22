@@ -269,11 +269,12 @@ class CheckpointPlotter:
             dots[fold] = {}
             dots[fold]['data'] = best_models['folds'][fold]['scores']
             for parameter in best_models['folds'][fold]['architecture']:
-                dots[fold][parameter] = str(best_models['folds'][fold]['architecture'][parameter])
-                params.append(parameter.replace('_', ' '))
+                dots[fold][parameter.replace('_', ' ')] = str(best_models['folds'][fold]['architecture'][parameter])
+                params.append(parameter.replace('_', ' ')) 
             dots[fold]['fold'] = fold
             
         dots_df = pd.DataFrame(dots).transpose()
+        params = list(set(params))
             
         scores_df = pd.DataFrame()
         scores_df['scores'] = [best_models['folds'][f]['scores'] for f in best_models['folds']]
@@ -301,7 +302,7 @@ class CheckpointPlotter:
         boxplot['q3'] = [q3]
         boxplot['upper'] = [upper]
         boxplot['lower'] = [lower]
-        return dots_df, boxplot, list(set(params))
+        return dots_df, boxplot, dots_df[params]
 
     def _plot_individual_errorplot(self, best_models, name, x, glyphs, plot_styling, p):
         styler = {
@@ -315,6 +316,7 @@ class CheckpointPlotter:
         plot_styling['labels_colours_alpha'].append({'colour': styler['colour'], 'alpha':styler['alpha']})
         plot_styling['linedashes'].append('dotted')
         dots_df, boxplot_df, params = self._individual_boxplot_df(best_models)
+        # params = params.iloc[0]
         glyphs, p = self._styler.get_individual_plot(dots_df, params, boxplot_df, glyphs, x, styler, p)
         return plot_styling, glyphs, p
 
@@ -339,11 +341,11 @@ class CheckpointPlotter:
             best_models = self._recreate_folds(experiment, paths[experiment])
             x_axis['position'].append(i*2)
             x_axis['ticks'].append(i*2)
-            model_name = list(paths[experiment].keys())[0] # Imply one model per cross validation
+
+            model_name = 'model ' + str(i) # Imply one model per cross validation
             x_axis['labels'].append(model_name),
             models.append(best_models)
             # print(paths[experiment])
-            break
         
         plot_styling = {
             'colour':[],
