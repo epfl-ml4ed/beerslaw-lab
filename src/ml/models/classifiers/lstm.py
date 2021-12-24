@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from typing import Tuple
+from shutil import copytree
 
 from ml.models.model import Model
 
@@ -71,6 +72,17 @@ class LSTMModel(Model):
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
+    def _get_model_checkpoint_path(self) -> str:
+        path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
+        path += str(self._outer_fold) + '/logger/'
+        path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
+        path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
+        path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
+        path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
+        path += self._notation
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint'
+        return path
+
     def _init_model(self, x:np.array):
         # initial layers
         self._model = keras.Sequential()
@@ -78,7 +90,7 @@ class LSTMModel(Model):
         self._model.add(layers.Masking(mask_value=self._model_settings['padding_value']))
         
         # Recurrent layers
-        for l in range(self._model_settings['n_layers'] - 1):
+        for l in range(int(self._model_settings['n_layers']) - 1):
             self._model.add(self._get_rnn_layer(return_sequences=True, l=l))
         self._model.add(self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1))
         
@@ -117,10 +129,21 @@ class LSTMModel(Model):
         save_best_only=True)
         self._callbacks.append(model_checkpoint_callback)
 
-    def load_model_architecture(self, x):
-        x = self._format_features(x)
+    def load_model_weights(self, x):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
         self._init_model(x)
-        return self._model
+        checkpoint_path = self._get_model_checkpoint_path()
+        temporary_path = '../experiments/temp_checkpoints/plotter/'
+        copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        self._model.load_weights(temporary_path)
 
     def load_checkpoints(self, checkpoint_path:str, x:list):
         """Sets the inner model back to the weigths present in the checkpoint folder.

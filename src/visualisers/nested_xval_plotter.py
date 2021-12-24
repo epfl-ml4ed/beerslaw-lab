@@ -263,8 +263,6 @@ class NestedXValPlotter:
     def plot_experiment(self):
         dots, parameters, boxplots = [], [], []
         xvs = self._crawl()
-        path = '../experiments/temp_to_add/jc-lstm-seconds/stateaction_secondslstm_12/binconcepts/lstm/raw_full/2021_12_15_0/results/nested_xval_mlstm_l900.pkl'
-        print('xvs', xvs[path]['data'][0].keys())
         xvs, x_axis = self._styler.get_x_styling(xvs)
         plot_styling = self._styler.get_plot_styling(x_axis['paths'])
         for path in x_axis['paths']:

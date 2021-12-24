@@ -1,5 +1,5 @@
 experiment:
-  name: incremental/third round
+  name: incremental/fake-round
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:
@@ -12,7 +12,7 @@ plot_style:
   style: algo_features
   type: errorplot # change in early pred -> lineplot
   boxplot_spacing: 0.4
-  radius: 0.2
+  radius: 0.002
   bar_length: 0.2
   ncols: 4
   ystyle:

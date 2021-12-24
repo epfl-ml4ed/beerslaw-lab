@@ -214,6 +214,55 @@ def early_prediction_classification(settings):
                 xval = XValMaker(config)
                 xval.train(['place'], ['holder'])
 
+def checkpoint_prediction(settings):
+    """Uses the config settings to:
+    - decides what simulation to use
+    - how to process the data
+        - action count: 1hot + aveagg
+        - action span: actionspan + normagg
+    - how to conduct the nested cross validation
+    
+    Args:
+        settings: config flag + arguments
+    """
+    old_name = settings['experiment']['old_root_name']
+    new_name = settings['experiment']['root_name']
+    settings['experiment']['root_name'] = '../experiments/' + settings['experiment']['root_name']
+    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
+    experiment_names = os.listdir(settings['experiment']['root_name'])
+    for experiment_name in experiment_names:
+        if experiment_name != '.DS_Store':
+            config_path = '../experiments/' + settings['experiment']['root_name'] + experiment_name + '/config.yaml'
+            with open(config_path, 'rb') as fp:
+                settings = pickle.load(fp)
+                settings['ML']['pipeline']['gridsearch'] = 'ckptgs'
+                settings['ML']['pipeline']['xvalidator'] = 'ckpt_xval'
+                settings['experiment']['root_name'] = settings['experiment']['root_name'].replace(old_name, new_name)
+                gs = settings['ML']['xvalidators']['nested_xval']['param_grid']
+
+            os.makedirs('../experiments/checkpoint-' + settings['experiment']['root_name'] + experiment_name, exist_ok=True)
+            log_path = '../experiments/checkpoint-' + settings['experiment']['root_name'] + experiment_name + '/training_logs.txt'
+            logging.basicConfig(
+                filename=log_path,
+                level=logging.DEBUG, 
+                format='', 
+                datefmt=''
+            )
+            
+            logging.info('Creating the data')
+            pipeline = PipelineMaker(settings)
+            sequences, labels, indices, id_dictionary = pipeline.build_data()
+            settings['id_dictionary'] = id_dictionary
+            
+            xval = XValMaker(settings)
+            settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
+            logging.info('training! ')
+            xval.train(sequences, labels, indices)
+
+            config_path = '../experiments/checkpoint-' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/config.yaml'
+            with open(config_path, 'wb') as fp:
+                pickle.dump(settings, fp)
+
 def test(settings):
     # with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t1v_simulation.pkl', 'rb') as fp:
     #     sim1 = pickle.load(fp)
@@ -270,6 +319,7 @@ def main(settings):
     if settings['sequencer'] != '':
         settings['data']['pipeline']['sequencer'] = settings['sequencer']
         settings['experiment']['root_name'] += '/' + settings['sequencer']
+        settings['experiment']['old_root_name'] += '/' + settings['sequencer']
         if 'old' == 'not in use': # Old parameters, here for archive
             if settings['sequencer'] == 'extended12' or settings['sequencer'] == 'minimised12':
                 settings['data']['pipeline']['encoders_aggregators_pairs'] = {
@@ -336,6 +386,9 @@ def main(settings):
     
     if settings['skipgram_comparison']:
         full_prediction_skipgram_comparison(settings)
+
+    if settings['checkpoint']:
+        checkpoint_prediction(settings)
     
 if __name__ == '__main__':
     with open('./configs/classifier_config.yaml', 'r') as f:
@@ -350,6 +403,7 @@ if __name__ == '__main__':
     parser.add_argument('--fullcombinations', dest='classification_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--sgcomparison', dest='skipgram_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--early', dest='early_prediction', default=False, help='train on the wanted features and algorithm combinations for the classification task at different time steps', action='store_true')
+    parser.add_argument('--checkpoint', dest='checkpoint', default=False, help='loads the tensorflow models to make predictions on the best validation models', action='store_true')
     
     # settings
     parser.add_argument('--sequencer', dest='sequencer', default='', help='sequencer to use', action='store')

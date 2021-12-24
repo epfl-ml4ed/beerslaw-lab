@@ -30,10 +30,13 @@ from ml.xvalidators.xvalidator import XValidator
 from ml.xvalidators.nested_xval import NestedXVal
 from ml.xvalidators.unsup_nested_xval import UnsupNestedXVal
 from ml.xvalidators.early_nested_xval import EarlyNestedXVal
+from ml.xvalidators.checkpoint_xval import CheckpointXVal
 
 from ml.gridsearches.gridsearch import GridSearch
 from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
 from ml.gridsearches.unsupervised_gridsearch import UnsupervisedGridSearch
+from ml.gridsearches.checkpoint_gridsearch import CheckpointGridsearch
+
 from ml.splitters.flat_stratified import FlatStratified
 from ml.splitters.one_fold import OneFoldSplit
 
@@ -150,6 +153,8 @@ class XValMaker:
             self._gridsearch = SupervisedGridSearch
         elif self._pipeline_settings['gridsearch'] == 'unsupgs':
             self._gridsearch = UnsupervisedGridSearch
+        elif self._pipeline_settings['gridsearch'] == 'ckptgs':
+            self._gridsearch = CheckpointGridsearch
                 
     def _choose_xvalidator(self):
         if 'nested' in self._pipeline_settings['xvalidator']:
@@ -160,6 +165,9 @@ class XValMaker:
             self._xval = UnsupNestedXVal
         if self._pipeline_settings['xvalidator'] == 'early_nested_xval':
             self._xval = EarlyNestedXVal
+        if self._pipeline_settings['xvalidator'] == 'ckpt_xval':
+            self._choose_gridsearcher()
+            self._xval = CheckpointXVal
         self._xval = self._xval(self._settings, self._gridsearch, self._inner_splitter, self._gs_splitter, self._outer_splitter, self._sampler, self._model, self._scorer)
                 
     def _build_pipeline(self):

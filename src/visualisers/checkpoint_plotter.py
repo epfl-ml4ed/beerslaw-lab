@@ -17,8 +17,6 @@ from ml.samplers.sampler import Sampler
 from visualisers.stylers.full_sequences_styler import FullStyler
 import tensorflow as tf
 
-
-
 class CheckpointPlotter:
     """This class recreates the test performances on the best checkpoint
     """
@@ -122,8 +120,7 @@ class CheckpointPlotter:
         """
         path = '/'.join(fold_path.split('/')[:-1])
         architecture_path = path + '/architecture.pkl'
-        with open(architecture_path, 'rb') as fp:
-            architecture = pickle.load(fp)
+        architecture = self._get_architecture(architecture_path)
          
         checkpoint_path = '../experiments/temp_checkpoints/plotter/'
         copytree(fold_path, checkpoint_path, dirs_exist_ok=True)
@@ -134,6 +131,73 @@ class CheckpointPlotter:
         model.load_checkpoints(checkpoint_path, sequences)
         return model
 
+    def _extract_features(self, model_name: str):
+        """
+        Retrieves the architecture details from the name path.
+        
+        Args
+            model_name: path of the folder 
+            
+        Returns
+            dictionary with the parameters
+        """
+        # cell types
+        re_ct = re.compile('ct([A-z]*)_')
+        ct = re_ct.findall(model_name)[0]
+
+        # nlayers
+        re_nlayers = re.compile('[A-z]_nlayers([0-9]+)_')
+        nlayers = re_nlayers.findall(model_name)[0]
+
+        # ncells
+        re_ncells = re.compile('.*ncells\[([0-9,\s]+)\]')
+        ncells = re_ncells.findall(model_name)[0]
+        ncells = ncells.split(', ')
+        ncells = [int(cell) for cell in ncells]
+
+        # dropout
+        re_dropout = re.compile('.*drop([0-9\.]+)')
+        dropout = re_dropout.findall(model_name)[0]
+        dropout = dropout[0] + '.' + dropout[1:]
+
+        # optimiser
+        re_optimi = re.compile('.*optim([A-z]+)_loss')
+        optimi = re_optimi.findall(model_name)[0]
+
+        # batch size
+        re_bs = re.compile('.*bs([0-9]+)_')
+        bs = re_bs.findall(model_name)[0]
+
+        # epochs
+        re_epochs = re.compile('.*ep([0-9]+)lstm')
+        epochs = re_epochs.findall(model_name)[0]
+
+        architecture = {
+            'cell_type': ct,
+            'n_layers': int(nlayers),
+            'n_cells': ncells,
+            'dropout': float(dropout),
+            'optimiser': optimi,
+            'batch_size': int(bs),
+            'epochs': int(epochs),
+            'padding_value': -1,
+            'loss': 'auc',
+            'shuffle':True,
+            'verbose': 1,
+            'early_stopping': False
+        }
+        return architecture
+
+    def _dump_architecture(self, model_path:str):
+        """
+        Reads the path, retrieves the architecture, and dumps the file there
+        """
+        
+        model_name = model_path.split('/')[-1]
+        architectures = self._extract_features(model_name)
+        with open(model_path + '/architecture.pkl', 'wb') as fp:
+            pickle.dump(architectures, fp)
+    
     def _get_architecture(self, architecture_path:str) -> dict:
         """Retrieves the architecture of a model in a dictionary form based on the paths
 
@@ -146,8 +210,13 @@ class CheckpointPlotter:
         """
         path = '/'.join(architecture_path.split('/')[:-1])
         path = path + '/architecture.pkl'
-        with open(path, 'rb') as fp:
-            architecture = pickle.load(fp)
+        try:
+            with open(path, 'rb') as fp:
+                architecture = pickle.load(fp)
+        except FileNotFoundError:
+            architecture = self._extract_features(path)
+            with open(path, 'wb') as fp:
+                architecture = pickle.dump(architecture, fp)
         return architecture
 
     def _compute_test_scores(self, sequences:list, labels:list, indices:list, scoring_croissant:bool, id_dictionary:dict, best_models:dict):
