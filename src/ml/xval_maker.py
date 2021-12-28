@@ -36,6 +36,7 @@ from ml.gridsearches.gridsearch import GridSearch
 from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
 from ml.gridsearches.unsupervised_gridsearch import UnsupervisedGridSearch
 from ml.gridsearches.checkpoint_gridsearch import CheckpointGridsearch
+from ml.gridsearches.permutation_gridsearch import PermutationGridSearch
 
 from ml.splitters.flat_stratified import FlatStratified
 from ml.splitters.one_fold import OneFoldSplit
@@ -155,6 +156,8 @@ class XValMaker:
             self._gridsearch = UnsupervisedGridSearch
         elif self._pipeline_settings['gridsearch'] == 'ckptgs':
             self._gridsearch = CheckpointGridsearch
+        elif self._pipeline_settings['gridsearch'] == 'permgs':
+            self._gridsearch = PermutationGridSearch
                 
     def _choose_xvalidator(self):
         if 'nested' in self._pipeline_settings['xvalidator']:

@@ -46,7 +46,7 @@ class NestedXVal(XValidator):
         #debug
         self._model = model
         
-    def _init_gs(self, fold):
+    def _init_gs(self, fold, oversampled_indices):
         self._scorer.set_optimiser_function(self._xval_settings['nested_xval']['optim_scoring'])
         self._settings['ML']['splitters']['n_folds'] = self._settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
         self._gs = self._gridsearch(
@@ -55,7 +55,8 @@ class NestedXVal(XValidator):
             scorer=self._scorer,
             splitter = self._gs_splitter,
             settings=self._settings,
-            outer_fold=fold
+            outer_fold=fold,
+            oversampled_indices=oversampled_indices
         )
         
     def xval(self, x:list, y:list, indices:list) -> dict:
@@ -105,7 +106,7 @@ class NestedXVal(XValidator):
             ))
             
             # Train
-            self._init_gs(f)
+            self._init_gs(f, results[f]['oversample_indices'])
             #debuf
             self._gs.fit(x_resampled, y_resampled, f)
             

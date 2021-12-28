@@ -48,7 +48,7 @@ ML:
     task: classification
     model: lstm
     scorer: 2clfscorer
-    gridsearch: supgs
+    gridsearch: permgs
     test_pad: False
     val_pad: False
     train_pad: True
