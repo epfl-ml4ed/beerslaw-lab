@@ -23,43 +23,8 @@ def create_checkpoint_reproductions(settings):
         and with TF models recording tensorflow checkpoint, that function recreates the same files as the normal results
         with the validation models instead.
     """
-    old_name = settings['experiment']['old_root_name']
-    new_name = settings['experiment']['root_name']
-    settings['experiment']['root_name'] = '../experiments/' + settings['experiment']['root_name']
-    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
-    experiment_names = os.listdir(settings['experiment']['root_name'])
-    for experiment_name in experiment_names:
-        if experiment_name != '.DS_Store':
-            config_path = '../experiments/' + settings['experiment']['root_name'] + experiment_name + '/config.yaml'
-            with open(config_path, 'rb') as fp:
-                settings = pickle.load(fp)
-                settings['ML']['pipeline']['gridsearch'] = 'ckptgs'
-                settings['ML']['pipeline']['xvalidator'] = 'ckpt_xval'
-                settings['experiment']['root_name'] = settings['experiment']['root_name'].replace(old_name, new_name)
-                gs = settings['ML']['xvalidators']['nested_xval']['param_grid']
-
-            os.makedirs('../experiments/checkpoint-' + settings['experiment']['root_name'] + experiment_name, exist_ok=True)
-            log_path = '../experiments/checkpoint-' + settings['experiment']['root_name'] + experiment_name + '/training_logs.txt'
-            logging.basicConfig(
-                filename=log_path,
-                level=logging.DEBUG, 
-                format='', 
-                datefmt=''
-            )
-            
-            logging.info('Creating the data')
-            pipeline = PipelineMaker(settings)
-            sequences, labels, indices, id_dictionary = pipeline.build_data()
-            settings['id_dictionary'] = id_dictionary
-            
-            xval = XValMaker(settings)
-            settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
-            logging.info('training! ')
-            xval.train(sequences, labels, indices)
-
-            config_path = '../experiments/checkpoint-' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/config.yaml'
-            with open(config_path, 'wb') as fp:
-                pickle.dump(settings, fp)
+    print('python script_classification.py --checkpoint --sequencer <insert sequencer>')
+    
 
 def plot_full_sequences(settings):
     config = dict(settings)
@@ -105,6 +70,14 @@ def checkpoint_plot(settings):
     plotter = CheckpointPlotter(settings)
     plotter.plot()
 
+def checkpoint_validation(settings):
+    plotter = CheckpointPlotter(settings)
+    plotter.get_validation_summaries()
+
+def predictionprobability_density(settings):
+    plotter = CheckpointPlotter(settings)
+    plotter.plot_probability_distribution()
+
     
 def main(settings):
     if settings['full_sequences']:
@@ -127,6 +100,12 @@ def main(settings):
         checkpoint_predictions(settings)
     if settings['checkpointrepro']:
         create_checkpoint_reproductions(settings)
+    if settings['ckptproba']:
+        predictionprobability_density(settings)
+    if settings['ckptvalidationscores']:
+        checkpoint_validation(settings)
+    # if settings['test']:
+    #     test(settings)
 
         
     
@@ -147,11 +126,14 @@ if __name__ == '__main__':
     parser.add_argument('--checkpoint', dest='checkpoint', default=False, action='store_true')
     parser.add_argument('--checkpointpreds', dest='checkpointpreds', default=False, action='store_true')
     parser.add_argument('--checkpointrepro', dest='checkpointrepro', default=False, action='store_true')
+    parser.add_argument('--ckptproba', dest='ckptproba', default=False, action='store_true')
+    parser.add_argument('--ckptvalidation', dest='ckptvalidationscores', default=False, action='store_true')
     
 
     # Actions
     parser.add_argument('--show', dest='show', default=False, action='store_true')
     parser.add_argument('--save', dest='save', default=False, action='store_true')
+    parser.add_argument('--saveimg', dest='saveimg', default=False, action='store_true')
     parser.add_argument('--partial', dest='partial', default=False, action='store_true')
     
     settings.update(vars(parser.parse_args()))

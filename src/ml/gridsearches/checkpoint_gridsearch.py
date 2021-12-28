@@ -25,6 +25,7 @@ class CheckpointGridsearch(GridSearch):
         for i, combination in enumerate(self._combinations):
             logging.info('Testing parameters: {}'.format(combination))
             folds = []
+            fold_indices = {}
             splitter = self._splitter(self._settings)
             for f, (train_index, validation_index) in enumerate(splitter.split(x_train, y_train)):
                 logging.debug('    inner fold, train length: {}, test length: {}'.format(len(train_index), len(validation_index)))
@@ -54,7 +55,11 @@ class CheckpointGridsearch(GridSearch):
                 score = self._scoring_function(y_val, y_pred, y_proba)
                 logging.info('    Score for fold {}: {} {}'.format(f, score, self._scoring_name))
                 folds.append(score)
-            self._add_score(combination, folds)
+                fold_indices[f] = {
+                    'train': train_index,
+                    'validation': validation_index
+                }
+            self._add_score(combination, folds, fold_indices)
             self.save(fold)
             
         best_parameters = self.get_best_model_settings()

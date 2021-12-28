@@ -58,5 +58,3 @@ class XValidator:
                         - indices
         """
         raise NotImplementedError
-        
-        

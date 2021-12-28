@@ -1,5 +1,5 @@
 experiment:
-  name: incremental/fake-round
+  name: test_plot
   keyword: xval # common trait within all nested cross val files
   # reproduction_path : '../data/reproduction/'
 plot_style:
@@ -13,7 +13,7 @@ plot_style:
   type: errorplot # change in early pred -> lineplot
   boxplot_spacing: 0.4
   radius: 0.002
-  bar_length: 0.2
+  bar_length: 0.5
   ncols: 4
   ystyle:
     label: roc
@@ -37,3 +37,4 @@ train_validation:
 model_checkpoint:
   train_ids: ../data/experiment_keys/flatstrat_trainusernames.pkl
   test_ids: ../data/experiment_keys/flatstrat_testusernames.pkl
+  label_map: vector_labels

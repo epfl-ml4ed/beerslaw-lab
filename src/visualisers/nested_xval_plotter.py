@@ -81,7 +81,7 @@ class NestedXValPlotter:
                 dots[fold]['data'] = gs[fold][self._settings['plot_style']['measure']]
                 for parameter in gs[fold]['best_params']:
                     param = parameter.replace('_', ' ')
-                    if 'score' not in param:
+                    if 'score' not in param and 'fold' not in param and 'index' not in param:
                         dots[fold][param] = str(gs[fold]['best_params'][parameter])
                         params.append(param.replace('_', ' '))
                 dots[fold]['fold'] = fold

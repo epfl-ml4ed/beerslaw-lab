@@ -89,8 +89,9 @@ class NestedXVal(XValidator):
             
             # Inner loop
             x_resampled, y_resampled = self._sampler.sample(x_train, y_train)
+            results[f]['oversample_indexes'] = self._sampler.get_indices()
+            results[f]['oversample_indices'] = [results[f]['train_indices'][idx] for idx in results[f]['oversample_indexes']]
             
-            temp_indices = [indices[iid] for iid in train_index]
             results[f]['x_resampled'] = x_resampled
             results[f]['y_resampled'] = y_resampled
 

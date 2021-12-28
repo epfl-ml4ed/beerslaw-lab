@@ -18,4 +18,8 @@ class NoSampler(Sampler):
         self._notation = 'nosplr'
         
     def sample(self, x:list, y:list) -> Tuple[list, list]:
+        self._indices = list(range(len(x)))
         return x, y
+
+    def get_indices(self) -> np.array:
+        return self._indices

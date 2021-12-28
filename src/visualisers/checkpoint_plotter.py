@@ -13,12 +13,15 @@ from bokeh.plotting import figure, output_file, show, save
 from ml.xval_maker import XValMaker
 from ml.models.classifiers.lstm import LSTMModel
 from ml.samplers.sampler import Sampler
+from bokeh.io import export_svg
+from matplotlib import pyplot as plt
+
 
 from visualisers.stylers.full_sequences_styler import FullStyler
 import tensorflow as tf
 
 class CheckpointPlotter:
-    """This class recreates the test performances on the best checkpoint
+    """This class recreates the test performances on the best checkpoint for xval without gridsearch
     """
 
     def __init__(self, settings):
@@ -109,8 +112,6 @@ class CheckpointPlotter:
         """Loads the weights achieving the best validation scores into a model object (designed from our pipeline).
 
         Args:
-            experiment_path (str): path to the experiment (up to the date tag)
-            model_name (str): name of the model (where for each fold, the train-validation and checkpoints are saved)
             fold_path (str): name of the particular checkpoint
             config (dict): [description]
             xval (XValMaker): xval object
@@ -142,7 +143,9 @@ class CheckpointPlotter:
             dictionary with the parameters
         """
         # cell types
-        re_ct = re.compile('ct([A-z]*)_')
+        print('*'*100)
+        print(model_name)
+        re_ct = re.compile('/ct([A-z]*)_')
         ct = re_ct.findall(model_name)[0]
 
         # nlayers
@@ -217,6 +220,7 @@ class CheckpointPlotter:
             architecture = self._extract_features(path)
             with open(path, 'wb') as fp:
                 architecture = pickle.dump(architecture, fp)
+            return architecture
         return architecture
 
     def _compute_test_scores(self, sequences:list, labels:list, indices:list, scoring_croissant:bool, id_dictionary:dict, best_models:dict):
@@ -251,6 +255,122 @@ class CheckpointPlotter:
         return x_test, y_test, best_model
 
     def _recreate_folds(self, experiment_path:str, experiment_info:dict) -> dict:
+        """Goes through all the folds of an experiment (date tag), loads the weights and makes the predictions on the best
+        checkpoint
+
+        Assumption:
+            Only one outer fold
+            No resampling
+
+        Args:
+            experiment_path (str): path of the experiment (up untill the date tag)
+            experiment_info (dict): dictonary of the experiment containing the model names, and then the paths to each of the
+            checkpoints per fold
+
+        Returns:
+            dict: dictoinary with the scores and best parameters for each fold on the validation set
+        """
+        with open(experiment_path + 'config.yaml', 'rb') as fp:
+            config = pickle.load(fp)
+
+        # gridsearch object for folds
+        gs_file = os.listdir(experiment_path + '/gridsearch results/')[0]
+        with open(experiment_path + '/gridsearch results/' + gs_file, 'rb') as fp:
+            gs = pickle.load(fp)
+        gs_results = gs.get_results()
+
+        # xval object for trainset
+        xval_path = os.listdir(experiment_path + '/results/')[0]
+        with open(experiment_path + '/results/' + xval_path, 'rb') as fp:
+            xval_object = pickle.load(fp)
+        oversampled_indices = xval_object[0]['oversample_indices']
+        test_indices = xval_object[0]['test_indices']
+
+        # data
+        pipeline = PipelineMaker(config)
+        sequences, labels, indices, id_dictionary = pipeline.build_data()
+
+        # scoring function
+        xval = XValMaker(config)
+        sampler = xval.get_sampler()()
+        scorer = xval.get_scorer()(config)
+        scorer.set_optimiser_function(config['ML']['xvalidators']['nested_xval']['optim_scoring'])
+        scoring_function = scorer.get_optim_function()
+        scoring_croissant = scorer.get_optim_croissant()
+
+        # data
+        train_idx = [xval_object['indices'].index(idx) for idx in oversampled_indices]
+        x_train = [sequences[idx] for idx in train_idx]
+        y_train = [labels[idx] for idx in train_idx]
+
+
+        best_models = {
+            'experiment_path': experiment_path,
+            'experiment_info': experiment_info,
+            'id_dictionary': config['id_dictionary'],
+            'label_map': pipeline.get_label_map(),
+            'test_indices': test_indices,
+            'folds': {}
+        }
+        for fold in gs_results[0]['fold_index']:
+            train_index = gs_results[0]['fold_index'][fold]['train']
+            validation_index = gs_results[0]['fold_index'][fold]['validation']
+
+            xx_train = [x_train[idx] for idx in train_index]
+            yy_train = [y_train[idx] for idx in train_index]
+            x_val = [x_train[idx] for idx in validation_index]
+            y_val = [y_train[idx] for idx in validation_index]
+            val_indices = [oversampled_indices[idx] for idx in validation_index]
+
+            scores = []
+            names = []
+            probas = {}
+            for model_name in experiment_info:
+                fold_path = experiment_info[model_name][fold]
+                model = self._retrieve_model(fold_path, sequences, config, xval)
+
+                y_predict = model.predict(x_val)
+                y_proba = model.predict_proba(x_val)
+                score = scoring_function(y_val, y_predict, y_proba)
+                names.append(model_name)
+                scores.append(score)
+                probas[model_name] = y_proba
+
+            score_df = pd.DataFrame()
+            score_df['model_name'] = names
+            score_df['scores'] = scores
+            score_df = score_df.sort_values(['scores'], ascending= not scoring_croissant)
+            best_models['folds'][fold] = {
+                'scores': score_df.iloc[0]['scores'],
+                'model': score_df.iloc[0]['model_name'],
+                'architecture': self._get_architecture(experiment_info[score_df.iloc[0]['model_name']][fold]),
+                'probabilities': probas,
+                'val_indices': val_indices
+            }
+
+        best_models['validation_summaries'] = {
+            'mean': np.mean([best_models['folds'][fold]['scores'] for fold in best_models['folds']]),
+            'std': np.std([best_models['folds'][fold]['scores'] for fold in best_models['folds']]),
+        }
+
+        x_test, y_test, best_validation_model = self._compute_test_scores(sequences, labels, indices, scoring_croissant, id_dictionary, best_models)
+        validation_model_name = best_validation_model['model_name']
+        validation_fold = best_validation_model['fold']
+        fold_path = experiment_info[validation_model_name][validation_fold]
+        model = self._retrieve_model(fold_path, sequences, config, xval)
+        test_predict = model.predict(x_test)
+        test_proba = model.predict_proba(x_test)
+        score = scoring_function(y_test, test_predict, test_proba)
+
+        best_models['best_validation_model'] = best_validation_model
+        best_models['test_predict'] = test_predict
+        best_models['test_proba'] = test_proba
+        best_models['test_score'] = score        
+
+        return best_models
+
+
+    def _recreate_foldstest(self, experiment_path:str, experiment_info:dict) -> dict:
         """Goes through all the folds of an experiment (date tag), loads the weights and makes the predictions on the best
         checkpoint
 
@@ -330,6 +450,10 @@ class CheckpointPlotter:
         best_models['test_score'] = score        
 
         return best_models
+
+################################
+## Create boxplots for validation scores
+##
 
     def _individual_boxplot_df(self, best_models):
         dots = {}
@@ -434,36 +558,136 @@ class CheckpointPlotter:
             }
         }
         self._styler.add_legend(plot_styling, p)
+
+        if self._settings['saveimg']:
+            p.output_backend = 'svg'
+            path = '../experiments/' + self._settings['experiment']['name'] + '/checkpoint_validation_folds.svg'
+            export_svg(p, filename=path)
+        if self._settings['save']:
+            path = '../experiments/' + self._settings['experiment']['name'] + '/checkpoint_validation_folds.html'
+            save(p, filename=path)
         if self._settings['show']:
             show(p)
+
+################################
+## Create prediction distribution on validation sets.
+##
+    def _get_label_map(self):
+        label_map = self._settings['model_checkpoint']['label_map']
+        if self._settings['model_checkpoint']['label_map'] == 'vector_labels':
+            class_map = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            n_classes = 8
+                        
+        with open(class_map) as fp:
+            label_map = yaml.load(fp, Loader=yaml.FullLoader)
+        return label_map
+
+    def _load_indices_label(self, id_dictionary:dict):
+        indices_labels = {}
+        for idx in id_dictionary['sequences']:
+            with open(id_dictionary['sequences'][idx]['path'], 'rb') as fp:
+                sim = pickle.load(fp)
+                indices_labels[idx] = sim['permutation']
+        return indices_labels
+
+    def _predictionprobabilities_per_class(self, best_models: dict):
+        label_map = self._get_label_map()
+        labels_probs = {}
+        
+        id_dictionary = best_models['id_dictionary']
+        indices_labels = self._load_indices_label(id_dictionary)
+
+        for fold in best_models['folds']:
+            for model in best_models['folds'][fold]['probabilities']:
+                if model not in labels_probs:
+                    labels_probs[model] = {label:[] for label in label_map['labels']}
+                for i, val_index in enumerate(best_models['folds'][fold]['val_indices']):
+                    plot_label = indices_labels[val_index]
+                    plot_label = label_map['map'][plot_label]
+                    labels_probs[model][plot_label].append(best_models['folds'][fold]['probabilities'][model][i][1])
+
+        test_indices = best_models['test_indices']
+        labels_probs['test'] = {label:[] for label in label_map['labels']}
+        for i, idx in enumerate(test_indices):
+            plot_label = indices_labels[idx]
+            plot_label = label_map['map'][plot_label]
+            labels_probs['test'][plot_label].append(best_models['test_proba'][i][1])
+
+        return labels_probs
+        
+    def _predictionprobabilities_plot(self, labels_probs:dict, model:str, label:str, experiment:str):
+        """Returns the plot with the probability density for  a specific model, and a specific label
+
+        Args:
+            labels_probs (dict): dictionary containing the probabilities per label and per model
+            model (str): model name
+            label (str): label name
+            experiment (str): experiment name up untill the date stamp
+        """
+        probabilities = labels_probs[model][label]
+        test_probabilities = labels_probs['test'][label]
+        title = 'probability density for model {} and label {}'.format(model, label)
+
+        plt.figure(figsize=(12, 4))
+        plt.hist(probabilities, color='#cbf3f0', alpha=0.6, density=True, label='validation')
+        plt.hist(test_probabilities, color='#ffbf69', alpha=0.6, density=True, label='test')
+        plt.xlim([0, 1])
+        plt.legend()
+        plt.title(title)
+
+        if self._settings['save'] or self._settings['saveimg']:
+            path = experiment + '/predictionprobabilities_densities/'
+            os.makedirs(path, exist_ok=True)
+            path += 'm{}_label{}.svg'.format(model, label)
+            plt.savefig(path, format='svg')
+        if self._settings['show']:
+            plt.show()
+
+    def _plot_validation_test_predictionprobabilities(self):
+        paths = self._crawl_modelcheckpoints()
+        for i, experiment in enumerate(paths):
+            best_models = self._recreate_folds(experiment, paths[experiment])
+            labels_probs = self._predictionprobabilities_per_class(best_models)
+            for model in labels_probs:
+                if model != 'test':
+                    for label in labels_probs[model]:
+                        self._predictionprobabilities_plot(labels_probs, model, label, experiment)
 
 
     def plot(self):
         tf.get_logger().setLevel('ERROR')
-        # print('Testing the functions')
-        # paths = self._crawl_modelcheckpoints()
-        # first_key = list(paths.keys())[0]
-        # best_models = self._recreate_folds(first_key, paths[first_key])
-        # print('*'*50)
-        # print('BEST MODELS')
-        # print(best_models)
-
         self._plot_multiple_boxplots()
     
+    def plot_probability_distribution(self):
+        tf.get_logger().setLevel('ERROR')
+        self._plot_validation_test_predictionprobabilities()
+
+    def get_validation_summaries(self):
+        tf.get_logger().setLevel('ERROR')
+        paths = self._crawl_modelcheckpoints()
+        for i, experiment in enumerate(paths):
+            best_models = self._recreate_folds(experiment, paths[experiment])
+            print('*' * 10)
+            print(best_models['folds'][0]['architecture'])
+            print(best_models['validation_summaries'])
+            print()
+            
+
     def test(self):
         tf.get_logger().setLevel('ERROR')
         print('Testing the functions')
         paths = self._crawl_modelcheckpoints()
         for key in paths:
             best_models = self._recreate_folds(key, paths[key])
-            print(best_models['best_validation_model'])
-            print(best_models['test_proba'])
+            # print(best_models['best_validation_model'])
+            # print(best_models['test_proba'])
 
-            print('*'*50)
-            print()
+            # print('*'*50)
+            # print()
+
 
         # self._plot_multiple_boxplots()
-
+        
 
         
 

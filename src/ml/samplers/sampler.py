@@ -28,3 +28,11 @@ class Sampler:
             y_resampled (list): labels for the rebalanced features
         """
         raise NotImplementedError
+
+    def get_indices(self) -> list:
+        """Returns the indexes chosen for the resampling
+
+        Returns:
+            list: indexes from the input
+        """
+        raise NotImplementedError

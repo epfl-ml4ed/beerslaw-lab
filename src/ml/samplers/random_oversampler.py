@@ -24,6 +24,14 @@ class RandomOversampler(Sampler):
         
     def sample(self, x:list, y:list) -> Tuple[list, list]:
         logging.debug('distribution before the sampling: {}'.format(sorted(Counter(y).items())))
-        x_resampled, y_resampled = self._ros.fit_resample(x, y)
+
+        xlen = len(x)
+        x_resampled, y_resampled = self._ros.fit_resample([list(range(10)) for _ in range(xlen)], y)
+        self._indices = self._ros.sample_indices_
+        x_resampled = [x[idx] for idx in self._indices]
+
         logging.debug('distrbution after the sampling: {}'.format(sorted(Counter(y_resampled).items())))
         return x_resampled, y_resampled        
+
+    def get_indices(self) -> np.array:
+        return self._indices

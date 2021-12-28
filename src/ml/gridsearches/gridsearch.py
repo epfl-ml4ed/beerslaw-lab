@@ -50,12 +50,13 @@ class GridSearch:
     def get_parameters(self):
         return self._parameters
     
-    def _add_score(self, combination:list, folds:list):
+    def _add_score(self, combination:list, folds:list, fold_indices: dict):
         """Adds the scores to the list
 
         Args:
             combination (list): combination of parameters
             folds (list): list of all optimi_scores for each folds for that particular combination
+            fold_indices (dict): dictionary with train and validation indices for each fold
         """
         score = {}
         for i, param in enumerate(self._parameters):
@@ -63,6 +64,7 @@ class GridSearch:
         score['fold_scores'] = folds
         score['mean_score'] = np.mean(folds)
         score['std_score'] = np.std(folds)
+        score['fold_index'] = fold_indices
         self._results[self._results_index] = score
         self._results_index += 1
         
@@ -98,6 +100,17 @@ class GridSearch:
     
     def get_best_model(self) -> Model:
         return self._best_model
+
+    def get_results(self) -> dict:
+        return self._results
+
+    def get_best_results(self) -> pd.DataFrame:
+        """Returns the best results
+        """
+        self._results_df = pd.DataFrame.from_dict(self._results, orient='index')
+        self._results_df = self._results_df.sort_values(['mean_score'], ascending=not self._scoring_croissant)
+        self._best_model_settings = self._results_df.index[0]
+        self._best_model_settings = self._results[self._best_model_settings]
     
     def get_path(self, fold:int) -> str:
         path = '../experiments/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 

@@ -3,8 +3,8 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
-  root_name: incremental/fake-round
-  old_root_name: fails
+  root_name: test_plot
+  old_root_name: test_plot
   random_seed: 42
   n_folds: blank
   n_classes: 2
@@ -48,7 +48,7 @@ ML:
     task: classification
     model: lstm
     scorer: 2clfscorer
-    gridsearch: ckptgs
+    gridsearch: supgs
     test_pad: False
     val_pad: False
     train_pad: True
