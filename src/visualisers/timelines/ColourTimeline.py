@@ -10,7 +10,7 @@ import numpy as np
 import bokeh
 from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, HoverTool, glyph
 from bokeh.plotting import figure, output_file, show, save
-from bokeh.io import export_svg
+from bokeh.io import export_svg, export_png
 
 
 from extractors.parser.simulation_parser import Simulation
@@ -340,6 +340,17 @@ class ColourTimeline(Timeline):
         glyphs, plot = self._frame_timeline(glyphs, plot, sim)
 
         plot.legend.click_policy="hide"
+
+        if self._settings['savepng']:
+            # plot.output_backend = 'png'
+            path = '../reports/' + self._settings['image']['report_folder']
+            path += '/colour timelines/'
+            os.makedirs(path, exist_ok=True)
+            path += 'p' + sim.get_permutation() 
+            path += '_l' + sim.get_learner_id()
+            path += '_t' + str(sim.get_task()) + '.png'
+            print(path)
+            export_png(plot, filename=path)
 
         if self._settings['saveimg']:
             plot.output_backend = 'svg'

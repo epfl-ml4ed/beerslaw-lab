@@ -121,6 +121,7 @@ class CheckpointPlotter:
         """
         path = '/'.join(fold_path.split('/')[:-1])
         architecture_path = path + '/architecture.pkl'
+        # print('    model')
         architecture = self._get_architecture(architecture_path)
          
         checkpoint_path = '../experiments/temp_checkpoints/plotter/'
@@ -191,6 +192,52 @@ class CheckpointPlotter:
         }
         return architecture
 
+    def _extract_modellabel(self, model_name: str):
+        """
+        Retrieves the architecture details from the name path.
+        
+        Args
+            model_name: path of the folder 
+            
+        Returns
+            dictionary with the parameters
+        """
+        # cell types
+        print('*'*100)
+        print(model_name)
+        re_ct = re.compile('^ct([A-z]*)_')
+        ct = re_ct.findall(model_name)[0]
+
+        # nlayers
+        re_nlayers = re.compile('[A-z]_nlayers([0-9]+)_')
+        nlayers = re_nlayers.findall(model_name)[0]
+
+        # ncells
+        re_ncells = re.compile('.*ncells\[([0-9,\s]+)\]')
+        ncells = re_ncells.findall(model_name)[0]
+        ncells = ncells.split(', ')
+        ncells = [int(cell) for cell in ncells]
+
+        # dropout
+        re_dropout = re.compile('.*drop([0-9\.]+)')
+        dropout = re_dropout.findall(model_name)[0]
+        dropout = dropout[0] + '.' + dropout[1:]
+
+        # optimiser
+        re_optimi = re.compile('.*optim([A-z]+)_loss')
+        optimi = re_optimi.findall(model_name)[0]
+
+        # batch size
+        re_bs = re.compile('.*bs([0-9]+)_')
+        bs = re_bs.findall(model_name)[0]
+
+        # epochs
+        re_epochs = re.compile('.*ep([0-9]+)lstm')
+        epochs = re_epochs.findall(model_name)[0]
+
+        model_name = ct + '\n' + str('-'.join([str(cl) for cl in ncells]))
+        return model_name
+
     def _dump_architecture(self, model_path:str):
         """
         Reads the path, retrieves the architecture, and dumps the file there
@@ -219,7 +266,7 @@ class CheckpointPlotter:
         except FileNotFoundError:
             architecture = self._extract_features(path)
             with open(path, 'wb') as fp:
-                architecture = pickle.dump(architecture, fp)
+                pickle.dump(architecture, fp)
             return architecture
         return architecture
 
@@ -530,16 +577,39 @@ class CheckpointPlotter:
         xs = []
         models = []
         paths = self._crawl_modelcheckpoints()
+
+        experiment_best_models = {}
+        model_names = []
+        simple_mns = []
         for i, experiment in enumerate(paths):
             best_models = self._recreate_folds(experiment, paths[experiment])
-            x_axis['position'].append(i*2)
-            x_axis['ticks'].append(i*2)
+            # x_axis['position'].append(i*2)
+            # x_axis['ticks'].append(i*2)
 
-            model_name = 'model ' + str(i) # Imply one model per cross validation
-            x_axis['labels'].append(model_name),
+            # model_name = 'model ' + str(i) # Imply one model per cross validation
+            # x_axis['labels'].append(model_name),
+            experiment_best_models[experiment] = best_models
             models.append(best_models)
             # print(paths[experiment])
-        
+            model_names.append(experiment + best_models['folds'][0]['model'])
+            simple_mns.append(best_models['folds'][0]['model'])
+
+        x_paths = [mn for mn in model_names]
+
+        x_order = []
+        if len(self._settings['plot_style']['xstyle']['groups']) > 0:
+            indices = []
+            for group in self._settings['plot_style']['xstyle']['groups']:
+                indices = indices + [idx for idx in range(len(x_paths)) if group in x_paths[idx]]
+                x_order = x_order + indices
+
+            x_axis['position'] = [i*2 for i in range(len(x_order))]
+            x_axis['ticks'] = [i*2 for i in range(len(x_order))]
+            x_axis['labels'] = [simple_mns[idx] for idx in indices]
+
+        x_axis['labels'] = [self._extract_modellabel(l) for l in x_axis['labels']]
+
+
         plot_styling = {
             'colour':[],
             'label': [],
@@ -548,7 +618,7 @@ class CheckpointPlotter:
             'linedashes': []
         }
         p = self._styler.init_figure(x_axis)
-        for i, model in enumerate(models):
+        for i, model in enumerate([models[idx] for idx in indices]):
             plot_styling, glyphs, p = self._plot_individual_errorplot(model, 'tbf', i*2, glyphs, plot_styling, p)
 
         plot_styling['labels_colours_alpha'] = {
@@ -636,12 +706,15 @@ class CheckpointPlotter:
         plt.title(title)
 
         if self._settings['save'] or self._settings['saveimg']:
+            print('saving experiment!')
             path = experiment + '/predictionprobabilities_densities/'
             os.makedirs(path, exist_ok=True)
             path += 'm{}_label{}.svg'.format(model, label)
             plt.savefig(path, format='svg')
         if self._settings['show']:
             plt.show()
+        else:
+            plt.close()
 
     def _plot_validation_test_predictionprobabilities(self):
         paths = self._crawl_modelcheckpoints()

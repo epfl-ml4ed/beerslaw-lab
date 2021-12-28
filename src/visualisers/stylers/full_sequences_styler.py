@@ -61,7 +61,7 @@ class FullStyler(Styler):
         bx['x'] = [x, x]
         bx['y0'] = [boxplot.iloc[0]['upper'], boxplot.iloc[0]['lower']]
         bx['y1'] = [boxplot.iloc[0]['q3'], boxplot.iloc[0]['q1']]
-        bx['bar_length'] = 0.5
+        bx['bar_length'] = self._settings['plot_style']['bar_length']
         
         p.segment('x', 'y0', 'x', 'y1', line_color="black", source=bx)
         
@@ -112,9 +112,9 @@ class FullStyler(Styler):
         p.segment('x', 'y0', 'x', 'y1', line_color="black", source=bx)
         
         # moustaches
-        glyphs['lower_moustache'][x] = p.rect('x', 'lower_error', 0.2, 0.0001, fill_color="black", alpha=0.3, line_color="black", source=boxplot)
-        glyphs['upper_rect'][x] = p.rect('x', 'mean', 0.1, 0.0001, fill_color="black", alpha=styler['alpha'], line_color="black", source=boxplot)
-        glyphs['upper_moustache'][x] = p.rect('x', 'upper_error', 0.2, 0.0001, fill_color="black", alpha=styler['alpha'], line_color="black", source=boxplot)
+        glyphs['lower_moustache'][x] = p.rect('x', 'lower_error', self._styler_settings['bar_length'], 0.0001, fill_color="black", alpha=0.3, line_color="black", source=boxplot)
+        glyphs['upper_rect'][x] = p.rect('x', 'mean', self._styler_settings['bar_length']*0.66, 0.0001, fill_color="black", alpha=styler['alpha'], line_color="black", source=boxplot)
+        glyphs['upper_moustache'][x] = p.rect('x', 'upper_error', self._styler_settings['bar_length'], 0.0001, fill_color="black", alpha=styler['alpha'], line_color="black", source=boxplot)
         
         p.add_tools(HoverTool(renderers=[
             glyphs['upper_moustache'][x],

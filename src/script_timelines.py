@@ -95,6 +95,7 @@ if __name__ == '__main__':
     # plot flags
     parser.add_argument('--save', dest='save', default=False, help='save timelines in html formats', action='store_true')
     parser.add_argument('--saveimg', dest='saveimg', default=False, help='save timelines in svg formats', action='store_true')
+    parser.add_argument('--savepng', dest='savepng', default=False, help='save timelines in svg formats', action='store_true')
     parser.add_argument('--show', dest='show', default=False, help='show timelines', action='store_true')
 
     settings.update(vars(parser.parse_args()))
