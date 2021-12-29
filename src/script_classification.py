@@ -349,6 +349,13 @@ def main(settings):
             settings['data']['pipeline']['aggregator'] = 'noagg'
             settings['data']['pipeline']['sequencer_interval'] = int(settings['adaptiveseconds'])
 
+        if 'colourbreak_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'tsnorm'
+
+        if 'colournobreak_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'tsnorm'
 
         if 'chem2cap' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulbr'

@@ -8,5 +8,3 @@ sequencing:
   interval: 5
   break_threshold: 0.6
   dragasclick: True
-
-

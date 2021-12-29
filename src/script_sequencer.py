@@ -27,6 +27,8 @@ from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import Base
 from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
 from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
 from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
+from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import ColourNobreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
 
 def process_adaptive_interval(settings):
     interval = str(settings['sequencing']['interval'])
@@ -69,7 +71,9 @@ def sequence_simulations(settings):
         'stateaction_secondslstm': StateActionSecondsLSTM,
         'stateaction_adaptivelstm': process_adaptive_interval,
         'stateaction_encodedlstm': StateActionLSTMEncoding,
-        'chem2cap': Chem2CapSequencer
+        'chem2cap': Chem2CapSequencer,
+        'colourbreak_secondslstm': ColourBreakSecondsLSTM,
+        'colournobreak_secondslstm': ColourNobreakSecondsLSTM
     }
     settings['data'] = {
         'pipeline': {
@@ -209,10 +213,10 @@ def test_sequence(settings):
             'sequencer_dragasclick': settings['sequencing']['dragasclick']
         }
     }
-    with open('../data/parsed simulations/perm0231_lidhkvk9vt9_t2v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm2031_lidqsx2cc4b_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
-    seq = StateActionLSTMEncoding(settings)
+    seq = ColourBreakSecondsLSTM(settings)
     labs, begins, ends = seq.get_sequences(sim)
     for i, lab in enumerate(labs):
         print(begins[i], ends[i], lab)

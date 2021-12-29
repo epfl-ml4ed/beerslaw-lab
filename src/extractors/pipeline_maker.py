@@ -16,6 +16,7 @@ from extractors.aggregator.flatten_aggregator import FlattenAggregator
 from extractors.aggregator.no_aggregator import NoAggregator
 from extractors.aggregator.normalised_aggregator import NormalisedAggregator
 from extractors.aggregator.onehot_minmax_normaliser import OneHotMinMaxNormaliserAggregator
+from extractors.aggregator.timestep_normaliser import TimestepNormaliser
 
 from extractors.cleaners.break_filter import BreakFilter
 from extractors.cleaners.no_break_filter import NoBreakFilter
@@ -58,6 +59,8 @@ from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateAc
 from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
 from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
 from extractors.sequencer.one_hot_encoded.stateaction_sampledlstm import StateActionLSTMSampling
+from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import ColourNobreakSecondsLSTM
+from src.extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -217,6 +220,21 @@ class PipelineMaker:
             self._sequencer = StateActionLSTMEncoding(self._settings)
             self._sequencer_path = 'stateaction_encodedlstm_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_secondslstm':
+            self._sequencer = ColourNobreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'colournobreak_secondslstm'
+        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_secondslstm_12':
+            self._sequencer = ColourNobreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'colournobreak_secondslstm_12'
+
+
+        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm':
+            self._sequencer = ColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'colourbreak_secondslstm'
+        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm_12':
+            self._sequencer = ColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'colourbreak_secondslstm_12'
+
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
             interval = str(self._data_settings['pipeline']['sequencer_interval'])
             interval = interval.replace('.', '-')
@@ -333,6 +351,9 @@ class PipelineMaker:
 
         elif self._data_settings['pipeline']['aggregator'] == 'minmax':
             self._aggregator = OneHotMinMaxNormaliserAggregator()
+
+        elif self._data_settings['pipeline']['aggregator'] == 'tsagg':
+            self._aggregator = TimestepNormaliser()
         
     def _build_pipeline(self):
         self._choose_sequencer()

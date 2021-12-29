@@ -599,6 +599,7 @@ class Sequencing:
 
         if self._settings['data']['pipeline']['sequencer_dragasclick']:
             break_threshold = self._break_filter.get_threshold(begins, ends, self._break_threshold)
+            self._break_minimum = break_threshold
             labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
         return labels, begins, ends
 
