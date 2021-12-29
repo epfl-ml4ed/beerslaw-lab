@@ -49,15 +49,15 @@ class StateActionSecondsLSTM(Sequencing):
                 pdf's show and hide
                 
         vector:
-            0: s for observed absorbance, 0 else
-            1: s if something else than absorbance is observed, else 0
-            2: s for red solution, else 0
-            3: s for green solution, else 0
-            4: s for other solution, else 0
-            5: s if ruler is measuring, else 0
-            6: s if ruler is not measuring, else 0
-            7: s if wavelength is green, else 0
-            8: s if wavelength is not green
+            0: 1 for observed absorbance, 0 else
+            1: 1 if something else than absorbance is observed, else 0
+            2: 1 for red solution, else 0
+            3: 1 for green solution, else 0
+            4: 1 for other solution, else 0
+            5: 1 if ruler is measuring, else 0
+            6: 1 if ruler is not measuring, else 0
+            7: 1 if wavelength is green, else 0
+            8: 1 if wavelength is not green
             9: s if action is on other (laser clicks, transmittance absorbance clicks, restarts timestamps)
             10: s if action is on concentration
             11: s if action is on width
