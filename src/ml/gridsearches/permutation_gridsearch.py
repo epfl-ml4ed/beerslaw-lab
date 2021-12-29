@@ -40,7 +40,7 @@ class PermutationGridSearch(GridSearch):
 
         lids = [id_dictionary['sequences'][idx]['learner_id'] for idx in self._oversampled_indices]
         rankings = [id_rankings[lid] for lid in lids]
-        rankings = [vector_map[ranking] for ranking in rankings]
+        # rankings = [vector_map[ranking] for ranking in rankings]
         return rankings
 
     def fit(self, x_train:list, y_train:list, fold:int):

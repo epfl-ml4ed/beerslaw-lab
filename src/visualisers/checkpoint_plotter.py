@@ -752,11 +752,11 @@ class CheckpointPlotter:
         paths = self._crawl_modelcheckpoints()
         for key in paths:
             best_models = self._recreate_folds(key, paths[key])
-            # print(best_models['best_validation_model'])
-            # print(best_models['test_proba'])
+            print(best_models['best_validation_model'])
+            print(best_models['test_proba'])
 
-            # print('*'*50)
-            # print()
+            print('*'*50)
+            print()
 
 
         # self._plot_multiple_boxplots()
