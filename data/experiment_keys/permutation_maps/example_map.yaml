@@ -1,0 +1,15 @@
+---
+name: example (1, 2)
+labels: 
+  textual_label_1
+  textual_label_2
+target_index:
+  textual_label_1: 0
+  textual_label_2: 1
+index_target:
+  0: textual_label_1
+  1: textual_label_2
+map: 
+  'permutation': label
+  'permutation1' : label
+...

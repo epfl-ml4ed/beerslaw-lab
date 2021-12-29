@@ -1,0 +1,37 @@
+---
+name: colour binary (yes, no)
+labels: 
+  colour
+  no_colour
+target_index:
+  colour: 0
+  no_col: 1
+index_target:
+  0: colour
+  1: no_col
+map: 
+  '2031': colour
+  '2013': colour
+  '0231': colour
+  '0213': colour
+  '1302': no_col
+  '1320': no_col
+  '3102': no_col
+  '3120': no_col
+  '0123': no_col
+  '0312': no_col
+  '0321': no_col
+  '1023': no_col
+  '1032': no_col
+  '1203': no_col
+  '1230': no_col
+  '2103': no_col
+  '2130': no_col
+  '2301': no_col
+  '2310': no_col
+  '3012': no_col
+  '3021': no_col
+  '3201': no_col
+  '3210': no_col 
+  '0132': no_col
+...
