@@ -11,46 +11,26 @@ from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
 from extractors.cleaners.break_filter import BreakFilter
 
-class SimpleMoreStateSecondsLSTM(Sequencing):
+class ColourNobreakFlat(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
     In this particular case, each feature will be made out of a vector encoding:
-        - 1 if the action is conducted while the absorbance is on, the laser is green, and the solution is green
-        - 1 if the action is conducted while the abosrbance is on, the laser is green, and the solution is red
-        - 1 if the action is conducted while the absorbance is off, or the laser is not green, or the solution is neither red nor green
-        - time spent on the action if the action is other
-            - laser
-            - restarts
-            - transmittance / absorbance
-        - time spent on the action if the action is related to concentration
-        - time spent on the action if the action is related to width
-        - time spent on the action if the action is related to wavelength
-        - time spent on the action if the action is related to solution
-        - time spent on the action if the action is related to measuring tools (ruler or magnifier)
-        - time spent on the action if the action is related to the concentrationlab
-        - time spent in the pdf
-        - time spent not acting on the simulation
+        - whether the action was conducted in the green laser and green solution state
+        - whether the action was conducted in the green laser and red solution state
+        - whether the action was not conducted in the above states
+        - whether the action was conducted in the concentrationlab
 
     """
-
     def __init__(self, settings):
-        self._name = 'simple more state seconds sequencer'
-        self._notation = 'ssss'
+        self._name = 'colournobreak flat sequencer'
+        self._notation = 'cnbss'
         self._settings = settings
         self._states = [
             'greengreen',
             'greenred',
-            'notgreennotred',
-            'other',
-            'concentration',
-            'width',
-            'solution',
-            'wavelength',
-            'tools',
-            'concentrationlab',
-            'pdf',
-            'break'
+            'nogreennored',
+            'concentrationlab'
         ]
         self._click_interval = 0.05
         
@@ -60,66 +40,33 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
 
     def _load_labelmap(self):
         self._label_map = {
-            'laser': 'other',
-            'restarts': 'other',
-            'transmittance_absorbance': 'other',
+            'laser': 'action',
+            'restarts': 'action',
+            'transmittance_absorbance': 'action',
 
-            'magnifier_position': 'tools',
-            'ruler': 'tools',
+            'magnifier_position': 'action',
+            'ruler': 'action',
             
-            'wavelength_radiobox': 'wavelength',
-            'preset': 'wavelength',
-            'wl_variable': 'wavelength',
-            'minus_wl_slider': 'wavelength',
-            'wl_slider': 'wavelength',
-            'plus_wl_slider': 'wavelength',
+            'wavelength_radiobox': 'action',
+            'preset': 'action',
+            'wl_variable': 'action',
+            'minus_wl_slider': 'action',
+            'wl_slider': 'action',
+            'plus_wl_slider': 'action',
             
-            'solution_menu': 'solution',
+            'solution_menu': 'action',
             
-            'minus_concentration_slider': 'concentration',
-            'plus_concentration_slider': 'concentration',
-            'concentration_slider': 'concentration',
+            'minus_concentration_slider': 'action',
+            'plus_concentration_slider': 'action',
+            'concentration_slider': 'action',
             
-            'flask': 'width',
+            'flask': 'action',
             
-            'pdf': 'pdf',
+            'pdf': 'action',
 
             'concentrationlab': 'concentrationlab',
         }
         
-        self._index_vector = {
-            0: 'greengreen',
-            1: 'greenred',
-            2: 'notgreennotred',
-            3: 'other',
-            4: 'concentration',
-            5: 'width',
-            6: 'solution',
-            7: 'wavelength',
-            8: 'tools',
-            9: 'concentrationlab',
-            10: 'pdf',
-            11: 'break'
-        }
-        
-        self._vector_index = {
-            'greengreen': 0,
-            'greenred': 1,
-            'notgreennotred': 2,
-            'other': 3,
-            'concentration': 4,
-            'width': 5,
-            'solution': 6,
-            'wavelength': 7,
-            'tools': 8,
-            'concentrationlab': 9,
-            'pdf': 10,
-            'break': 11
-        }
-    
-        self._vector_size = 12
-        self._vector_states = 3
-        self._break_state = 11
         
     def get_vector_size(self):
         return self._vector_size
@@ -131,25 +78,22 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
     def _fill_vector(self, attributes: list, second:float) -> list:
         """Vector string: [m_obs, sv, wl, rm, lab]
             second: length of the interaction
-            break: whether it's an action or a break
         """
-        vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[6] = second
-            return list(vector)
+            return 'concentrationlab'
 
         if attributes[0] != 'absorbance':
-            vector[2] = 1
+            return 'nogreennored'
 
-        elif attributes[2] == 'wl' and attributes[1] == 'green':
-            vector[0] = 1
+        if attributes[2] == 'wl' and attributes[1] == 'green':
+            return 'greengreen'
 
-        elif attributes[2] == 'wl' and attributes[1] == 'red':
-            vector[1] = 1
+        if attributes[2] == 'wl' and attributes[1] == 'red':
+            return 'greenred'
 
-        vector[self._vector_index[attributes[4]]] = second
-        return list(vector)
+        else:
+            return 'nogreennored'
 
 
     def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
@@ -182,8 +126,6 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
         wl_values, wl_timestamps = self._process_wl(self._wavelength[0]), self._wavelength[1]
         
         new_labels = []
-        new_begins = []
-        new_ends = []
 
         for i, lab in enumerate(labels):
             # observable or not
@@ -201,13 +143,10 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
             # wavelength
             wl_timestamps, wl_values, wl = self._get_value_timestep(wl_timestamps, wl_values, begins[i])
             
-            # action
-            instant_vector = self._fill_vector([m_obs, sv, wl, rm, lab], ends[i] - begins[i])
-            new_begins.append(begins[i])
-            new_ends.append(ends[i])
-            new_labels.append([cv for cv in instant_vector])
-
-        return new_labels, new_begins, new_ends
+            instant_label = self._fill_vector([m_obs, sv, wl, rm, lab], ends[i] - begins[i])
+            
+            new_labels.append(instant_label)
+        return new_labels, begins, ends
     
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour

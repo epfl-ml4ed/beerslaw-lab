@@ -9,6 +9,7 @@ from extractors.parser.checkbox_object import Checkbox
 from extractors.parser.event_object import Event
 from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
+from extractors.cleaners.break_filter import BreakFilter
 
 class ExtendedSequencing(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
@@ -41,7 +42,7 @@ class ExtendedSequencing(Sequencing):
                 pdf's show and hide
             break
     """
-    def __init__(self):
+    def __init__(self, settings):
         self._name = 'extended sequencer'
         self._notation = 'extsqcr'
         self._states = [
@@ -147,8 +148,10 @@ class ExtendedSequencing(Sequencing):
             'absobserved_red_no_wl_no_rul_concentration'
         ]
         self._click_interval = 0.05
-        
+        self._settings = settings
         self._load_labelmap()
+        self._break_threshold = self._settings['data']['pipeline']['break_threshold']
+        self._break_filter = BreakFilter(self, self._break_threshold)
         
     def _load_labelmap(self):
         self._label_map = {
@@ -182,6 +185,9 @@ class ExtendedSequencing(Sequencing):
         begins = [x for x in self._begins]
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
+        if len(labels) == 0:
+            return [], [], []
+        labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)
         
         # whether the measure is displayed
         measure_displayed = dict(self._measure_displayed)

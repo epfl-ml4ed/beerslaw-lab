@@ -335,35 +335,60 @@ def main(settings):
                     1: ['1hotactionspan', 'cumulaveagg']
                 }
                 settings['data']['pipeline']['break_filter'] = 'cumul1hot80br'
+
+        if 'extended' in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'cumulbr'
+            settings['full'] = False
+            settings['fullcombinations'] = True
+
+        if 'colournobreak_flat'in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'cumulbr'
+            settings['full'] = False
+            settings['fullcombinations'] = True
         
         if 'stateaction_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
         
         if 'stateaction_encodedlstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
             settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'stateaction_adaptivelstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             settings['data']['pipeline']['aggregator'] = 'noagg'
             settings['data']['pipeline']['sequencer_interval'] = int(settings['adaptiveseconds'])
+            settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'colourbreak_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             settings['data']['pipeline']['aggregator'] = 'tsnorm'
+            settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'colournobreak_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             settings['data']['pipeline']['aggregator'] = 'tsnorm'
+            settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'simplestate_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'simplemorestates_secondslstm' in settings['settings']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'chem2cap' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulbr'

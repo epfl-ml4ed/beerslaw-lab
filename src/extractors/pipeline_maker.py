@@ -49,6 +49,8 @@ from extractors.sequencer.flat.basic_sequencer import BasicSequencing
 from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
 from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
+from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
+
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
@@ -192,11 +194,19 @@ class PipelineMaker:
                 self._sequencer = LSTMEncoding()
             
         if self._data_settings['pipeline']['sequencer'] == 'extended':
-            self._sequencer = ExtendedSequencing()
+            self._sequencer = ExtendedSequencing(self._settings)
             self._sequencer_path = 'extended'
         if self._data_settings['pipeline']['sequencer'] == 'extended_12':
-            self._sequencer = ExtendedSequencing()
+            self._sequencer = ExtendedSequencing(self._settings)
             self._sequencer_path = 'extended_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat':
+            self._sequencer = ColourNobreakFlat()
+            self._sequencer_path = 'colournobreak_flat'
+        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat_12':
+            self._sequencer = ColourNobreakFlat()
+            self._sequencer_path = 'colournobreak_flat_12'
+
         
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
             self._sequencer = BaseLSTMEncoding(self._settings)

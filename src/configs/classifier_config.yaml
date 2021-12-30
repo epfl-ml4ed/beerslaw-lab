@@ -3,8 +3,8 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: 'binconcepts'
-  root_name: test_plot
-  old_root_name: test_plot
+  root_name: sequencer_test
+  # old_root_name: test_plot
   random_seed: 42
   n_folds: blank
   n_classes: 2
@@ -24,7 +24,7 @@ data:
     break_filter: blank
     break_threshold: 0.6
     adjuster: full
-    encoder: raw
+    encoder: blank
     skipgram_weights: ''
     skipgram_map: ''
     aggregator: blank
