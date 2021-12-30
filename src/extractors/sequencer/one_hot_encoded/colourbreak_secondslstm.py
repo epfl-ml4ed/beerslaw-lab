@@ -175,7 +175,7 @@ class ColourBreakSecondsLSTM(Sequencing):
         new_begins = []
         new_ends = []
 
-        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0])
+        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, begins[0]])
 
         # First break
         new_begins.append(0)

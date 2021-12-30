@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
   crawl_path: '../data/temp/'
 sequencing:
-  sequencer : stateaction_secondslstm
+  sequencer : colournobreak_secondslstm
   length_limit: 10
   interval: 5
   break_threshold: 0.6

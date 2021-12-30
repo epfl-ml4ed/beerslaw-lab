@@ -64,7 +64,7 @@ def full_prediction_classification_comparison(settings):
     settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_experiment_name()
-    settings['experiment']['base_name'] = settings['experiment']['root_name']
+    settings['experiment']['base_name'] = settings['experiment']['root_name'] + '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
     
     log_path = '../experiments/' + settings['experiment']['root_name'] + '/full_sequence_training_logs.txt'
     logging.basicConfig(
@@ -356,6 +356,14 @@ def main(settings):
         if 'colournobreak_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             settings['data']['pipeline']['aggregator'] = 'tsnorm'
+
+        if 'simplestate_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+
+        if 'simplemorestates_secondslstm' in settings['settings']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
 
         if 'chem2cap' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulbr'

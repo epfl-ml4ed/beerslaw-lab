@@ -152,12 +152,13 @@ class Sequencing:
         bs = [begins[i] for i in indices]
         es = [ends[i] for i in indices]
         ls = [labels[i] for i in indices]
-        
+
         bs, es, ls = self._clean_closing(bs, es, ls, simulation.get_last_timestamp())
         self._begins = bs
         self._ends = es
         self._labels = ls
-
+        # for i in range(len(self._labels)):
+        #     print('* {} {} {}'.format(self._begins[i], self._ends[i], self._labels[i]))
         
     # Process sequences into begins, ends and labels list
     def _process_measure_observed(self, values: list, timestamps: list, last_timestamp: float) -> Tuple[dict, dict]:
@@ -346,15 +347,15 @@ class Sequencing:
             return 'other'
 
     def _clean_closing(self, begins:str, ends:list, labels:list, last_timestamp:float) -> Tuple[list, list, list]:
-        bs, es, ls = [], [], []
-        for i, b in enumerate(begins):
-            if b < last_timestamp  and labels[i] != 'other':
-                bs.append(b)
-                es.append(ends[i])
-                ls.append(labels[i])
+        bs, es, ls = [b for b in begins], [e for e in ends], [l for l in labels]
+        # for i, b in enumerate(begins):
+        #     if b < last_timestamp  and labels[i] != 'other':
+        #         bs.append(b)
+        #         es.append(ends[i])
+        #         ls.append(labels[i])
 
         if len(ls) > 1:
-            if ls[-1] in ['concentration', 'solution'] and ls[-2] in ['concentration', 'solution'] and ls[-1] == ls[-2]:
+            if ls[-1] in ['concentration', 'solution'] and ls[-1] == ls[-2]:
                 if bs[-1] == bs[-2] and es[-1] == es[-2]:
                     bs = bs[:-2]
                     es = es[:-2]

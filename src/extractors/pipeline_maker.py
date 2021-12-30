@@ -61,6 +61,8 @@ from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateAc
 from extractors.sequencer.one_hot_encoded.stateaction_sampledlstm import StateActionLSTMSampling
 from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import ColourNobreakSecondsLSTM
 from src.extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
+from src.extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
+from src.extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -189,6 +191,13 @@ class PipelineMaker:
                 self._sequencer_path = 'lstmencoding_12'
                 self._sequencer = LSTMEncoding()
             
+        if self._data_settings['pipeline']['sequencer'] == 'extended':
+            self._sequencer = ExtendedSequencing()
+            self._sequencer_path = 'extended'
+        if self._data_settings['pipeline']['sequencer'] == 'extended_12':
+            self._sequencer = ExtendedSequencing()
+            self._sequencer_path = 'extended_12'
+        
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
             self._sequencer = BaseLSTMEncoding(self._settings)
             self._sequencer_path = 'base_lstmencoded'
@@ -234,6 +243,20 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm_12':
             self._sequencer = ColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'colourbreak_secondslstm_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm':
+            self._sequencer = SimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'simplestate_secondslstm'
+        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm_12':
+            self._sequencer = SimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'simplestate_secondslstm_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm':
+            self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'simplemorestates_secondslstm'
+        if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm_12':
+            self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'simplemorestates_secondslstm_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
             interval = str(self._data_settings['pipeline']['sequencer_interval'])

@@ -38,8 +38,7 @@ class CumulOneHotSecondsBreakFilter(BreakFilter):
                 begins.append(end[i])
                 break_vec = np.zeros(self._sequencer.get_vector_size())
                 break_vec[0:self._sequencer.get_vector_states()] = labels[i][0:self._sequencer.get_vector_states()]
-                break_vec[self._sequencer.get_break_state()] = 1
-                break_vec = list(np.array(break_vec) * begin[i+1] - end[i])
+                break_vec[self._sequencer.get_break_state()] = begin[i+1] - end[i]
                 labels.append(list(break_vec))
                 ends.append(begin[i+1])
                 

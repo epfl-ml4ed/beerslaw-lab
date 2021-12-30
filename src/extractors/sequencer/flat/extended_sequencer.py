@@ -187,7 +187,6 @@ class ExtendedSequencing(Sequencing):
         measure_displayed = dict(self._measure_displayed)
         measure_begin = measure_displayed['begin']
         measure_end = measure_displayed['end']
-        measure_map = {True: 'obs', False: 'non_obs'}
         
         # Absorbance or Tranmisttance
         abs_trans_values = [x for x in self._metric[0]]
@@ -284,7 +283,7 @@ class ExtendedSequencing(Sequencing):
         return solution_values
     
     def _process_wl(self, wl_values: list) -> list:
-        wl_values = ['wl' if '520' in str(wl) else 'no_wl' for wl in wl_values]
+        wl_values = ['wl' if (500 <= int(wl) and int(wl) <= 564) else 'no_wl' for wl in wl_values]
         return wl_values
     
     def _proces_absorbance_other(self, metric_observed: bool, absorbance: str):
