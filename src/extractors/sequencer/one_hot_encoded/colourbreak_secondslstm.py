@@ -208,7 +208,7 @@ class ColourBreakSecondsLSTM(Sequencing):
             # breaks
             if i+1 < len(labels):
                 if begins[i + 1] - ends[i] > self._break_minimum:
-                    instant_vector = self._fill_vector([m_obs, sv, wl, rm, lab], begins[i+1] - ends[i], 1)
+                    instant_vector = self._fill_vector([m_obs, sv, wl, rm, 'break'], begins[i+1] - ends[i], 1)
                     cumulative_vector = np.array(cumulative_vector) + np.array(instant_vector)
                     new_begins.append(ends[i])
                     new_ends.append(begins[i+1])

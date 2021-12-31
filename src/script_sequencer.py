@@ -19,6 +19,9 @@ from extractors.sequencer.flat.basic_sequencer import BasicSequencing
 from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
 from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
+from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
+from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
+
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
@@ -77,7 +80,9 @@ def sequence_simulations(settings):
         'colourbreak_secondslstm': ColourBreakSecondsLSTM,
         'colournobreak_secondslstm': ColourNobreakSecondsLSTM,
         'simplestate_secondslstm': SimpleStateSecondsLSTM,
-        'simplemorestates_secondslstm': SimpleMoreStateSecondsLSTM
+        'simplemorestates_secondslstm': SimpleMoreStateSecondsLSTM,
+        'colournobreak_flat': ColourNobreakFlat,
+        'colourbreak_flat': ColourbreakFlat
     }
     settings['data'] = {
         'pipeline': {
@@ -220,7 +225,7 @@ def test_sequence(settings):
     with open('../data/parsed simulations/perm2031_lidqsx2cc4b_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
-    seq = SimpleMoreStateSecondsLSTM(settings)
+    seq = ColourNobreakSecondsLSTM(settings)
     labs, begins, ends = seq.get_sequences(sim)
     for i, lab in enumerate(labs):
         print(begins[i], ends[i], lab)

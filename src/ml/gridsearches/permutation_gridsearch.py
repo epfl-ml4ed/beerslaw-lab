@@ -40,7 +40,7 @@ class PermutationGridSearch(GridSearch):
 
         lids = [id_dictionary['sequences'][idx]['learner_id'] for idx in self._oversampled_indices]
         rankings = [id_rankings[lid] for lid in lids]
-        # rankings = [vector_map[ranking] for ranking in rankings]
+        rankings = [vector_map[ranking] for ranking in rankings]
         return rankings
 
     def fit(self, x_train:list, y_train:list, fold:int):
@@ -57,6 +57,7 @@ class PermutationGridSearch(GridSearch):
                 xx_train = [x_train[xx] for xx in train_index]
                 yy_train = [y_train[yy] for yy in train_index]
 
+                print('y val proportion: {}; y train proportion: {}'.format(np.sum(y_val)/len(y_val), np.sum(yy_train)/len(yy_train)))
                 logging.debug('  *f{} data format: x [{}], y [{}]'.format(f, np.array(x_val).shape, np.array(y_val).shape))
                 logging.debug('  *f{} data format: x [{}], y [{}]'.format(f, np.array(xx_train).shape, np.array(yy_train).shape))
         

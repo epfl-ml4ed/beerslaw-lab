@@ -129,6 +129,8 @@ class LSTMModel(Model):
         save_best_only=True)
         self._callbacks.append(model_checkpoint_callback)
 
+        print(self._model.summary())
+
     def load_model_weights(self, x):
         """Given a data point x, this function sets the model of this object
 

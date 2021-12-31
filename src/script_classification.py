@@ -48,7 +48,9 @@ def full_prediction_classification(settings):
     pipeline = PipelineMaker(settings)
     sequences, labels, indices, id_dictionary = pipeline.build_data()
     settings['id_dictionary'] = id_dictionary
-    
+
+    print('Starting with {} sequences!'.format(len(sequences)))
+
     xval = XValMaker(settings)
     logging.info('training! ')
     xval.train(sequences, labels, indices)
@@ -96,6 +98,8 @@ def full_prediction_classification_comparison(settings):
             sequences, labels, indices, id_dictionary = pipeline.build_data()
             lengths = [len(s) for s in sequences]
             config['id_dictionary'] = id_dictionary
+
+            print('Starting with {} sequences!'.format(len(sequences)))
             
             xval = XValMaker(config)
             logging.info('training! ')
@@ -342,17 +346,26 @@ def main(settings):
                     1: ['actionspan', 'normagg']
                 }
             settings['data']['pipeline']['break_filter'] = 'cumulbr'
-            settings['full'] = False
-            settings['fullcombinations'] = True
+            settings['classification'] = False
+            settings['classification_comparison'] = True
+
+        if 'colourbreak_flat' in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['classification'] = False
+            settings['classification_comparison'] = True
 
         if 'colournobreak_flat'in settings['sequencer']:
             settings['data']['pipeline']['encoders_aggregators_pairs'] = {
                     0: ['1hot', 'aveagg'],
                     1: ['actionspan', 'normagg']
                 }
-            settings['data']['pipeline']['break_filter'] = 'cumulbr'
-            settings['full'] = False
-            settings['fullcombinations'] = True
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['classification'] = False
+            settings['classification_comparison'] = True
         
         if 'stateaction_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
@@ -385,7 +398,7 @@ def main(settings):
             settings['data']['pipeline']['aggregator'] = 'minmax'
             settings['data']['pipeline']['encoder'] = 'raw'
 
-        if 'simplemorestates_secondslstm' in settings['settings']:
+        if 'simplemorestates_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
             settings['data']['pipeline']['encoder'] = 'raw'

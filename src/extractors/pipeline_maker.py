@@ -50,6 +50,7 @@ from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
 from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
+from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
 
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
@@ -62,9 +63,9 @@ from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateAc
 from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
 from extractors.sequencer.one_hot_encoded.stateaction_sampledlstm import StateActionLSTMSampling
 from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import ColourNobreakSecondsLSTM
-from src.extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
-from src.extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
-from src.extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -201,11 +202,18 @@ class PipelineMaker:
             self._sequencer_path = 'extended_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat':
-            self._sequencer = ColourNobreakFlat()
+            self._sequencer = ColourNobreakFlat(self._settings)
             self._sequencer_path = 'colournobreak_flat'
         if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat_12':
-            self._sequencer = ColourNobreakFlat()
+            self._sequencer = ColourNobreakFlat(self._settings)
             self._sequencer_path = 'colournobreak_flat_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_flat':
+            self._sequencer = ColourbreakFlat(self._settings)
+            self._sequencer_path = 'colourbreak_flat'
+        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_flat_12':
+            self._sequencer = ColourbreakFlat(self._settings)
+            self._sequencer_path = 'colourbreak_flat_12'
 
         
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
@@ -385,7 +393,7 @@ class PipelineMaker:
         elif self._data_settings['pipeline']['aggregator'] == 'minmax':
             self._aggregator = OneHotMinMaxNormaliserAggregator()
 
-        elif self._data_settings['pipeline']['aggregator'] == 'tsagg':
+        elif self._data_settings['pipeline']['aggregator'] == 'tsnorm':
             self._aggregator = TimestepNormaliser()
         
     def _build_pipeline(self):

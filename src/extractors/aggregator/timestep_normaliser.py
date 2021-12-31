@@ -14,6 +14,8 @@ class TimestepNormaliser(Aggregator):
         self._notation = 'tsnormagg'
 
     def normalise_ts(self, vector):
+        if np.sum(vector) == 0:
+            return vector
         vec = list(np.array(vector) / np.sum(vector))
         return vec
         

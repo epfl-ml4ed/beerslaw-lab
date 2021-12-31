@@ -22,7 +22,7 @@ class ChemlabConcatenate:
         for t in self._tasks:
             with open(self._path + 'id_dictionary' + str(t) + '.pkl', 'rb') as fp:
                 idds[str(t)] = pickle.load(fp)
-        
+
         id_dictionary = {
             'sequences': {},
             'index': {}
