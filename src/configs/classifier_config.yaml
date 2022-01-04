@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
-  root_name: sequencer_test
+  root_name: nested
   old_root_name: blank
   random_seed: 42
   n_folds: blank
@@ -56,6 +56,8 @@ ML:
       - rf
       # - 1nn
       # - adaboost
+  permutation:
+    label_map: vector_labels
   models:
     classifiers:
       lstm:
@@ -78,7 +80,7 @@ ML:
   xvalidators:
     nested_xval:
       inner_n_folds: 10
-      outer_n_folds: 1
+      outer_n_folds: 10
       optim_scoring: roc
   scorers:
     scoring_metrics:

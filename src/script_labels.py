@@ -15,6 +15,7 @@ from labels.concatenators.bi_nconcepts_concatenator import BiNConceptsConcatenat
 from ml.scorers.fairness_scorer import FairnessScorer
 
 from visualisers.label_plotter import LabelPlotter
+from labels.xval_plotter import XvalLabelPlotter
 
 def concatenate_labels(settings):
     concat_map = {
@@ -54,6 +55,10 @@ def measure_concatenate_label(settings):
     plotter.plot(results=results)
     
     print(results)
+
+def outerfold_plots(settings):
+    plotter = XvalLabelPlotter(settings)
+    plotter.plot()
     
     
 def main(settings):
@@ -64,6 +69,8 @@ def main(settings):
         plot_concatenate_labels(settings)
     if settings['score']:
         measure_concatenate_label(settings)
+    if settings['xval']:
+        outerfold_plots(settings)
 
 if __name__ == '__main__':
     with open('./configs/labelconcat_config.yaml', 'r') as f:
@@ -73,6 +80,7 @@ if __name__ == '__main__':
     parser.add_argument('--concat', dest='concatenate_labels', default=False, action='store_true')
     parser.add_argument('--plot', dest='plot', default=False, action='store_true')
     parser.add_argument('--score', dest='score', default=False, action='store_true')
+    parser.add_argument('--xval', dest='xval', default=False, action='store_true')
     parser.add_argument('--test', dest='test', default=False, action='store_true')
     
     parser.add_argument('--cm', dest='confusion_matrix', default=False, action='store_true')

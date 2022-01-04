@@ -1,4 +1,5 @@
 import os
+import yaml
 import pickle
 import numpy as np
 import pandas as pd
@@ -58,6 +59,31 @@ class NestedXVal(XValidator):
             outer_fold=fold,
             oversampled_indices=oversampled_indices
         )
+
+    def _get_map(self) -> dict:
+        label_map = self._settings['ML']['permutation']['label_map']
+        if label_map == 'none':
+            return lambda x: x
+
+        if label_map == 'vector_labels':
+            map_path = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            
+        with open(map_path) as fp:
+            map = yaml.load(fp, Loader=yaml.FullLoader)
+
+        return lambda x: map['map'][x]
+        
+    def _get_y_to_rankings(self, indices):
+        with open('../data/post_test/rankings.pkl', 'rb') as fp:
+            rankings = pickle.load(fp)
+            id_rankings = {rankings.iloc[i]['username']: rankings.iloc[i]['ranking'] for i in range(len(rankings))}
+        id_dictionary = self._settings['id_dictionary']
+        vector_map = self._get_map('vector_labels')
+
+        lids = [id_dictionary['sequences'][idx]['learner_id'] for idx in indices]
+        rankings = [id_rankings[lid] for lid in lids]
+        rankings = [vector_map(ranking) for ranking in rankings]
+        return rankings
         
     def xval(self, x:list, y:list, indices:list) -> dict:
         # indices will refer to the actual indices from id _dictionary

@@ -41,8 +41,11 @@ class Styler:
         p.xaxis.axis_label_text_font_size  = '20pt'
         p.yaxis.axis_label_text_font_size  = '20pt'
         
-        p.xaxis.ticker = xaxis['ticks']
-        p.xaxis.major_label_overrides = dict(zip(xaxis['ticks'], xaxis['labels']))
+        
+        xticks_labels = dict(zip(xaxis['ticks'], xaxis['labels']))
+        xticks_labels = {float(xx)+0.000001:label for xx, label in xticks_labels.items()}
+        p.xaxis.ticker = list(xticks_labels.keys())
+        p.xaxis.major_label_overrides = xticks_labels
         p.xaxis.axis_label = self._styler_settings['xstyle']['label']
         p.yaxis.axis_label = self._styler_settings['ystyle']['label']
         p.xaxis.major_label_text_font_size = '20px'

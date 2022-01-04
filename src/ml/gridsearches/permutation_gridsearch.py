@@ -15,6 +15,7 @@ from ml.gridsearches.gridsearch import GridSearch
 
 class PermutationGridSearch(GridSearch):
     def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int, oversampled_indices:list):
+        print('HELLO INIT')
         super().__init__(model, grid, scorer, splitter, settings, outer_fold)
         self._name = 'supervised gridsearch'
         self._notation = 'supgs'

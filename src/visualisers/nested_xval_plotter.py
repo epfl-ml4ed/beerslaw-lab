@@ -8,6 +8,7 @@ from typing import Tuple
 from ml.gridsearches.gridsearch import GridSearch
 
 import bokeh
+from bokeh.io import export_svg, export_png
 from bokeh.plotting import figure, output_file, show, save
 from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.models import ColumnDataSource, Whisker
@@ -154,6 +155,47 @@ class NestedXValPlotter:
         return dots_df, set(list(params)), boxplot
         
     def _save(self, p, extension_path=''):
+
+        if self._settings['saveimg'] and extension_path == '':
+            path = '../experiments/' + self._settings['experiment']['name'] 
+            path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + self._settings['plot_style']['style'] + '_' + self._settings['plot_style']['type'] 
+            if self._settings['reproduction']:
+                path += '_reproduction'
+            
+            path += '.svg'
+            p.output_backend = 'svg'
+            export_svg(p, filename=path)    
+            save(p)
+            
+        elif self._settings['saveimg'] and extension_path !='':
+            path = '../experiments/' + self._settings['experiment']['name'] 
+            path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + extension_path
+            path += '.svg'    
+
+            p.output_backend = 'svg'
+            export_svg(p, filename=path)   
+            save(p)
+            
+
+        if self._settings['savepng'] and extension_path == '':
+            path = '../experiments/' + self._settings['experiment']['name'] 
+            path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + self._settings['plot_style']['style'] + '_' + self._settings['plot_style']['type'] 
+            if self._settings['reproduction']:
+                path += '_reproduction'
+            
+            path += '.png'
+            export_png(p, filename=path)    
+            save(p)
+            
+        elif self._settings['savepng'] and extension_path !='':
+            path = '../experiments/' + self._settings['experiment']['name'] 
+            path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + extension_path
+            path += '.png'    
+
+            export_png(p, filename=path)   
+            save(p)
+            
+
         if self._settings['save'] and extension_path == '':
             path = '../experiments/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + self._settings['plot_style']['style'] + '_' + self._settings['plot_style']['type'] 
@@ -164,7 +206,7 @@ class NestedXValPlotter:
             output_file(path, mode='inline')
             save(p)
             
-        elif self._settings['save'] and extension_path!='':
+        elif self._settings['save'] and extension_path !='':
             path = '../experiments/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + extension_path
             
@@ -186,7 +228,6 @@ class NestedXValPlotter:
         }
         
         p = self._styler.init_figure(xaxis)
-        
         for i in range(len(dots)):
             x = xaxis['position'][i]
             colour = plot_styling['colours'][i]

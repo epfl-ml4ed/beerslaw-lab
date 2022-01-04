@@ -104,6 +104,9 @@ def full_prediction_classification_comparison(settings):
             xval = XValMaker(config)
             logging.info('training! ')
             xval.train(sequences, labels, indices)
+            config_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/config.yaml'
+            with open(config_path, 'wb') as fp:
+                pickle.dump(settings, fp)
             
 def full_prediction_skipgram_comparison(settings):
     skipgram_maps = {

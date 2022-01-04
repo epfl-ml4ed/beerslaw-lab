@@ -23,11 +23,11 @@ class TrainValidationPlotter:
         kw = 'model_training.csv'
         paths = [path for path in paths if kw in path]
         paths = [xval for xval in paths if 'exclude' not in xval]
-
         loggers_paths = {}
         for path in paths:
             splitted = path.split('/')
-            key = splitted[-2]
+            key = splitted[4] + '/' + splitted[5] + '/' + splitted[6] + '/' + splitted[-2]
+            print(key)
             if key not in loggers_paths:
                 loggers_paths[key] = []
 

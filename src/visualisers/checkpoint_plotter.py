@@ -13,7 +13,7 @@ from bokeh.plotting import figure, output_file, show, save
 from ml.xval_maker import XValMaker
 from ml.models.classifiers.lstm import LSTMModel
 from ml.samplers.sampler import Sampler
-from bokeh.io import export_svg
+from bokeh.io import export_svg, export_png
 from matplotlib import pyplot as plt
 
 
@@ -205,7 +205,7 @@ class CheckpointPlotter:
         # cell types
         print('*'*100)
         print(model_name)
-        re_ct = re.compile('^ct([A-z]*)_')
+        re_ct = re.compile('/ct([A-z]*)_')
         ct = re_ct.findall(model_name)[0]
 
         # nlayers
@@ -235,8 +235,13 @@ class CheckpointPlotter:
         re_epochs = re.compile('.*ep([0-9]+)lstm')
         epochs = re_epochs.findall(model_name)[0]
 
-        model_name = ct + '\n' + str('-'.join([str(cl) for cl in ncells]))
-        return model_name
+        if 'secondslstm' in model_name:
+            re_sequencer = re.compile('/([A-z]*)_secondslstm')
+            sequencer = re_sequencer.findall(model_name)[0]
+        elif 'flat' in model_name:
+            re_sequencer = re.compile('/([A-z]*)_secondslstm')
+            sequencer = re_sequencer.findall(model_name)[0]
+        return sequencer
 
     def _dump_architecture(self, model_path:str):
         """
@@ -317,102 +322,111 @@ class CheckpointPlotter:
         Returns:
             dict: dictoinary with the scores and best parameters for each fold on the validation set
         """
-        with open(experiment_path + 'config.yaml', 'rb') as fp:
-            config = pickle.load(fp)
+        if not self._settings['nocache'] and 'best_models.pkl' in os.listdir(experiment_path):
+            with open(experiment_path + '/best_models.pkl', 'rb') as fp:
+                best_models = pickle.load(fp)
+        else:
+            with open(experiment_path + 'config.yaml', 'rb') as fp:
+                config = pickle.load(fp)
 
-        # gridsearch object for folds
-        gs_file = os.listdir(experiment_path + '/gridsearch results/')[0]
-        with open(experiment_path + '/gridsearch results/' + gs_file, 'rb') as fp:
-            gs = pickle.load(fp)
-        gs_results = gs.get_results()
+            # gridsearch object for folds
+            gs_file = os.listdir(experiment_path + '/gridsearch results/')[0]
+            with open(experiment_path + '/gridsearch results/' + gs_file, 'rb') as fp:
+                gs = pickle.load(fp)
+            gs_results = gs.get_results()
 
-        # xval object for trainset
-        xval_path = os.listdir(experiment_path + '/results/')[0]
-        with open(experiment_path + '/results/' + xval_path, 'rb') as fp:
-            xval_object = pickle.load(fp)
-        oversampled_indices = xval_object[0]['oversample_indices']
-        test_indices = xval_object[0]['test_indices']
+            # xval object for trainset
+            xval_path = os.listdir(experiment_path + '/results/')[0]
+            with open(experiment_path + '/results/' + xval_path, 'rb') as fp:
+                xval_object = pickle.load(fp)
+            oversampled_indices = xval_object[0]['oversample_indices']
+            test_indices = xval_object[0]['test_indices']
 
-        # data
-        pipeline = PipelineMaker(config)
-        sequences, labels, indices, id_dictionary = pipeline.build_data()
+            # data
+            pipeline = PipelineMaker(config)
+            sequences, labels, indices, id_dictionary = pipeline.build_data()
 
-        # scoring function
-        xval = XValMaker(config)
-        sampler = xval.get_sampler()()
-        scorer = xval.get_scorer()(config)
-        scorer.set_optimiser_function(config['ML']['xvalidators']['nested_xval']['optim_scoring'])
-        scoring_function = scorer.get_optim_function()
-        scoring_croissant = scorer.get_optim_croissant()
+            # scoring function
+            xval = XValMaker(config)
+            sampler = xval.get_sampler()()
+            scorer = xval.get_scorer()(config)
+            scorer.set_optimiser_function(config['ML']['xvalidators']['nested_xval']['optim_scoring'])
+            scoring_function = scorer.get_optim_function()
+            scoring_croissant = scorer.get_optim_croissant()
 
-        # data
-        train_idx = [xval_object['indices'].index(idx) for idx in oversampled_indices]
-        x_train = [sequences[idx] for idx in train_idx]
-        y_train = [labels[idx] for idx in train_idx]
+            # data
+            train_idx = [xval_object['indices'].index(idx) for idx in oversampled_indices]
+            x_train = [sequences[idx] for idx in train_idx]
+            y_train = [labels[idx] for idx in train_idx]
 
 
-        best_models = {
-            'experiment_path': experiment_path,
-            'experiment_info': experiment_info,
-            'id_dictionary': config['id_dictionary'],
-            'label_map': pipeline.get_label_map(),
-            'test_indices': test_indices,
-            'folds': {}
-        }
-        for fold in gs_results[0]['fold_index']:
-            train_index = gs_results[0]['fold_index'][fold]['train']
-            validation_index = gs_results[0]['fold_index'][fold]['validation']
+            best_models = {
+                'experiment_path': experiment_path,
+                'experiment_info': experiment_info,
+                'id_dictionary': config['id_dictionary'],
+                'label_map': pipeline.get_label_map(),
+                'test_indices': test_indices,
+                'folds': {}
+            }
+            for fold in gs_results[0]['fold_index']:
+                train_index = gs_results[0]['fold_index'][fold]['train']
+                validation_index = gs_results[0]['fold_index'][fold]['validation']
 
-            xx_train = [x_train[idx] for idx in train_index]
-            yy_train = [y_train[idx] for idx in train_index]
-            x_val = [x_train[idx] for idx in validation_index]
-            y_val = [y_train[idx] for idx in validation_index]
-            val_indices = [oversampled_indices[idx] for idx in validation_index]
+                xx_train = [x_train[idx] for idx in train_index]
+                yy_train = [y_train[idx] for idx in train_index]
+                x_val = [x_train[idx] for idx in validation_index]
+                y_val = [y_train[idx] for idx in validation_index]
+                val_indices = [oversampled_indices[idx] for idx in validation_index]
 
-            scores = []
-            names = []
-            probas = {}
-            for model_name in experiment_info:
-                fold_path = experiment_info[model_name][fold]
-                model = self._retrieve_model(fold_path, sequences, config, xval)
+                scores = []
+                names = []
+                probas = {}
+                for model_name in experiment_info:
+                    fold_path = experiment_info[model_name][fold]
+                    model = self._retrieve_model(fold_path, sequences, config, xval)
 
-                y_predict = model.predict(x_val)
-                y_proba = model.predict_proba(x_val)
-                score = scoring_function(y_val, y_predict, y_proba)
-                names.append(model_name)
-                scores.append(score)
-                probas[model_name] = y_proba
+                    y_predict = model.predict(x_val)
+                    y_proba = model.predict_proba(x_val)
+                    score = scoring_function(y_val, y_predict, y_proba)
+                    names.append(model_name)
+                    scores.append(score)
+                    probas[model_name] = y_proba
 
-            score_df = pd.DataFrame()
-            score_df['model_name'] = names
-            score_df['scores'] = scores
-            score_df = score_df.sort_values(['scores'], ascending= not scoring_croissant)
-            best_models['folds'][fold] = {
-                'scores': score_df.iloc[0]['scores'],
-                'model': score_df.iloc[0]['model_name'],
-                'architecture': self._get_architecture(experiment_info[score_df.iloc[0]['model_name']][fold]),
-                'probabilities': probas,
-                'val_indices': val_indices
+                score_df = pd.DataFrame()
+                score_df['model_name'] = names
+                score_df['scores'] = scores
+                score_df = score_df.sort_values(['scores'], ascending= not scoring_croissant)
+                best_models['folds'][fold] = {
+                    'scores': score_df.iloc[0]['scores'],
+                    'model': score_df.iloc[0]['model_name'],
+                    'architecture': self._get_architecture(experiment_info[score_df.iloc[0]['model_name']][fold]),
+                    'probabilities': probas,
+                    'val_indices': val_indices,
+                    'y_val': y_val,
+                    'y_predict': y_predict,
+                    'y_proba': y_proba 
+                }
+
+            best_models['validation_summaries'] = {
+                'mean': np.mean([best_models['folds'][fold]['scores'] for fold in best_models['folds']]),
+                'std': np.std([best_models['folds'][fold]['scores'] for fold in best_models['folds']]),
             }
 
-        best_models['validation_summaries'] = {
-            'mean': np.mean([best_models['folds'][fold]['scores'] for fold in best_models['folds']]),
-            'std': np.std([best_models['folds'][fold]['scores'] for fold in best_models['folds']]),
-        }
+            x_test, y_test, best_validation_model = self._compute_test_scores(sequences, labels, indices, scoring_croissant, id_dictionary, best_models)
+            validation_model_name = best_validation_model['model_name']
+            validation_fold = best_validation_model['fold']
+            fold_path = experiment_info[validation_model_name][validation_fold]
+            model = self._retrieve_model(fold_path, sequences, config, xval)
+            test_predict = model.predict(x_test)
+            test_proba = model.predict_proba(x_test)
+            score = scoring_function(y_test, test_predict, test_proba)
 
-        x_test, y_test, best_validation_model = self._compute_test_scores(sequences, labels, indices, scoring_croissant, id_dictionary, best_models)
-        validation_model_name = best_validation_model['model_name']
-        validation_fold = best_validation_model['fold']
-        fold_path = experiment_info[validation_model_name][validation_fold]
-        model = self._retrieve_model(fold_path, sequences, config, xval)
-        test_predict = model.predict(x_test)
-        test_proba = model.predict_proba(x_test)
-        score = scoring_function(y_test, test_predict, test_proba)
-
-        best_models['best_validation_model'] = best_validation_model
-        best_models['test_predict'] = test_predict
-        best_models['test_proba'] = test_proba
-        best_models['test_score'] = score        
+            best_models['best_validation_model'] = best_validation_model
+            best_models['test_predict'] = test_predict
+            best_models['test_proba'] = test_proba
+            best_models['test_score'] = score       
+            with open(experiment_path + '/best_models.pkl', 'wb') as fp:
+                pickle.dump(best_models, fp) 
 
         return best_models
 
@@ -497,6 +511,21 @@ class CheckpointPlotter:
         best_models['test_score'] = score        
 
         return best_models
+
+
+################################
+## Create Confusion Matrices
+##
+
+    # def _plot_confusion_matrix(self, best_models:dict):
+    #     """Creates the confusion matrices
+
+    #     Args:
+    #         best_models (dict): [description]
+
+    #     Returns:
+    #         [type]: [description]
+    #     """
 
 ################################
 ## Create boxplots for validation scores
@@ -605,7 +634,7 @@ class CheckpointPlotter:
 
             x_axis['position'] = [i*2 for i in range(len(x_order))]
             x_axis['ticks'] = [i*2 for i in range(len(x_order))]
-            x_axis['labels'] = [simple_mns[idx] for idx in indices]
+            x_axis['labels'] = [model_names[idx] for idx in indices]
 
         x_axis['labels'] = [self._extract_modellabel(l) for l in x_axis['labels']]
 
@@ -711,6 +740,13 @@ class CheckpointPlotter:
             os.makedirs(path, exist_ok=True)
             path += 'm{}_label{}.svg'.format(model, label)
             plt.savefig(path, format='svg')
+        if self._settings['savepng']:
+            print('saving experiment!')
+            path = experiment + '/predictionprobabilities_densities/'
+            os.makedirs(path, exist_ok=True)
+            path += 'm{}_label{}.png'.format(model, label)
+            plt.savefig(path, format='png')
+
         if self._settings['show']:
             plt.show()
         else:
@@ -727,6 +763,9 @@ class CheckpointPlotter:
                         self._predictionprobabilities_plot(labels_probs, model, label, experiment)
 
 
+################################
+## public functions
+##
     def plot(self):
         tf.get_logger().setLevel('ERROR')
         self._plot_multiple_boxplots()
@@ -738,13 +777,28 @@ class CheckpointPlotter:
     def get_validation_summaries(self):
         tf.get_logger().setLevel('ERROR')
         paths = self._crawl_modelcheckpoints()
+
+        bm = {}
         for i, experiment in enumerate(paths):
             best_models = self._recreate_folds(experiment, paths[experiment])
+            bm[experiment] = {
+                'architecture': best_models['folds'][0]['architecture'],
+                'val': best_models['validation_summaries']
+            }
+
+        for experiment in bm:
             print('*' * 10)
-            print(best_models['folds'][0]['architecture'])
-            print(best_models['validation_summaries'])
+            print(experiment)
+            print(bm[experiment]['architecture'])
+            print(bm[experiment]['val'])
             print()
             
+    def confusion_matrix_plot(self):
+        tf.get_logger().setLevel('ERROR')
+        paths = self._crawl_modelcheckpoints()
+        for i, experiment in enumerate(paths):
+            best_models = self._recreate_folds(experiment, paths[experiment])
+
 
     def test(self):
         tf.get_logger().setLevel('ERROR')
@@ -752,6 +806,7 @@ class CheckpointPlotter:
         paths = self._crawl_modelcheckpoints()
         for key in paths:
             best_models = self._recreate_folds(key, paths[key])
+        for key in best_models:
             print(best_models['best_validation_model'])
             print(best_models['test_proba'])
 

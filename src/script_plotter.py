@@ -134,7 +134,9 @@ if __name__ == '__main__':
     parser.add_argument('--show', dest='show', default=False, action='store_true')
     parser.add_argument('--save', dest='save', default=False, action='store_true')
     parser.add_argument('--saveimg', dest='saveimg', default=False, action='store_true')
+    parser.add_argument('--savepng', dest='savepng', default=False, action='store_true')
     parser.add_argument('--partial', dest='partial', default=False, action='store_true')
+    parser.add_argument('--nocache', dest='nocache', default=False, action='store_true')
     
     settings.update(vars(parser.parse_args()))
     main(settings)
