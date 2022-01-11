@@ -391,6 +391,11 @@ def main(settings):
             settings['data']['pipeline']['aggregator'] = 'tsnorm'
             settings['data']['pipeline']['encoder'] = 'raw'
 
+        if 'year_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
         if 'colournobreak_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             settings['data']['pipeline']['aggregator'] = 'tsnorm'
@@ -410,6 +415,7 @@ def main(settings):
             settings['data']['pipeline']['break_filter'] = 'cumulbr'
             settings['ML']['xvalidators']['nested_xval']['inner_n_folds'] = 10
             settings['ML']['xvalidators']['nested_xval']['outer_n_folds'] = 10
+
     
     if settings['fulltime']:
         settings['data']['pipeline']['adjuster'] = 'full'

@@ -34,6 +34,7 @@ from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import Colou
 from extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBreakSecondsLSTM
 
 def process_adaptive_interval(settings):
     interval = str(settings['sequencing']['interval'])
@@ -82,7 +83,8 @@ def sequence_simulations(settings):
         'simplestate_secondslstm': SimpleStateSecondsLSTM,
         'simplemorestates_secondslstm': SimpleMoreStateSecondsLSTM,
         'colournobreak_flat': ColourNobreakFlat,
-        'colourbreak_flat': ColourbreakFlat
+        'colourbreak_flat': ColourbreakFlat,
+        'year_colourbreak': YearColourBreakSecondsLSTM
     }
     settings['data'] = {
         'pipeline': {
@@ -132,6 +134,8 @@ def sequence_simulations(settings):
     with open('../data/post_test/rankings.pkl', 'rb') as fp:
         ranks = pickle.load(fp)
         ranks = ranks.set_index('username')
+
+    sequencer.set_rankings(ranks)
     
     # regex expression to retrieve id and task number
     id_regex = re.compile('lid([^_]+)_')
@@ -175,7 +179,7 @@ def sequence_simulations(settings):
                     sim.save()
                 if file_path in files:
                     files.remove(file_path)
-                labels, begins, ends = sequencer.get_sequences(sim)
+                labels, begins, ends = sequencer.get_sequences(sim, lid)
                 last_timestamp = sim.get_last_timestamp()
             except FileNotFoundError:
                 labels, begins, ends = [], [], []
@@ -225,8 +229,13 @@ def test_sequence(settings):
     with open('../data/parsed simulations/perm2031_lidqsx2cc4b_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
-    seq = ColourNobreakSecondsLSTM(settings)
-    labs, begins, ends = seq.get_sequences(sim)
+    seq = YearColourBreakSecondsLSTM(settings)
+    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        ranks = pickle.load(fp)
+        ranks = ranks.set_index('username')
+    seq.set_rankings(ranks)
+
+    labs, begins, ends = seq.get_sequences(sim, 'qsx2cc4b')
     for i, lab in enumerate(labs):
         print(begins[i], ends[i], lab)
     print(len(begins))

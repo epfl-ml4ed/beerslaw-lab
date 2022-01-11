@@ -128,7 +128,7 @@ class MinimiseSequencing(Sequencing):
             'concentrationlab': 'concentrationlab',
         }
         
-    def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
+    def get_sequences(self, simulation:Simulation, lid:str) -> Tuple[list, list, list]:
         self._load_sequences(simulation)
         begins = [x for x in self._begins]
         ends = [x for x in self._ends]

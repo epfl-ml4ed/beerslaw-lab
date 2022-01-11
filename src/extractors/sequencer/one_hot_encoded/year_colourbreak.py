@@ -11,169 +11,113 @@ from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
 from extractors.cleaners.break_filter import BreakFilter
 
-class StateActionSecondsLSTM(Sequencing):
+class YearColourBreakSecondsLSTM(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
     In this particular case, each feature will be made out of a vector encoding:
-        - whether the student is observing the absorbance
-        - whether something else than absorbance is observed
-        - if the red solution is used
-        - if the green solution is used
-        - if neither the red nor the green solution is used
-        - if the ruler is measuring
-        - if the ruler is not measuring
-        - if the wavelength is 520nm
-        - if the wavelength is not 520nm
+        - time spent on actions when the laser was green and the solution was also green
+        - break when the laser was green and the solution was also green
+        - time spent on actions when the laser was green and the solutino was red
+        - break when the laser was green and the solution was red
+        - time spent on actions when either the laser was not green or the solution was neither green nor red
+        - break when the laser was not green and/or the solution was neither green nor red
+        - time spent on the concentrationlab
 
-        - the action
-            other
-                laser clicks
-                transmittance absorbance clicks
-                restarts timestamps
-            concentration  
-                concentration slider's drags and clicks
-            flask
-                flask's drags (width changes)
-            wavelength
-                wavelength slider's drags and clicks
-                wavelength radio box clicks
-            solution
-                solution choice and selection
-            measuring
-                magnifier movements
-                ruler dragsrestarts
-            concentrationlab
-                any interaction in the concentrationlab
-            pdf
-                pdf's show and hide
-                
-        vector:
-            0: 1 for observed absorbance, 0 else
-            1: 1 if something else than absorbance is observed, else 0
-            2: 1 for red solution, else 0
-            3: 1 for green solution, else 0
-            4: 1 for other solution, else 0
-            5: 1 if ruler is measuring, else 0
-            6: 1 if ruler is not measuring, else 0
-            7: 1 if wavelength is green, else 0
-            8: 1 if wavelength is not green
-            9: s if action is on other (laser clicks, transmittance absorbance clicks, restarts timestamps)
-            10: s if action is on concentration
-            11: s if action is on width
-            12: s if action is wavelength
-            13: s if action is on solution
-            14: s if action is on measuring tools (magnifier and ruler)
-            15: s if action is on concentrationlab
-            16: s if action is on pdf
-            17: s if break
-        => s being the timing of the interaction
+        vector at time t:
+            0: 1 if the student is in year 1
+            1: 1 if the student is in year 2
+            2: 1 if the student is in year 3
+            3: (s + vector(t-1)[0]) / vector(t) if state is green - green
+            4: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
+            5: (s + vector(t-1)[1]) / vector(t) green - red
+            6: (s + vector(t-1)[1]) / vector(t) green - red and in break
+            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
+            8: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
+            9: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
+        => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
     def __init__(self, settings):
-        self._name = 'stateaction encodedlstm sequencer'
-        self._notation = 'saenclstmsqcr'
+        self._name = 'year colourbreak seconds sequencer'
+        self._notation = 'ycbss'
         self._settings = settings
         self._states = [
-            'absorbance',
-            'observed',
-            'red',
-            'green',
-            'notrednotgreen_solution',
-            'ruler',
-            'rulernotmeasuring',
-            'wl520',
-            'wlnot520',
-            'other',
-            'concentration',
-            'width', 
-            'wavelength', 
-            'solution',
-            'tools',
-            'concentrationlab',
-            'pdf',
-            'break'
+            'year1',
+            'year2',
+            'year3',
+            'greengreen',
+            'break_greengreen',
+            'greenred',
+            'break_greenred',
+            'nogreennored',
+            'break_nogreennored',
+            'concentrationlab'
         ]
         self._click_interval = 0.05
         
         self._load_labelmap()
         self._break_threshold = self._settings['data']['pipeline']['break_threshold']
         self._break_filter = BreakFilter(self, self._break_threshold)
-        
+
     def _load_labelmap(self):
         self._label_map = {
-            'laser': 'other',
-            'restarts': 'restart',
-            'transmittance_absorbance': 'other',
+            'laser': 'action',
+            'restarts': 'action',
+            'transmittance_absorbance': 'action',
 
-            'magnifier_position': 'tools',
-            'ruler': 'tools',
+            'magnifier_position': 'action',
+            'ruler': 'action',
             
-            'wavelength_radiobox': 'wavelength',
-            'preset': 'wavelength',
-            'wl_variable': 'wavelength',
-            'minus_wl_slider': 'wavelength',
-            'wl_slider': 'wavelength',
-            'plus_wl_slider': 'wavelength',
+            'wavelength_radiobox': 'action',
+            'preset': 'action',
+            'wl_variable': 'action',
+            'minus_wl_slider': 'action',
+            'wl_slider': 'action',
+            'plus_wl_slider': 'action',
             
-            'solution_menu': 'solution',
+            'solution_menu': 'action',
             
-            'minus_concentration_slider': 'concentration',
-            'plus_concentration_slider': 'concentration',
-            'concentration_slider': 'concentration',
+            'minus_concentration_slider': 'action',
+            'plus_concentration_slider': 'action',
+            'concentration_slider': 'action',
             
-            'flask': 'width',
+            'flask': 'action',
             
-            'pdf': 'pdf',
+            'pdf': 'action',
 
             'concentrationlab': 'concentrationlab',
         }
         
         self._index_vector = {
-            0: 'absorbance',
-            1: 'observed',
-            2: 'red',
-            3: 'green',
-            4: 'notrednotgreen_solution',
-            5: 'ruler',
-            6: 'rulernotmeasuring',
-            7: 'wl520',
-            8: 'wlnot520',
-            9: 'other',
-            10: 'concentration',
-            11: 'width', 
-            12: 'wavelength', 
-            13: 'solution',
-            14: 'tools',
-            15: 'concentrationlab',
-            16: 'pdf',
-            17: 'break'
+            0: 'year1',
+            1: 'year2',
+            2: 'year3',
+            3: 'greengreen',
+            4: 'break_greengreen',
+            5: 'greenred',
+            6: 'break_greenred',
+            7: 'nogreennored',
+            8: 'break_nogreennored',
+            9: 'concentrationlab',
         }
         
         self._vector_index = {
-            'absorbance': 0,
-            'observed': 1,
-            'red': 2,
-            'green': 3,
-            'notrednotgreen_solution': 4,
-            'ruler': 5,
-            'rulernotmeasuring': 6,
-            'wl520': 7,
-            'wlnot520': 8,
-            'other': 9,
-            'concentration': 10,
-            'width': 11, 
-            'wavelength': 12, 
-            'solution': 13,
-            'tools': 14,
-            'concentrationlab': 15,
-            'pdf': 16,
-            'break': 17
+            'year1': 0,
+            'year2': 1,
+            'year3': 2,
+            'greengreen': 3,
+            'break_greengreen': 4,
+            'greenred': 5,
+            'break_greenred': 6,
+            'nogreennored': 7,
+            'break_nogreennored': 8,
+            'concentrationlab': 9
         }
     
-        self._vector_size = 18
-        self._vector_states = 9
-        self._break_state = 17
+        self._vector_size = 10
+        self._vector_states = 10
+        self._break_state = -1
         
     def get_vector_size(self):
         return self._vector_size
@@ -182,40 +126,34 @@ class StateActionSecondsLSTM(Sequencing):
     def get_break_state(self):
         return self._break_state
         
-    def _fill_vector(self, attributes: list, second:float) -> list:
+    def _fill_vector(self, attributes: list, second:float, break_bool: int) -> list:
         """Vector string: [m_obs, sv, wl, rm, lab]
             second: length of the interaction
+            break: whether it's an action or a break
         """
         vector = np.zeros(self._vector_size)
+
         if attributes[4] == 'concentrationlab':
-            vector[15] = second
+            vector[9] = second
             return list(vector)
 
-        if attributes[0] == 'absorbance':
-            vector[0] = 1
+        if attributes[0] != 'absorbance':
+            vector[7 + break_bool] = second
+            return list(vector)
+
+        if attributes[2] == 'wl' and attributes[1] == 'green':
+            vector[3 + break_bool] = second
+            return list(vector)
+
+        if attributes[2] == 'wl' and attributes[1] == 'red':
+            vector[5 + break_bool] = second
+            return list(vector)
+
         else:
-            vector[1] = 1
-            
-        if attributes[1] == 'red':
-            vector[2] = 1
-        elif attributes[1] == 'green':
-            vector[3] = 1
-        else:
-            vector[4] = 1
-            
-        if attributes[2] == 'wl':
-            vector[7] = 1
-        else:
-            vector[8] = 1
-            
-        if attributes[3]:
-            vector[5] = 1
-        else:
-            vector[6] = 1
-            
-        vector[self._vector_index[attributes[4]]] = second
-        return list(vector)
-        
+            vector[7 + break_bool] = second
+            return list(vector)
+
+
     def get_sequences(self, simulation:Simulation, lid:str) -> Tuple[list, list, list]:
         # simulation.close()
         self._load_sequences(simulation)
@@ -246,6 +184,15 @@ class StateActionSecondsLSTM(Sequencing):
         wl_values, wl_timestamps = self._process_wl(self._wavelength[0]), self._wavelength[1]
         
         new_labels = []
+        new_begins = []
+        new_ends = []
+
+        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0]])
+
+        # First break
+        new_begins.append(0)
+        new_ends.append(begins[0])
+        new_labels.append([0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0]])
 
         for i, lab in enumerate(labels):
             # observable or not
@@ -263,11 +210,48 @@ class StateActionSecondsLSTM(Sequencing):
             # wavelength
             wl_timestamps, wl_values, wl = self._get_value_timestep(wl_timestamps, wl_values, begins[i])
             
-            vector = self._fill_vector([m_obs, sv, wl, rm, lab], ends[i] - begins[i])
-            
-            new_labels.append(vector)
-        return new_labels, begins, ends
+            # action
+            instant_vector = self._fill_vector([m_obs, sv, wl, rm, lab], ends[i] - begins[i], 0)
+            cumulative_vector = np.array(cumulative_vector) + np.array(instant_vector)
+            new_begins.append(begins[i])
+            new_ends.append(ends[i])
+            new_labels.append([cv for cv in cumulative_vector])
+
+            # breaks
+            if i+1 < len(labels):
+                if begins[i + 1] - ends[i] > self._break_minimum:
+                    instant_vector = self._fill_vector([m_obs, sv, wl, rm, 'break'], begins[i+1] - ends[i], 1)
+                    cumulative_vector = np.array(cumulative_vector) + np.array(instant_vector)
+                    new_begins.append(ends[i])
+                    new_ends.append(begins[i+1])
+                    new_labels.append([cv for cv in cumulative_vector])
+
+        new_labels = self._timestep_normaliser(new_labels)
+        new_labels = self._add_year(lid, new_labels)
+        return new_labels, new_begins, new_ends
     
+    def _add_year(self, lid:str, new_labels:list):
+        """Add the year as a binary encoding at the beginning of the vector
+
+        Args:
+            lid (str): learner id of the student
+            new_labels (list): final label list
+        """
+        year = self._rankings.loc[lid]['year']
+        if year == '1st':
+            index = 0
+        elif year == '2nd':
+            index = 1
+        elif year == '3rd':
+            index = 2
+
+        ls = []
+        for label in new_labels:
+            label[index] = 1
+            ls.append(label)
+        return ls
+
+
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour
                 - drink mix: red

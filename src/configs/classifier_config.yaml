@@ -43,7 +43,7 @@ ML:
   pipeline:
     gs_splitter: stratkf
     inner_splitter: stratkf
-    outer_splitter: flatstrat
+    outer_splitter: stratkf #flatstrat
     sampler: nosplr
     task: classification
     model: lstm

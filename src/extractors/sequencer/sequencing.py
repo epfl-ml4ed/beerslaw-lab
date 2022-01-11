@@ -32,6 +32,9 @@ class Sequencing:
 
     def get_settings(self):
         return dict(self._settings)
+
+    def set_rankings(self, rankings:pd.DataFrame):
+        self._rankings = rankings
     
     def _load_labelmap(self):
         """Should be customised per sequencer, according to the label we want to give to each action
@@ -603,6 +606,10 @@ class Sequencing:
             self._break_minimum = break_threshold
             labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
         return labels, begins, ends
+
+    def _timestep_normaliser(self, labels):
+        normalise = lambda x: list(np.array(x) / np.sum(x))
+        return [normalise(l) for l in labels]
 
     
     def get_sequences(self, simulation: Simulation) -> Tuple[list, list, list]:

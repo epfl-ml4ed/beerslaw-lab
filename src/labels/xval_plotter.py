@@ -235,7 +235,6 @@ class XvalLabelPlotter(LabelPlotter):
     def _plot_confusion_matrix(self, config:dict, summary_df:dict, experiment:str):
         for strat in self._settings['scorer']['stratifiers']:
             self._confusion_matrix(summary_df, strat, config, experiment)
-            break
 
 
     def plot(self):
@@ -248,7 +247,6 @@ class XvalLabelPlotter(LabelPlotter):
             summary_df = self._summary_df(config, id_dictionary, nested, demographics)
             if self._settings['confusion_matrix']:
                 self._plot_confusion_matrix(config, summary_df, experiment)
-            break
                 
 
 

@@ -66,6 +66,7 @@ from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import Colou
 from extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBreakSecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -261,6 +262,13 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm_12':
             self._sequencer = ColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'colourbreak_secondslstm_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'year_colourbreak':
+            self._sequencer = YearColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'year_colourbreak'
+        if self._data_settings['pipeline']['sequencer'] == 'year_colourbreak_12':
+            self._sequencer = YearColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'year_colourbreak_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm':
             self._sequencer = SimpleStateSecondsLSTM(self._settings)

@@ -215,7 +215,7 @@ class StateActionLSTMEncoding(Sequencing):
 
         return list(vector)
         
-    def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
+    def get_sequences(self, simulation:Simulation, lid:str) -> Tuple[list, list, list]:
         simulation.close()
         self._load_sequences(simulation)
         begins = [x for x in self._begins]

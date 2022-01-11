@@ -62,7 +62,7 @@ class CheckpointPlotter:
         model_paths = list(set(model_paths))
 
         # Sort per experiment
-        date_re = re.compile('(.*202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
+        date_re = re.compile('.*(202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
         model_re = re.compile('.*logger/(.*)/')
         fold_re = re.compile('.*f([\-0-9]+)')
         paths = {}

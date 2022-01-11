@@ -183,7 +183,7 @@ class StateActionAdaptiveLSTM(Sequencing):
     def get_break_state(self):
         return self._break_state
         
-    def get_sequences(self, simulation:Simulation) -> Tuple[list, list, list]:
+    def get_sequences(self, simulation:Simulation, lid:str) -> Tuple[list, list, list]:
         """Returns the adaptive sequences. Each click press and release produces one vector.
         If that vector is *n* times longer than the sampling rate, it's duplicated into *n*
         copies.
