@@ -20,6 +20,7 @@ from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import Base
 from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
 from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
 from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
+from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
 
 def full_prediction_classification(settings):
     """Uses the config settings to:
@@ -277,7 +278,11 @@ def test(settings):
     with open('../data/parsed simulations/perm2031_lid2ae6q3hw_t1v_simulation.pkl', 'rb') as fp:
         sim2 = pickle.load(fp)
 
-    seq = StateActionSecondsLSTM(settings)
+    seq = YearSimpleStateSecondsLSTM(settings)
+    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        ranks = pickle.load(fp)
+        ranks = ranks.set_index('username')
+    seq.set_rankings(ranks)
     print(seq)
     # labs, begins, ends = seq.get_sequences(sim1)
     # print(sum(np.array(ends) - np.array(begins)))
@@ -293,7 +298,7 @@ def test(settings):
     # print(breaks)
 
     print()
-    labs, begins, ends = seq.get_sequences(sim2)
+    labs, begins, ends = seq.get_sequences(sim2, '2ae6q3hw')
     print(sum(np.array(ends) - np.array(begins)))
     print(sim2.get_last_timestamp())
     b = begins + [0]
@@ -313,6 +318,10 @@ def test(settings):
     # print('here')
     for i, lab in enumerate(labs):
         print('*', begins[i], ends[i], lab)
+
+    pipeline = PipelineMaker(settings)
+    sequences, labels, indices, id_dictionary = pipeline.build_data()
+    print(sequences[0])
 
     # print(sim2.get_last_timestamp())
 
@@ -402,6 +411,11 @@ def main(settings):
             settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'simplestate_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'year_simplestate' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
             settings['data']['pipeline']['encoder'] = 'raw'

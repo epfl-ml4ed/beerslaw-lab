@@ -11,7 +11,7 @@ from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
 from extractors.cleaners.break_filter import BreakFilter
 
-class SimpleStateSecondsLSTM(Sequencing):
+class YearSimpleStateSecondsLSTM(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
@@ -35,10 +35,13 @@ class SimpleStateSecondsLSTM(Sequencing):
     """
 
     def __init__(self, settings):
-        self._name = 'simple state seconds sequencer'
-        self._notation = 'ssss'
+        self._name = 'year simple state seconds sequencer'
+        self._notation = 'yssss'
         self._settings = settings
         self._states = [
+            'year1',
+            'year2',
+            'year3',
             'greengreen',
             'greenred',
             'notgreennotred',
@@ -85,32 +88,38 @@ class SimpleStateSecondsLSTM(Sequencing):
         }
         
         self._index_vector = {
-            0: 'greengreen',
-            1: 'greenred',
-            2: 'notgreennotred',
-            3: 'other',
-            4: 'concentration',
-            5: 'width',
-            6: 'concentrationlab',
-            7: 'pdf',
-            8: 'break'
+            0: 'year1',
+            1: 'year2',
+            2: 'year3',
+            3: 'greengreen',
+            4: 'greenred',
+            5: 'notgreennotred',
+            6: 'other',
+            7: 'concentration',
+            8: 'width',
+            9: 'concentrationlab',
+            10: 'pdf',
+            11: 'break'
         }
         
         self._vector_index = {
-            'greengreen': 0,
-            'greenred': 1,
-            'notgreennotred': 2,
-            'other': 3,
-            'concentration': 4,
-            'width': 5,
-            'concentrationlab': 6,
-            'pdf': 7,
-            'break': 8
+            'year1': 0,
+            'year2': 1,
+            'year3': 2,
+            'greengreen': 3,
+            'greenred': 4,
+            'notgreennotred': 5,
+            'other': 6,
+            'concentration': 7,
+            'width': 8,
+            'concentrationlab': 9,
+            'pdf': 10,
+            'break': 11
         }
     
-        self._vector_size = 9
-        self._vector_states = 3
-        self._break_state = 8
+        self._vector_size = 12
+        self._vector_states = 6
+        self._break_state = 11
         
     def get_vector_size(self):
         return self._vector_size
@@ -127,17 +136,17 @@ class SimpleStateSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[6] = second
+            vector[9] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[2] = 1
+            vector[5] = 1
 
         elif attributes[2] == 'wl' and attributes[1] == 'green':
-            vector[0] = 1
+            vector[3] = 1
 
         elif attributes[2] == 'wl' and attributes[1] == 'red':
-            vector[1] = 1
+            vector[4] = 1
 
         vector[self._vector_index[attributes[4]]] = second
         return list(vector)
@@ -202,7 +211,29 @@ class SimpleStateSecondsLSTM(Sequencing):
             new_labels.append([cv for cv in instant_vector])
             # print(lab, instant_vector)
 
+        new_labels = self._add_year(lid, new_labels)
         return new_labels, new_begins, new_ends
+
+    def _add_year(self, lid:str, new_labels:list):
+        """Add the year as a binary encoding at the beginning of the vector
+
+        Args:
+            lid (str): learner id of the student
+            new_labels (list): final label list
+        """
+        year = self._rankings.loc[lid]['year']
+        if year == '1st':
+            index = 0
+        elif year == '2nd':
+            index = 1
+        elif year == '3rd':
+            index = 2
+
+        ls = []
+        for label in new_labels:
+            label[index] = 1
+            ls.append(label)
+        return ls
     
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour

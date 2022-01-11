@@ -67,6 +67,7 @@ from extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourB
 from extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -277,6 +278,13 @@ class PipelineMaker:
             self._sequencer = SimpleStateSecondsLSTM(self._settings)
             self._sequencer_path = 'simplestate_secondslstm_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'year_simplestate':
+            self._sequencer = YearSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'year_simplestate'
+        if self._data_settings['pipeline']['sequencer'] == 'year_simplestate_12':
+            self._sequencer = YearSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'year_simplestate_12'
+
         if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm':
             self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
             self._sequencer_path = 'simplemorestates_secondslstm'
@@ -399,7 +407,7 @@ class PipelineMaker:
             self._aggregator = NormalisedAggregator()
 
         elif self._data_settings['pipeline']['aggregator'] == 'minmax':
-            self._aggregator = OneHotMinMaxNormaliserAggregator()
+            self._aggregator = OneHotMinMaxNormaliserAggregator(self._sequencer)
 
         elif self._data_settings['pipeline']['aggregator'] == 'tsnorm':
             self._aggregator = TimestepNormaliser()
