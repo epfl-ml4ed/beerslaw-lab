@@ -147,6 +147,9 @@ class YearSimpleStateSecondsLSTM(Sequencing):
 
         elif attributes[2] == 'wl' and attributes[1] == 'red':
             vector[4] = 1
+        
+        else:
+            vector[5] = 1
 
         vector[self._vector_index[attributes[4]]] = second
         return list(vector)

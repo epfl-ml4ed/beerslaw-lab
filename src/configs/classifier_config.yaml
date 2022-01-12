@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
-  root_name: nested
+  root_name: sequencertest
   name: testtest
   old_root_name: blank
   random_seed: 42

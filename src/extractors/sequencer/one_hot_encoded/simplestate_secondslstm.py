@@ -139,6 +139,9 @@ class SimpleStateSecondsLSTM(Sequencing):
         elif attributes[2] == 'wl' and attributes[1] == 'red':
             vector[1] = 1
 
+        else:
+            vector[2] = 1
+
         vector[self._vector_index[attributes[4]]] = second
         return list(vector)
 

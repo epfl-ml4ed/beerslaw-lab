@@ -36,6 +36,8 @@ from extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleS
 from extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.prior3_colourbreak import PriorColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.prior3_simplestates import PriorSimpleStateSecondsLSTM
 
 def process_adaptive_interval(settings):
     interval = str(settings['sequencing']['interval'])
@@ -86,7 +88,9 @@ def sequence_simulations(settings):
         'colournobreak_flat': ColourNobreakFlat,
         'colourbreak_flat': ColourbreakFlat,
         'year_colourbreak': YearColourBreakSecondsLSTM,
-        'year_simplestate': YearSimpleStateSecondsLSTM
+        'year_simplestate': YearSimpleStateSecondsLSTM,
+        'prior_colourbreak': PriorColourBreakSecondsLSTM,
+        'prior_simplestate': PriorSimpleStateSecondsLSTM
     }
     settings['data'] = {
         'pipeline': {
@@ -228,10 +232,10 @@ def test_sequence(settings):
             'sequencer_dragasclick': settings['sequencing']['dragasclick']
         }
     }
-    with open('../data/parsed simulations/perm2031_lidqsx2cc4b_t2v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm2013_lidsvdphyjs_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
-    seq = YearSimpleStateSecondsLSTM(settings)
+    seq = PriorSimpleStateSecondsLSTM(settings)
     with open('../data/post_test/rankings.pkl', 'rb') as fp:
         ranks = pickle.load(fp)
         ranks = ranks.set_index('username')

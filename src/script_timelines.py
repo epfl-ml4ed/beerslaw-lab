@@ -53,7 +53,7 @@ def sort_all_timelines(settings):
 def test(settings):
     simulations = os.listdir('../data/parsed simulations/')
     usernames = [
-        'perm2031_lidqsx2cc4b_t2v_simulation'
+        'perm2013_lidsvdphyjs_t2v_simulation'
     ]
     files = []
     for username in usernames:

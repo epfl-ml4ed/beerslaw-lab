@@ -195,7 +195,7 @@ class ColourTimeline(Timeline):
         """
         
         sequencer = PlotterSequencing()
-        begins, ends, labels = sequencer.get_sequences(sim)
+        begins, ends, labels = sequencer.get_sequences(sim, sim.get_learner_id())
         # for i in range(len(begins)):
         #     print(begins[i], ends[i], labels[i])
         labels_to_plot = [
