@@ -274,10 +274,10 @@ class PipelineMaker:
             self._sequencer_path = 'year_colourbreak_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'prior_colourbreak':
-            self._sequencer = PriorColourBreakSecondsLSTM
+            self._sequencer = PriorColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'prior_colourbreak'
         if self._data_settings['pipeline']['sequencer'] == 'prior_colourbreak_12':
-            self._sequencer = PriorColourBreakSecondsLSTM
+            self._sequencer = PriorColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'prior_colourbreak_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm':

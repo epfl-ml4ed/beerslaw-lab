@@ -1,7 +1,7 @@
 experiment:
-  name: baselines/classes/colbin/RF
+  name: prior
   keyword: xval # common trait within all nested cross val files
-  # reproduction_path : '../data/reproduction/'
+  reproduction_path : '../data/reproduction/'
 plot_style:
   title: Results for the Binary classifiers (Random Forest baseline, colour binary)
   measure: roc
@@ -24,9 +24,9 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
-      - extended
-      - colourbreak_flat
-      - colournobreak_flat
+      # - extended
+      # - colourbreak_flat
+      # - colournobreak_flat
       # - simplestate
       # - simplemorestates
       # - stateaction

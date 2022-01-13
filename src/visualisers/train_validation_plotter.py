@@ -97,6 +97,7 @@ class TrainValidationPlotter:
     def plot(self, metric):
         paths = self._crawl()
         for experiment in paths:
+            print(experiment)
             self._plot_shaded_folds(experiment, paths[experiment], metric)
             
 

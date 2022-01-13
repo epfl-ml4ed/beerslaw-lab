@@ -185,6 +185,9 @@ def sequence_simulations(settings):
                     sim.save()
                 if file_path in files:
                     files.remove(file_path)
+                # # debug
+                # if lid != 'xsxkdf7k':
+                #     continue
                 labels, begins, ends = sequencer.get_sequences(sim, lid)
                 last_timestamp = sim.get_last_timestamp()
             except FileNotFoundError:
@@ -204,6 +207,8 @@ def sequence_simulations(settings):
                 'gender': gender,
                 'year': year
             }
+            #debug
+            # print(labels)
             path = s_path + 'p_' + permutation + '_lid' + lid + '_t' + str(n_task) + '_sequenced.pkl'
             with open(path, 'wb') as fp:
                 pickle.dump(sim_dict, fp)
@@ -232,7 +237,7 @@ def test_sequence(settings):
             'sequencer_dragasclick': settings['sequencing']['dragasclick']
         }
     }
-    with open('../data/parsed simulations/perm2013_lidsvdphyjs_t2v_simulation.pkl', 'rb') as fp:
+    with open('../data/parsed simulations/perm0213_lidxsxkdf7k_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
     seq = PriorSimpleStateSecondsLSTM(settings)
@@ -241,7 +246,7 @@ def test_sequence(settings):
         ranks = ranks.set_index('username')
     seq.set_rankings(ranks)
 
-    labs, begins, ends = seq.get_sequences(sim, 'qsx2cc4b')
+    labs, begins, ends = seq.get_sequences(sim, sim.get_learner_id())
     for i, lab in enumerate(labs):
         print(begins[i], ends[i], lab)
     print(len(begins))

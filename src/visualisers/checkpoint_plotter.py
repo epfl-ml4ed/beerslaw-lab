@@ -62,7 +62,7 @@ class CheckpointPlotter:
         model_paths = list(set(model_paths))
 
         # Sort per experiment
-        date_re = re.compile('.*(202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
+        date_re = re.compile('(.*202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
         model_re = re.compile('.*logger/(.*)/')
         fold_re = re.compile('.*f([\-0-9]+)')
         paths = {}
@@ -78,6 +78,7 @@ class CheckpointPlotter:
 
             paths[experiment][model][fold] = path
 
+        
         return paths
 
     def _get_trainset(self, sequences:list, labels:list, indices:list, id_dictionary:dict, sampler:Sampler):
@@ -322,6 +323,7 @@ class CheckpointPlotter:
         Returns:
             dict: dictoinary with the scores and best parameters for each fold on the validation set
         """
+
         if not self._settings['nocache'] and 'best_models.pkl' in os.listdir(experiment_path):
             with open(experiment_path + '/best_models.pkl', 'rb') as fp:
                 best_models = pickle.load(fp)

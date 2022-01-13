@@ -1,7 +1,7 @@
 path:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  name: baselines/classes
+  name: prior
   algorithm: lstm
   features: seconds
   sequencer: stateaction_secondslstm_12

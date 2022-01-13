@@ -607,9 +607,13 @@ class Sequencing:
             labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
         return labels, begins, ends
 
+    def _normalise_step(self, x):
+        if np.sum(x) == 0:
+            return x
+        else:
+            return list(np.array(x) / np.sum(x))
     def _timestep_normaliser(self, labels):
-        normalise = lambda x: list(np.array(x) / np.sum(x))
-        return [normalise(l) for l in labels]
+        return [self._normalise_step(l) for l in labels]
 
     
     def get_sequences(self, simulation: Simulation) -> Tuple[list, list, list]:
