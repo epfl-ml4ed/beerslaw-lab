@@ -36,6 +36,7 @@ class ColourNobreakSecondsLSTM(Sequencing):
             'greengreen',
             'greenred',
             'nogreennored',
+            'noobserved',
             'concentrationlab'
         ]
         self._click_interval = 0.05
@@ -77,17 +78,19 @@ class ColourNobreakSecondsLSTM(Sequencing):
             0: 'greengreen',
             1: 'greenred',
             2: 'nogreennored',
-            3: 'concentrationlab',
+            3: 'noobserved',
+            4: 'concentrationlab',
         }
         
         self._vector_index = {
             'greengreen': 0,
             'greenred':1,
             'nogreennored':2,
-            'concentrationlab':3
+            'noobserved': 3,
+            'concentrationlab': 4
         }
     
-        self._vector_size = 4
+        self._vector_size = len(self._vector_index)
         self._vector_states = 4
         self._break_state = -1
         
@@ -105,11 +108,11 @@ class ColourNobreakSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[3] = second
+            vector[4] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[2] = second
+            vector[3] = second
             return list(vector)
 
         if attributes[2] == 'wl' and attributes[1] == 'green':
@@ -156,7 +159,7 @@ class ColourNobreakSecondsLSTM(Sequencing):
         
         new_labels = []
 
-        cumulative_vector = np.array([0, 0, 0, 0])
+        cumulative_vector = np.array([0, 0, 0, 0, 0])
 
         for i, lab in enumerate(labels):
             # observable or not

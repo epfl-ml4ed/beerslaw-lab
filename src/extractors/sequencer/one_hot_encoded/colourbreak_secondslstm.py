@@ -46,6 +46,8 @@ class ColourBreakSecondsLSTM(Sequencing):
             'break_greenred',
             'nogreennored',
             'break_nogreennored',
+            'noobserved',
+            'break_noobserved',
             'concentrationlab'
         ]
         self._click_interval = 0.05
@@ -90,7 +92,9 @@ class ColourBreakSecondsLSTM(Sequencing):
             3: 'break_greenred',
             4: 'nogreennored',
             5: 'break_nogreennored',
-            6: 'concentrationlab',
+            6: 'noobserved',
+            7: 'break_noobserved',
+            8: 'concentrationlab',
         }
         
         self._vector_index = {
@@ -100,11 +104,13 @@ class ColourBreakSecondsLSTM(Sequencing):
             'break_greenred': 3,
             'nogreennored': 4,
             'break_nogreennored': 5,
-            'concentrationlab': 6
+            'noobserved': 6,
+            'break_noobserved': 7,
+            'concentrationlab': 8
         }
     
-        self._vector_size = 7
-        self._vector_states = 7
+        self._vector_size = len(self._vector_index)
+        self._vector_states = 8
         self._break_state = -1
         
     def get_vector_size(self):
@@ -122,11 +128,11 @@ class ColourBreakSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[6] = second
+            vector[8] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[4 + break_bool] = second
+            vector[6 + break_bool] = second
             return list(vector)
 
         if attributes[2] == 'wl' and attributes[1] == 'green':
@@ -175,12 +181,12 @@ class ColourBreakSecondsLSTM(Sequencing):
         new_begins = []
         new_ends = []
 
-        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, begins[0]])
+        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, begins[0], 0])
 
         # First break
         new_begins.append(0)
         new_ends.append(begins[0])
-        new_labels.append([0, 0, 0, 0, 0, 0, begins[0]])
+        new_labels.append([0, 0, 0, 0, 0, 0, 0, begins[0], 0])
 
         for i, lab in enumerate(labels):
             # observable or not

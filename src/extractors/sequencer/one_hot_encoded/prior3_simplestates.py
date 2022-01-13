@@ -43,6 +43,7 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
             'greengreen',
             'greenred',
             'notgreennotred',
+            'noobserved',
             'other',
             'concentration',
             'width',
@@ -99,12 +100,13 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
             3: 'greengreen',
             4: 'greenred',
             5: 'notgreennotred',
-            6: 'other',
-            7: 'concentration',
-            8: 'width',
-            9: 'concentrationlab',
-            10: 'pdf',
-            11: 'break'
+            6: 'noobserved',
+            7: 'other',
+            8: 'concentration',
+            9: 'width',
+            10: 'concentrationlab',
+            11: 'pdf',
+            12: 'break'
         }
         
         self._vector_index = {
@@ -114,16 +116,17 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
             'greengreen': 3,
             'greenred': 4,
             'notgreennotred': 5,
-            'other': 6,
-            'concentration': 7,
-            'width': 8,
-            'concentrationlab': 9,
-            'pdf': 10,
-            'break': 11
+            'noobserved': 6,
+            'other': 7,
+            'concentration': 8,
+            'width': 9,
+            'concentrationlab': 10,
+            'pdf': 11,
+            'break': 12
         }
     
-        self._vector_size = 12
-        self._vector_states = 6
+        self._vector_size = len(self._vector_index)
+        self._vector_states = 7
         self._break_state = 11
         
     def get_vector_size(self):
@@ -142,11 +145,11 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[9] = second
+            vector[10] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[5] = 1
+            vector[6] = 1
 
         elif attributes[2] == 'wl' and attributes[1] == 'green':
             vector[3] = 1

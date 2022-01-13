@@ -52,6 +52,8 @@ class YearColourBreakSecondsLSTM(Sequencing):
             'break_greenred',
             'nogreennored',
             'break_nogreennored',
+            'noobserved',
+            'break_noobserved',
             'concentrationlab'
         ]
         self._click_interval = 0.05
@@ -99,7 +101,9 @@ class YearColourBreakSecondsLSTM(Sequencing):
             6: 'break_greenred',
             7: 'nogreennored',
             8: 'break_nogreennored',
-            9: 'concentrationlab',
+            9: 'noobserved',
+            10: 'break_noobserved',
+            11: 'concentrationlab',
         }
         
         self._vector_index = {
@@ -112,11 +116,13 @@ class YearColourBreakSecondsLSTM(Sequencing):
             'break_greenred': 6,
             'nogreennored': 7,
             'break_nogreennored': 8,
-            'concentrationlab': 9
+            'noobserved': 9,
+            'break_noobserved': 10,
+            'concentrationlab': 11
         }
     
-        self._vector_size = 10
-        self._vector_states = 10
+        self._vector_size = len(self._vector_index)
+        self._vector_states = 11
         self._break_state = -1
         
     def get_vector_size(self):
@@ -134,11 +140,11 @@ class YearColourBreakSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[9] = second
+            vector[11] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[7 + break_bool] = second
+            vector[9 + break_bool] = second
             return list(vector)
 
         if attributes[2] == 'wl' and attributes[1] == 'green':
@@ -187,12 +193,12 @@ class YearColourBreakSecondsLSTM(Sequencing):
         new_begins = []
         new_ends = []
 
-        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0]])
+        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0], 0])
 
         # First break
         new_begins.append(0)
         new_ends.append(begins[0])
-        new_labels.append([0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0]])
+        new_labels.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0], 0])
 
         for i, lab in enumerate(labels):
             # observable or not

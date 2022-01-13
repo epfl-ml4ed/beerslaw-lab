@@ -42,6 +42,7 @@ class SimpleStateSecondsLSTM(Sequencing):
             'greengreen',
             'greenred',
             'notgreennotred',
+            'noobserved',
             'other',
             'concentration',
             'width',
@@ -88,29 +89,31 @@ class SimpleStateSecondsLSTM(Sequencing):
             0: 'greengreen',
             1: 'greenred',
             2: 'notgreennotred',
-            3: 'other',
-            4: 'concentration',
-            5: 'width',
-            6: 'concentrationlab',
-            7: 'pdf',
-            8: 'break'
+            3: 'noobserved',
+            4: 'other',
+            5: 'concentration',
+            6: 'width',
+            7: 'concentrationlab',
+            8: 'pdf',
+            9: 'break'
         }
         
         self._vector_index = {
             'greengreen': 0,
             'greenred': 1,
             'notgreennotred': 2,
-            'other': 3,
-            'concentration': 4,
-            'width': 5,
-            'concentrationlab': 6,
-            'pdf': 7,
-            'break': 8
+            'noobserved': 3,
+            'other': 4,
+            'concentration': 5,
+            'width': 6,
+            'concentrationlab': 7,
+            'pdf': 8,
+            'break': 9
         }
     
-        self._vector_size = 9
-        self._vector_states = 3
-        self._break_state = 8
+        self._vector_size = len(self._vector_index)
+        self._vector_states = 4
+        self._break_state = 9
         
     def get_vector_size(self):
         return self._vector_size
@@ -127,11 +130,11 @@ class SimpleStateSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[6] = second
+            vector[7] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[2] = 1
+            vector[3] = 1
 
         elif attributes[2] == 'wl' and attributes[1] == 'green':
             vector[0] = 1

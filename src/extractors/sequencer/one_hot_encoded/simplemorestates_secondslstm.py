@@ -42,6 +42,7 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
             'greengreen',
             'greenred',
             'notgreennotred',
+            'noobserved',
             'other',
             'concentration',
             'width',
@@ -91,30 +92,32 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
             0: 'greengreen',
             1: 'greenred',
             2: 'notgreennotred',
-            3: 'other',
-            4: 'concentration',
-            5: 'width',
-            6: 'solution',
-            7: 'wavelength',
-            8: 'tools',
-            9: 'concentrationlab',
-            10: 'pdf',
-            11: 'break'
+            3: 'noobserved',
+            4: 'other',
+            5: 'concentration',
+            6: 'width',
+            7: 'solution',
+            8: 'wavelength',
+            9: 'tools',
+            10: 'concentrationlab',
+            11: 'pdf',
+            12: 'break'
         }
         
         self._vector_index = {
             'greengreen': 0,
             'greenred': 1,
             'notgreennotred': 2,
-            'other': 3,
-            'concentration': 4,
-            'width': 5,
-            'solution': 6,
-            'wavelength': 7,
-            'tools': 8,
-            'concentrationlab': 9,
-            'pdf': 10,
-            'break': 11
+            'noobserved': 3,
+            'other': 4,
+            'concentration': 5,
+            'width': 6,
+            'solution': 7,
+            'wavelength': 8,
+            'tools': 9,
+            'concentrationlab': 10,
+            'pdf': 11,
+            'break': 12
         }
     
         self._vector_size = 12
@@ -136,17 +139,19 @@ class SimpleMoreStateSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[6] = second
+            vector[10] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[2] = 1
+            vector[3] = 1
 
         elif attributes[2] == 'wl' and attributes[1] == 'green':
             vector[0] = 1
 
         elif attributes[2] == 'wl' and attributes[1] == 'red':
             vector[1] = 1
+        else:
+            vector[2] = 1
 
         vector[self._vector_index[attributes[4]]] = second
         return list(vector)
