@@ -30,13 +30,15 @@ class PriorColourBreakSecondsLSTM(Sequencing):
             0: 1 if the student has no prior knowledge
             1: 1 if the student has some but not full prior knowledge
             2: 1 if the student has prior knowledge
-            3: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            4: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            5: (s + vector(t-1)[1]) / vector(t) green - red
-            6: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
-            8: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
-            9: (s + vector(t-1)[3]) / vector(t) concentrationlab
+            3: (s + vector(t-1)[0]) / vector(t) if state is green - green and absorbance is on
+            4: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break and absorbance is on
+            5: (s + vector(t-1)[1]) / vector(t) green - red and absorbance is on
+            6: (s + vector(t-1)[1]) / vector(t) green - red and in break and absorbance is on
+            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and absorbance is on
+            8: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break and absorbance is on
+            9: (s + vector(t-1)[2]) / vector(t) and absorbance is off
+            10: (s + vector(t-1)[2]) / vector(t) and absorbance is off
+            11: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """

@@ -14,9 +14,13 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
     In this particular case, each feature will be made out of a vector encoding:
+        - 1 if the student has no prior knowledge
+        - 1 if the student has some but not full prior knowledge
+        - 1 if the student has prior knowledge
         - 1 if the action is conducted while the absorbance is on, the laser is green, and the solution is green
         - 1 if the action is conducted while the abosrbance is on, the laser is green, and the solution is red
-        - 1 if the action is conducted while the absorbance is off, or the laser is not green, or the solution is neither red nor green
+        - 1 if the action is conducted while the absorbance is on and the laser is not green, or the solution is neither red nor green
+        - 1 if the action is conducted while the absorbance is off
         - time spent on the action if the action is other
             - wavelength
             - laser
@@ -127,7 +131,7 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
     
         self._vector_size = len(self._vector_index)
         self._vector_states = 7
-        self._break_state = 11
+        self._break_state = 12
         
     def get_vector_size(self):
         return self._vector_size
