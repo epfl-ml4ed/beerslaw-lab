@@ -19,6 +19,7 @@ class YearSimpleStateSecondsLSTM(Sequencing):
         - 1 if the action is conducted while the absorbance is on, the laser is green, and the solution is green
         - 1 if the action is conducted while the abosrbance is on, the laser is green, and the solution is red
         - 1 if the action is conducted while the absorbance is on and the laser is not green, or the solution is neither red nor green
+        - 1 if the action is conducted while the absorbance is off
         - time spent on the action if the action is other
             - wavelength
             - laser
@@ -31,7 +32,6 @@ class YearSimpleStateSecondsLSTM(Sequencing):
         - time spent on the action if the action is related to width
         - time spent on the action if the action is related to the concentrationlab
         - time spent not acting on the simulation
-
     """
 
     def __init__(self, settings):

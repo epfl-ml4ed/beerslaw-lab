@@ -25,15 +25,25 @@ class YLFColourBreakSecondsLSTM(Sequencing):
         - time spent on the concentrationlab
 
         vector at time t:
-            0: 1 if the student speaks German
-            1: 1 if the student speaks French
-            2: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            3: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            4: (s + vector(t-1)[1]) / vector(t) green - red
-            5: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            6: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
-            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
-            8: (s + vector(t-1)[3]) / vector(t) concentrationlab
+            0: 1 if the student is in their first year
+            1: 1 if the student is in their second year
+            2: 1 if the student is in their third year
+            3: 1 if the student speaks German
+            4: 1 if the student speaks French
+            5: 1 if the student studies chemistry
+            6: 1 if the student studies textiles
+            7: 1 if the student studies pharma
+            8: 1 if the student studies biology
+            9: 1 if the student studies fast track
+            10: (s + vector(t-1)[0]) / vector(t) if state is green - green and absorbance is on
+            11: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break and absorbance is on
+            12: (s + vector(t-1)[1]) / vector(t) green - red and absorbance is on
+            13: (s + vector(t-1)[1]) / vector(t) green - red and in break and absorbance is on
+            14: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and absorbance is on
+            15: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break and absorbance is on
+            16: (s + vector(t-1)[2]) / vector(t) and absorbance is off
+            17: (s + vector(t-1)[2]) / vector(t) and absorbance is off in break
+            18: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
