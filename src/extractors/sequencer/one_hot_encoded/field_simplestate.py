@@ -101,18 +101,16 @@ class FieldSimpleStateSecondsLSTM(Sequencing):
             2: 'pharma',
             3: 'biology',
             4: 'fasttrack',
-            5: 'german',
-            6: 'french',
-            7: 'greengreen',
-            8: 'greenred',
-            9: 'notgreennotred',
-            10: 'noobserved',
-            11: 'other',
-            12: 'concentration',
-            13: 'width',
-            14: 'concentrationlab',
-            15: 'pdf',
-            16: 'break'
+            5: 'greengreen',
+            6: 'greenred',
+            7: 'notgreennotred',
+            8: 'noobserved',
+            9: 'other',
+            10: 'concentration',
+            11: 'width',
+            12: 'concentrationlab',
+            13: 'pdf',
+            14: 'break'
         }
         
         self._vector_index = {
@@ -178,8 +176,8 @@ class FieldSimpleStateSecondsLSTM(Sequencing):
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
 
-        for i in range(len(labels)):
-            print(begins[i], ends[i], labels[i])
+        # for i in range(len(labels)):
+        #     print(begins[i], ends[i], labels[i])
         if len(labels) == 0:
             return [], [], []
         labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)
