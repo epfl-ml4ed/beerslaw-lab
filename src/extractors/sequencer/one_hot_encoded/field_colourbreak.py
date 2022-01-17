@@ -30,13 +30,15 @@ class FieldColourBreakSecondsLSTM(Sequencing):
             2: 1 if the student studies pharma
             3: 1 if the student studies biology
             4: 1 if sthe student studies fasttrack
-            5: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            6: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            7: (s + vector(t-1)[1]) / vector(t) green - red
-            8: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            9: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
-            10: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
-            11: (s + vector(t-1)[3]) / vector(t) concentrationlab
+            5: (s + vector(t-1)[0]) / vector(t) if state is green - green and absorbance on
+            6: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break and absorbance on
+            7: (s + vector(t-1)[1]) / vector(t) green - red and absorbance on
+            8: (s + vector(t-1)[1]) / vector(t) green - red and in break and absorbance on
+            9: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and absorbance on
+            10: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break and absorbance on
+            11: (s + vector(t-1)[2]) / vector(t) absorbance off
+            12: (s + vector(t-1)[2]) / vector(t) absorbance off
+            13: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
