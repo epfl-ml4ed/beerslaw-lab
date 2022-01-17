@@ -11,7 +11,7 @@ from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
 from extractors.cleaners.break_filter import BreakFilter
 
-class ColourBreakSecondsLSTM(Sequencing):
+class YLFColourBreakSecondsLSTM(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
@@ -25,23 +25,33 @@ class ColourBreakSecondsLSTM(Sequencing):
         - time spent on the concentrationlab
 
         vector at time t:
-            0: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            1: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            2: (s + vector(t-1)[1]) / vector(t) green - red
-            3: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            4: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) but absorbance is observed
-            5: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) but absorbance is observed and in break
-            6: (s + vector(t-1)[2]) / vector(t) absorbance is not observed
-            7: (s + vector(t-1)[2]) / vector(t) absorbance is not observed and in break
+            0: 1 if the student speaks German
+            1: 1 if the student speaks French
+            2: (s + vector(t-1)[0]) / vector(t) if state is green - green
+            3: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
+            4: (s + vector(t-1)[1]) / vector(t) green - red
+            5: (s + vector(t-1)[1]) / vector(t) green - red and in break
+            6: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
+            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
             8: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
     def __init__(self, settings):
-        self._name = 'colourbreak seconds sequencer'
-        self._notation = 'cbss'
+        self._name = 'year language field colourbreak seconds sequencer'
+        self._notation = 'ylfcbss'
         self._settings = settings
         self._states = [
+            'year1',
+            'year2',
+            'year3',
+            'german',
+            'french',
+            'chemistry',
+            'textiles',
+            'pharma',
+            'biology',
+            'fasttrack',
             'greengreen',
             'break_greengreen',
             'greenred',
@@ -88,31 +98,51 @@ class ColourBreakSecondsLSTM(Sequencing):
         }
         
         self._index_vector = {
-            0: 'greengreen',
-            1: 'break_greengreen',
-            2: 'greenred',
-            3: 'break_greenred',
-            4: 'nogreennored',
-            5: 'break_nogreennored',
-            6: 'noobserved',
-            7: 'break_noobserved',
-            8: 'concentrationlab',
+            0: 'year1',
+            1: 'year2',
+            2: 'year3',
+            3: 'german',
+            4: 'french',
+            5: 'chemistry',
+            6: 'textiles',
+            7: 'pharma',
+            8: 'biology',
+            9: 'fasttrack',
+            10: 'greengreen',
+            11: 'break_greengreen',
+            12: 'greenred',
+            13: 'break_greenred',
+            14: 'nogreennored',
+            15: 'break_nogreennored',
+            16: 'noobserved',
+            17: 'break_noobserved',
+            18: 'concentrationlab',
         }
         
         self._vector_index = {
-            'greengreen': 0,
-            'break_greengreen': 1,
-            'greenred': 2,
-            'break_greenred': 3,
-            'nogreennored': 4,
-            'break_nogreennored': 5,
-            'noobserved': 6,
-            'break_noobserved': 7,
-            'concentrationlab': 8
+            'year1': 0,
+            'year2': 1,
+            'year3': 2,
+            'german': 3,
+            'french': 4,
+            'chemistry': 5,
+            'textiles': 6,
+            'pharma': 7,
+            'biology': 8,
+            'fasttrack': 9,
+            'greengreen': 10,
+            'break_greengreen': 11,
+            'greenred': 12,
+            'break_greenred': 13,
+            'nogreennored': 14,
+            'break_nogreennored': 15,
+            'noobserved': 16,
+            'break_noobserved': 17,
+            'concentrationlab': 18
         }
     
         self._vector_size = len(self._vector_index)
-        self._vector_states = 8
+        self._vector_states = 18
         self._break_state = -1
         
     def get_vector_size(self):
@@ -130,23 +160,23 @@ class ColourBreakSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[8] = second
+            vector[18] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[6 + break_bool] = second
+            vector[16 + break_bool] = second
             return list(vector)
 
         if attributes[2] == 'wl' and attributes[1] == 'green':
-            vector[0 + break_bool] = second
+            vector[10 + break_bool] = second
             return list(vector)
 
         if attributes[2] == 'wl' and attributes[1] == 'red':
-            vector[2 + break_bool] = second
+            vector[12 + break_bool] = second
             return list(vector)
 
         else:
-            vector[4 + break_bool] = second
+            vector[14 + break_bool] = second
             return list(vector)
 
 
@@ -183,12 +213,12 @@ class ColourBreakSecondsLSTM(Sequencing):
         new_begins = []
         new_ends = []
 
-        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, begins[0], 0])
+        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0], 0])
 
         # First break
         new_begins.append(0)
         new_ends.append(begins[0])
-        new_labels.append([0, 0, 0, 0, 0, 0, 0, begins[0], 0])
+        new_labels.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, begins[0], 0])
 
         for i, lab in enumerate(labels):
             # observable or not
@@ -222,8 +252,54 @@ class ColourBreakSecondsLSTM(Sequencing):
                     new_ends.append(begins[i+1])
                     new_labels.append([cv for cv in cumulative_vector])
 
+        new_labels = self._timestep_normaliser(new_labels)
+        new_labels = self._add_demographics(lid, new_labels)
         return new_labels, new_begins, new_ends
     
+    def _add_demographics(self, lid:str, new_labels:list):
+        """Add the year as a binary encoding at the beginning of the vector
+
+        Args:
+            lid (str): learner id of the student
+            new_labels (list): final label list
+        """
+        year = self._rankings.loc[lid]['year']
+        if year == '1st':
+            index_year = 0
+        elif year == '2nd':
+            index_year = 1
+        elif year == '3rd':
+            index_year = 2
+
+        language = self._rankings.loc[lid]['language']
+        if language == 'Deutsch':
+            index_language = 3
+        elif language == 'Français':
+            index_language = 4
+
+
+        field = self._rankings.loc[lid]['field']
+        if field == 'Chemistry':
+            index_field = 5
+        elif field == 'Chemistry, Textiles':
+            index_field = 6
+        elif field == 'Pharma Chemistry':
+            index_field = 7
+        elif field == 'Biology': 
+            index_field = 8
+        elif field == 'Fast track':
+            index_field = 9
+
+
+        ls = []
+        for label in new_labels:
+            label[index_year] = 1
+            label[index_language] = 1
+            label[index_field] = 1
+            ls.append(label)
+        return ls
+
+
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour
                 - drink mix: red

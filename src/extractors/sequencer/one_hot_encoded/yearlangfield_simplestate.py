@@ -11,46 +11,64 @@ from extractors.parser.simulation_object import SimObjects
 from extractors.parser.value_object import SimCharacteristics
 from extractors.cleaners.break_filter import BreakFilter
 
-class ColourBreakSecondsLSTM(Sequencing):
+class YLFSimpleStateSecondsLSTM(Sequencing):
     """This class aims at returning 3 arrays. One with the starting time of each action, one with the ending time of each action, and one with the labels of the actual action.
     Each subclass from sequencing returns those 3 arrays, but with different labels.
     
     In this particular case, each feature will be made out of a vector encoding:
-        - time spent on actions when the laser was green and the solution was also green
-        - break when the laser was green and the solution was also green
-        - time spent on actions when the laser was green and the solutino was red
-        - break when the laser was green and the solution was red
-        - time spent on actions when either the laser was not green or the solution was neither green nor red
-        - break when the laser was not green and/or the solution was neither green nor red
-        - time spent on the concentrationlab
+        - 1 if the student is in their first year
+        - 1 if the student is in their second year
+        - 1 if the student is in their third year
+        - 1 if the student speaks german
+        - 1 if the student speaks french
+        - 1 if the student studies Chemistry
+        - 1 if the student studies Chemistry, Textiles,
+        - 1 if the student studies Pharma Chemistry
+        - 1 if the student studies Biology
+        - 1 if the student is in the fast track programme
+        - 1 if the action is conducted while the absorbance is on, the laser is green, and the solution is green
+        - 1 if the action is conducted while the abosrbance is on, the laser is green, and the solution is red
+        - 1 if the action is conducted while the absorbance is off, or the laser is not green, or the solution is neither red nor green
+        - time spent on the action if the action is other
+            - wavelength
+            - laser
+            - restarts
+            - transmittance / absorbance
+            - magnifier position
+            - ruler
+            - solution
+        - time spent on the action if the action is related to concentration
+        - time spent on the action if the action is related to width
+        - time spent on the action if the action is related to the concentrationlab
+        - time spent not acting on the simulation
 
-        vector at time t:
-            0: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            1: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            2: (s + vector(t-1)[1]) / vector(t) green - red
-            3: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            4: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) but absorbance is observed
-            5: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) but absorbance is observed and in break
-            6: (s + vector(t-1)[2]) / vector(t) absorbance is not observed
-            7: (s + vector(t-1)[2]) / vector(t) absorbance is not observed and in break
-            8: (s + vector(t-1)[3]) / vector(t) concentrationlab
-
-        => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
+
     def __init__(self, settings):
-        self._name = 'colourbreak seconds sequencer'
-        self._notation = 'cbss'
+        self._name = 'language simple state seconds sequencer'
+        self._notation = 'lssss'
         self._settings = settings
         self._states = [
+            'year1',
+            'year2',
+            'year3',
+            'german',
+            'french',
+            'chemistry',
+            'textiles',
+            'pharma',
+            'biology',
+            'fasttrack',
             'greengreen',
-            'break_greengreen',
             'greenred',
-            'break_greenred',
-            'nogreennored',
-            'break_nogreennored',
+            'notgreennotred',
             'noobserved',
-            'break_noobserved',
-            'concentrationlab'
+            'other',
+            'concentration',
+            'width',
+            'concentrationlab',
+            'pdf',
+            'break'
         ]
         self._click_interval = 0.05
         
@@ -60,60 +78,82 @@ class ColourBreakSecondsLSTM(Sequencing):
 
     def _load_labelmap(self):
         self._label_map = {
-            'laser': 'action',
-            'restarts': 'action',
-            'transmittance_absorbance': 'action',
+            'laser': 'other',
+            'restarts': 'other',
+            'transmittance_absorbance': 'other',
 
-            'magnifier_position': 'action',
-            'ruler': 'action',
+            'magnifier_position': 'other',
+            'ruler': 'other',
             
-            'wavelength_radiobox': 'action',
-            'preset': 'action',
-            'wl_variable': 'action',
-            'minus_wl_slider': 'action',
-            'wl_slider': 'action',
-            'plus_wl_slider': 'action',
+            'wavelength_radiobox': 'other',
+            'preset': 'other',
+            'wl_variable': 'other',
+            'minus_wl_slider': 'other',
+            'wl_slider': 'other',
+            'plus_wl_slider': 'other',
             
-            'solution_menu': 'action',
+            'solution_menu': 'other',
             
-            'minus_concentration_slider': 'action',
-            'plus_concentration_slider': 'action',
-            'concentration_slider': 'action',
+            'minus_concentration_slider': 'concentration',
+            'plus_concentration_slider': 'concentration',
+            'concentration_slider': 'concentration',
             
-            'flask': 'action',
+            'flask': 'width',
             
-            'pdf': 'action',
+            'pdf': 'pdf',
 
             'concentrationlab': 'concentrationlab',
         }
         
         self._index_vector = {
-            0: 'greengreen',
-            1: 'break_greengreen',
-            2: 'greenred',
-            3: 'break_greenred',
-            4: 'nogreennored',
-            5: 'break_nogreennored',
-            6: 'noobserved',
-            7: 'break_noobserved',
-            8: 'concentrationlab',
+            0: 'year1',
+            1: 'year2',
+            2: 'year3',
+            3: 'german',
+            4: 'french',
+            5: 'chemistry',
+            6: 'textiles',
+            7: 'pharma',
+            8: 'biology',
+            9: 'fasttrack',
+            10: 'greengreen',
+            11: 'greenred',
+            12: 'notgreennotred',
+            13: 'noobserved',
+            14: 'other',
+            15: 'concentration',
+            16: 'width',
+            17: 'concentrationlab',
+            18: 'pdf',
+            19: 'break'
         }
         
         self._vector_index = {
-            'greengreen': 0,
-            'break_greengreen': 1,
-            'greenred': 2,
-            'break_greenred': 3,
-            'nogreennored': 4,
-            'break_nogreennored': 5,
-            'noobserved': 6,
-            'break_noobserved': 7,
-            'concentrationlab': 8
+            'year1': 0,
+            'year2': 1,
+            'year3': 2,
+            'german': 3,
+            'french': 4,
+            'chemistry': 5,
+            'textiles': 6,
+            'pharma': 7,
+            'biology': 8,
+            'fasttrack': 9,
+            'greengreen': 10,
+            'greenred': 11,
+            'notgreennotred': 12,
+            'noobserved': 13,
+            'other': 14,
+            'concentration': 15,
+            'width': 16,
+            'concentrationlab': 17,
+            'pdf': 18,
+            'break': 19
         }
     
         self._vector_size = len(self._vector_index)
-        self._vector_states = 8
-        self._break_state = -1
+        self._vector_states = 14
+        self._break_state = 19
         
     def get_vector_size(self):
         return self._vector_size
@@ -122,7 +162,7 @@ class ColourBreakSecondsLSTM(Sequencing):
     def get_break_state(self):
         return self._break_state
         
-    def _fill_vector(self, attributes: list, second:float, break_bool: int) -> list:
+    def _fill_vector(self, attributes: list, second:float) -> list:
         """Vector string: [m_obs, sv, wl, rm, lab]
             second: length of the interaction
             break: whether it's an action or a break
@@ -130,24 +170,23 @@ class ColourBreakSecondsLSTM(Sequencing):
         vector = np.zeros(self._vector_size)
 
         if attributes[4] == 'concentrationlab':
-            vector[8] = second
+            vector[17] = second
             return list(vector)
 
         if attributes[0] != 'absorbance':
-            vector[6 + break_bool] = second
-            return list(vector)
+            vector[13] = 1
 
-        if attributes[2] == 'wl' and attributes[1] == 'green':
-            vector[0 + break_bool] = second
-            return list(vector)
+        elif attributes[2] == 'wl' and attributes[1] == 'green':
+            vector[10] = 1
 
-        if attributes[2] == 'wl' and attributes[1] == 'red':
-            vector[2 + break_bool] = second
-            return list(vector)
-
+        elif attributes[2] == 'wl' and attributes[1] == 'red':
+            vector[11] = 1
+        
         else:
-            vector[4 + break_bool] = second
-            return list(vector)
+            vector[12] = 1
+
+        vector[self._vector_index[attributes[4]]] = second
+        return list(vector)
 
 
     def get_sequences(self, simulation:Simulation, lid:str) -> Tuple[list, list, list]:
@@ -156,6 +195,9 @@ class ColourBreakSecondsLSTM(Sequencing):
         begins = [x for x in self._begins]
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
+
+        for i in range(len(labels)):
+            print(begins[i], ends[i], labels[i])
         if len(labels) == 0:
             return [], [], []
         labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)
@@ -183,13 +225,6 @@ class ColourBreakSecondsLSTM(Sequencing):
         new_begins = []
         new_ends = []
 
-        cumulative_vector = np.array([0, 0, 0, 0, 0, 0, 0, begins[0], 0])
-
-        # First break
-        new_begins.append(0)
-        new_ends.append(begins[0])
-        new_labels.append([0, 0, 0, 0, 0, 0, 0, begins[0], 0])
-
         for i, lab in enumerate(labels):
             # observable or not
             mm, measure_begin, measure_end = self._state_return(measure_begin, measure_end, begins[i])
@@ -207,22 +242,57 @@ class ColourBreakSecondsLSTM(Sequencing):
             wl_timestamps, wl_values, wl = self._get_value_timestep(wl_timestamps, wl_values, begins[i])
             
             # action
-            instant_vector = self._fill_vector([m_obs, sv, wl, rm, lab], ends[i] - begins[i], 0)
-            cumulative_vector = np.array(cumulative_vector) + np.array(instant_vector)
+            instant_vector = self._fill_vector([m_obs, sv, wl, rm, lab], ends[i] - begins[i])
             new_begins.append(begins[i])
             new_ends.append(ends[i])
-            new_labels.append([cv for cv in cumulative_vector])
+            new_labels.append([cv for cv in instant_vector])
+            # print(lab, instant_vector)
 
-            # breaks
-            if i+1 < len(labels):
-                if begins[i + 1] - ends[i] > self._break_minimum:
-                    instant_vector = self._fill_vector([m_obs, sv, wl, rm, 'break'], begins[i+1] - ends[i], 1)
-                    cumulative_vector = np.array(cumulative_vector) + np.array(instant_vector)
-                    new_begins.append(ends[i])
-                    new_ends.append(begins[i+1])
-                    new_labels.append([cv for cv in cumulative_vector])
-
+        new_labels = self._add_demographics(lid, new_labels)
         return new_labels, new_begins, new_ends
+
+    def _add_demographics(self, lid:str, new_labels:list):
+        """Add the year as a binary encoding at the beginning of the vector
+
+        Args:
+            lid (str): learner id of the student
+            new_labels (list): final label list
+        """
+        year = self._rankings.loc[lid]['year']
+        if year == '1st':
+            index_year = 0
+        elif year == '2nd':
+            index_year = 1
+        elif year == '3rd':
+            index_year = 2
+
+        language = self._rankings.loc[lid]['language']
+        if language == 'Deutsch':
+            index_language = 3
+        elif language == 'Français':
+            index_language = 4
+
+
+        field = self._rankings.loc[lid]['field']
+        if field == 'Chemistry':
+            index_field = 5
+        elif field == 'Chemistry, Textiles':
+            index_field = 6
+        elif field == 'Pharma Chemistry':
+            index_field = 7
+        elif field == 'Biology': 
+            index_field = 8
+        elif field == 'Fast track':
+            index_field = 9
+
+
+        ls = []
+        for label in new_labels:
+            label[index_year] = 1
+            label[index_language] = 1
+            label[index_field] = 1
+            ls.append(label)
+        return ls
     
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour
