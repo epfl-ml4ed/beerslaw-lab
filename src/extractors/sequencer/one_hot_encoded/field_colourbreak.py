@@ -25,15 +25,18 @@ class FieldColourBreakSecondsLSTM(Sequencing):
         - time spent on the concentrationlab
 
         vector at time t:
-            0: 1 if the student speaks German
-            1: 1 if the student speaks French
-            2: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            3: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            4: (s + vector(t-1)[1]) / vector(t) green - red
-            5: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            6: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
-            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
-            8: (s + vector(t-1)[3]) / vector(t) concentrationlab
+            0: 1 if the student studies chemistry
+            1: 1 if the student studies textiles
+            2: 1 if the student studies pharma
+            3: 1 if the student studies biology
+            4: 1 if sthe student studies fasttrack
+            5: (s + vector(t-1)[0]) / vector(t) if state is green - green
+            6: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
+            7: (s + vector(t-1)[1]) / vector(t) green - red
+            8: (s + vector(t-1)[1]) / vector(t) green - red and in break
+            9: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
+            10: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
+            11: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
