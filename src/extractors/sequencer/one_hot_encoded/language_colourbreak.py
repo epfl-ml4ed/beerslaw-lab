@@ -27,13 +27,15 @@ class LanguageColourBreakSecondsLSTM(Sequencing):
         vector at time t:
             0: 1 if the student speaks German
             1: 1 if the student speaks French
-            2: (s + vector(t-1)[0]) / vector(t) if state is green - green
-            3: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break
-            4: (s + vector(t-1)[1]) / vector(t) green - red
-            5: (s + vector(t-1)[1]) / vector(t) green - red and in break
-            6: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
-            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and in break
-            8: (s + vector(t-1)[3]) / vector(t) concentrationlab
+            2: (s + vector(t-1)[0]) / vector(t) if state is green - green and absorbance on
+            3: (s + vector(t-1)[0]) / vector(t) if state is green - green and in break and absorbance on
+            4: (s + vector(t-1)[1]) / vector(t) green - red and absorbance on
+            5: (s + vector(t-1)[1]) / vector(t) green - red and in break and absorbance on
+            6: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and absorbance on
+            7: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) and absorbance on and in break
+            8: (s + vector(t-1)[2]) / vector(t) absorbance off
+            9: (s + vector(t-1)[2]) / vector(t) absorbance off and in break
+            10: (s + vector(t-1)[3]) / vector(t) concentrationlab
 
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """
