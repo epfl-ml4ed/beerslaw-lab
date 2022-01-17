@@ -219,7 +219,7 @@ class LanguageSimpleStateSecondsLSTM(Sequencing):
         new_labels = self._add_language(lid, new_labels)
         return new_labels, new_begins, new_ends
 
-    def _add_year(self, lid:str, new_labels:list):
+    def _add_language(self, lid:str, new_labels:list):
         """Add the year as a binary encoding at the beginning of the vector
 
         Args:
