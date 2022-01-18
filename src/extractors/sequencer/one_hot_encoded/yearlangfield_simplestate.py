@@ -46,8 +46,8 @@ class YLFSimpleStateSecondsLSTM(Sequencing):
     """
 
     def __init__(self, settings):
-        self._name = 'language simple state seconds sequencer'
-        self._notation = 'lssss'
+        self._name = 'year language field simple state seconds sequencer'
+        self._notation = 'ylfssss'
         self._settings = settings
         self._states = [
             'year1',

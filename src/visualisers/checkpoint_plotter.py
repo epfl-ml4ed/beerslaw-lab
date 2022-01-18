@@ -801,6 +801,11 @@ class CheckpointPlotter:
         for i, experiment in enumerate(paths):
             best_models = self._recreate_folds(experiment, paths[experiment])
 
+    def get_bestmodels(self):
+        paths = self._crawl_modelcheckpoints()
+        for key in paths:
+            best_models = self._recreate_folds(key, paths[key])
+        return best_models
 
     def test(self):
         tf.get_logger().setLevel('ERROR')

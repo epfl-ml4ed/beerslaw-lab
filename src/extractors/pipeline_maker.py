@@ -70,6 +70,12 @@ from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBrea
 from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.prior3_colourbreak import PriorColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.prior3_simplestates import PriorSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.language_colourbreak import LanguageColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.language_simplestate import LanguageSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.field_colourbreak import FieldColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.field_simplestate import FieldSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -280,6 +286,27 @@ class PipelineMaker:
             self._sequencer = PriorColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'prior_colourbreak_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'language_colourbreak':
+            self._sequencer = LanguageColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'language_colourbreak'
+        if self._data_settings['pipeline']['sequencer'] == 'language_colourbreak_12':
+            self._sequencer = LanguageColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'language_colourbreak_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'field_colourbreak':
+            self._sequencer = FieldColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'field_colourbreak'
+        if self._data_settings['pipeline']['sequencer'] == 'field_colourbreak_12':
+            self._sequencer = FieldColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'field_colourbreak_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'ylf_colourbreak':
+            self._sequencer = YLFColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'ylf_colourbreak'
+        if self._data_settings['pipeline']['sequencer'] == 'ylf_colourbreak_12':
+            self._sequencer = YLFColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'ylf_colourbreak_12'
+
         if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm':
             self._sequencer = SimpleStateSecondsLSTM(self._settings)
             self._sequencer_path = 'simplestate_secondslstm'
@@ -301,12 +328,34 @@ class PipelineMaker:
             self._sequencer = PriorSimpleStateSecondsLSTM(self._settings)
             self._sequencer_path = 'prior_simplestate_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'language_simplestate':
+            self._sequencer = LanguageSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'language_simplestate'
+        if self._data_settings['pipeline']['sequencer'] == 'language_simplestate_12':
+            self._sequencer = LanguageSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'language_simplestate_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'field_simplestate':
+            self._sequencer = FieldSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'field_simplestate'
+        if self._data_settings['pipeline']['sequencer'] == 'field_simplestate_12':
+            self._sequencer = FieldSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'field_simplestate_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'ylf_simplestate':
+            self._sequencer = YLFSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'ylf_simplestate'
+        if self._data_settings['pipeline']['sequencer'] == 'ylf_simplestate_12':
+            self._sequencer = YLFSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'ylf_simplestate_12'
+
         if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm':
             self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
             self._sequencer_path = 'simplemorestates_secondslstm'
         if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm_12':
             self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
             self._sequencer_path = 'simplemorestates_secondslstm_12'
+
 
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
             interval = str(self._data_settings['pipeline']['sequencer_interval'])

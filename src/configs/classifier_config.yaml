@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
-  root_name: sequencertest
+  root_name: cluster
   name: testtest
   old_root_name: blank
   random_seed: 42
@@ -44,7 +44,7 @@ ML:
   pipeline:
     gs_splitter: stratkf
     inner_splitter: stratkf
-    outer_splitter: stratkf #flatstrat
+    outer_splitter: flatstrat
     sampler: nosplr
     task: classification
     model: lstm
@@ -81,7 +81,7 @@ ML:
   xvalidators:
     nested_xval:
       inner_n_folds: 10
-      outer_n_folds: 10
+      outer_n_folds: 1
       optim_scoring: roc
   scorers:
     scoring_metrics:

@@ -41,7 +41,7 @@ class FieldSimpleStateSecondsLSTM(Sequencing):
     """
 
     def __init__(self, settings):
-        self._name = 'language simple state seconds sequencer'
+        self._name = 'field simple state seconds sequencer'
         self._notation = 'lssss'
         self._settings = settings
         self._states = [

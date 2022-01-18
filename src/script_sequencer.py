@@ -38,6 +38,12 @@ from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBrea
 from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.prior3_colourbreak import PriorColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.prior3_simplestates import PriorSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.language_colourbreak import LanguageColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.language_simplestate import LanguageSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.field_colourbreak import FieldColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.field_simplestate import FieldSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
 
 def process_adaptive_interval(settings):
     interval = str(settings['sequencing']['interval'])
@@ -90,7 +96,13 @@ def sequence_simulations(settings):
         'year_colourbreak': YearColourBreakSecondsLSTM,
         'year_simplestate': YearSimpleStateSecondsLSTM,
         'prior_colourbreak': PriorColourBreakSecondsLSTM,
-        'prior_simplestate': PriorSimpleStateSecondsLSTM
+        'prior_simplestate': PriorSimpleStateSecondsLSTM,
+        'language_colourbreak': LanguageColourBreakSecondsLSTM,
+        'language_simplestate': LanguageSimpleStateSecondsLSTM,
+        'field_colourbreak': FieldColourBreakSecondsLSTM,
+        'field_simplestate': FieldSimpleStateSecondsLSTM,
+        'ylf_colourbreak': YLFColourBreakSecondsLSTM,
+        'ylf_simplestate': YLFSimpleStateSecondsLSTM
     }
     settings['data'] = {
         'pipeline': {
