@@ -431,6 +431,11 @@ def main(settings):
             settings['data']['pipeline']['aggregator'] = 'noagg'
             settings['data']['pipeline']['encoder'] = 'raw'
 
+        if 'yl_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
         if 'ylf_colourbreak' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             settings['data']['pipeline']['aggregator'] = 'noagg'
@@ -462,6 +467,11 @@ def main(settings):
             settings['data']['pipeline']['encoder'] = 'raw'
 
         if 'field_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'yl_simplestate' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
             settings['data']['pipeline']['encoder'] = 'raw'

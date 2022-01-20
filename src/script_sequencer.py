@@ -42,6 +42,8 @@ from extractors.sequencer.one_hot_encoded.language_colourbreak import LanguageCo
 from extractors.sequencer.one_hot_encoded.language_simplestate import LanguageSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.field_colourbreak import FieldColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.field_simplestate import FieldSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlang_colourbreak import YLColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlang_simplestate import YLSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
 
@@ -101,6 +103,8 @@ def sequence_simulations(settings):
         'language_simplestate': LanguageSimpleStateSecondsLSTM,
         'field_colourbreak': FieldColourBreakSecondsLSTM,
         'field_simplestate': FieldSimpleStateSecondsLSTM,
+        'yl_colourbreak': YLColourBreakSecondsLSTM,
+        'yl_simplestate': YLSimpleStateSecondsLSTM,
         'ylf_colourbreak': YLFColourBreakSecondsLSTM,
         'ylf_simplestate': YLFSimpleStateSecondsLSTM
     }

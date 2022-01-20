@@ -28,3 +28,6 @@ shuffle:
 - true
 verbose:
 - 1
+attention:
+  dropout: 
+    - 0.05

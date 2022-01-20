@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
-  root_name: cluster
+  root_name: sequencertest
   name: testtest
   old_root_name: blank
   random_seed: 42
@@ -47,7 +47,7 @@ ML:
     outer_splitter: flatstrat
     sampler: nosplr
     task: classification
-    model: lstm
+    model: prior_lstm
     scorer: 2clfscorer
     gridsearch: permgs
     test_pad: False

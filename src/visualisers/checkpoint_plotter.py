@@ -78,7 +78,6 @@ class CheckpointPlotter:
 
             paths[experiment][model][fold] = path
 
-        
         return paths
 
     def _get_trainset(self, sequences:list, labels:list, indices:list, id_dictionary:dict, sampler:Sampler):

@@ -74,6 +74,8 @@ from extractors.sequencer.one_hot_encoded.language_colourbreak import LanguageCo
 from extractors.sequencer.one_hot_encoded.language_simplestate import LanguageSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.field_colourbreak import FieldColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.field_simplestate import FieldSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlang_colourbreak import YLColourBreakSecondsLSTM
+from extractors.sequencer.one_hot_encoded.yearlang_simplestate import YLSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
 
@@ -164,6 +166,9 @@ class PipelineMaker:
         with open(self._label_map) as fp:
             self._label_map = yaml.load(fp, Loader=yaml.FullLoader)
             
+    def get_sequencer(self):
+        return self._sequencer
+        
     def _choose_sequencer(self):
         # Capacitor Lab
         if False and 'old': # Keeping this for archives of what did not work
@@ -264,7 +269,6 @@ class PipelineMaker:
             self._sequencer = ColourNobreakSecondsLSTM(self._settings)
             self._sequencer_path = 'colournobreak_secondslstm_12'
 
-
         if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm':
             self._sequencer = ColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'colourbreak_secondslstm'
@@ -299,6 +303,13 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'field_colourbreak_12':
             self._sequencer = FieldColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'field_colourbreak_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'yl_colourbreak':
+            self._sequencer = YLColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'yl_colourbreak'
+        if self._data_settings['pipeline']['sequencer'] == 'yl_colourbreak_12':
+            self._sequencer = YLColourBreakSecondsLSTM(self._settings)
+            self._sequencer_path = 'yl_colourbreak_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'ylf_colourbreak':
             self._sequencer = YLFColourBreakSecondsLSTM(self._settings)
@@ -341,6 +352,13 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'field_simplestate_12':
             self._sequencer = FieldSimpleStateSecondsLSTM(self._settings)
             self._sequencer_path = 'field_simplestate_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'yl_simplestate':
+            self._sequencer = YLSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'yl_simplestate'
+        if self._data_settings['pipeline']['sequencer'] == 'yl_simplestate_12':
+            self._sequencer = YLSimpleStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'yl_simplestate_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'ylf_simplestate':
             self._sequencer = YLFSimpleStateSecondsLSTM(self._settings)
@@ -475,7 +493,7 @@ class PipelineMaker:
             self._aggregator = OneHotMinMaxNormaliserAggregator(self._sequencer)
 
         elif self._data_settings['pipeline']['aggregator'] == 'tsnorm':
-            self._aggregator = TimestepNormaliser()
+            self._aggregator = TimestepNormaliser(self._sequencer)
         
     def _build_pipeline(self):
         self._choose_sequencer()

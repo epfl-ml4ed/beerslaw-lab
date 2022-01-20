@@ -19,6 +19,9 @@ from tensorflow.keras.metrics import get as get_metric, Metric
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+from numpy.random import seed
+seed(36)
+
 class LSTMModel(Model):
     """This class implements an LSTM
     Args:

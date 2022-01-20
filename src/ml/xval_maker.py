@@ -13,6 +13,7 @@ from ml.models.classifiers.sgd import SGDModel
 from ml.models.classifiers.knn import KNNModel
 from ml.models.classifiers.adaboost import ADABoostModel
 from ml.models.classifiers.lstm import LSTMModel
+from ml.models.classifiers.prior_lstm import PriorLSTMModel
 from ml.models.modellers.pairwise_skipgram import PWSkipgram
 
 from ml.samplers.sampler import Sampler
@@ -136,6 +137,10 @@ class XValMaker:
             
             elif self._pipeline_settings['model'] == 'lstm':
                 self._model = LSTMModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
+
+            elif self._pipeline_settings['model'] == 'prior_lstm':
+                self._model = PriorLSTMModel
                 gs_path = './configs/gridsearch/gs_LSTM.yaml'
             
                 

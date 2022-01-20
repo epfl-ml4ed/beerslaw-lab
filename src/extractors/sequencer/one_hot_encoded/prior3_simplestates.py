@@ -130,11 +130,14 @@ class PriorSimpleStateSecondsLSTM(Sequencing):
         }
     
         self._vector_size = len(self._vector_index)
+        self._prior_states = 3
         self._vector_states = 7
         self._break_state = 12
         
     def get_vector_size(self):
         return self._vector_size
+    def get_prior_states(self):
+        return self._prior_states
     def get_vector_states(self):
         return self._vector_states
     def get_break_state(self):
