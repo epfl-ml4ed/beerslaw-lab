@@ -125,7 +125,8 @@ class RankingXVal(XValidator):
             results[f]['y_resampled'] = y_resampled
 
             logging.debug('  * data format: x [{}], y [{}]'.format(np.array(x_resampled).shape, np.array(y_resampled).shape))
-    
+            print(x_resampled)
+
             logging.debug('  * data details, mean: {};{} - std {};{}'.format(
                 np.mean([np.mean(idx) for idx in x_resampled]),
                 np.mean([np.mean(idx) for idx in y_resampled]),

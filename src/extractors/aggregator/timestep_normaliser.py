@@ -25,8 +25,7 @@ class TimestepNormaliser(Aggregator):
     def aggregate(self, matrix: list) -> list:
         labels = []
         for row in matrix:
-            state = [row[0:self._state_size]]
+            state = row[0:self._state_size]
             action = self.normalise_ts(row[self._state_size:])
             labels.append(state + action)
-
         return labels

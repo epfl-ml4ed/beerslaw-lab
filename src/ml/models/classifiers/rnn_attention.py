@@ -44,7 +44,7 @@ class RNNAttentionModel(Model):
 
         pipeline = PipelineMaker(settings)
         sequencer = pipeline.get_sequencer()
-        self._prior_states = sequencer.get_prior_states()
+        # self._prior_states = sequencer.get_prior_states()
         
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
