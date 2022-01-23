@@ -25,19 +25,19 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from numpy.random import seed
 seed(96)
 
-class PriorLSTMModel(Model):
+class PriorLastAttentionModel(Model):
     """This class implements an LSTM
     Args:
         Model (Model): inherits from the model class
 
-    Notion link to architecture:
-        https://www.notion.so/Pre-attention-43b428e2c61c45e8a038ad7c8003794b
+    Notion link:
+        https://www.notion.so/LSTM-priorlast-attention-bf99016316cf46dba88cde8c6fc61052
     """
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'prior long short term memory'
-        self._notation = 'priorlstm'
+        self._name = 'long short term memory'
+        self._notation = 'priorlastlstm'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
@@ -57,10 +57,7 @@ class PriorLSTMModel(Model):
         return x_vector
 
     def _format_prior_features(self, x):
-        # priors = [[p[:self._prior_states] for p in pp] for pp in x]
-        # features = [[f[self._prior_states:] for f in ff] for ff in x]
-        # [x_train[:, :, 45:], x_train[:, 0, :45]]
-        priors = x[:, :, :self._prior_states]
+        priors = x[:, 0, :self._prior_states]
         features = x[:, :, self._prior_states:]
         return priors, features
     
@@ -85,8 +82,6 @@ class PriorLSTMModel(Model):
         csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         csv_path += self._notation 
-        # with open(csv_path + '/architecture.pkl', 'wb') as fp:
-        #     pickle.dump(self._model_settings, fp)
 
         os.makedirs(csv_path, exist_ok=True)
         checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint'
@@ -105,26 +100,22 @@ class PriorLSTMModel(Model):
         return path
 
     def _init_model(self, priors_train:np.array, features_train:np.array):
-        print('Initialising prior model')
-        input_prior = layers.Input(shape=(priors_train.shape[1], priors_train.shape[2]), name='input_prior')
+        input_prior = layers.Input(shape=(priors_train.shape[1]), name='input_prior')
+
         input_feature = layers.Input(shape=(features_train.shape[1], features_train.shape[2]), name='input_features')
-
-        masked_prior = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_prior)
-        masked_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_features')(input_feature)
-        selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([masked_features, masked_features])
-
-        full_features = layers.Concatenate(axis=2)([selfattention_features, masked_features])
-        full_features = layers.Concatenate(axis=2)([full_features, masked_prior])
-
+        features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_features')(input_feature)
         for l in range(int(self._model_settings['n_layers']) -1):
-            full_features = self._get_rnn_layer(return_sequences=True, l=l)(full_features)
-        full_features = self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1)(full_features)
+            features = self._get_rnn_layer(return_sequences=True, l=l)(features)
+        features = self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1)(features)
 
         if self._model_settings['dropout'] != 0.0:
-            full_features = layers.Dropout(self._model_settings['dropout'])(full_features)
+            features = layers.Dropout(self._model_settings['dropout'])(features)
+
+        selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([features, features])
+        full_features = layers.Concatenate(axis=1)([features, selfattention_features])
+        full_features = layers.Concatenate(axis=1)([full_features, input_prior])
 
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(full_features)
-
         self._model = Mod([input_prior, input_feature], classification_layer)
 
         # compiling

@@ -14,6 +14,8 @@ from ml.models.classifiers.knn import KNNModel
 from ml.models.classifiers.adaboost import ADABoostModel
 from ml.models.classifiers.lstm import LSTMModel
 from ml.models.classifiers.prior_lstm import PriorLSTMModel
+from ml.models.classifiers.rnn_attention import RNNAttentionModel
+from ml.models.classifiers.priorlast_attention import PriorLastAttentionModel
 from ml.models.modellers.pairwise_skipgram import PWSkipgram
 
 from ml.samplers.sampler import Sampler
@@ -32,6 +34,7 @@ from ml.xvalidators.nested_xval import NestedXVal
 from ml.xvalidators.unsup_nested_xval import UnsupNestedXVal
 from ml.xvalidators.early_nested_xval import EarlyNestedXVal
 from ml.xvalidators.checkpoint_xval import CheckpointXVal
+from ml.xvalidators.ranking_xval import RankingXVal
 
 from ml.gridsearches.gridsearch import GridSearch
 from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
@@ -142,6 +145,14 @@ class XValMaker:
             elif self._pipeline_settings['model'] == 'prior_lstm':
                 self._model = PriorLSTMModel
                 gs_path = './configs/gridsearch/gs_LSTM.yaml'
+
+            elif self._pipeline_settings['model'] == 'priorlast_attention':
+                self._model = PriorLastAttentionModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
+
+            elif self._pipeline_settings['model'] == 'rnn_attention':
+                self._model = RNNAttentionModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
             
                 
             with open(gs_path, 'r') as fp:
@@ -176,6 +187,9 @@ class XValMaker:
         if self._pipeline_settings['xvalidator'] == 'ckpt_xval':
             self._choose_gridsearcher()
             self._xval = CheckpointXVal
+        if self._pipeline_settings['xvalidator'] == 'ranking_xval':
+            self._choose_gridsearcher()
+            self._xval = RankingXVal
         self._xval = self._xval(self._settings, self._gridsearch, self._inner_splitter, self._gs_splitter, self._outer_splitter, self._sampler, self._model, self._scorer)
                 
     def _build_pipeline(self):

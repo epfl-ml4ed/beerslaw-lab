@@ -1,4 +1,5 @@
 import os
+import re
 import numpy as np
 import pandas as pd
 
@@ -25,13 +26,12 @@ class TrainValidationPlotter:
         paths = [xval for xval in paths if 'exclude' not in xval]
         loggers_paths = {}
         for path in paths:
-            splitted = path.split('/')
-            key = splitted[4] + '/' + splitted[5] + '/' + splitted[6] + '/' + splitted[-2]
-            print(key)
-            if key not in loggers_paths:
-                loggers_paths[key] = []
+            date_re = re.compile('(.*202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
+            experiment = date_re.findall(path)[0]
+            if experiment not in loggers_paths:
+                loggers_paths[experiment] = []
 
-            loggers_paths[key].append(path)
+            loggers_paths[experiment].append(path)
 
         return loggers_paths
 

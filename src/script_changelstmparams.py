@@ -58,7 +58,7 @@ if __name__ == '__main__':
     parser.add_argument('--dropout', dest='dropout', default='0.2', help='0, 0.2, 0.5', action='store')
     parser.add_argument('--batchsize', dest='batch_size', default='64', help='64, 128, 256', action='store')
     parser.add_argument('--epochs', dest='epochs', default='50', help='50, 100, ...', action='store')
-    parser.add_argument('--attentiondropout', dest='epochs', default='0.05', action='store')
+    parser.add_argument('--attentiondropout', dest='attentiondropout', default='0.05', action='store')
 
     settings = {}
     settings.update(vars(parser.parse_args()))

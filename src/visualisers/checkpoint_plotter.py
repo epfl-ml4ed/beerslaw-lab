@@ -78,6 +78,9 @@ class CheckpointPlotter:
 
             paths[experiment][model][fold] = path
 
+        # print(paths.keys())
+        # exit(1)
+
         return paths
 
     def _get_trainset(self, sequences:list, labels:list, indices:list, id_dictionary:dict, sampler:Sampler):
@@ -513,21 +516,6 @@ class CheckpointPlotter:
 
         return best_models
 
-
-################################
-## Create Confusion Matrices
-##
-
-    # def _plot_confusion_matrix(self, best_models:dict):
-    #     """Creates the confusion matrices
-
-    #     Args:
-    #         best_models (dict): [description]
-
-    #     Returns:
-    #         [type]: [description]
-    #     """
-
 ################################
 ## Create boxplots for validation scores
 ##
@@ -767,7 +755,7 @@ class CheckpointPlotter:
 ################################
 ## public functions
 ##
-    def plot(self):
+    def boxplot_validation(self):
         tf.get_logger().setLevel('ERROR')
         self._plot_multiple_boxplots()
     
@@ -806,7 +794,9 @@ class CheckpointPlotter:
             best_models = self._recreate_folds(key, paths[key])
         return best_models
 
-    def test(self):
+    def get_predictedprobabilities_printed(self):
+        """Look into the predicted probabilities for each instance
+        """
         tf.get_logger().setLevel('ERROR')
         print('Testing the functions')
         paths = self._crawl_modelcheckpoints()

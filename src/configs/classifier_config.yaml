@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: blank
-  root_name: sequencertest
+  root_name: nested
   name: testtest
   old_root_name: blank
   random_seed: 42
@@ -47,7 +47,8 @@ ML:
     outer_splitter: flatstrat
     sampler: nosplr
     task: classification
-    model: prior_lstm
+    model: rnn_attention
+    xvalidator: ranking_xval
     scorer: 2clfscorer
     gridsearch: permgs
     test_pad: False

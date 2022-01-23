@@ -64,11 +64,11 @@ def train_validation(settings):
     
 def checkpoint_predictions(settings):
     plotter = CheckpointPlotter(settings)
-    plotter.test()
+    plotter.get_predictedprobabilities_printed()
 
 def checkpoint_plot(settings):
     plotter = CheckpointPlotter(settings)
-    plotter.plot()
+    plotter.boxplot_validation()
 
 def checkpoint_validation(settings):
     plotter = CheckpointPlotter(settings)

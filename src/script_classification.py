@@ -33,7 +33,7 @@ def full_prediction_classification(settings):
     Args:
         settings: config flag + arguments
     """
-    settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
+    # settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
     settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_settings()
@@ -502,6 +502,8 @@ def main(settings):
 
     if settings['classname'] != '':
         settings['experiment']['class_name'] = settings['classname']
+    if settings['model'] != '':
+        settings['ML']['pipeline']['model'] = settings['model']
     if settings['models'] != '':
         settings['ML']['pipeline']['models'] = settings['models'].split('.')
         if 'lstm' in settings['models']:
@@ -549,6 +551,7 @@ if __name__ == '__main__':
     parser.add_argument('--classname', dest='classname', default='', help='class to use: colbin, conbin, widbin', action='store')
     parser.add_argument('--skipgram', dest='skipgram', default='', help='0 or 1', action='store')
     parser.add_argument('--models', dest='models', default='', help='rf, sknn, svc, sgd, knn, or adaboost', action='store')
+    parser.add_argument('--model', dest='model', default='', help='rf, sknn, svc, sgd, knn, or adaboost', action='store')
     parser.add_argument('--fulltime', dest='fulltime', default=False, action='store_true')
     parser.add_argument('--scrop', dest='scrop', default=False, action='store_true')
 

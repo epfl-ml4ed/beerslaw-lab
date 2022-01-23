@@ -25,19 +25,19 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from numpy.random import seed
 seed(96)
 
-class PriorLSTMModel(Model):
+class RNNAttentionModel(Model):
     """This class implements an LSTM
     Args:
         Model (Model): inherits from the model class
 
     Notion link to architecture:
-        https://www.notion.so/Pre-attention-43b428e2c61c45e8a038ad7c8003794b
+        https://www.notion.so/LSTM-attention-0eafaa4c7dbb428dba7f245b7f079f3e
     """
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'prior long short term memory'
-        self._notation = 'priorlstm'
+        self._name = 'long short term memory'
+        self._notation = 'rnnatt'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
@@ -104,17 +104,10 @@ class PriorLSTMModel(Model):
         path += '/f' + str(self._gs_fold) + '_model_checkpoint'
         return path
 
-    def _init_model(self, priors_train:np.array, features_train:np.array):
+    def _init_model(self, x:np.array):
         print('Initialising prior model')
-        input_prior = layers.Input(shape=(priors_train.shape[1], priors_train.shape[2]), name='input_prior')
-        input_feature = layers.Input(shape=(features_train.shape[1], features_train.shape[2]), name='input_features')
-
-        masked_prior = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_prior)
-        masked_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_features')(input_feature)
-        selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([masked_features, masked_features])
-
-        full_features = layers.Concatenate(axis=2)([selfattention_features, masked_features])
-        full_features = layers.Concatenate(axis=2)([full_features, masked_prior])
+        input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_prior')
+        full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
         for l in range(int(self._model_settings['n_layers']) -1):
             full_features = self._get_rnn_layer(return_sequences=True, l=l)(full_features)
@@ -123,9 +116,11 @@ class PriorLSTMModel(Model):
         if self._model_settings['dropout'] != 0.0:
             full_features = layers.Dropout(self._model_settings['dropout'])(full_features)
 
+        selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([full_features, full_features])
+        full_features = layers.Concatenate(axis=1)([full_features, selfattention_features])
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(full_features)
 
-        self._model = Mod([input_prior, input_feature], classification_layer)
+        self._model = Mod(input_layer, classification_layer)
 
         # compiling
         cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
@@ -191,15 +186,11 @@ class PriorLSTMModel(Model):
         x_train, y_train = self._format(x_train, y_train)
         x_val, y_val = self._format(x_val, y_val)
 
-        priors_train, features_train = self._format_prior_features(x_train)
-        priors_validation, features_validation = self._format_prior_features(x_val)
-
-        print(np.array(priors_train).shape, np.array(features_train).shape)
-        self._init_model(priors_train, features_train)
+        self._init_model(x_train)
         self._history = self._model.fit(
-            [priors_train, features_train],
+            x_train,
             y_train,
-            validation_data=([priors_validation, features_validation], y_val),
+            validation_data=(x_val, y_val),
             batch_size=self._model_settings['batch_size'],
             shuffle=self._model_settings['shuffle'],
             epochs=self._model_settings['epochs'],

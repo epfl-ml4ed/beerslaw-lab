@@ -43,6 +43,8 @@ class LSTMModel(Model):
         return x_vector, y_vector
     
     def _format_features(self, x:list) -> list:
+        print(np.array(x).shape)
+        print(self._model_settings['padding_value'], self._maxlen)
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
     
