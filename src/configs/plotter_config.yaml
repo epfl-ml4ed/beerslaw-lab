@@ -1,9 +1,9 @@
 experiment:
-  name: prior
+  name: nested/lstm
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Results for the Binary classifiers (Random Forest baseline, colour binary)
+  title: Results for the Binary classifiers (LSTM no attention baseline)
   measure: roc
   carry_on: True
   sizing_mode: stretch_both
@@ -24,6 +24,12 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
+      - secondslstm
+      - field
+      - language
+      - year
+      - yl_
+      - ylf
       # - extended
       # - colourbreak_flat
       # - colournobreak_flat

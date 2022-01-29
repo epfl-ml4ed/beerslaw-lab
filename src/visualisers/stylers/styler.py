@@ -83,6 +83,10 @@ class Styler:
             feature = 'ac'
         elif 'actionspan' in path:
             feature = 'as'
+        elif 'colourbreak' in path:
+            feature = 'col'
+        elif 'simplestate' in path:
+            feature = 'simple'
         elif 'sgenc_e50' in path or 'sgenc_e100' in path:
             feature = 'longpw'
         elif 'sgenc_e10' in path or 'sgenc_e15' in path:
@@ -119,7 +123,11 @@ class Styler:
             feature = 'sgenc_flatagg'
         elif 'sgenc' in path:
             feature = 'sgenc_cumulaveagg'
-        if '1hotactionspan' in path:
+        elif 'colourbreak' in path:
+            feature = 'colourbreak'
+        elif 'simplestate' in path:
+            feature = 'simplestate'
+        elif '1hotactionspan' in path:
             feature = 'vas'
         elif 'raw_aveagg' in path:
             feature= 'vac'

@@ -1,3 +1,5 @@
+from shutil import copytree
+
 import numpy as np
 import pandas as pd
 import logging
@@ -98,6 +100,19 @@ class Model:
             list: list of raw predictions for each data point
         """
         raise NotImplementedError
+
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        self._model.load_weights(checkpoint_path)
     
     def _inpute_full_prob_vector(self, y_pred:list, y_probs:list) -> list:
         """Sometimes, during nested cross validation, samples from minority classes are missing. The probability vector is thus one cell too short. However, we can recover the mapping position -> original label via the predict function

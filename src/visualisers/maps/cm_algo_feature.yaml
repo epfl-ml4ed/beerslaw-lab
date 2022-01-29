@@ -6,6 +6,8 @@
   ac: palegreen
   vas: yellowgreen
   vac: palegreen
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 sknn:
   longpw: darkolivegreen
   shortpw: olive
@@ -14,6 +16,8 @@ sknn:
   ac: palegreen
   vas: yellowgreen
   vac: palegreen
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 rf:
   longpw: darkslateblue
   shortpw: darkorchid
@@ -24,6 +28,8 @@ rf:
   ac_cum: lightskyblue
   vas: royalblue
   vac: skyblue
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 svc:
   longpw: darkred
   shortpw: saddlebrown
@@ -34,6 +40,8 @@ svc:
   ac_cum: darkorange
   vas: orangered
   vac: darkorange
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 sgd:
   longpw: darkgoldenrod
   shortpw: goldenrod
@@ -44,6 +52,8 @@ sgd:
   ac_cum: yellow
   vas: gold
   vac: yellow
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 knn:
   longpw: mediumvioletred
   shortpw: crimson
@@ -54,6 +64,8 @@ knn:
   ac_cum: hotpink
   vas: deeppink
   vac: hotpink
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 adaboost:
   longpw: teal
   shortpw: darkturquoise
@@ -64,14 +76,19 @@ adaboost:
   ac_cum: turquoise
   vas: lightseagreen
   vac: turquoise
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 BiLSTM:
   seconds_pad: darkolivegreen
   encoded_pad: olive
   seconds_crop: yellowgreen
   encoded_crop: palegreen
+  col: '#cbf3f0'
+  simple: '#ffbf69'
 LSTM:
   seconds_pad: mediumvioletred
   encoded_pad: crimson
   seconds_crop: deeppink
   encoded_crop: hotpink
-
+  col: '#cbf3f0'
+  simple: '#ffbf69'

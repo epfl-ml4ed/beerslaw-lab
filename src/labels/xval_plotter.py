@@ -1,5 +1,6 @@
 import os
 import re
+from tensorboard import summary
 import yaml
 import pickle
 import logging
@@ -8,6 +9,8 @@ import pandas as pd
 from typing import Tuple
 
 from ml.gridsearches.gridsearch import GridSearch
+from ml.scorers.binaryclassification_scorer import BinaryClfScorer
+from ml.scorers.multiclassification_scorer import MultiClfScorer
 
 import bokeh
 
@@ -84,6 +87,9 @@ class XvalLabelPlotter(LabelPlotter):
         if class_name == 'binconcepts':
             with open('../data/experiment_keys/permutation_maps/nconcepts_binary.yaml', 'rb') as fp:
                 label_map = yaml.load(fp, Loader=yaml.FullLoader)
+        if class_name == 'vector_labels':
+            with open('../data/experiment_keys/permutation_maps/vector_binary.yaml', 'rb') as fp:
+                label_map = yaml.load(fp, Loader=yaml.FullLoader)
 
         return label_map
         
@@ -113,9 +119,10 @@ class XvalLabelPlotter(LabelPlotter):
         Args:
             paths (dict): paths to read it from 
         """
+        print(paths['config'])
         with open(paths['config'], 'rb') as fp:
             try:
-                config = yaml.load(fp, Loader=yaml.FullLoader)
+                config = pickle.load(fp)
             except:
                 print('USING TEMPORARY FIX')
                 # Issue is that some of the config yamls are not being read (copy error?)
@@ -170,16 +177,21 @@ class XvalLabelPlotter(LabelPlotter):
         # Get predictions
         ys_test = []
         ys_pred = []
+        ys_proba = []
         ys_indices = []
+        folds = []
         for fold in nested:
             if fold != 'x' and fold != 'y' and fold != 'indices' and fold != 'optim_scoring':
                 test_indices = nested[fold]['test_indices']
                 y_test = self._load_y_true(config, test_indices, id_dictionary, demographics_map)
                 y_pred = nested[fold]['y_pred']
+                y_proba = nested[fold]['y_proba']
 
                 ys_indices = ys_indices + list(test_indices)
                 ys_test = ys_test + list(y_test)
                 ys_pred = ys_pred + list(y_pred)
+                ys_proba = ys_proba + list(y_proba)
+                folds = folds + [fold for _ in y_proba]
 
         # Get demographics + Get dataframes
         cm = {}
@@ -187,20 +199,23 @@ class XvalLabelPlotter(LabelPlotter):
         for i, ind in enumerate(ys_indices):
             iid = index[ind]
             gender = demographics_map[iid]['gender']
+            permutation = demographics_map[iid]['permutation']
             year = demographics_map[iid]['year']
             field = demographics_map[iid]['field']
             language = demographics_map[iid]['language']
             cm[iid] = {
                 'preds': ys_pred[i],
                 'truth': ys_test[i],
+                'probas': ys_proba[i],
                 'gender': gender,
                 'year': year,
                 'field': field,
                 'language': language,
-                'no_strat': 'nothing'
+                'no_strat': 'nothing',
+                'permutation': permutation,
+                'fold': folds[i]
             }
         cm_df = pd.DataFrame(cm).transpose()
-
         return cm_df
 
     def _confusion_matrix(self, summary_df:pd.DataFrame, stratifier:str, config:dict, experiment:str):
@@ -236,6 +251,139 @@ class XvalLabelPlotter(LabelPlotter):
         for strat in self._settings['scorer']['stratifiers']:
             self._confusion_matrix(summary_df, strat, config, experiment)
 
+    def _prediction_vectorlabels_vs_binconcepts(self, summary_df:pd.DataFrame, stratifier:str, config:dict, experiment:str):
+        class_name = self._settings['experiment']['classname']
+        label_map = self._load_label_map(class_name)
+        labels_idx = (label_map['index_target'].keys())
+        labels_idx = [int(l) for l in labels_idx]
+        labels = label_map['target_index']
+        summary_df['vector_binary'] = summary_df['permutation'].apply(lambda x: label_map['map'][x])
+
+        for label in summary_df['vector_binary'].unique():
+            title = 'test probability density for label {}'.format(label)
+            sum_df = summary_df[summary_df['vector_binary'] == label]
+            for strat in summary_df[stratifier].unique():
+                strat_df = sum_df[sum_df[stratifier] == strat]
+                probabilities = strat_df['probas']
+                probabilities = [proba[1] for proba in probabilities]
+
+                plt.figure(figsize=(12, 4))
+                plt.hist(probabilities, color='#cbf3f0', alpha=0.6, density=True, label='test')
+                plt.xlim([0, 1])
+                plt.legend()
+                plt.title(title)
+
+                if self._settings['save'] or self._settings['saveimg']:
+                    print('saving experiment!')
+                    path = experiment + '/test_predictionprobabilities_densities/{}/'.format(strat)
+                    os.makedirs(path, exist_ok=True)
+                    path += 'label{}.svg'.format(label)
+                    plt.savefig(path, format='svg')
+                if self._settings['savepng']:
+                    print('saving experiment!')
+                    path = experiment + '/test_predictionprobabilities_densities/{}/'.format(strat)
+                    os.makedirs(path, exist_ok=True)
+                    path += 'label{}.png'.format(label)
+                    plt.savefig(path, format='png')
+
+                if self._settings['show']:
+                    plt.show()
+                else:
+                    plt.close()
+
+    def plot_vectorlabels_vs_binconcepts(self, summary_df:pd.DataFrame, config:dict, experiment:str):
+        for strat in self._settings['scorer']['stratifiers']:
+            self._prediction_vectorlabels_vs_binconcepts(summary_df, strat, config, experiment)
+
+    def _load_scorer(self, summary_df:pd.DataFrame, measure:str):
+        n_classes = len(summary_df['preds'].unique())
+
+        parameters = {}
+        parameters['experiment'] = {'n_classes': n_classes}
+        parameters['ML'] = {
+            'scorers': {
+                'scoring_metrics': ['roc', 'balanced_accuracy']
+            }
+        }
+        
+        if n_classes == 2:
+            self._scorer = BinaryClfScorer(parameters)
+        else:
+            self._scorer = MultiClfScorer(parameters)
+
+        if measure == 'roc':
+            self._get_predictions = self._scorer._score_dictionary['roc']
+        if measure == 'balanced_accuracy':
+            self._get_predictions = self._scorer._score_dictionary['balanced_accuracy']
+
+
+    def _plot_bubbleplot(self, summary_df:pd.DataFrame, x_coordinate:float, stratifier:str):
+        fold_performance = []
+        for fold in summary_df['fold'].unique():
+            fold_df = summary_df[summary_df['fold'] == fold]
+            score = self._get_predictions(list(fold_df['truth']), list(fold_df['preds']), list(fold_df['probas']))
+            fold_performance.append(score)
+
+        score_mean = np.mean(fold_performance)
+        score_std = np.std(fold_performance)
+        mean_width = self._settings['barplot_fairness']['x_spacing'] / 3
+        mean_quartiles = self._settings['barplot_fairness']['x_spacing'] / 2
+
+        plt.scatter([x_coordinate for _ in fold_performance], fold_performance, color=self._palette[stratifier], alpha=0.4)
+        plt.hlines(
+            [score_mean + score_std, score_mean, score_mean - score_std],
+            [x_coordinate - (mean_quartiles / 2), x_coordinate - (mean_width / 2), x_coordinate - (mean_quartiles / 2)],
+            [x_coordinate + (mean_quartiles / 2), x_coordinate + (mean_width / 2), x_coordinate + (mean_quartiles / 2)],
+            color=self._palette[stratifier]
+        )
+        plt.vlines(
+            [x_coordinate],
+            [score_mean - score_std],
+            [score_mean + score_std],
+            color=self._palette[stratifier]
+        )
+
+    def _prediction_slicing_bubbleplots(self, summary_df:pd.DataFrame, stratifier:str, measure:str, experiment:str):
+        self._load_scorer(summary_df, measure)
+        plt.figure(figsize=(12, 4))
+        xs = [0]
+        xlabels = ['all']
+        self._plot_bubbleplot(summary_df, xs[-1], stratifier)
+        stratifiers = summary_df[stratifier].unique()
+        stratifiers.sort()
+        for strat in stratifiers:
+            xs.append(xs[-1] + self._settings['barplot_fairness']['x_spacing'])
+            strat_df = summary_df[summary_df[stratifier] == strat]
+            self._plot_bubbleplot(strat_df, xs[-1], stratifier)
+            lab = '{} [{}]'.format(strat, len(strat_df))
+            xlabels.append(lab)
+        plt.xticks(xs, xlabels)
+        plt.title('{} for the {} demographic attribute'.format(measure, stratifier))
+
+        if self._settings['save'] or self._settings['saveimg']:
+            path = experiment + '/slicing_plots/'
+            os.makedirs(path, exist_ok=True)
+            path += 'stratifier_{}.svg'.format(stratifier)
+            plt.savefig(path, format='svg')
+        if self._settings['savepng']:
+            print('saving experiment!')
+            path = experiment + '/slicing_plots/'
+            os.makedirs(path, exist_ok=True)
+            path += 'stratifier_{}.png'.format(stratifier)
+            plt.savefig(path, format='png')
+
+        if self._settings['show']:
+            plt.show()
+        else:
+            plt.close()
+
+    def _plot_slicing_bubbleplots(self, summary_df:pd.DataFrame, experiment:str):
+        for measure in self._settings['barplot_fairness']['measures']:
+            for stratifier in self._settings['scorer']['stratifiers']:
+                if stratifier != 'no_strat':
+                    self._prediction_slicing_bubbleplots(summary_df, stratifier, measure, experiment)
+                    exit(1)
+
 
     def plot(self):
         paths = self._crawl_paths()
@@ -247,6 +395,12 @@ class XvalLabelPlotter(LabelPlotter):
             summary_df = self._summary_df(config, id_dictionary, nested, demographics)
             if self._settings['confusion_matrix']:
                 self._plot_confusion_matrix(config, summary_df, experiment)
+
+            if self._settings['prob_vecbin']:
+                self.plot_vectorlabels_vs_binconcepts(summary_df, config, experiment)
+
+            if self._settings['slicingplot']:
+                self._plot_slicing_bubbleplots(summary_df, experiment)
                 
 
 

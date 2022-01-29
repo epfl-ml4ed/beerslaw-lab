@@ -73,7 +73,7 @@ class LSTMModel(Model):
         #     pickle.dump(self._model_settings, fp)
 
         os.makedirs(csv_path, exist_ok=True)
-        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint'
+        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
@@ -85,7 +85,7 @@ class LSTMModel(Model):
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint'
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
         return path
 
     def _init_model(self, x:np.array):
@@ -135,22 +135,6 @@ class LSTMModel(Model):
         self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
-
-    def load_model_weights(self, x):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        checkpoint_path = self._get_model_checkpoint_path()
-        temporary_path = '../experiments/temp_checkpoints/plotter/'
-        copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
-        self._model.load_weights(temporary_path)
 
     def load_checkpoints(self, checkpoint_path:str, x:list):
         """Sets the inner model back to the weigths present in the checkpoint folder.

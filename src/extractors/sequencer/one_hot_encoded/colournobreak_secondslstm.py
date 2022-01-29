@@ -24,7 +24,8 @@ class ColourNobreakSecondsLSTM(Sequencing):
         vector at time t:
             0: (s + vector(t-1)[0]) / vector(t) if state is green - green
             1: (s + vector(t-1)[1]) / vector(t) green - red
-            2: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution)
+            2: (s + vector(t-1)[2]) / vector(t) no green laser or (no green solution and no red solution) but absorbance observed
+            3: (s + vector(t-1)[3]) / vector(t) absorbance not observed
             3: (s + vector(t-1)[3]) / vector(t) concentrationlab
         => s being 0 if it's in the corresponding state, or the timing of the interaction in the current state
     """

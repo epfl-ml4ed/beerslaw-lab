@@ -1,11 +1,11 @@
 path:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  name: prior
+  name: nested
   algorithm: lstm
   features: seconds
   sequencer: stateaction_secondslstm_12
-  classname: binary
+  classname: vector_labels
 concatenation:
   report_folder: EDM2022
   concatenator: nconcepts # or nconcepts
@@ -35,3 +35,8 @@ plotter:
     - no_strat
 new_predictions: ''
 concatenator: ''
+barplot_fairness:
+  x_spacing: 0.5
+  measures:
+    - roc
+    - balanced_accuracy

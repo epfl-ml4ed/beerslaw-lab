@@ -13,6 +13,7 @@ from labels.concatenators.bi_even_concatenator import BiEvenConcatenator
 from labels.concatenators.bi_nconcepts_concatenator import BiNConceptsConcatenator
 
 from ml.scorers.fairness_scorer import FairnessScorer
+from ml import load_tf_models
 
 from visualisers.label_plotter import LabelPlotter
 from labels.xval_plotter import XvalLabelPlotter
@@ -59,6 +60,10 @@ def measure_concatenate_label(settings):
 def outerfold_plots(settings):
     plotter = XvalLabelPlotter(settings)
     plotter.plot()
+
+def test(settings):
+    experiment = '/Users/cock/kDrive/PhD/Projects/Labs/beerslaw-lab/experiments/nested/lstm/field_colourbreak/binconcepts/lstm/raw_full/2022_01_24_0'
+    load_tf_models.load_all_nn(experiment)
     
     
 def main(settings):
@@ -71,6 +76,8 @@ def main(settings):
         measure_concatenate_label(settings)
     if settings['xval']:
         outerfold_plots(settings)
+    if settings['test']:
+        test(settings)
 
 if __name__ == '__main__':
     with open('./configs/labelconcat_config.yaml', 'r') as f:
@@ -84,9 +91,14 @@ if __name__ == '__main__':
     parser.add_argument('--test', dest='test', default=False, action='store_true')
     
     parser.add_argument('--cm', dest='confusion_matrix', default=False, action='store_true')
+    parser.add_argument('--probvecbin', dest='prob_vecbin', default=False, action='store_true')
+    parser.add_argument('--slicingplot', dest='slicingplot', default=False, action='store_true')
+
     parser.add_argument('--label', dest='label_distribution', default=False, action='store_true')
     
     parser.add_argument('--save', dest='save', default=False, action='store_true')
+    parser.add_argument('--saveimg', dest='saveimg', default=False, action='store_true')
+    parser.add_argument('--savepng', dest='savepng', default=False, action='store_true')
     parser.add_argument('--show', dest='show', default=False, action='store_true')
     
     settings.update(vars(parser.parse_args()))

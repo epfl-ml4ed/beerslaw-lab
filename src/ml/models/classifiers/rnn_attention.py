@@ -57,9 +57,6 @@ class RNNAttentionModel(Model):
         return x_vector
 
     def _format_prior_features(self, x):
-        # priors = [[p[:self._prior_states] for p in pp] for pp in x]
-        # features = [[f[self._prior_states:] for f in ff] for ff in x]
-        # [x_train[:, :, 45:], x_train[:, 0, :45]]
         priors = x[:, :, :self._prior_states]
         features = x[:, :, self._prior_states:]
         return priors, features
@@ -101,8 +98,11 @@ class RNNAttentionModel(Model):
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint'
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
         return path
+
+    def _retrieve_attentionlayer(self):
+        return self._model.layers
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')
@@ -152,22 +152,6 @@ class RNNAttentionModel(Model):
 
         print(self._model.summary())
 
-    def load_model_weights(self, x):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        checkpoint_path = self._get_model_checkpoint_path()
-        temporary_path = '../experiments/temp_checkpoints/plotter/'
-        copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
-        self._model.load_weights(temporary_path)
-
     def load_checkpoints(self, checkpoint_path:str, x:list):
         """Sets the inner model back to the weigths present in the checkpoint folder.
         Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
@@ -201,15 +185,13 @@ class RNNAttentionModel(Model):
         
     def predict(self, x:list) -> list:
         x_predict = self._format_features(x)
-        prior_predict, features_predict = self._format_prior_features(x_predict)
-        predictions = self._model.predict([prior_predict, features_predict])
+        predictions = self._model.predict(x_predict)
         predictions = [np.argmax(x) for x in predictions]
         return predictions
     
     def predict_proba(self, x:list) -> list:
         x_predict = self._format_features(x)
-        prior_predict, features_predict = self._format_prior_features(x_predict)
-        probs = self._model.predict([prior_predict, features_predict])
+        probs = self._model.predict(x_predict)
         if len(probs[0]) != self._n_classes:
             preds = self._model.predict(x_predict)
             probs = self._inpute_full_prob_vector(preds, probs)

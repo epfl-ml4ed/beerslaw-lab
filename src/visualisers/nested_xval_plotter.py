@@ -309,7 +309,10 @@ class NestedXValPlotter:
         for path in x_axis['paths']:
             xv = xvs[path]['data']
             d, p, b = self._create_dataframes(xv)
-            
+            print('****')
+            print(path)
+            print(b)
+            print()
             dots.append(d)
             parameters.append(p)
             boxplots.append(b)

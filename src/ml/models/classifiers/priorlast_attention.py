@@ -84,7 +84,7 @@ class PriorLastAttentionModel(Model):
         csv_path += self._notation 
 
         os.makedirs(csv_path, exist_ok=True)
-        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint'
+        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
@@ -96,7 +96,7 @@ class PriorLastAttentionModel(Model):
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint'
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
         return path
 
     def _init_model(self, priors_train:np.array, features_train:np.array):

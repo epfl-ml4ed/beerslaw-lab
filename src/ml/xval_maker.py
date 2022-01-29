@@ -79,6 +79,9 @@ class XValMaker:
     def get_scorer(self):
         return self._scorer
 
+    def get_model(self):
+        return self._model
+
     def _choose_splitter(self, splitter:str) -> Splitter:
         if splitter == 'stratkf':
             return StratifiedKSplit
