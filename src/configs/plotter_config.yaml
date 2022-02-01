@@ -1,10 +1,10 @@
 experiment:
-  name: nested/lstm
+  name: real_nested/demographics
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Results for the Binary classifiers (LSTM no attention baseline)
-  measure: roc
+  title: Results for the Binary classifiers (LSTM no attention demographics) [Bal Acc]
+  measure: balanced_accuracy
   carry_on: True
   sizing_mode: stretch_both
   colour_map: cm_algo_feature
@@ -24,6 +24,11 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
+      # - colourbreak
+      # - colournobreak
+      # - simplestate
+      # - simplemorestates
+      # - stateaction
       - secondslstm
       - field
       - language

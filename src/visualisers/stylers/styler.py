@@ -49,6 +49,8 @@ class Styler:
         p.xaxis.axis_label = self._styler_settings['xstyle']['label']
         p.yaxis.axis_label = self._styler_settings['ystyle']['label']
         p.xaxis.major_label_text_font_size = '20px'
+
+        p.yaxis.ticker = list(np.arange(0, 1.1, 0.1))
         return p
     
     def _get_algo(self, path:str) -> str:

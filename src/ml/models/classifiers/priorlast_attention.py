@@ -99,6 +99,24 @@ class PriorLastAttentionModel(Model):
         path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
         return path
 
+    def _retrieve_attentionlayer(self):
+        return self._model.layers[4]
+
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        priors_train, features_train = self._format_prior_features(x)
+        self._init_model(priors_train, features_train)
+        self._model.summary()
+        self._model.load_weights(checkpoint_path)
+
     def _init_model(self, priors_train:np.array, features_train:np.array):
         input_prior = layers.Input(shape=(priors_train.shape[1]), name='input_prior')
 
@@ -148,36 +166,6 @@ class PriorLastAttentionModel(Model):
 
         print(self._model.summary())
 
-    def load_model_weights(self, x):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        checkpoint_path = self._get_model_checkpoint_path()
-        temporary_path = '../experiments/temp_checkpoints/plotter/'
-        copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
-        self._model.load_weights(temporary_path)
-
-    def load_checkpoints(self, checkpoint_path:str, x:list):
-        """Sets the inner model back to the weigths present in the checkpoint folder.
-        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
-        a variables folder, and index and data checkpoint files.
-
-        Args:
-            checpoint_path (str): path to the checkpoint folder
-            x (list): partial sample of data, to format the layers
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        self._model.load_weights(checkpoint_path)
-
-        
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
         x_val, y_val = self._format(x_val, y_val)

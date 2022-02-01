@@ -1,7 +1,7 @@
 path:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  name: nested
+  name: real_nested/demographics
   algorithm: lstm
   features: seconds
   sequencer: stateaction_secondslstm_12

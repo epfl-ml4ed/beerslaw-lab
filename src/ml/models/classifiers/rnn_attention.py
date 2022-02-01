@@ -102,7 +102,21 @@ class RNNAttentionModel(Model):
         return path
 
     def _retrieve_attentionlayer(self):
-        return self._model.layers
+        return self._model.layers[4]
+
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        self._model.summary()
+        self._model.load_weights(checkpoint_path)
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')

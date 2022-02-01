@@ -218,6 +218,7 @@ class XvalLabelPlotter(LabelPlotter):
         cm_df = pd.DataFrame(cm).transpose()
         return cm_df
 
+###### Confusion Matrix
     def _confusion_matrix(self, summary_df:pd.DataFrame, stratifier:str, config:dict, experiment:str):
         class_name = config['experiment']['class_name']
         label_map = self._load_label_map(class_name)
@@ -251,6 +252,7 @@ class XvalLabelPlotter(LabelPlotter):
         for strat in self._settings['scorer']['stratifiers']:
             self._confusion_matrix(summary_df, strat, config, experiment)
 
+###### Prediction Probabilities
     def _prediction_vectorlabels_vs_binconcepts(self, summary_df:pd.DataFrame, stratifier:str, config:dict, experiment:str):
         class_name = self._settings['experiment']['classname']
         label_map = self._load_label_map(class_name)
@@ -268,7 +270,7 @@ class XvalLabelPlotter(LabelPlotter):
                 probabilities = [proba[1] for proba in probabilities]
 
                 plt.figure(figsize=(12, 4))
-                plt.hist(probabilities, color='#cbf3f0', alpha=0.6, density=True, label='test')
+                plt.hist(probabilities, color='#cbf3f0', alpha=1, density=True, label='test')
                 plt.xlim([0, 1])
                 plt.legend()
                 plt.title(title)
@@ -316,7 +318,7 @@ class XvalLabelPlotter(LabelPlotter):
         if measure == 'balanced_accuracy':
             self._get_predictions = self._scorer._score_dictionary['balanced_accuracy']
 
-
+####### Slicing Analysis
     def _plot_bubbleplot(self, summary_df:pd.DataFrame, x_coordinate:float, stratifier:str):
         fold_performance = []
         for fold in summary_df['fold'].unique():
@@ -382,8 +384,15 @@ class XvalLabelPlotter(LabelPlotter):
             for stratifier in self._settings['scorer']['stratifiers']:
                 if stratifier != 'no_strat':
                     self._prediction_slicing_bubbleplots(summary_df, stratifier, measure, experiment)
-                    exit(1)
 
+    def get_summary_df(self, experiment):
+        paths = self._crawl_paths()
+        config, id_dictionary, nested = self._load_experiment_files(paths[experiment])
+        demographics = self._load_demographics(id_dictionary)
+        summary_df = self._summary_df(config, id_dictionary, nested, demographics)
+        return summary_df
+
+####### Colours
 
     def plot(self):
         paths = self._crawl_paths()

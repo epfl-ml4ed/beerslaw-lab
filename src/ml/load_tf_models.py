@@ -2,7 +2,7 @@ import os
 import re
 import pickle
 from tabnanny import check
-from shutil import copytree
+from shutil import copytree, rmtree
 import tensorflow as tf
 
 from extractors.pipeline_maker import PipelineMaker
@@ -32,7 +32,7 @@ def _crawl_checkpoint_paths(experiment:str):
         checkpoint_paths.extend(files)
 
     paths = [p for p in checkpoint_paths if 'saved_model.pb' in p and '/models/' not in p]
-    paths = [p.replace('saved_model.pb', 'variables/') for p in paths]
+    paths = [p.replace('saved_model.pb', '') for p in paths]
 
     model_checkpoints = {}
     for path in paths:
@@ -55,7 +55,7 @@ def _crawl_test_paths(experiment:str):
         checkpoint_paths.extend(files)
 
     paths = [p for p in checkpoint_paths if 'saved_model.pb' in p and '/models/' in p]
-    paths = [p.replace('saved_model.pb', 'variables/') for p in paths]
+    paths = [p.replace('saved_model.pb', '') for p in paths]
 
     model_checkpoints = {}
     outer_fold_re = re.compile('.*([0-9]+)/logger')
@@ -94,6 +94,8 @@ def load_all_nn(experiment:str):
             models[outer_fold][inner_fold] = model(settings)
             models[outer_fold][inner_fold].set_outer_fold(outer_fold)
             print(paths[outer_fold][inner_fold])
+            if os.path.exists(temporary_path):
+                rmtree(temporary_path)
             copytree(paths[outer_fold][inner_fold], temporary_path, dirs_exist_ok=True)
             models[outer_fold][inner_fold].load_model_weights(sequences, temporary_path)
 

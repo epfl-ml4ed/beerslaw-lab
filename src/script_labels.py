@@ -62,7 +62,7 @@ def outerfold_plots(settings):
     plotter.plot()
 
 def test(settings):
-    experiment = '/Users/cock/kDrive/PhD/Projects/Labs/beerslaw-lab/experiments/nested/lstm/field_colourbreak/binconcepts/lstm/raw_full/2022_01_24_0'
+    experiment = '/Users/cock/kDrive/PhD/Projects/Labs/beerslaw-lab/experiments/nested/lstm attention/colourbreak_secondslstm/binconcepts/rnn_attention/raw_full/2022_01_25_0'
     load_tf_models.load_all_nn(experiment)
     
     
