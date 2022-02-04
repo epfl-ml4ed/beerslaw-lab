@@ -29,6 +29,7 @@ class Model:
     def set_gridsearch_parameters(self, params, combinations):
         logging.debug('Gridsearch params: {}'.format(params))
         logging.debug('Combinations: {}'.format(combinations))
+        print(params, combinations)
         for i, param in enumerate(params):
             logging.debug('  index: {}, param: {}'.format(i, param))
             self._model_settings[param] = combinations[i]

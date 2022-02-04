@@ -23,7 +23,6 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
-seed(96)
 
 class PriorLSTMModel(Model):
     """This class implements an LSTM
@@ -45,6 +44,9 @@ class PriorLSTMModel(Model):
         pipeline = PipelineMaker(settings)
         sequencer = pipeline.get_sequencer()
         self._prior_states = sequencer.get_prior_states()
+
+    def _set_seed(self):
+        seed(self._model_settings['seed'])
         
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
@@ -89,7 +91,7 @@ class PriorLSTMModel(Model):
         #     pickle.dump(self._model_settings, fp)
 
         os.makedirs(csv_path, exist_ok=True)
-        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
+        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
@@ -101,11 +103,12 @@ class PriorLSTMModel(Model):
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
         return path
 
     def _init_model(self, priors_train:np.array, features_train:np.array):
         print('Initialising prior model')
+        self._set_seed()
         input_prior = layers.Input(shape=(priors_train.shape[1], priors_train.shape[2]), name='input_prior')
         input_feature = layers.Input(shape=(features_train.shape[1], features_train.shape[2]), name='input_features')
 

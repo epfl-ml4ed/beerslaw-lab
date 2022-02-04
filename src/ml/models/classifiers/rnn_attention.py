@@ -23,7 +23,6 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
-seed(96)
 
 class RNNAttentionModel(Model):
     """This class implements an LSTM
@@ -45,6 +44,9 @@ class RNNAttentionModel(Model):
         pipeline = PipelineMaker(settings)
         sequencer = pipeline.get_sequencer()
         # self._prior_states = sequencer.get_prior_states()
+
+    def _set_seed(self):
+        seed(self._model_settings['seed'])
         
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
@@ -98,7 +100,7 @@ class RNNAttentionModel(Model):
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
         return path
 
     def _retrieve_attentionlayer(self):
@@ -120,6 +122,7 @@ class RNNAttentionModel(Model):
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')
+        self._set_seed()
         input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_prior')
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 

@@ -1,0 +1,37 @@
+seed:
+- 193
+lstm_cells:
+-  4
+cnn_cells:
+- 32
+cnn_window:
+- 4
+pool_size: # Pooling window: size from which to pool the maximum value
+- 50
+stride: #timesteps to shift the pool_size window from
+- 25
+padding: #valid if no padding, same if padding on the left and right
+- valid
+dropout:
+- 0.02
+batch_size:
+- 16
+early_stopping:
+- true
+epochs:
+- 10
+loss:
+- auc
+n_layers:
+- 1
+optimiser:
+- adam
+padding_value:
+- -1
+shuffle:
+- true
+verbose:
+- 1
+attention:
+  dropout: 
+    - 0.05

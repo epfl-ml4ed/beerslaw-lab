@@ -1,10 +1,10 @@
 experiment:
-  name: real_nested/demographics
+  name: real_nested/prior_rnn
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Results for the Binary classifiers (LSTM no attention demographics) [Bal Acc]
-  measure: balanced_accuracy
+  title: Results for the Binary classifiers (LSTM no attention demographics) [ROC]
+  measure: roc
   carry_on: True
   sizing_mode: stretch_both
   colour_map: cm_algo_feature

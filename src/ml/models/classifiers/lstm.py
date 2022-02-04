@@ -20,7 +20,6 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
-seed(36)
 
 class LSTMModel(Model):
     """This class implements an LSTM
@@ -36,6 +35,10 @@ class LSTMModel(Model):
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
         
+    def _set_seed(self):
+        print(self._model_settings)
+        seed(self._model_settings['seed'])
+
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
@@ -73,7 +76,7 @@ class LSTMModel(Model):
         #     pickle.dump(self._model_settings, fp)
 
         os.makedirs(csv_path, exist_ok=True)
-        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
+        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
@@ -85,11 +88,12 @@ class LSTMModel(Model):
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
         path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint/cp.ckpt'
+        path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
         return path
 
     def _init_model(self, x:np.array):
         # initial layers
+        self._set_seed()
         self._model = keras.Sequential()
         self._model.add(layers.Input((x.shape[1], x.shape[2],)))
         self._model.add(layers.Masking(mask_value=self._model_settings['padding_value']))

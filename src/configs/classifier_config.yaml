@@ -4,9 +4,9 @@ paths:
 experiment:
   class_name: blank
   root_name: nested
-  name: testtest
+  name: test_cnnlstm
   old_root_name: blank
-  random_seed: 42
+  random_seed: 129
   n_folds: blank
   n_classes: 2
 data:
@@ -72,7 +72,7 @@ ML:
         dummy_parameters:
           blank
   splitters:
-    n_folds: 10
+    n_folds: 2
     stratkf:
       shuffle: True
       stratifier_col: y
@@ -81,7 +81,7 @@ ML:
       train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
   xvalidators:
     nested_xval:
-      inner_n_folds: 10
+      inner_n_folds: 2
       outer_n_folds: 1
       optim_scoring: roc
   scorers:

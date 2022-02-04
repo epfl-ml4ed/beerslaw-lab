@@ -1,14 +1,13 @@
 import os
 import logging
 import pickle
+from tabnanny import check
 import numpy as np
 import pandas as pd
 from typing import Tuple
 from shutil import copytree
 
 from ml.models.model import Model
-from extractors.sequencer.sequencing import Sequencing
-from extractors.pipeline_maker import PipelineMaker
 
 import tensorflow as tf
 from tensorflow import keras
@@ -24,30 +23,29 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
 
-class PriorLastAttentionModel(Model):
-    """This class implements an LSTM
+class CNNLSTMModel(Model):
+    """This class implements an CNN-LSTM as described in "Advanced Combined LSTM-CNN Model for Twitter Sentiment Analysis"
+    by Nan Chen and Peikang Wen [https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8691381&tag=1]
+
+        Notion link to the details of the implementation:
+            https://www.notion.so/LSTM-CNN-54d4ec59a4ed48c89131185bfec04864
+
     Args:
         Model (Model): inherits from the model class
-
-    Notion link:
-        https://www.notion.so/LSTM-priorlast-attention-bf99016316cf46dba88cde8c6fc61052
     """
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'long short term memory'
-        self._notation = 'priorlastlstm'
+        self._name = 'convolutionnal neural network memory - long short term'
+        self._notation = 'cnn-lstm'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
-
-        pipeline = PipelineMaker(settings)
-        sequencer = pipeline.get_sequencer()
-        self._prior_states = sequencer.get_prior_states()
-
-    def _set_seed(self):
-        seed(self._model_settings['seed'])
         
+    def _set_seed(self):
+        print(self._model_settings)
+        seed(self._model_settings['seed'])
+
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
@@ -55,13 +53,10 @@ class PriorLastAttentionModel(Model):
         return x_vector, y_vector
     
     def _format_features(self, x:list) -> list:
+        print(np.array(x).shape)
+        print(self._model_settings['padding_value'], self._maxlen)
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
-
-    def _format_prior_features(self, x):
-        priors = x[:, 0, :self._prior_states]
-        features = x[:, :, self._prior_states:]
-        return priors, features
     
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
@@ -77,67 +72,76 @@ class PriorLastAttentionModel(Model):
         return layer
 
     def _get_csvlogger_path(self) -> str:
-        csv_path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
-        csv_path += str(self._outer_fold) + '/logger/' 
-        csv_path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
-        csv_path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
-        csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
-        csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
-        csv_path += self._notation 
-
+        csv_path = '../experiments/{}{}/{}/logger/cnnlstm/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
+        csv_path += 'seed{}_lstmcells{}_cnncells{}_cnnwindow{}_poolsize{}_stride{}_padding{}'.format(
+            self._model_settings['seed'], self._model_settings['lstm_cells'], self._model_settings['cnn_cells'],
+            self._model_settings['cnn_window'], self._model_settings['pool_size'], self._model_settings['stride'], self._model_settings['padding']
+        )
+        csv_path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
+            self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'],
+            self._model_settings['batch_size'], self._model_settings['epochs']
+        )
         os.makedirs(csv_path, exist_ok=True)
-        checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/'
-        csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
+        checkpoint_path = csv_path + '/f{}_model_checkpoint/'.format(self._gs_fold)
+        csv_path += '/f{}_model_training.csv'.format(self._gs_fold)
         return csv_path, checkpoint_path
 
     def _get_model_checkpoint_path(self) -> str:
-        path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
-        path += str(self._outer_fold) + '/logger/'
-        path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
-        path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
-        path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
-        path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
-        path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
+        path = '../experiments/{}{}/{}/logger/cnnlstm/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
+        path += 'seed{}_lstmcells{}_cnncells{}_cnnwindow{}_poolsize{}_stride{}_padding{}'.format(
+            self._model_settings['seed'], self._model_settings['lstm_cells'], self._model_settings['cnn_cells'],
+            self._model_settings['cnn_window'], self._model_settings['pool_size'], self._model_settings['stride'], self._model_settings['padding']
+        )
+        path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
+            self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'],
+            self._model_settings['batch_size'], self._model_settings['epochs']
+        )
+        path += '/f{}_model_training.csv'.format(self._gs_fold)
         return path
 
-    def _retrieve_attentionlayer(self):
-        return self._model.layers[4]
-
-    def load_model_weights(self, x:np.array, checkpoint_path:str):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        priors_train, features_train = self._format_prior_features(x)
-        self._init_model(priors_train, features_train)
-        self._model.summary()
-        self._model.load_weights(checkpoint_path)
-
-    def _init_model(self, priors_train:np.array, features_train:np.array):
+    def _init_model(self, x:np.array):
         self._set_seed()
-        input_prior = layers.Input(shape=(priors_train.shape[1]), name='input_prior')
 
-        input_feature = layers.Input(shape=(features_train.shape[1], features_train.shape[2]), name='input_features')
-        features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_features')(input_feature)
-        for l in range(int(self._model_settings['n_layers']) -1):
-            features = self._get_rnn_layer(return_sequences=True, l=l)(features)
-        features = self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1)(features)
+        # initial layers
+        input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input')
+        full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
+        # CNN Part - output: #datapoints x #timesteps-convolutional_crop x #cnn_cells
+        cnnd = layers.Conv1D(
+            self._model_settings['cnn_cells'],
+            self._model_settings['cnn_window'],
+            activation='relu',
+            input_shape=x[1:]
+        )(full_features)
+
+        # Maxpooling 
+        pooled = layers.MaxPooling1D(
+            pool_size=self._model_settings['pool_size'],
+            strides=self._model_settings['stride'],
+            padding=self._model_settings['padding']
+        )(cnnd)
+
+        # LSTM cell part - output: #datapoints x #timesteps x #ncells
+        whole_interaction, memory_state, carry_state = layers.RNN(
+                                                                    layers.LSTMCell(self._model_settings['lstm_cells']),
+                                                                    return_sequences=True,
+                                                                    return_state=True
+                                                                )(pooled)
+        self._memory_state = memory_state
+        self._carry_state = carry_state
+
+        # dropout
         if self._model_settings['dropout'] != 0.0:
-            features = layers.Dropout(self._model_settings['dropout'])(features)
+            whole_interaction = layers.Dropout(self._model_settings['dropout'])(whole_interaction)
 
-        selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([features, features])
-        full_features = layers.Concatenate(axis=1)([features, selfattention_features])
-        full_features = layers.Concatenate(axis=1)([full_features, input_prior])
+        # Flatten
+        flatten = layers.Flatten()(whole_interaction)
 
-        classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(full_features)
-        self._model = Mod([input_prior, input_feature], classification_layer)
+        # output layer
+        classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(flatten)
+        
+        # Model init
+        self._model = Mod(input_layer, classification_layer)
 
         # compiling
         cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
@@ -169,19 +173,28 @@ class PriorLastAttentionModel(Model):
 
         print(self._model.summary())
 
+    def load_checkpoints(self, checkpoint_path:str, x:list):
+        """Sets the inner model back to the weigths present in the checkpoint folder.
+        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
+        a variables folder, and index and data checkpoint files.
+
+        Args:
+            checpoint_path (str): path to the checkpoint folder
+            x (list): partial sample of data, to format the layers
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        self._model.load_weights(checkpoint_path)
+
+        
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
         x_val, y_val = self._format(x_val, y_val)
 
-        priors_train, features_train = self._format_prior_features(x_train)
-        priors_validation, features_validation = self._format_prior_features(x_val)
-
-        print(np.array(priors_train).shape, np.array(features_train).shape)
-        self._init_model(priors_train, features_train)
+        self._init_model(x_train)
         self._history = self._model.fit(
-            [priors_train, features_train],
-            y_train,
-            validation_data=([priors_validation, features_validation], y_val),
+            x_train, y_train,
+            validation_data=(x_val, y_val),
             batch_size=self._model_settings['batch_size'],
             shuffle=self._model_settings['shuffle'],
             epochs=self._model_settings['epochs'],
@@ -191,16 +204,15 @@ class PriorLastAttentionModel(Model):
         self._fold += 1
         
     def predict(self, x:list) -> list:
+        print('hello')
         x_predict = self._format_features(x)
-        prior_predict, features_predict = self._format_prior_features(x_predict)
-        predictions = self._model.predict([prior_predict, features_predict])
+        predictions = self._model.predict(x_predict)
         predictions = [np.argmax(x) for x in predictions]
         return predictions
     
     def predict_proba(self, x:list) -> list:
         x_predict = self._format_features(x)
-        prior_predict, features_predict = self._format_prior_features(x_predict)
-        probs = self._model.predict([prior_predict, features_predict])
+        probs = self._model.predict(x_predict)
         if len(probs[0]) != self._n_classes:
             preds = self._model.predict(x_predict)
             probs = self._inpute_full_prob_vector(preds, probs)

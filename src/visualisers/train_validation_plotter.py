@@ -93,6 +93,8 @@ class TrainValidationPlotter:
             plt.savefig(path, format='svg')
         if self._settings['show']:
             plt.show()
+        else:
+            plt.close()
 
     def plot(self, metric):
         paths = self._crawl()

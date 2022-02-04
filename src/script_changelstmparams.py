@@ -41,7 +41,8 @@ def main(settings):
         'shuffle': [True],
         'epochs': process_int_list(settings['epochs']),
         'verbose': [1],
-        'attention': {'dropout': process_numerical_list(settings['attentiondropout'])}
+        'attention': {'dropout': process_numerical_list(settings['attentiondropout'])},
+        'seed': process_int_list(settings['seed'])
     }
 
     with open('./configs/gridsearch/gs_LSTM.yaml', 'w') as fp:
@@ -59,6 +60,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchsize', dest='batch_size', default='64', help='64, 128, 256', action='store')
     parser.add_argument('--epochs', dest='epochs', default='50', help='50, 100, ...', action='store')
     parser.add_argument('--attentiondropout', dest='attentiondropout', default='0.05', action='store')
+    parser.add_argument('--seed', dest='seed', default='193', action='store')
 
     settings = {}
     settings.update(vars(parser.parse_args()))
