@@ -2,7 +2,7 @@
 paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  class_name: blank
+  class_name: binconcepts
   root_name: nested
   name: test_cnnlstm
   old_root_name: blank

@@ -45,6 +45,7 @@ class CNNLSTMModel(Model):
     def _set_seed(self):
         print(self._model_settings)
         seed(self._model_settings['seed'])
+        tf.random.set_seed(self._model_settings['seed'])
 
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
@@ -53,24 +54,9 @@ class CNNLSTMModel(Model):
         return x_vector, y_vector
     
     def _format_features(self, x:list) -> list:
-        print(np.array(x).shape)
-        print(self._model_settings['padding_value'], self._maxlen)
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
     
-    def _get_rnn_layer(self, return_sequences:bool, l:int):
-        n_cells = self._model_settings['n_cells'][l]
-        if self._model_settings['cell_type'] == 'LSTM':
-            layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
-        elif self._model_settings['cell_type'] == 'GRU':
-            layer = layers.GRU(units=n_cells, return_sequences=return_sequences)
-        elif self._model_settings['cell_type'] == 'RNN':
-            layer = layers.SimpleRNN(units=n_cells, return_sequences=return_sequences)
-        elif self._model_settings['cell_type'] == 'BiLSTM':
-            layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
-            layer = layers.Bidirectional(layer=layer)
-        return layer
-
     def _get_csvlogger_path(self) -> str:
         csv_path = '../experiments/{}{}/{}/logger/cnnlstm/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
         csv_path += 'seed{}_lstmcells{}_cnncells{}_cnnwindow{}_poolsize{}_stride{}_padding{}'.format(
