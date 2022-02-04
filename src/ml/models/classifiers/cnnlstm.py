@@ -38,7 +38,7 @@ class CNNLSTMModel(Model):
         super().__init__(settings)
         self._name = 'convolutionnal neural network memory - long short term'
         self._notation = 'cnn-lstm'
-        self._model_settings = settings['ML']['models']['classifiers']['lstm']
+        self._model_settings = settings['ML']['models']['classifiers']['cnnlstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
         

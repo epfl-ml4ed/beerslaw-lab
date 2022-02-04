@@ -23,12 +23,12 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
 
-class LSTMCNNModel(Model):
-    """This class implements an LSTM-CMM as described in "Twitter Sentiment Analysis using combined LSTM-CNN Models
-    by Pedro M Sosa [https://www.academia.edu/download/55829451/sosa_sentiment_analysis.pdf]
+class SSANModel(Model):
+    """This class implements an CNN-LSTM as described in "Self-Attention: A Better Building Block for Sentiment Analysis Neural Network Classifiers"
+    by Artaches Ambartsoumian Fred Popowich [https://arxiv.org/pdf/1812.07860.pdf]
 
         Notion link to the details of the implementation:
-            https://www.notion.so/LSTM-CNN-a9dd39cf97d544ee849aa5c4ea98b926
+            https://www.notion.so/SSAN-Network-02086320745d45d2b7c5b803206f0cb5
 
     Args:
         Model (Model): inherits from the model class
@@ -36,9 +36,9 @@ class LSTMCNNModel(Model):
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'long short term - convolutionnal neural network memory'
-        self._notation = 'lstm-cnn'
-        self._model_settings = settings['ML']['models']['classifiers']['cnnlstm']
+        self._name = 'self-attention sentiment analysis network'
+        self._notation = 'ssan'
+        self._model_settings = settings['ML']['models']['classifiers']['ssan']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
         
@@ -58,24 +58,11 @@ class LSTMCNNModel(Model):
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
     
-    def _get_rnn_layer(self, return_sequences:bool, l:int):
-        n_cells = self._model_settings['n_cells'][l]
-        if self._model_settings['cell_type'] == 'LSTM':
-            layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
-        elif self._model_settings['cell_type'] == 'GRU':
-            layer = layers.GRU(units=n_cells, return_sequences=return_sequences)
-        elif self._model_settings['cell_type'] == 'RNN':
-            layer = layers.SimpleRNN(units=n_cells, return_sequences=return_sequences)
-        elif self._model_settings['cell_type'] == 'BiLSTM':
-            layer = layers.LSTM(units=n_cells, return_sequences=return_sequences)
-            layer = layers.Bidirectional(layer=layer)
-        return layer
-
     def _get_csvlogger_path(self) -> str:
-        csv_path = '../experiments/{}{}/{}/logger/lstmcnn/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
-        csv_path += 'seed{}_lstmcells{}_cnncells{}_cnnwindow{}_poolsize{}_stride{}_padding{}'.format(
-            self._model_settings['seed'], self._model_settings['lstm_cells'], self._model_settings['cnn_cells'],
-            self._model_settings['cnn_window'], self._model_settings['pool_size'], self._model_settings['stride'], self._model_settings['padding']
+        csv_path = '../experiments/{}{}/{}/logger/ssan/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
+        csv_path += 'seed{}_kvqcells{}_poolsize{}_stride{}_padding{}'.format(
+            self._model_settings['seed'], self._model_settings['kvq_cells'], self._model_settings['pool_size'],
+            self._model_settings['stride'], self._model_settings['padding']
         )
         csv_path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
             self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'],
@@ -87,10 +74,10 @@ class LSTMCNNModel(Model):
         return csv_path, checkpoint_path
 
     def _get_model_checkpoint_path(self) -> str:
-        path = '../experiments/{}{}/{}/logger/lstmcnn/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
-        path += 'seed{}_lstmcells{}_cnncells{}_cnnwindow{}_poolsize{}_stride{}_padding{}'.format(
-            self._model_settings['seed'], self._model_settings['lstm_cells'], self._model_settings['cnn_cells'],
-            self._model_settings['cnn_window'], self._model_settings['pool_size'], self._model_settings['stride'], self._model_settings['padding']
+        path = '../experiments/{}{}/{}/logger/ssan/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
+        path += 'seed{}_kvqcells{}_poolsize{}_stride{}_padding{}'.format(
+            self._model_settings['seed'], self._model_settings['kvq_cells'], self._model_settings['pool_size'],
+            self._model_settings['stride'], self._model_settings['padding']
         )
         path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
             self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'],
@@ -106,30 +93,21 @@ class LSTMCNNModel(Model):
         input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input')
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
-        # LSTM cell part - output: #datapoints x #timesteps x #ncells
-        whole_interaction, memory_state, carry_state = layers.RNN(
-                                                                    layers.LSTMCell(self._model_settings['lstm_cells']),
-                                                                    return_sequences=True,
-                                                                    return_state=True
-                                                                )(full_features)
-        self._memory_state = memory_state
-        self._carry_state = carry_state
+        # Creating Key, Value, Query
+        key_layer = layers.Dense(self._model_settings['kvq_cells'])(full_features)
+        value_layer = layers.Dense(self._model_settings['kvq_cells'])(full_features)
+        query_layer = layers.Dense(self._model_settings['kvq_cells'])(full_features)
 
-        # CNN Part - output: #datapoints x #timesteps-convolutional_crop x #cnn_cells
-        cnnd = layers.Conv1D(
-            self._model_settings['cnn_cells'],
-            self._model_settings['cnn_window'],
-            activation='relu',
-            input_shape=x[1:]
-        )(whole_interaction)
+        # Attention layer
+        attention_layer = layers.AdditiveAttention()([query_layer, value_layer, key_layer])
 
-        # Maxpooling 
-        pooled = layers.MaxPooling1D(
+        # Average Pooling layer
+        pooled = layers.AveragePooling1D(
             pool_size=self._model_settings['pool_size'],
             strides=self._model_settings['stride'],
             padding=self._model_settings['padding']
-        )(cnnd)
-        
+        )(attention_layer)
+
         # Flatten
         flatten = layers.Flatten()(pooled)
 

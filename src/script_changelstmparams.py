@@ -27,7 +27,7 @@ def process_nested_list(parameters:str):
     params = [[int(pp) for pp in p] for p in params]
     return params
 
-def main(settings):
+def change_lstm_params(settings):
     lstm_gridsearch = {
         'padding_value':[-1],
         'cell_type': process_list(settings['cell_type']),
@@ -48,11 +48,36 @@ def main(settings):
     with open('./configs/gridsearch/gs_LSTM.yaml', 'w') as fp:
         yaml.dump(lstm_gridsearch, fp)
 
+def change_cnnlstm(settings):
+    cnnlstm_gridsearch = {
+        'padding_value':[-1],
+        'lstm_cells': process_list(settings['lstm_cells']),
+        'cnn_cells': process_int_list(settings['cnn_cells']),
+        'n_cells': process_nested_list(settings['n_cells']),
+        'dropout': process_numerical_list(settings['dropout']),
+        'optimiser': ['adam'],
+        'loss': ['auc'],
+        'early_stopping': [False],
+        'batch_size': process_int_list(settings['batch_size']),
+        'shuffle': [True],
+        'epochs': process_int_list(settings['epochs']),
+        'verbose': [1],
+        'attention': {'dropout': process_numerical_list(settings['attentiondropout'])},
+        'seed': process_int_list(settings['seed'])
+    }
+
+
+def main(settings):
+    if settings['lstm']:
+        change_lstm_params
+    if settings['cnnlstm']:
+        raise NotImplementedError
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Yaml Config Files')
     # Experiment arguments
     
-    # parameter changes
+    # lstm parameter changes
     parser.add_argument('--celltype', dest='cell_type', default='BiLSTM', help='BiLSTM or LSTM', action='store')
     parser.add_argument('--nlayers', dest='n_layers', default='2', help='2, 3, 4, etc.', action='store')
     parser.add_argument('--ncells', dest='n_cells', default='16.32', help='32, 64, 129, ...', action='store')
@@ -61,6 +86,10 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', dest='epochs', default='50', help='50, 100, ...', action='store')
     parser.add_argument('--attentiondropout', dest='attentiondropout', default='0.05', action='store')
     parser.add_argument('--seed', dest='seed', default='193', action='store')
+
+    # algorithm
+    parser.add_argument('--lstm', dest='lstm', default=False, action='store_true')
+    parser.add_argument('--cnnlstm', dest='cnnlstm', default=False, action='store_true')
 
     settings = {}
     settings.update(vars(parser.parse_args()))

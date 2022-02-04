@@ -71,6 +71,12 @@ ML:
       1nn:
         dummy_parameters:
           blank
+      cnnlstm:
+        dummy_parameters:
+          blank
+      ssan:
+        dummy_parameters:
+          blank
   splitters:
     n_folds: 2
     stratkf:
