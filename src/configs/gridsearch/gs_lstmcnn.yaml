@@ -1,37 +1,35 @@
-seed:
-- 193
-lstm_cells:
--  4
+attention:
+  dropout:
+  - 0.05
+batch_size:
+- 64
 cnn_cells:
 - 32
 cnn_window:
 - 4
-pool_size: # Pooling window: size from which to pool the maximum value
-- 50
-stride: #timesteps to shift the pool_size window from
-- 25
-padding: #valid if no padding, same if padding on the left and right
-- valid
 dropout:
-- 0.02
-batch_size:
-- 16
+- 0.2
 early_stopping:
-- true
+- false
 epochs:
-- 10
+- 50
 loss:
 - auc
-n_layers:
-- 1
+lstm_cells:
+- 8
 optimiser:
 - adam
+padding:
+- valid
 padding_value:
 - -1
+pool_size:
+- 50
+seed:
+- 193
 shuffle:
 - true
+stride:
+- 25
 verbose:
 - 1
-attention:
-  dropout: 
-    - 0.05
