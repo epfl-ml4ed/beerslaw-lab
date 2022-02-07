@@ -33,3 +33,6 @@ stride:
 - 25
 verbose:
 - 1
+flatten:
+# - flat
+- average

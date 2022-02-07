@@ -121,8 +121,11 @@ class CNNLSTMModel(Model):
             whole_interaction = layers.Dropout(self._model_settings['dropout'])(whole_interaction)
 
         # Flatten
-        flatten = layers.Flatten()(whole_interaction)
-
+        if self._model_settings['flatten'] == 'flat':
+            flatten = layers.Flatten()(whole_interaction)
+        elif self._model_settings['flatten'] == 'average':
+            flatten = layers.AveragePooling1D(pool_size=self._model_settings['lstm_cells'], data_format='channels_first')(whole_interaction)
+            flatten = layers.Flatten()(flatten)
         # output layer
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(flatten)
         

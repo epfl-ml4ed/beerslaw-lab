@@ -9,8 +9,8 @@ early_stopping:
 - false
 epochs:
 - 50
-kvqcells:
-- 10
+kvq_cells:
+- 5
 loss:
 - auc
 optimiser:
@@ -20,12 +20,12 @@ padding:
 padding_value:
 - -1
 pool_size:
-- 100
+- 50
 seed:
 - 193
 shuffle:
 - true
 stride:
-- 50
+- 25
 verbose:
 - 1

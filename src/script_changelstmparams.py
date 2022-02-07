@@ -74,7 +74,7 @@ def change_cnnlstm(settings):
 def change_ssan(settings):
     cnnlstm_gridsearch = {
         'padding_value':[-1],
-        'kvqcells': process_int_list(settings['kvq_cells']),
+        'kvq_cells': process_int_list(settings['kvq_cells']),
         'pool_size': process_int_list(settings['pool_size']),
         'stride': process_int_list(settings['stride']),
         'padding': process_list(settings['padding']),

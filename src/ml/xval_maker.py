@@ -14,8 +14,11 @@ from ml.models.classifiers.knn import KNNModel
 from ml.models.classifiers.adaboost import ADABoostModel
 from ml.models.classifiers.lstm import LSTMModel
 from ml.models.classifiers.lstmcnn import LSTMCNNModel
+from ml.models.classifiers.prior_lstmcnn import PriorLSTMCNNModel
 from ml.models.classifiers.cnnlstm import CNNLSTMModel
+from ml.models.classifiers.prior_cnnlstm import PriorCNNLSTMModel
 from ml.models.classifiers.ssan import SSANModel
+from ml.models.classifiers.prior_ssan import PriorSSANModel
 from ml.models.classifiers.prior_lstm import PriorLSTMModel
 from ml.models.classifiers.rnn_attention import RNNAttentionModel
 from ml.models.classifiers.priorlast_attention import PriorLastAttentionModel
@@ -163,12 +166,21 @@ class XValMaker:
             elif self._pipeline_settings['model'] == 'lstmcnn':
                 self._model = LSTMCNNModel
                 gs_path = './configs/gridsearch/gs_lstmcnn.yaml'
+            elif self._pipeline_settings['model'] == 'prior_lstmcnn':
+                self._model = PriorLSTMCNNModel
+                gs_path = './configs/gridsearch/gs_lstmcnn.yaml'
             elif self._pipeline_settings['model'] == 'cnnlstm':
                 self._model = CNNLSTMModel
+                gs_path = './configs/gridsearch/gs_lstmcnn.yaml'
+            elif self._pipeline_settings['model'] == 'prior_cnnlstm':
+                self._model = PriorCNNLSTMModel
                 gs_path = './configs/gridsearch/gs_lstmcnn.yaml'
 
             elif self._pipeline_settings['model'] == 'ssan':
                 self._model = SSANModel
+                gs_path = './configs/gridsearch/gs_ssan.yaml'
+            elif self._pipeline_settings['model'] == 'prior_ssan':
+                self._model = PriorSSANModel
                 gs_path = './configs/gridsearch/gs_ssan.yaml'
                 
             with open(gs_path, 'r') as fp:
