@@ -29,7 +29,7 @@ from keras import backend as K
 
 from numpy.random import seed
 
-class LastTimestepAttentionModel(Model):
+class TimestepAttentionModel(Model):
     """This class implements an LSTM with attention where the last timestamp of the lstm layer is concatenated with the attention output
     Args:
         Model (Model): inherits from the model class
@@ -99,7 +99,7 @@ class LastTimestepAttentionModel(Model):
 
     def self_attention(self, x):
         ''' 
-        from github repo:https://github.com/declare-lab/multimodal-deep-learning/blob/main/contextual-multimodal-fusion/trimodal_attention_models.py
+        from github repo: https://github.com/declare-lab/multimodal-deep-learning/blob/main/contextual-multimodal-fusion/trimodal_attention_models.py
         .  stands for dot product 
         *  stands for elemwise multiplication
             
@@ -114,7 +114,6 @@ class LastTimestepAttentionModel(Model):
         n = layers.Activation('softmax')(m)
         o = layers.dot([n, x], axes=[2,1])
         a = layers.multiply([o, x])
-        a = tf.math.reduce_sum(a, axis=2)
         return a
 
     def _get_csvlogger_path(self) -> str:
@@ -171,16 +170,16 @@ class LastTimestepAttentionModel(Model):
         input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_prior')
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
-        for l in range(int(self._model_settings['n_layers']) -1):
-            full_features = self._get_rnn_layer(return_sequences=True, l=l)(full_features)
-        full_features = self._get_rnn_layer(return_sequences=True, l=self._model_settings['n_layers'] - 1)(full_features)
-
-        last_timesteps = full_features[:, -1, :]
-
         selfattention_features = self.self_attention(full_features)
-        print('sa {}'.format(selfattention_features.shape))
-        print('lt {}'.format(last_timesteps.shape))
-        concatenated = layers.Concatenate(axis=1)([selfattention_features, last_timesteps])
+        print('sa {}'.format(selfattention_features.shape)) # expect shape of None, 900, 10
+        print('ff {}'.format(full_features.shape)) # expect shape of 900
+
+        concatenated = layers.Concatenate(axis=2)([full_features, selfattention_features])
+        print('concatenated {}'.format(concatenated.shape)) # expect shape of 900 x (lstm cells + 1)
+
+        for l in range(int(self._model_settings['n_layers']) -1):
+            concatenated = self._get_rnn_layer(return_sequences=True, l=l)(concatenated)
+        concatenated = self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1)(concatenated)
 
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(concatenated)
 
