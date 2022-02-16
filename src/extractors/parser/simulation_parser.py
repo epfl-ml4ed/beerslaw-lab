@@ -199,6 +199,8 @@ class Simulation:
                 'phetio_id', 'event_name', 'event_type', 'event_component', 'event_params', 'event_children'
             ]
         self._event_df = new_df
+        print('storing')
+        new_df.to_csv('./temp_event_df.tsv', sep='\t')
 
     def _initialise_simulation_parameters(self):
         self._started = 0
@@ -790,6 +792,7 @@ class Simulation:
         Args:
             event (Event): event object
         """
+        print('filtering')
         event_name = event.get_name()
         pid = event.get_phetio_id()
         
@@ -799,16 +802,20 @@ class Simulation:
         timestamp = self._get_timestamp(event.get_timestamp())
         
         try:
+            print('trying')
             self._event_map[pid][event_name](event, timestamp)
+            print('nope')
         except KeyError:
             print('Event not caught')
             print(pid, event_name)
             exit(1)
         except AssertionError:
             self.debug.append('assertion error: {} {}'.format(pid, event_name))
+            exit(1)
         
         self._last_timestamp = timestamp
         self._last_event = event_name
+        print()
         
     def _filter_children(self, event:Event, timestamp: float):
         children = self._process_children(event, [])

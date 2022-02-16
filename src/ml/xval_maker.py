@@ -21,7 +21,9 @@ from ml.models.classifiers.ssan import SSANModel
 from ml.models.classifiers.prior_ssan import PriorSSANModel
 from ml.models.classifiers.prior_lstm import PriorLSTMModel
 from ml.models.classifiers.rnn_attention import RNNAttentionModel
+from ml.models.classifiers.rnnattention_concat import RNNAttentionConcatModel
 from ml.models.classifiers.priorlast_attention import PriorLastAttentionModel
+from ml.models.classifiers.lasttimestep_attention import LastTimestepAttentionModel
 from ml.models.modellers.pairwise_skipgram import PWSkipgram
 
 from ml.samplers.sampler import Sampler
@@ -162,6 +164,18 @@ class XValMaker:
             elif self._pipeline_settings['model'] == 'rnn_attention':
                 self._model = RNNAttentionModel
                 gs_path = './configs/gridsearch/gs_LSTM.yaml'
+            elif self._pipeline_settings['model'] == 'rnnattention_concat':
+                self._model = RNNAttentionConcatModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
+
+            elif self._pipeline_settings['model'] == 'lastts_attention':
+                self._model = LastTimestepAttentionModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
+
+            elif self._pipeline_settings['model'] == 'rnnattention_concat':
+                self._model = RNNAttentionConcatModel
+                gs_path = './configs/gridsearch/gs_LSTM.yaml'
+
 
             elif self._pipeline_settings['model'] == 'lstmcnn':
                 self._model = LSTMCNNModel

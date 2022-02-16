@@ -18,14 +18,14 @@ class Model:
         self._n_classes = settings['experiment']['n_classes']
         self._random_seed = settings['experiment']['random_seed']
 
-        self._gs_fold = -1
+        self._gs_fold = 0
     
     def get_name(self):
         return self._name
 
     def get_notation(self):
         return self._notation
-    
+
     def set_gridsearch_parameters(self, params, combinations):
         logging.debug('Gridsearch params: {}'.format(params))
         logging.debug('Combinations: {}'.format(combinations))
@@ -60,6 +60,7 @@ class Model:
         vector = list(np.zeros(self._settings['experiment']['n_classes']))
         vector[class_idx] = 1
         return vector
+        
     def _format_categorical(self, y:list):
         new_y = [self._categorical_vector(idx) for idx in y]
         return new_y
@@ -102,19 +103,6 @@ class Model:
         """
         raise NotImplementedError
 
-    def load_model_weights(self, x:np.array, checkpoint_path:str):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        self._model.load_weights(checkpoint_path)
-    
     def _inpute_full_prob_vector(self, y_pred:list, y_probs:list) -> list:
         """Sometimes, during nested cross validation, samples from minority classes are missing. The probability vector is thus one cell too short. However, we can recover the mapping position -> original label via the predict function
 

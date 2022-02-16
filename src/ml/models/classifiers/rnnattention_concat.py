@@ -24,7 +24,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
 
-class RNNAttentionModel(Model):
+class RNNAttentionConcatModel(Model):
     """This class implements an LSTM
     Args:
         Model (Model): inherits from the model class
@@ -35,8 +35,8 @@ class RNNAttentionModel(Model):
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'long short term memory'
-        self._notation = 'rnnatt'
+        self._name = 'rnn att concatlong short term memory'
+        self._notation = 'rnnattcct'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
@@ -132,12 +132,12 @@ class RNNAttentionModel(Model):
             full_features = layers.Dropout(self._model_settings['dropout'])(full_features)
 
         selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([full_features, full_features])
-        
-        # Flatten
+        full_features = layers.Concatenate(axis=1)([full_features, selfattention_features]) # and also try change to concatenation to the last timestep
+
         if self._model_settings['flatten'] == 'flat':
-            flatten = layers.Flatten()(selfattention_features)
+            flatten = layers.Flatten()(full_features)
         elif self._model_settings['flatten'] == 'average':
-            flatten = layers.AveragePooling1D(pool_size=self._model_settings['n_cells'][-1], data_format='channels_first')(selfattention_features)
+            flatten = layers.AveragePooling1D(pool_size=self._model_settings['n_cells'][-1], data_format='channels_first')(full_features)
             flatten = layers.Flatten()(flatten)
 
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(flatten)

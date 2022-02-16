@@ -24,8 +24,9 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
 
-class RNNAttentionModel(Model):
-    """This class implements an LSTM
+class PriorRNNAttentionModel(Model):
+    """This class implements a contextualised LSTM with bi-attention as implemented in 
+    https://github.com/declare-lab/multimodal-deep-learning/blob/main/contextual-multimodal-fusion/trimodal_attention_models.py
     Args:
         Model (Model): inherits from the model class
 
@@ -35,8 +36,8 @@ class RNNAttentionModel(Model):
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'long short term memory'
-        self._notation = 'rnnatt'
+        self._name = 'prior rnn attention long short term memory'
+        self._notation = 'prnnatt'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
@@ -118,8 +119,35 @@ class RNNAttentionModel(Model):
         self._model.summary()
         self._model.load_weights(checkpoint_path)
 
+    def bi_modal_attention(x, y):
+        ''' 
+        Implementation from: https://github.com/declare-lab/multimodal-deep-learning/blob/main/contextual-multimodal-fusion/trimodal_attention_models.py
+        .  stands for dot product 
+        *  stands for elemwise multiplication
+        {} stands for concatenation
+            
+        m1 = x . transpose(y) ||  m2 = y . transpose(x) 
+        n1 = softmax(m1)      ||  n2 = softmax(m2)
+        o1 = n1 . y           ||  o2 = m2 . x
+        a1 = o1 * x           ||  a2 = o2 * y
+        
+        return {a1, a2}
+            
+        '''
+        
+        m1 = layers.dot([x, y], axes=[2, 2])
+        n1 = layers.Activation('softmax')(m1)
+        o1 = layers.dot([n1, y], axes=[2, 1])
+        a1 = layers.multiply([o1, x])
+
+        m2 = layers.dot([y, x], axes=[2, 2])
+        n2 = layers.Activation('softmax')(m2)
+        o2 = layers.dot([n2, x], axes=[2, 1])
+        a2 = layers.multiply([o2, y])
+
+        return concatenate([a1, a2])
+
     def _init_model(self, x:np.array):
-        print('Initialising prior model')
         self._set_seed()
         input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_prior')
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)

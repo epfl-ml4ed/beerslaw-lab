@@ -92,6 +92,26 @@ class LSTMModel(Model):
         path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
         return path
 
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        checkpoint = tf.train.Checkpoint(self._model)
+        checkpoint.restore(checkpoint_path)
+
+
     def _init_model(self, x:np.array):
         # initial layers
         self._set_seed()
@@ -169,6 +189,8 @@ class LSTMModel(Model):
             verbose=self._model_settings['verbose'],
             callbacks=self._callbacks
         )
+        checkpoint_path = self._get_model_checkpoint_path()
+        self.load_model_weights(x_train, checkpoint_path)
         self._fold += 1
         
     def predict(self, x:list) -> list:

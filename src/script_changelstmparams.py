@@ -42,7 +42,8 @@ def change_lstm_params(settings):
         'epochs': process_int_list(settings['epochs']),
         'verbose': [1],
         'attention': {'dropout': process_numerical_list(settings['attentiondropout'])},
-        'seed': process_int_list(settings['seed'])
+        'seed': process_int_list(settings['seed']),
+        'flatten': process_list(settings['flatten'])
     }
 
     with open('./configs/gridsearch/gs_LSTM.yaml', 'w') as fp:
@@ -66,7 +67,8 @@ def change_cnnlstm(settings):
         'epochs': process_int_list(settings['epochs']),
         'verbose': [1],
         'attention': {'dropout': process_numerical_list(settings['attentiondropout'])},
-        'seed': process_int_list(settings['seed'])
+        'seed': process_int_list(settings['seed']),
+        'flatten': process_list(settings['flatten'])
     }
     with open('./configs/gridsearch/gs_lstmcnn.yaml', 'w') as fp:
         yaml.dump(cnnlstm_gridsearch, fp)
@@ -126,6 +128,7 @@ if __name__ == '__main__':
     parser.add_argument('--poolsize', dest='pool_size', default='50', help='2, 3, 4, etc.', action='store')
     parser.add_argument('--stride', dest='stride', default='25', help='2, 3, 4, etc.', action='store')
     parser.add_argument('--padding', dest='padding', default='valid', help='valid or same', action='store')
+    parser.add_argument('--flatten', dest='flatten', default='average', help='flatten or average', action='store')
 
     # ssan
     parser.add_argument('--kvqcells', dest='kvq_cells', default='5', help='2, 3, 4, etc.', action='store')

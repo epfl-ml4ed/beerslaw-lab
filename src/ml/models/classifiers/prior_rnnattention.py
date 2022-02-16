@@ -24,7 +24,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from numpy.random import seed
 
-class RNNAttentionModel(Model):
+class PriorRNNAttentionModel(Model):
     """This class implements an LSTM
     Args:
         Model (Model): inherits from the model class
@@ -35,8 +35,8 @@ class RNNAttentionModel(Model):
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'long short term memory'
-        self._notation = 'rnnatt'
+        self._name = 'prior rnn attention long short term memory'
+        self._notation = 'prnnatt'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0

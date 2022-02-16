@@ -21,29 +21,91 @@ from sklearn.model_selection import KFold, StratifiedKFold
 from tensorflow.keras.metrics import get as get_metric, Metric
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from keras import initializers
+from keras import regularizers
+from keras import constraints
+from tensorflow.keras.layers import Layer
+from keras import backend as K
 
 from numpy.random import seed
 
-class RNNAttentionModel(Model):
-    """This class implements an LSTM
+class Attention(Layer):
+    """Attention layer as implemented in: https://github.com/mirkomarras/dl-sentiment-coco/blob/5d815d408607d3e30ac52d82e1cb61907efadfa7/code/score_trainer_tester.py#L1
+    """
+    def __init__(self, W_regularizer=None, b_regularizer=None, W_constraint=None, b_constraint=None, bias=True, **kwargs):
+        self.supports_masking = True
+        self.init = initializers.get('glorot_uniform')
+
+        self.W_regularizer = regularizers.get(W_regularizer)
+        self.b_regularizer = regularizers.get(b_regularizer)
+
+        self.W_constraint = constraints.get(W_constraint)
+        self.b_constraint = constraints.get(b_constraint)
+
+        self.bias = bias
+        super(Attention, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        assert len(input_shape) == 3
+
+        self.W = self.add_weight(shape=(input_shape[-1],), initializer=self.init, name='{}_W'.format('W'), regularizer=self.W_regularizer, constraint=self.W_constraint)
+        if self.bias:
+            self.b = self.add_weight(shape=(input_shape[1],), initializer='zero', name='{}_b'.format('bias'), regularizer=self.b_regularizer, constraint=self.b_constraint)
+        else:
+            self.b = None
+
+        self.built = True
+
+    def compute_mask(self, input, input_mask=None):
+        return None
+
+    def dot_product(self, x, kernel):
+        if K.backend() == 'tensorflow':
+            return K.squeeze(K.dot(x, K.expand_dims(kernel)), axis=-1)
+        else:
+            return K.dot(x, kernel)
+
+    def call(self, x, mask=None):
+        eij = self.dot_product(x, self.W)
+
+        if self.bias:
+            eij += self.b
+
+        eij = K.tanh(eij)
+
+        a = K.exp(eij)
+
+        if mask is not None:
+            a *= K.cast(mask, K.floatx())
+
+        a /= K.cast(K.sum(a, axis=1, keepdims=True) + K.epsilon(), K.floatx())
+
+        a = K.expand_dims(a)
+        weighted_input = x * a
+        return K.sum(weighted_input, axis=2)
+
+    def get_output_shape_for(self, input_shape):
+        return input_shape[0], input_shape[-1]
+
+    def compute_output_shape(self, input_shape):
+        return input_shape[0], input_shape[-1]
+
+class LastTimestepAttentionModel(Model):
+    """This class implements an LSTM with attention where the last timestamp of the lstm layer is concatenated with the attention output
     Args:
         Model (Model): inherits from the model class
 
     Notion link to architecture:
-        https://www.notion.so/LSTM-attention-0eafaa4c7dbb428dba7f245b7f079f3e
+        https://www.notion.so/Option-1-bb6797b337064730be21b1a19dae15f5
     """
     
     def __init__(self, settings:dict):
         super().__init__(settings)
-        self._name = 'long short term memory'
-        self._notation = 'rnnatt'
+        self._name = 'last timestep attention'
+        self._notation = 'ltsatt'
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
-
-        pipeline = PipelineMaker(settings)
-        sequencer = pipeline.get_sequencer()
-        # self._prior_states = sequencer.get_prior_states()
 
     def _set_seed(self):
         seed(self._model_settings['seed'])
@@ -63,6 +125,25 @@ class RNNAttentionModel(Model):
         priors = x[:, :, :self._prior_states]
         features = x[:, :, self._prior_states:]
         return priors, features
+
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        checkpoint = tf.train.Checkpoint(self._model)
+        checkpoint.restore(checkpoint_path)
     
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
@@ -115,8 +196,15 @@ class RNNAttentionModel(Model):
         """
         x = self._format_features(x) 
         self._init_model(x)
-        self._model.summary()
-        self._model.load_weights(checkpoint_path)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        print('pre-weight check: {}'.format(self._model.layers[0][0][0]))
+        checkpoint = tf.train.Checkpoint(self._model)
+        checkpoint.restore(checkpoint_path)
+        print('post-weight check: {}'.format(self._model.layers[0][0][0]))
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')
@@ -128,19 +216,14 @@ class RNNAttentionModel(Model):
             full_features = self._get_rnn_layer(return_sequences=True, l=l)(full_features)
         full_features = self._get_rnn_layer(return_sequences=True, l=self._model_settings['n_layers'] - 1)(full_features)
 
-        if self._model_settings['dropout'] != 0.0:
-            full_features = layers.Dropout(self._model_settings['dropout'])(full_features)
+        last_timesteps = full_features[:, -1, :]
 
-        selfattention_features = layers.AdditiveAttention(use_scale=True, dropout=0.05, causal=True)([full_features, full_features])
-        
-        # Flatten
-        if self._model_settings['flatten'] == 'flat':
-            flatten = layers.Flatten()(selfattention_features)
-        elif self._model_settings['flatten'] == 'average':
-            flatten = layers.AveragePooling1D(pool_size=self._model_settings['n_cells'][-1], data_format='channels_first')(selfattention_features)
-            flatten = layers.Flatten()(flatten)
+        selfattention_features = Attention()(full_features)
+        print('sa {}'.format(selfattention_features.shape))
+        print('lt {}'.format(last_timesteps.shape))
+        concatenated = layers.Concatenate(axis=1)([selfattention_features, last_timesteps])
 
-        classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(flatten)
+        classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(concatenated)
 
         self._model = Mod(input_layer, classification_layer)
 
@@ -203,6 +286,10 @@ class RNNAttentionModel(Model):
             verbose=self._model_settings['verbose'],
             callbacks=self._callbacks
         )
+
+        checkpoint_path = self._get_model_checkpoint_path()
+        self.load_model_weights(x_train, checkpoint_path)
+
         self._fold += 1
         
     def predict(self, x:list) -> list:
