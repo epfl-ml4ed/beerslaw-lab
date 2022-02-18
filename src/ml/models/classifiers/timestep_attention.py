@@ -4,8 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from typing import Tuple
-from shutil import copytree
-
+from shutil import copytree, rmtree
 from ml.models.model import Model
 from extractors.sequencer.sequencing import Sequencing
 from extractors.pipeline_maker import PipelineMaker
@@ -159,10 +158,17 @@ class TimestepAttentionModel(Model):
         self._model.compile(
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
-        print('pre-weight check: {}'.format(self._model.layers[0][0][0]))
+        print('pre-weight check: {}'.format(self._model.layers[7].weights[0][0]))
         checkpoint = tf.train.Checkpoint(self._model)
-        checkpoint.restore(checkpoint_path)
-        print('post-weight check: {}'.format(self._model.layers[0][0][0]))
+
+        print(checkpoint_path)
+        # checkpoint_path += '/variables'
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+        print('post-weight check: {}'.format(self._model.layers[7].weights[0][0]))
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')
@@ -226,7 +232,15 @@ class TimestepAttentionModel(Model):
         """
         x = self._format_features(x) 
         self._init_model(x)
-        self._model.load_weights(checkpoint_path)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        checkpoint = tf.train.Checkpoint(self._model)
+
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        checkpoint.restore(checkpoint_path)
 
         
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):

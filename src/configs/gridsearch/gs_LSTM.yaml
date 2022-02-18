@@ -3,19 +3,16 @@ seed:
 batch_size:
 - 16
 cell_type:
-- LSTM
 - GRU
-- BiLSTM
 dropout:
 - 0
 early_stopping:
 - true
 epochs:
-- 50
+- 3
 loss:
 - auc
 n_cells:
-- - 16
 - - 32
 n_layers:
 - 1

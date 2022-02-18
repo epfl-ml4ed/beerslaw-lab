@@ -4,9 +4,10 @@ import pickle
 import numpy as np
 import pandas as pd
 from typing import Tuple
-from shutil import copytree
+from shutil import copytree, rmtree 
 
 from ml.models.model import Model
+from tensorflow.keras import Model as Mod
 
 import tensorflow as tf
 from tensorflow import keras
@@ -71,7 +72,7 @@ class LSTMModel(Model):
         csv_path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
         csv_path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
         csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
-        csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
+        csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs']) + '_seed' + str(self._model_settings['seed'])
         csv_path += self._notation 
         # with open(csv_path + '/architecture.pkl', 'wb') as fp:
         #     pickle.dump(self._model_settings, fp)
@@ -87,7 +88,7 @@ class LSTMModel(Model):
         path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
         path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
         path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
-        path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs'])
+        path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs']) + '_seed' + str(self._model_settings['seed'])
         path += self._notation
         path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
         return path
@@ -108,29 +109,34 @@ class LSTMModel(Model):
         self._model.compile(
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
+        print('pre-weight check: {}'.format(self._model.layers[2].weights[0][0]))
         checkpoint = tf.train.Checkpoint(self._model)
-        checkpoint.restore(checkpoint_path)
-
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+        print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
 
     def _init_model(self, x:np.array):
         # initial layers
         self._set_seed()
-        self._model = keras.Sequential()
-        self._model.add(layers.Input((x.shape[1], x.shape[2],)))
-        self._model.add(layers.Masking(mask_value=self._model_settings['padding_value']))
-        
-        # Recurrent layers
-        for l in range(int(self._model_settings['n_layers']) - 1):
-            self._model.add(self._get_rnn_layer(return_sequences=True, l=l))
-        self._model.add(self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1))
-        
-        # dropout
+
+        input_feature = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_features')
+        full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_features')(input_feature)
+
+        for l in range(int(self._model_settings['n_layers']) -1):
+            full_features = self._get_rnn_layer(return_sequences=True, l=l)(full_features)
+        full_features = self._get_rnn_layer(return_sequences=False, l=self._model_settings['n_layers'] - 1)(full_features)
+
         if self._model_settings['dropout'] != 0.0:
-            self._model.add(layers.Dropout(self._model_settings['dropout']))
-            
-        # output layer
-        self._model.add(layers.Dense(self._settings['experiment']['n_classes'], activation="softmax"))
-        
+            full_features = layers.Dropout(self._model_settings['dropout'])(full_features)
+
+        classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(full_features)
+
+        self._model = Mod(input_feature, classification_layer)
+
+
         # compiling
         cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
         auc = tf.keras.metrics.AUC(name='auc')

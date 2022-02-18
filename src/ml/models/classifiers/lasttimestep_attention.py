@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from typing import Tuple
-from shutil import copytree
+from shutil import copytree, rmtree
 
 from ml.models.model import Model
 from extractors.sequencer.sequencing import Sequencing
@@ -81,9 +81,18 @@ class LastTimestepAttentionModel(Model):
         self._model.compile(
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
+        print('pre-weight check: {}'.format(self._model.layers[7].weights[0][0]))
         checkpoint = tf.train.Checkpoint(self._model)
-        checkpoint.restore(checkpoint_path)
-    
+
+        print(checkpoint_path)
+        # checkpoint_path += '/variables'
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+        print('post-weight check: {}'.format(self._model.layers[7].weights[0][0]))
+
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
         if self._model_settings['cell_type'] == 'LSTM':
@@ -160,10 +169,14 @@ class LastTimestepAttentionModel(Model):
         self._model.compile(
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
-        print('pre-weight check: {}'.format(self._model.layers[0][0][0]))
+        print('pre-weight check: {}'.format(self._model.layers[2].weights[0][0]))
         checkpoint = tf.train.Checkpoint(self._model)
-        checkpoint.restore(checkpoint_path)
-        print('post-weight check: {}'.format(self._model.layers[0][0][0]))
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+        print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')
@@ -216,20 +229,6 @@ class LastTimestepAttentionModel(Model):
 
         print(self._model.summary())
 
-    def load_checkpoints(self, checkpoint_path:str, x:list):
-        """Sets the inner model back to the weigths present in the checkpoint folder.
-        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
-        a variables folder, and index and data checkpoint files.
-
-        Args:
-            checpoint_path (str): path to the checkpoint folder
-            x (list): partial sample of data, to format the layers
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        self._model.load_weights(checkpoint_path)
-
-        
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
         x_val, y_val = self._format(x_val, y_val)

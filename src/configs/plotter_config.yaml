@@ -1,5 +1,5 @@
 experiment:
-  name: real_nested/prior_rnn
+  name: attentions
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
