@@ -37,7 +37,7 @@ class LSTMModel(Model):
         self._fold = 0
         
     def _set_seed(self):
-        print(self._model_settings)
+        # print(self._model_settings)
         seed(self._model_settings['seed'])
         tf.random.set_seed(self._model_settings['seed'])
 
@@ -48,8 +48,8 @@ class LSTMModel(Model):
         return x_vector, y_vector
     
     def _format_features(self, x:list) -> list:
-        print(np.array(x).shape)
-        print(self._model_settings['padding_value'], self._maxlen)
+        # print(np.array(x).shape)
+        # print(self._model_settings['padding_value'], self._maxlen)
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
     
@@ -165,7 +165,7 @@ class LSTMModel(Model):
         save_best_only=True)
         self._callbacks.append(model_checkpoint_callback)
 
-        print(self._model.summary())
+        # print(self._model.summary())
 
     def load_checkpoints(self, checkpoint_path:str, x:list):
         """Sets the inner model back to the weigths present in the checkpoint folder.

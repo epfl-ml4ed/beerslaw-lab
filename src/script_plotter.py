@@ -59,8 +59,11 @@ def plot_earlyrepro(settings):
 def train_validation(settings):
     config = dict(settings)
     plotter = TrainValidationPlotter(config)
-    for metric in settings['train_validation']['metrics']:
-        plotter.plot(metric)
+    if settings['trainvalidation']:
+        for metric in settings['train_validation']['metrics']:
+            plotter.plot(metric)
+    if settings['validation_scores']:
+        plotter.print_validation_scores()
     
 def checkpoint_predictions(settings):
     plotter = CheckpointPlotter(settings)
@@ -92,7 +95,7 @@ def main(settings):
         plot_parameters_distribution(settings)
     if settings['sepparameters']:
         plot_parameters_distribution(settings)
-    if settings['trainvalidation']:
+    if settings['trainvalidation'] or settings['validation_scores']:
         train_validation(settings)
     if settings['checkpoint']:
         checkpoint_plot(settings)
@@ -123,6 +126,7 @@ if __name__ == '__main__':
     parser.add_argument('--early', dest='early', default=False, action='store_true')
     parser.add_argument('--earlyrepro', dest='earlyrepro', default=False, action='store_true')
     parser.add_argument('--trainvalidation', dest='trainvalidation', default=False, action='store_true')
+    parser.add_argument('--validationscores', dest='validation_scores', default=False, action='store_true')
     parser.add_argument('--checkpoint', dest='checkpoint', default=False, action='store_true')
     parser.add_argument('--checkpointpreds', dest='checkpointpreds', default=False, action='store_true')
     parser.add_argument('--checkpointrepro', dest='checkpointrepro', default=False, action='store_true')

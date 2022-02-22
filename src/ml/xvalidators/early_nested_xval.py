@@ -30,16 +30,16 @@ class EarlyNestedXVal(XValidator):
         XValidator (XValidators): Inherits from the model class
     """
     
-    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, gs_splitter:Splitter, outer_splitter:Splitter, sampler:Sampler, model:Model, scorer:Scorer):
+    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, gridsearch_splitter:Splitter, outer_splitter:Splitter, sampler:Sampler, model:Model, scorer:Scorer):
         super().__init__(settings, inner_splitter, model, scorer)
         self._name = 'early nested cross validator'
         self._notation = 'early_nested_xval'
         
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
-        self._inner_splitter =  inner_splitter(settings)
+        self._gs_splitter = gridsearch_splitter # To create the folds within the gridsearch from the train set 
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['outer_n_folds']
-        self._outer_splitter = outer_splitter(settings)
-        self._splitter = inner_splitter
+        self._outer_splitter = outer_splitter(settings) # to create the folds between development and test
+        
         self._sampler = sampler()
         self._scorer = scorer(settings)
         self._gridsearch = gridsearch

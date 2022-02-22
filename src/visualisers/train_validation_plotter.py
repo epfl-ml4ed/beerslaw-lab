@@ -1,5 +1,6 @@
 import os
 import re
+import pickle
 import numpy as np
 import pandas as pd
 
@@ -101,6 +102,59 @@ class TrainValidationPlotter:
         for experiment in paths:
             print(experiment)
             self._plot_shaded_folds(experiment, paths[experiment], metric)
+
+############
+
+    def _get_results(self):
+        paths= []
+        experiment_path = '../experiments/' + self._settings['experiment']['name'] + '/'
+        for (dirpath, dirnames, filenames) in os.walk(experiment_path):
+            files = [os.path.join(dirpath, file) for file in filenames]
+            paths.extend(files)
+        paths = [path for path in paths if 'supgs' in path]
+
+        results_paths = {}
+        l_re = re.compile('_l([0-9]+)_')
+        f_re = re.compile('_f([0-9]+)\.pkl')
+        for path in paths:
+            l = l_re.findall(path)[0]
+            f = f_re.findall(path)[0]
+            if l not in results_paths:
+                results_paths[l] = {}
+
+            results_paths[l][f] = path
+            print(results_paths)
+        return results_paths
+
+    def _get_trainsummary(self, results_path:str):
+        with open(results_path, 'rb') as fp:
+            results = pickle.load(fp)
+
+        parameters = results._parameters
+
+        for res_key in results._results:
+            print('- '* 30)
+            res = results._results[res_key]
+            param_str = ''
+            for param in parameters:
+                param_str += '{}: {} \n '.format(param, res[param])
+            
+            print('    {}'.format(param_str))
+            print('    mean: {}'.format(res['mean_score']))
+            print('    str: {}'.format(res['std_score']))
+
+    def print_validation_scores(self):
+        results_paths = self._get_results()
+        for l in results_paths:
+            print('*' * 100)
+            print('Validation results for timelines with length {}'.format(l))
+            for f in results_paths[l]:
+                print('-'*50)
+                print(' outer fold {}'.format(f))
+                self._get_trainsummary(results_paths[l][f])
+
+            print()
+            print()
             
 
 

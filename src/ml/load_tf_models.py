@@ -18,6 +18,11 @@ def _get_outer_inner(path:str):
 
     return outer_fold, inner_fold
 
+def _get_model(path:str):
+    model = path.split('/')
+    model = model[-3]
+    return model
+
 
 def _crawl_checkpoint_paths(experiment:str):
     """Retrieve the paths from the model checkpoints
@@ -37,9 +42,12 @@ def _crawl_checkpoint_paths(experiment:str):
     model_checkpoints = {}
     for path in paths:
         outer_fold, inner_fold = _get_outer_inner(path)
-        if outer_fold not in model_checkpoints:
-            model_checkpoints[outer_fold] = {}
-        model_checkpoints[outer_fold][inner_fold] = path
+        model = _get_model(path)
+        if model not in model_checkpoints:
+            model_checkpoints[model] = {}
+        if outer_fold not in model_checkpoints[model]:
+            model_checkpoints[model][outer_fold] = {}
+        model_checkpoints[model][outer_fold][inner_fold] = path
 
     return model_checkpoints
 
@@ -88,16 +96,17 @@ def load_all_nn(experiment:str):
     model = xval.get_model()
 
     models = {}
-    for outer_fold in paths:
-        models[outer_fold] = {}
-        for inner_fold in paths[outer_fold]:
-            models[outer_fold][inner_fold] = model(settings)
-            models[outer_fold][inner_fold].set_outer_fold(outer_fold)
-            print(paths[outer_fold][inner_fold])
-            if os.path.exists(temporary_path):
-                rmtree(temporary_path)
-            copytree(paths[outer_fold][inner_fold], temporary_path, dirs_exist_ok=True)
-            models[outer_fold][inner_fold].load_model_weights(sequences, temporary_path)
+    for model_name in paths:
+        models[model_name] = {}
+        for outer_fold in paths[model_name]:
+            models[model_name][outer_fold] = {}
+            for inner_fold in paths[model_name][outer_fold]:
+                models[model_name][outer_fold][inner_fold] = model(settings)
+                models[model_name][outer_fold][inner_fold].set_outer_fold(outer_fold)
+                if os.path.exists(temporary_path):
+                    rmtree(temporary_path)
+                copytree(paths[model_name][outer_fold][inner_fold], temporary_path, dirs_exist_ok=True)
+                models[model_name][outer_fold][inner_fold].load_model_weights(sequences, temporary_path)
 
     return models
 

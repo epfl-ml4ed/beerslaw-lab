@@ -134,6 +134,7 @@ class LastTimestepAttentionModel(Model):
         csv_path += '_drop{}_optim{}_loss{}_bs{}_ep{}'.format(
             self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'], self._model_settings['batch_size'], self._model_settings['epochs']
         )
+        csv_path += '_seed{}'.format(self._model_settings['seed'])
         os.makedirs(csv_path, exist_ok=True)
         checkpoint_path = csv_path + '/f{}_model_checkpoint'.format(self._gs_fold)
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
@@ -147,6 +148,7 @@ class LastTimestepAttentionModel(Model):
         path += '_drop{}_optim{}_loss{}_bs{}_ep{}'.format(
             self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'], self._model_settings['batch_size'], self._model_settings['epochs']
         )
+        path += '_seed{}'.format(self._model_settings['seed'])
         path += '/f{}_model_checkpoint'.format(self._gs_fold)
         return path
 
@@ -187,13 +189,13 @@ class LastTimestepAttentionModel(Model):
         for l in range(int(self._model_settings['n_layers']) -1):
             full_features = self._get_rnn_layer(return_sequences=True, l=l)(full_features)
         full_features = self._get_rnn_layer(return_sequences=True, l=self._model_settings['n_layers'] - 1)(full_features)
+        flat_features = layers.Flatten()(full_features )
 
-        last_timesteps = full_features[:, -1, :]
 
         selfattention_features = self.self_attention(full_features)
         print('sa {}'.format(selfattention_features.shape))
-        print('lt {}'.format(last_timesteps.shape))
-        concatenated = layers.Concatenate(axis=1)([selfattention_features, last_timesteps])
+        print('lt {}'.format(flat_features.shape))
+        concatenated = layers.Concatenate(axis=1)([selfattention_features, flat_features])
 
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(concatenated)
 
