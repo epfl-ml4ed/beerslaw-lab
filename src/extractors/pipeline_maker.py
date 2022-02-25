@@ -51,6 +51,7 @@ from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
 from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
 from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
+from extractors.sequencer.flat.simplestate_secondsflat import SimpleStateSecondsFlat
 
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
@@ -78,6 +79,8 @@ from extractors.sequencer.one_hot_encoded.yearlang_colourbreak import YLColourBr
 from extractors.sequencer.one_hot_encoded.yearlang_simplestate import YLSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
+
+from extractors.sequencer.capacitor.edm2021_secondslstm import BinEDM2021SecondsLSTM
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -216,6 +219,13 @@ class PipelineMaker:
             self._sequencer = ExtendedSequencing(self._settings)
             self._sequencer_path = 'extended_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'simplestate_flat':
+            self._sequencer = SimpleStateSecondsFlat(self._settings)
+            self._sequencer_path = 'simplestate_flat'
+        if self._data_settings['pipeline']['sequencer'] == 'simplestate_flat_12':
+            self._sequencer = SimpleStateSecondsFlat(self._settings)
+            self._sequencer_path = 'simplestate_flat_12'
+
         if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat':
             self._sequencer = ColourNobreakFlat(self._settings)
             self._sequencer_path = 'colournobreak_flat'
@@ -317,6 +327,13 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'ylf_colourbreak_12':
             self._sequencer = YLFColourBreakSecondsLSTM(self._settings)
             self._sequencer_path = 'ylf_colourbreak_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondsflat':
+            self._sequencer = SimpleStateSecondsFlat(self._settings)
+            self._sequencer_path = 'simplestate_secondsflat'
+        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondsflat_12':
+            self._sequencer = SimpleStateSecondsFlat(self._settings)
+            self._sequencer_path = 'simplestate_secondsflat_12'
 
         if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm':
             self._sequencer = SimpleStateSecondsLSTM(self._settings)

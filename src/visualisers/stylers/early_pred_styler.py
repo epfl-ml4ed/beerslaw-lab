@@ -49,6 +49,8 @@ class EarlyPredStyler(Styler):
             ('std', '@std')
         ], mode='mouse'))
         
+        print(glyphs)
+        print(p)
         return glyphs, p
     
     def get_individual_plot(self, data:pd.DataFrame, glyphs:dict, x:float, styler:dict, p: bokeh.models.glyphs):

@@ -9,7 +9,11 @@ early_stopping:
 - false
 epochs:
 - 50
-kvq_cells:
+key_cells:
+- 5
+value_cells:
+- 5
+query_cells:
 - 5
 loss:
 - auc
@@ -29,3 +33,6 @@ stride:
 - 25
 verbose:
 - 1
+gru_cells:
+  - 16
+  

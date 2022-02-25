@@ -1,5 +1,5 @@
 experiment:
-  name: seed_lstm/simplestate_secondslstm
+  name: flat_chemlab/flat
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
@@ -10,10 +10,10 @@ plot_style:
   colour_map: cm_algo_feature
   label_map: lm_algo_feature
   style: algo_features
-  type: errorplot # change in early pred -> lineplot
+  type: errorplot #errorplot # change in early pred -> lineplot
   boxplot_spacing: 0.4
-  radius: 0.1
-  bar_length: 0.9
+  radius: 0.01
+  bar_length: 0.2
   ncols: 4
   ystyle:
     label: roc
@@ -29,12 +29,13 @@ plot_style:
       # - simplestate
       # - simplemorestates
       # - stateaction
-      - secondslstm
-      - field
-      - language
-      - year
-      - yl_
-      - ylf
+      # - secondslstm
+      - secondsflat
+      # - field
+      # - language
+      # - year
+      # - yl_
+      # - ylf
       # - extended
       # - colourbreak_flat
       # - colournobreak_flat

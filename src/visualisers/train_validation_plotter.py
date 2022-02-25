@@ -116,13 +116,17 @@ class TrainValidationPlotter:
         results_paths = {}
         l_re = re.compile('_l([0-9]+)_')
         f_re = re.compile('_f([0-9]+)\.pkl')
+        date_re = re.compile('(.*202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
         for path in paths:
             l = l_re.findall(path)[0]
             f = f_re.findall(path)[0]
-            if l not in results_paths:
-                results_paths[l] = {}
+            date = date_re.findall(path)[0]
+            if date not in results_paths:
+                results_paths[date] = {} 
+            if l not in results_paths[date]:
+                results_paths[date][l] = {}
 
-            results_paths[l][f] = path
+            results_paths[date][l][f] = path
             print(results_paths)
         return results_paths
 
@@ -137,7 +141,7 @@ class TrainValidationPlotter:
             res = results._results[res_key]
             param_str = ''
             for param in parameters:
-                param_str += '{}: {} \n '.format(param, res[param])
+                param_str += '{}: {} * '.format(param, res[param])
             
             print('    {}'.format(param_str))
             print('    mean: {}'.format(res['mean_score']))
@@ -145,13 +149,17 @@ class TrainValidationPlotter:
 
     def print_validation_scores(self):
         results_paths = self._get_results()
-        for l in results_paths:
+        for date in results_paths:
             print('*' * 100)
-            print('Validation results for timelines with length {}'.format(l))
-            for f in results_paths[l]:
-                print('-'*50)
-                print(' outer fold {}'.format(f))
-                self._get_trainsummary(results_paths[l][f])
+            print('*' * 100)
+            print('{}'.format(date))
+            for l in results_paths[date]:
+                print('*' * 100)
+                print('Validation results for timelines with length {}'.format(l))
+                for f in results_paths[date][l]:
+                    print('-'*50)
+                    print(' outer fold {}'.format(f))
+                    self._get_trainsummary(results_paths[date][l][f])
 
             print()
             print()

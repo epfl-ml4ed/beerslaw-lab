@@ -113,8 +113,10 @@ class EarlyNestedXVal(XValidator):
         begins, sequences, ends, labels = pipeline.load_data()
         results['x'] = sequences
         results['y'] = labels
+
         self._id_dictionary = pipeline.get_id_dictionary()
         self._id_indices = [x for x in indices]
+        self._outer_splitter.set_indices(indices)
         results['id_indices'] = [x for x in indices]
         results['limit'] = self._settings['data']['adjuster']['limit']
         
@@ -126,41 +128,38 @@ class EarlyNestedXVal(XValidator):
             logging.debug('    train indices: {}'.format(train_index))
             logging.debug('    test indices: {}'.format(test_index))
             results[f] = {}
-            
-            test_indices = [indices[iid] for iid in test_index]
-            results[f]['test_indices'] = test_indices
-            
+            results[f]['train_index'] = train_index
+            results[f]['train_indices'] = [indices[idx] for idx in train_index]
+            results[f]['test_index'] = test_index
+            results[f]['test_indices'] = [indices[idx] for idx in test_index]
+
             # division train / test
             x_train = [sequences[xx] for xx in train_index]
             y_train = [labels[yy] for yy in train_index]
             indices_train = [indices[iid] for iid in train_index]
+            train_indices, x_train, y_train, short_train = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, indices_train, self._settings['ML']['pipeline']['train_pad'])
+            results[f]['longenough_train_indices'] = train_indices
+            results[f]['tooshort_train'] = short_train
             
-            test_index, x_test, y_test, short_test = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, test_indices, self._settings['ML']['pipeline']['test_pad'])
+            x_test = [sequences[xx] for xx in test_index]
+            y_test = [labels[yy] for yy in test_index]
+            indices_test = [indices[iid] for iid in test_index]
+            test_indices, x_test, y_test, short_test = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, indices_test, self._settings['ML']['pipeline']['test_pad'])
+            results[f]['longenough_test_indices'] = test_indices
+            results[f]['tooshort_test'] = short_test
             
-            # Inner loop
-            ttrain_index, val_index = self._inner_splitter.next_split(x_train, y_train)
-            val_indices = [indices_train[tti] for tti in val_index]
-            val_indices, x_val, y_val, short_val = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, val_indices, self._settings['ML']['pipeline']['val_pad'])
-            
-            train_indices = [indices_train[tti] for tti in ttrain_index]
-            train_indices, x_train, y_train, short_train = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, train_indices, self._settings['ML']['pipeline']['train_pad'])
             x_resampled, y_resampled = self._sampler.sample(x_train, y_train)
-            
-            results[f]['train_indices'] = train_indices
-            results[f]['val_indices'] = val_indices
             results[f]['x_resampled'] = x_resampled
             results[f]['y_resampled'] = y_resampled
+
+            logging.debug('lens: {}, {}'.format(len(x_train), len(x_test)))
             
             # Train
             self._init_gs()
-            #debuf
-            
-            logging.debug('lens: {}, {}, {}'.format(len(x_train), len(x_val), len(x_test)))
-            if len(x_resampled) < self._n_folds or len(x_val) == 0:
+            if len(x_resampled) < self._n_folds:
                 continue
-            self._gs.fit(x_resampled, y_resampled, x_val, y_val, f)
-            
-            # Predict
+
+            self._gs.fit(x_resampled, y_resampled, f)
             if len(x_test) == 0:
                 print(self._settings['data']['adjuster']['limit'])
                 continue

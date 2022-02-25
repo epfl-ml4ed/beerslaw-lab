@@ -18,6 +18,9 @@ from ml.models.classifiers.prior_lstmcnn import PriorLSTMCNNModel
 from ml.models.classifiers.cnnlstm import CNNLSTMModel
 from ml.models.classifiers.prior_cnnlstm import PriorCNNLSTMModel
 from ml.models.classifiers.ssan import SSANModel
+from ml.models.classifiers.stateaction_ssan import SASSANModel
+from ml.models.classifiers.ssanlstm import SSANLSTMModel
+from ml.models.classifiers.stateaction_ssanlstm import SASSANLSTMModel
 from ml.models.classifiers.prior_ssan import PriorSSANModel
 from ml.models.classifiers.prior_lstm import PriorLSTMModel
 from ml.models.classifiers.rnn_attention import RNNAttentionModel
@@ -44,6 +47,7 @@ from ml.xvalidators.unsup_nested_xval import UnsupNestedXVal
 from ml.xvalidators.early_nested_xval import EarlyNestedXVal
 from ml.xvalidators.checkpoint_xval import CheckpointXVal
 from ml.xvalidators.ranking_xval import RankingXVal
+from ml.xvalidators.ranking_early_nested_xval import RankingEarlyNestedXVal
 
 from ml.gridsearches.gridsearch import GridSearch
 from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
@@ -201,6 +205,16 @@ class XValMaker:
             elif self._pipeline_settings['model'] == 'prior_ssan':
                 self._model = PriorSSANModel
                 gs_path = './configs/gridsearch/gs_ssan.yaml'
+            elif self._pipeline_settings['model'] == 'sassan':
+                self._model = SASSANModel
+                gs_path = './configs/gridsearch/gs_ssan.yaml'
+            elif self._pipeline_settings['model'] == 'ssanlstm':
+                self._model = SSANLSTMModel
+                gs_path = './configs/gridsearch/gs_ssan.yaml'
+            elif self._pipeline_settings['model'] == 'sassanlstm':
+                self._model = SASSANLSTMModel
+                gs_path = './configs/gridsearch/gs_ssan.yaml'
+
                 
             with open(gs_path, 'r') as fp:
                 gs = yaml.load(fp, Loader=yaml.FullLoader)
@@ -238,6 +252,9 @@ class XValMaker:
         if self._pipeline_settings['xvalidator'] == 'ranking_xval':
             self._choose_gridsearcher()
             self._xval = RankingXVal
+        if self._pipeline_settings['xvalidator'] == 'ranking_earlynested':
+            self._choose_gridsearcher()
+            self._xval = RankingEarlyNestedXVal
         self._xval = self._xval(self._settings, self._gridsearch, self._inner_splitter, self._gs_splitter, self._outer_splitter, self._sampler, self._model, self._scorer)
                 
     def _build_pipeline(self):

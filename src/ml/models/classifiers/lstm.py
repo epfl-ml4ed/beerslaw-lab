@@ -165,7 +165,7 @@ class LSTMModel(Model):
         save_best_only=True)
         self._callbacks.append(model_checkpoint_callback)
 
-        # print(self._model.summary())
+        print(self._model.summary())
 
     def load_checkpoints(self, checkpoint_path:str, x:list):
         """Sets the inner model back to the weigths present in the checkpoint folder.

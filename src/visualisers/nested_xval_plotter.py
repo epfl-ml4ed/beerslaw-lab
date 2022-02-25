@@ -111,6 +111,7 @@ class NestedXValPlotter:
         boxplot['upper'] = [upper]
         boxplot['lower'] = [lower]
         
+        print(dots_df)
         return dots_df, set(list(params)), boxplot
     
     def _create_reproduction_dataframes(self, df):
@@ -287,6 +288,7 @@ class NestedXValPlotter:
     def plot_separate_parameters(self):
         dots, parameters, boxplots = [], [], []
         xvs = self._crawl()
+        print(xvs)
         xvs, x_axis = self._styler.get_x_styling(xvs)
         plot_styling = self._styler.get_plot_styling(x_axis['paths'])
         for i, path in enumerate(x_axis['paths']):
@@ -305,6 +307,7 @@ class NestedXValPlotter:
         dots, parameters, boxplots = [], [], []
         xvs = self._crawl()
         xvs, x_axis = self._styler.get_x_styling(xvs)
+        print(x_axis)
         plot_styling = self._styler.get_plot_styling(x_axis['paths'])
         for path in x_axis['paths']:
             xv = xvs[path]['data']

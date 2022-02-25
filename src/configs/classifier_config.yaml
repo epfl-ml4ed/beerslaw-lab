@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: binconcepts
-  root_name: test_cnnlstm
+  root_name: test_early
   name: blank
   old_root_name: blank
   random_seed: 129
@@ -38,6 +38,11 @@ data:
         - aveagg
   adjuster:
     limit: 900
+    limits:
+      - 10
+      - 30
+      - 60
+      - 90
   filters:
     interactionlimit: 10
 ML:
@@ -48,7 +53,7 @@ ML:
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: ranking_xval
+    xvalidator: ranking_earlynested
     scorer: 2clfscorer
     gridsearch: permgs
     test_pad: False

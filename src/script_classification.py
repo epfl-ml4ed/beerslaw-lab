@@ -60,6 +60,48 @@ def full_prediction_classification(settings):
     with open(config_path, 'wb') as fp:
         pickle.dump(settings, fp)
 
+
+def early_prediction_classification(settings):
+    """Uses the config settings to:
+    - decides what simulation to use
+    - how to process the data
+        - action count: 1hot + aveagg
+        - action span: actionspan + normagg
+    - how to conduct the nested cross validation
+    
+    Args:
+        settings: config flag + arguments
+    """
+    # settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
+    settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
+    cfg_handler = ConfigHandler(settings)
+    settings = cfg_handler.handle_settings()
+    log_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/training_logs.txt'
+    logging.basicConfig(
+        filename=log_path,
+        level=logging.DEBUG, 
+        format='', 
+        datefmt=''
+    )
+
+    config = dict(settings)
+    for l in settings['data']['adjuster']['limits']:
+        config['data']['adjuster']['limit'] = l        
+        logging.info('Creating the data')
+        pipeline = PipelineMaker(config)
+        sequences, labels, indices, id_dictionary = pipeline.build_data()
+        config['id_dictionary'] = id_dictionary
+
+        print('Starting with {} sequences!'.format(len(sequences)))
+
+        xval = XValMaker(config)
+        logging.info('training! ')
+        xval.train(sequences, labels, indices)
+
+        config_path = '../experiments/' + config['experiment']['root_name'] + config['experiment']['name'] + '/l_{}config.yaml'.format(l)
+        with open(config_path, 'wb') as fp:
+            pickle.dump(config, fp)
+
 def full_prediction_classification_comparison(settings):
     enc_adj_pairs = settings['data']['pipeline']['encoders_aggregators_pairs']
     models = settings['ML']['pipeline']['models']
@@ -174,7 +216,7 @@ def full_prediction_skipgram_comparison(settings):
             logging.info('training! ')
             xval.train(sequences, labels, indices)
 
-def early_prediction_classification(settings):
+def early_prediction_classification_bis(settings):
     enc_adj_pairs = settings['data']['pipeline']['encoders_aggregators_pairs']
     models = settings['ML']['pipeline']['models']
     limits = settings['data']['adjuster']['limits']
@@ -390,6 +432,15 @@ def main(settings):
             settings['classification'] = False
             settings['classification_comparison'] = True
         
+        if 'simplestate_secondsflat'in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['classification'] = False
+            settings['classification_comparison'] = True
+        
         if 'stateaction_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'
             settings['data']['pipeline']['aggregator'] = 'minmax'
@@ -518,6 +569,9 @@ def main(settings):
     if settings['classification']:
         full_prediction_classification(settings)
         
+    if settings['early_clf']:
+        early_prediction_classification(settings)
+
     if settings['classification_comparison']:
         full_prediction_classification_comparison(settings)
         
@@ -540,9 +594,10 @@ if __name__ == '__main__':
     # actions
     parser.add_argument('--test', dest='test', default=False, help='testing method', action='store_true')
     parser.add_argument('--full', dest='classification', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
+    parser.add_argument('--early', dest='early_clf', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--fullcombinations', dest='classification_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--sgcomparison', dest='skipgram_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
-    parser.add_argument('--early', dest='early_prediction', default=False, help='train on the wanted features and algorithm combinations for the classification task at different time steps', action='store_true')
+    parser.add_argument('--earlypreds', dest='early_prediction', default=False, help='train on the wanted features and algorithm combinations for the classification task at different time steps', action='store_true')
     parser.add_argument('--checkpoint', dest='checkpoint', default=False, help='loads the tensorflow models to make predictions on the best validation models', action='store_true')
     
     # settings

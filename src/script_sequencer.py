@@ -21,6 +21,7 @@ from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
 from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
 from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
+from extractors.sequencer.flat.simplestate_secondsflat import SimpleStateSecondsFlat
 
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
@@ -106,7 +107,8 @@ def sequence_simulations(settings):
         'yl_colourbreak': YLColourBreakSecondsLSTM,
         'yl_simplestate': YLSimpleStateSecondsLSTM,
         'ylf_colourbreak': YLFColourBreakSecondsLSTM,
-        'ylf_simplestate': YLFSimpleStateSecondsLSTM
+        'ylf_simplestate': YLFSimpleStateSecondsLSTM,
+        'simplestate_secondsflat': SimpleStateSecondsFlat
     }
     settings['data'] = {
         'pipeline': {

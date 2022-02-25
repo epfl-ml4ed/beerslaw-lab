@@ -7,6 +7,8 @@ import numpy as np
 import pandas as pd
 from typing import Tuple
 
+from wcwidth import wcswidth
+
 from ml.gridsearches.gridsearch import GridSearch
 
 import bokeh
@@ -40,7 +42,10 @@ class EarlyPredPlotter:
             xval_path.extend(files)
         kw = self._settings['experiment']['keyword']
         xval_path = [xval for xval in xval_path if kw in xval]
-        print('xval', xval_path)
+        print('* paths *')
+        for path in xval_path:
+            print(path)
+        print()
         
         nf = []
         for path in xval_path:
@@ -55,12 +60,10 @@ class EarlyPredPlotter:
         for xv in xval_path:
             path, l = self._process_path(xv)
             regex = re.compile('([0-9]+classes)')
-            cl = regex.findall(path)[0]
-            if cl in self._settings['plot_style']['xstyle']['groups']:
-                with open(xv, 'rb') as fp:
-                    if path not in xvs:
-                        xvs[path] = {}
-                    xvs[path][l] = pickle.load(fp)
+            with open(xv, 'rb') as fp:
+                if path not in xvs:
+                    xvs[path] = {}
+                xvs[path][l] = pickle.load(fp)
         return xvs
     
     def _crawl_reproduction(self):# crawl paths
@@ -79,20 +82,17 @@ class EarlyPredPlotter:
                     
        
     def _create_lineframes(self, xvals: dict):
-        if self._settings['plot_style']['carry_on']:
-            score_key = 'carry_on_scores'
-        else:
-            score_key = 'scores'
         xs = []
         means = []
         stds = []
         for length in xvals:
             folds = []
             for fold in xvals[length]:
-                if fold != 'x' and fold != 'y' and fold != 'optim_scoring':
-                    if score_key not in xvals[length][fold]:
-                        continue
-                    folds.append(xvals[length][fold][score_key][self._settings['plot_style']['measure']])
+                if fold != 'x' and fold != 'y' and fold != 'optim_scoring' and fold != 'id_indices' and fold != 'limit':
+                    if self._settings['plot_style']['carry_on']:
+                        folds.append(xvals[length][fold]['carry_on_scores'][self._settings['plot_style']['measure']])
+                    else:
+                        folds.append(xvals[length][fold][self._settings['plot_style']['measure']])
             xs.append(length)
             means.append(np.mean(folds))
             stds.append(np.std(folds))
@@ -134,6 +134,7 @@ class EarlyPredPlotter:
         }
         
         p = self._styler.init_figure(data[0]['x'])
+        print('data', data)
         
         for i in range(len(data)):
             colour = plot_styling['colours'][i]
@@ -146,6 +147,7 @@ class EarlyPredPlotter:
             # print(i)
             # print(styler)
             # print(p)
+            # print()
             glyphs, p = self._styler.get_individual_plot(data[i], glyphs, i, styler, p)
         self._styler.add_legend(plot_styling, p)
         self._save(p)
@@ -158,10 +160,9 @@ class EarlyPredPlotter:
         
         datas = []
         for path in xvs:
-                data = self._create_lineframes(xvs[path])
-                data['name'] = path
-                datas.append(data)
-                print(path)
+            data = self._create_lineframes(xvs[path])
+            data['name'] = path
+            datas.append(data)
         self._multiple_plots(datas, plot_styling)
         
     def plot_reproduction(self):
@@ -184,6 +185,7 @@ class EarlyPredPlotter:
             print(path)
             
         self._multiple_plots(datas, plot_styling)
+        
         
             
         

@@ -60,9 +60,6 @@ class PriorLSTMModel(Model):
         return x_vector
 
     def _format_prior_features(self, x):
-        # priors = [[p[:self._prior_states] for p in pp] for pp in x]
-        # features = [[f[self._prior_states:] for f in ff] for ff in x]
-        # [x_train[:, :, 45:], x_train[:, 0, :45]]
         priors = x[:, :, :self._prior_states]
         features = x[:, :, self._prior_states:]
         return priors, features

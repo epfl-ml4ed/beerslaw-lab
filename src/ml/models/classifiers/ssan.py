@@ -24,7 +24,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from numpy.random import seed
 
 class SSANModel(Model):
-    """This class implements an CNN-LSTM as described in "Self-Attention: A Better Building Block for Sentiment Analysis Neural Network Classifiers"
+    """This class implements SSAN as described in "Self-Attention: A Better Building Block for Sentiment Analysis Neural Network Classifiers"
     by Artaches Ambartsoumian Fred Popowich [https://arxiv.org/pdf/1812.07860.pdf]
 
         Notion link to the details of the implementation:
@@ -59,8 +59,9 @@ class SSANModel(Model):
     
     def _get_csvlogger_path(self) -> str:
         csv_path = '../experiments/{}{}/{}/logger/ssan/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
-        csv_path += 'seed{}_kvqcells{}_poolsize{}_stride{}_padding{}'.format(
-            self._model_settings['seed'], self._model_settings['kvq_cells'], self._model_settings['pool_size'],
+        csv_path += 'seed{}_key{}_value{}_query{}_poolsize{}_stride{}_padding{}'.format(
+            self._model_settings['seed'], self._model_settings['key_cells'], self._model_settings['value_cells'], self._model_settings['query_cells'],
+            self._model_settings['pool_size'],
             self._model_settings['stride'], self._model_settings['padding']
         )
         csv_path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
@@ -74,8 +75,9 @@ class SSANModel(Model):
 
     def _get_model_checkpoint_path(self) -> str:
         path = '../experiments/{}{}/{}/logger/ssan/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
-        path += 'seed{}_kvqcells{}_poolsize{}_stride{}_padding{}'.format(
-            self._model_settings['seed'], self._model_settings['kvq_cells'], self._model_settings['pool_size'],
+        path += 'seed{}_key{}_value{}_query{}_poolsize{}_stride{}_padding{}'.format(
+            self._model_settings['seed'], self._model_settings['key_cells'], self._model_settings['value_cells'], self._model_settings['query_cells'],
+            self._model_settings['pool_size'],
             self._model_settings['stride'], self._model_settings['padding']
         )
         path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
@@ -93,9 +95,9 @@ class SSANModel(Model):
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
         # Creating Key, Value, Query
-        key_layer = layers.Dense(self._model_settings['kvq_cells'])(full_features)
-        value_layer = layers.Dense(self._model_settings['kvq_cells'])(full_features)
-        query_layer = layers.Dense(self._model_settings['kvq_cells'])(full_features)
+        key_layer = layers.Dense(self._model_settings['key_cells'])(full_features)
+        value_layer = layers.Dense(self._model_settings['value_cells'])(full_features)
+        query_layer = layers.Dense(self._model_settings['query_cells'])(full_features)
 
         # Attention layer
         attention_layer = layers.AdditiveAttention()([query_layer, value_layer, key_layer])
