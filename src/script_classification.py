@@ -135,11 +135,11 @@ def full_prediction_classification_comparison(settings):
             cfg_handler = ConfigHandler(config)
             config = cfg_handler.handle_newpair(config['experiment']['name'])
             
-            
             logging.info('Creating the data')
             pipeline = PipelineMaker(config)
             sequences, labels, indices, id_dictionary = pipeline.build_data()
-            lengths = [len(s) for s in sequences]
+            print('SEQUENCES')
+            print(len(sequences))
             config['id_dictionary'] = id_dictionary
 
             print('Starting with {} sequences!'.format(len(sequences)))
@@ -386,6 +386,8 @@ def test(settings):
 
 def main(settings):
     # Argument
+    if settings['outerfold_index'] != '':
+        settings['ML']['pipeline']['outerfold_index'] = settings['outerfold_index']
     if settings['sequencer'] != '':
         settings['data']['pipeline']['sequencer'] = settings['sequencer']
         settings['experiment']['root_name'] += '/' + settings['sequencer']
@@ -607,6 +609,7 @@ if __name__ == '__main__':
     parser.add_argument('--skipgram', dest='skipgram', default='', help='0 or 1', action='store')
     parser.add_argument('--models', dest='models', default='', help='rf, sknn, svc, sgd, knn, or adaboost', action='store')
     parser.add_argument('--model', dest='model', default='', help='rf, sknn, svc, sgd, knn, or adaboost', action='store')
+    parser.add_argument('--outerfoldindex', dest='outerfold_index', default='', help='0 to 10', action='store')
     parser.add_argument('--fulltime', dest='fulltime', default=False, action='store_true')
     parser.add_argument('--scrop', dest='scrop', default=False, action='store_true')
 

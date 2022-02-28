@@ -98,6 +98,9 @@ class RankingXVal(XValidator):
         self._outer_splitter.set_indices(indices)
         rankings = self._get_y_to_rankings(indices)
         for f, (train_index, test_index) in enumerate(self._outer_splitter.split(x, rankings)):
+
+            if f != self._settings['ML']['pipeline']['outerfold_index'] and self._settings['ML']['pipeline']['outerfold_index'] != -10:
+                continue
             logging.debug('outer fold, length train: {}, length test: {}'.format(len(train_index), len(test_index)))
             logging.debug('outer fold: {}'.format(f))
             logging.info('- ' * 30)
@@ -136,9 +139,8 @@ class RankingXVal(XValidator):
             
             # Train
             self._init_gs(f, results[f]['oversample_indices'])
-            #debuf
             self._gs.fit(x_resampled, y_resampled, f)
-            
+
             # Predict
             y_pred = self._gs.predict(x_test)
             y_proba = self._gs.predict_proba(x_test)

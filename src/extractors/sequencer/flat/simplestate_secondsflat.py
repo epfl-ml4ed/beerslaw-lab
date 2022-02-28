@@ -235,6 +235,12 @@ class SimpleStateSecondsFlat(Sequencing):
             new_labels.append(feature)
             # print(lab, instant_vector)
 
+            if i+1 < len(labels):
+                if begins[i + 1] - ends[i] > self._break_minimum:
+                    new_begins.append(ends[i])
+                    new_ends.append(begins[i+1])
+                    feature = self._fill_vector([m_obs, sv, wl, rm, 'break'], begins[i+1] - ends[i])
+                    new_labels.append(feature)
         return new_labels, new_begins, new_ends
     
     def _process_solution(self, solution_values: list):

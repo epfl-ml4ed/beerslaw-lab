@@ -38,22 +38,18 @@ data:
         - aveagg
   adjuster:
     limit: 900
-    limits:
-      - 10
-      - 30
-      - 60
-      - 90
   filters:
     interactionlimit: 10
 ML:
   pipeline:
+    outerfold_index: -10
     gs_splitter: stratkf
     inner_splitter: stratkf
     outer_splitter: flatstrat
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: ranking_earlynested
+    xvalidator: rankingseed
     scorer: 2clfscorer
     gridsearch: permgs
     test_pad: False

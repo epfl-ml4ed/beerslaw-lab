@@ -1,25 +1,25 @@
 experiment:
-  name: flat_chemlab/flat
+  name: flat_chemlab/final
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Results for the Binary classifiers (LSTM no attention demographics) [ROC]
+  title: Full predictions For Beers' Law Lab (LSTM and State-Action features)
   measure: roc
-  carry_on: True
+  carry_on: False
   sizing_mode: stretch_both
   colour_map: cm_algo_feature
   label_map: lm_algo_feature
   style: algo_features
   type: errorplot #errorplot # change in early pred -> lineplot
   boxplot_spacing: 0.4
-  radius: 0.01
-  bar_length: 0.2
+  radius: 0.005
+  bar_length: 0.05
   ncols: 4
   ystyle:
     label: roc
     range:
-      - 0
-      - 1.2
+      - 0.5
+      - 1
   xstyle:
     label: classes
     type: groups # change in earlypred
@@ -30,7 +30,7 @@ plot_style:
       # - simplemorestates
       # - stateaction
       # - secondslstm
-      - secondsflat
+      - binconcepts
       # - field
       # - language
       # - year

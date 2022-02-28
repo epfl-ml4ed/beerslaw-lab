@@ -1,0 +1,108 @@
+---
+paths:
+  sequenced_simulations: '../data/sequenced_simulations/'
+experiment:
+  class_name: binconcepts
+  root_name: test_early
+  name: blank
+  old_root_name: blank
+  random_seed: 129
+  n_folds: blank
+  n_classes: 2
+data:
+  min_length: 0
+  pipeline:
+    sequencer: blank
+    sequencer_interval: 5
+    sequencer_dragasclick: True
+    concatenator:
+      type: chemconcat
+      tasks: 
+        # - '1'
+        - '2'
+    demographic_filter: chemlab
+    event_filter: nofilt
+    break_filter: blank
+    break_threshold: 0.6
+    adjuster: full
+    encoder: blank
+    skipgram_weights: ''
+    skipgram_map: ''
+    aggregator: blank
+    encoders_aggregators_pairs:
+      1:
+        - actionspan
+        - normagg
+      2:
+        - 1hot
+        - aveagg
+  adjuster:
+    limit: 900
+    limits:
+      - 10
+      - 30
+      - 60
+      - 90
+  filters:
+    interactionlimit: 10
+ML:
+  pipeline:
+    gs_splitter: stratkf
+    inner_splitter: stratkf
+    outer_splitter: flatstrat
+    sampler: nosplr
+    task: classification
+    model: rnn_attention
+    xvalidator: 
+    scorer: 2clfscorer
+    gridsearch: permgs
+    test_pad: False
+    val_pad: False
+    train_pad: True
+    models:
+      - rf
+      # - 1nn
+      # - adaboost
+  permutation:
+    label_map: vector_labels
+  models:
+    classifiers:
+      lstm:
+        dummy_parameters:
+          blank
+      rf:
+        dummy_parameters:
+          blank
+      1nn:
+        dummy_parameters:
+          blank
+      cnnlstm:
+        dummy_parameters:
+          blank
+      ssan:
+        dummy_parameters:
+          blank
+  splitters:
+    n_folds: 2
+    stratkf:
+      shuffle: True
+      stratifier_col: y
+    flatstrat:
+      test_path: '../data/experiment_keys/flatstrat_testusernames.pkl'
+      train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
+  xvalidators:
+    nested_xval:
+      inner_n_folds: 2
+      outer_n_folds: 1
+      optim_scoring: roc
+  scorers:
+    scoring_metrics:
+      - accuracy
+      - balanced_accuracy
+      - precision
+      - recall
+      - roc
+      - balanced_auc
+      - overall_auc
+    carry_on: True
+...

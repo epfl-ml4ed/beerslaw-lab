@@ -178,6 +178,7 @@ class RankingEarlyNestedXVal(XValidator):
             results[f]['longenough_test_indices'] = [indices[idx] for idx in test_index]
             results[f]['tooshort_test'] = short_test
             results[f]['tooshort_testindices'] = [indices[idx] for idx in short_test]
+            results[f]['longenough_y_test'] = y_test
             
             x_resampled, y_resampled = self._sampler.sample(x_train, y_train)
             results[f]['x_resampled'] = x_resampled
@@ -185,21 +186,21 @@ class RankingEarlyNestedXVal(XValidator):
             results[f]['oversample_indexes'] = self._sampler.get_indices()
             results[f]['oversample_indices'] = [results[f]['train_indices'][idx] for idx in results[f]['oversample_indexes']]
 
-            logging.debug('lens: {}, {}'.format(len(x_train), len(x_test)))
-            print(self._settings['data']['adjuster']['limit'])
-            print(len(train_index), len(test_index))
-            print(np.array(x_train[0]).shape, np.array(x_test[0]).shape)
-            print(x_train[0])
-            
             # Train
             self._init_gs(f, results[f]['oversample_indices'])
-            if len(x_resampled) < self._xval_settings['nested_xval']['inner_n_folds']:
+            if len(x_resampled) < self._xval_settings['nested_xval']['inner_n_folds'] or len(x_test) == 0:
                 continue
 
             self._gs.fit(x_resampled, y_resampled, f)
             if len(x_test) == 0:
                 print(self._settings['data']['adjuster']['limit'])
                 continue
+                
+            logging.debug('lens: {}, {}'.format(len(x_train), len(x_test)))
+            print(self._settings['data']['adjuster']['limit'])
+            print(len(train_index), len(test_index))
+            print(np.array(x_train[0]).shape, np.array(x_test[0]).shape)
+            print(x_train[0])
             
             y_pred = self._gs.predict(x_test)
             y_proba = self._gs.predict_proba(x_test)

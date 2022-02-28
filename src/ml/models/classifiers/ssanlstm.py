@@ -44,7 +44,7 @@ class SSANLSTMModel(Model):
         
     def _set_seed(self):
         print(self._model_settings)
-        seed(self._model_settings['seed'])
+        # seed(self._model_settings['seed'])
         tf.random.set_seed(self._model_settings['seed'])
 
     def _format(self, x:list, y:list) -> Tuple[list, list]:
