@@ -4,17 +4,17 @@ attention:
 batch_size:
 - 64
 dropout:
-- 0.2
+- 0.02
 early_stopping:
 - false
 epochs:
 - 50
 key_cells:
-- 5
+- 8
 value_cells:
-- 5
+- 8
 query_cells:
-- 5
+- 8
 loss:
 - auc
 optimiser:
@@ -24,15 +24,17 @@ padding:
 padding_value:
 - -1
 pool_size:
-- 50
+- 64
 seed:
 - 193
 shuffle:
 - true
 stride:
-- 25
+- 32
+- 64
 verbose:
 - 1
 gru_cells:
   - 16
+  - 32
   
