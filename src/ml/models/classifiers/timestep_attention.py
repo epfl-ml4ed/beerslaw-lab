@@ -158,7 +158,7 @@ class TimestepAttentionModel(Model):
         self._model.compile(
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
-        print('pre-weight check: {}'.format(self._model.layers[7].weights[0][0]))
+        # print('pre-weight check: {}'.format(self._model.layers[2].weights[0][0]))
         checkpoint = tf.train.Checkpoint(self._model)
 
         print(checkpoint_path)
@@ -168,7 +168,7 @@ class TimestepAttentionModel(Model):
             rmtree(temporary_path)
             copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
         checkpoint.restore(temporary_path)
-        print('post-weight check: {}'.format(self._model.layers[7].weights[0][0]))
+        # print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
 
     def _init_model(self, x:np.array):
         print('Initialising prior model')

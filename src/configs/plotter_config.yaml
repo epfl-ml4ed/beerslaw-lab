@@ -3,7 +3,7 @@ experiment:
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Full predictions For Beers' Law Lab (LSTM and State-Action features)
+  title: Full Predictions For Beer's Law Lab (RF and flat features)
   measure: roc
   carry_on: False
   sizing_mode: stretch_both
@@ -24,13 +24,14 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
+      - binconcepts
       # - colourbreak
       # - colournobreak
       # - simplestate
       # - simplemorestates
       # - stateaction
       # - secondslstm
-      - binconcepts
+      # - binconcepts
       # - field
       # - language
       # - year
