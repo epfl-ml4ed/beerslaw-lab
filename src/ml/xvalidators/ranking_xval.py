@@ -98,9 +98,6 @@ class RankingXVal(XValidator):
         self._outer_splitter.set_indices(indices)
         rankings = self._get_y_to_rankings(indices)
         for f, (train_index, test_index) in enumerate(self._outer_splitter.split(x, rankings)):
-
-            if f != self._settings['ML']['pipeline']['outerfold_index'] and self._settings['ML']['pipeline']['outerfold_index'] != -10:
-                continue
             logging.debug('outer fold, length train: {}, length test: {}'.format(len(train_index), len(test_index)))
             logging.debug('outer fold: {}'.format(f))
             logging.info('- ' * 30)
@@ -112,6 +109,9 @@ class RankingXVal(XValidator):
             results[f]['train_indices'] = [indices[idx] for idx in train_index]
             results[f]['test_index'] = test_index
             results[f]['test_indices'] = [indices[idx] for idx in test_index]
+            print(test_index)
+            if f != self._settings['ML']['pipeline']['outerfold_index'] and self._settings['ML']['pipeline']['outerfold_index'] != -10:
+                continue
             
             # division train / test
             x_train = [x[xx] for xx in train_index]
@@ -128,7 +128,7 @@ class RankingXVal(XValidator):
             results[f]['y_resampled'] = y_resampled
 
             logging.debug('  * data format: x [{}], y [{}]'.format(np.array(x_resampled).shape, np.array(y_resampled).shape))
-            print(x_resampled)
+            #print(x_resampled)
 
             logging.debug('  * data details, mean: {};{} - std {};{}'.format(
                 np.mean([np.mean(idx) for idx in x_resampled]),

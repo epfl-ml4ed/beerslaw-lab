@@ -1,5 +1,5 @@
 experiment:
-  name: flat_chemlab/final
+  name: to_sort/partial/chemlab-ssanlstm
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:

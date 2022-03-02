@@ -5,15 +5,17 @@ batch_size:
 cell_type:
 - GRU
 dropout:
-- 0
+- 0.02
+- 0.04
 early_stopping:
-- true
+- False
 epochs:
-- 1
+- 150
 loss:
 - auc
 n_cells:
 - - 32
+- - 64
 n_layers:
 - 1
 optimiser:

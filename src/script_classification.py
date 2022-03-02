@@ -440,8 +440,9 @@ def main(settings):
                     1: ['actionspan', 'normagg']
                 }
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['classification'] = False
-            settings['classification_comparison'] = True
+            if settings['classification']:
+                settings['classification'] = False
+                settings['classification_comparison'] = True
         
         if 'stateaction_secondslstm' in settings['sequencer']:
             settings['data']['pipeline']['break_filter'] = 'cumulseconds'

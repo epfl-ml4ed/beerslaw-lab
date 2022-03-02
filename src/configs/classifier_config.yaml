@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: binconcepts
-  root_name: chemlab--early-
+  root_name: chemlab--seed-
   name: blank
   old_root_name: blank
   random_seed: 129
@@ -37,21 +37,21 @@ data:
         - 1hot
         - aveagg
   adjuster:
-    limit: -1
+    limit: 900
     limits: 
       - 10
   filters:
     interactionlimit: 10
 ML:
   pipeline:
-    outerfold_index: -10
+    outerfold_index: -11
     gs_splitter: stratkf
     inner_splitter: stratkf
     outer_splitter: stratkf
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: rankingseed_early
+    xvalidator: ranking_xval
     scorer: 2clfscorer
     gridsearch: permgs
     test_pad: False

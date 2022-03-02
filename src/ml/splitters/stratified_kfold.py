@@ -35,11 +35,13 @@ class StratifiedKSplit(Splitter):
             self._n_folds = 2
             
         else:
+            print('random seed', self._random_seed)
             self._splitter = StratifiedKFold(
                 n_splits=self._n_folds,
                 random_state=self._random_seed,
                 shuffle=self._splitter_settings['shuffle']
                 )
+            print(self._splitter)
             # logging.debug('splitter', self._splitter)
         
     def split(self, x:list, y:list) -> Tuple[list, list]:
