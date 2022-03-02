@@ -106,7 +106,7 @@ def full_prediction_classification_comparison(settings):
     enc_adj_pairs = settings['data']['pipeline']['encoders_aggregators_pairs']
     models = settings['ML']['pipeline']['models']
     settings = dict(settings)
-    settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
+    #settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_experiment_name()
     settings['experiment']['base_name'] = settings['experiment']['root_name'] + '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
@@ -114,7 +114,7 @@ def full_prediction_classification_comparison(settings):
     log_path = '../experiments/' + settings['experiment']['root_name'] + '/full_sequence_training_logs.txt'
     logging.basicConfig(
         filename=log_path,
-        level=logging.INFO, 
+        level=logging.DEBUG, 
         format='', 
         datefmt=''
     )
@@ -147,7 +147,7 @@ def full_prediction_classification_comparison(settings):
             xval = XValMaker(config)
             logging.info('training! ')
             xval.train(sequences, labels, indices)
-            config_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/config.yaml'
+            config_path = '../experiments/' + settings['experiment']['root_name'] + '/' + settings['experiment']['name'] + '/config.yaml'
             with open(config_path, 'wb') as fp:
                 pickle.dump(settings, fp)
             
@@ -178,7 +178,7 @@ def full_prediction_skipgram_comparison(settings):
     settings['data']['pipeline']['encoder'] = 'sgenc'
     settings['data']['pipeline']['aggregator'] = 'cumulaveagg'
     settings = dict(settings)
-    settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
+    # settings['ML']['pipeline']['xvalidator'] = 'nested_xval'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_experiment_name()
     settings['experiment']['base_name'] = settings['experiment']['root_name']
