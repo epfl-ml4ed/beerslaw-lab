@@ -651,7 +651,7 @@ class PipelineMaker:
         return begins, sequences, ends, labels, indices
         
         
-    def build_partial_sequence(self, begins:list, x:list, ends:list, y:list, indices: list, pad: bool) -> Tuple[list, list, list, list]:
+    def build_partial_sequence(self, begins:list, x:list, ends:list, y:list, indexes: list, pad: bool) -> Tuple[list, list, list, list]:
         """[summary]
 
         Args:
@@ -674,9 +674,9 @@ class PipelineMaker:
         
         new_x = []
         new_y = []
-        new_indices = []
+        new_indexes = []
         too_short = []
-        for index in indices:
+        for index in indexes:
             length = len(x[index])
             if not pad and length < self._data_settings['adjuster']['limit']:
                 too_short.append(index)
@@ -686,9 +686,9 @@ class PipelineMaker:
             seq = self._aggregator.aggregate(seq)
             new_x.append(seq)
             new_y.append(y[index])
-            new_indices.append(index)
+            new_indexes.append(index)
             
-        return new_indices, new_x, new_y, too_short
+        return new_indexes, new_x, new_y, too_short
     
     def save_sequences(self, sequences:list):
         with open(self._features_path, 'wb') as fp:

@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: binconcepts
-  root_name: test_early
+  root_name: chemlab--early-
   name: blank
   old_root_name: blank
   random_seed: 129
@@ -37,7 +37,9 @@ data:
         - 1hot
         - aveagg
   adjuster:
-    limit: 900
+    limit: -1
+    limits: 
+      - 10
   filters:
     interactionlimit: 10
 ML:
@@ -45,11 +47,11 @@ ML:
     outerfold_index: -10
     gs_splitter: stratkf
     inner_splitter: stratkf
-    outer_splitter: flatstrat
+    outer_splitter: stratkf
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: rankingseed
+    xvalidator: rankingseed_early
     scorer: 2clfscorer
     gridsearch: permgs
     test_pad: False
@@ -88,8 +90,8 @@ ML:
       train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
   xvalidators:
     nested_xval:
-      inner_n_folds: 2
-      outer_n_folds: 1
+      inner_n_folds: 10
+      outer_n_folds: 10
       optim_scoring: roc
   scorers:
     scoring_metrics:

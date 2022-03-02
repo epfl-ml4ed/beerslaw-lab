@@ -44,7 +44,7 @@ class PermutationGridSearch(GridSearch):
         rankings = [vector_map[ranking] for ranking in rankings]
         return rankings
 
-    def fit(self, x_train:list, y_train:list, fold:int):
+    def fit(self, x_train:list, y_train:list, fold:int, seed=False):
         for i, combination in enumerate(self._combinations):
             logging.info('Testing parameters: {}'.format(combination))
             folds = []
@@ -85,7 +85,7 @@ class PermutationGridSearch(GridSearch):
                     'validation': validation_index
                 }
             self._add_score(combination, folds, fold_indices)
-            self.save(fold)
+            self.save(fold, seed)
             
         best_parameters = self.get_best_model_settings()
         combinations = []
@@ -106,3 +106,15 @@ class PermutationGridSearch(GridSearch):
         
     def predict_proba(self, x_test:list) -> list:
         return self._best_model.predict_proba(x_test)
+
+    def save(self, fold, seed:bool):
+        path = '../experiments/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
+        os.makedirs(path, exist_ok=True)
+        path += self._notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) 
+        
+        if seed:
+            path += '_seedsearch'
+        path += '.pkl'
+        with open(path, 'wb') as fp:
+            pickle.dump(self, fp)
+        return path

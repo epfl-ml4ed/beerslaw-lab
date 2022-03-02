@@ -8,6 +8,7 @@ from typing import Tuple
 
 from sklearn.model_selection import StratifiedKFold
 
+from extractors.pipeline_maker import PipelineMaker
 from ml.samplers.sampler import Sampler
 from ml.models.model import Model
 from ml.splitters.splitter import Splitter
@@ -17,7 +18,7 @@ from ml.gridsearches.gridsearch import GridSearch
 
 from utils.config_handler import ConfigHandler
 
-class RankingSeedXVal(XValidator):
+class SeedRankingEarlyNestedXVal(XValidator):
     """Implements nested cross validation: 
             For each fold, get train and test set:
                 split the train set into a train and validation set
@@ -30,11 +31,10 @@ class RankingSeedXVal(XValidator):
         XValidator (XValidators): Inherits from the model class
     """
     
-    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, gridsearch_splitter: Splitter, outer_splitter: Splitter, sampler:Sampler, model:Model, scorer:Scorer):
+    def __init__(self, settings:dict, gridsearch:GridSearch, inner_splitter:Splitter, gridsearch_splitter:Splitter, outer_splitter:Splitter, sampler:Sampler, model:Model, scorer:Scorer):
         super().__init__(settings, inner_splitter, model, scorer)
-        self._name = 'nested cross validator'
-        self._notation = 'nested_xval'
-
+        self._name = 'seed early nested cross validator'
+        self._notation = 'early_nested_xval'
         
         settings['ML']['splitters']['n_folds'] = settings['ML']['xvalidators']['nested_xval']['inner_n_folds']
         self._gs_splitter = gridsearch_splitter # To create the folds within the gridsearch from the train set 
@@ -67,7 +67,7 @@ class RankingSeedXVal(XValidator):
 
         for param in best_parameters:
             best_parameters[param] = [best_parameters[param]]
-        best_parameters[    'seed'] = [0, 16, 60,  3, 64, 69, 75, 96,  5, 77]
+        best_parameters[    'seed'] = [16, 64, 69, 75, 77]
         print('*' * 35)
         print('seed search grid:')
         print(best_parameters)
@@ -80,6 +80,53 @@ class RankingSeedXVal(XValidator):
             outer_fold=fold,
             oversampled_indices=oversampled_indices
         )
+        
+    def _write_predictions(self, test_pred: list, test_proba: list, test_y:list, test_indices: list):
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/'
+        os.makedirs(path, exist_ok=True)
+        
+        if 'predictions.pkl' in os.listdir(path):
+            with open(path + 'predictions.pkl', 'rb') as fp:
+                predictions = pickle.load(fp)
+        else:
+            predictions = {}
+        
+        for i, index in enumerate(test_indices):
+            learner_id = self._id_dictionary['sequences'][index]['learner_id']
+            if learner_id not in predictions:
+                predictions[learner_id] = {}
+                
+            predictions[learner_id][self._settings['data']['adjuster']['limit']] ={
+                    'pred': test_pred[i],
+                    'proba': test_proba[i],
+                    'truth': test_y[i]
+            }
+            
+        with open(path + 'predictions.pkl', 'wb') as fp:
+            pickle.dump(predictions, fp)
+            
+    def _read_predictions(self, indices:list) -> list:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/'
+        os.makedirs(path, exist_ok=True)
+        if 'predictions.pkl' in os.listdir(path):
+            with open(path + 'predictions.pkl', 'rb') as fp:
+                predictions = pickle.load(fp)
+            
+            new_preds = []
+            new_probas = []
+            new_truths = []
+            for iid in indices:
+                learner_id = self._id_dictionary['sequences'][iid]['learner_id']
+                if learner_id in predictions:
+                    crop_limits = list(predictions[learner_id].keys())
+                    crop_limits.sort()
+                    new_preds.append(predictions[learner_id][crop_limits[-1]]['pred'])
+                    new_probas.append(predictions[learner_id][crop_limits[-1]]['proba'])
+                    new_truths.append(predictions[learner_id][crop_limits[-1]]['truth'])
+            return new_preds, new_probas, new_truths
+        else:
+            logging.print('Some sequences were too short: {}'.format(indices))
+            return []
 
     def _get_map(self) -> dict:
         label_map = self._settings['ML']['permutation']['label_map']
@@ -93,7 +140,7 @@ class RankingSeedXVal(XValidator):
             map = yaml.load(fp, Loader=yaml.FullLoader)
 
         return lambda x: map['map'][x]
-        
+
     def _get_y_to_rankings(self, indices):
         with open('../data/post_test/rankings.pkl', 'rb') as fp:
             rankings = pickle.load(fp)
@@ -106,22 +153,27 @@ class RankingSeedXVal(XValidator):
         rankings = [vector_map(ranking) for ranking in rankings]
         return rankings
         
+            
     def xval(self, x:list, y:list, indices:list) -> dict:
         # indices will refer to the actual indices from id _dictionary
         # index are the indices from the splits
         results = {}
-        results['x'] = x
-        results['y'] = y
-        results['indices'] = indices
-        logging.debug('x:{}, y:{}'.format(x, y))
-        results['optim_scoring'] = self._xval_settings['nested_xval']['optim_scoring'] #debug
+        
+        pipeline = PipelineMaker(self._settings)
+        begins, sequences, ends, labels, indices = pipeline.load_data()
+        results['x'] = sequences
+        results['y'] = labels
+
+        self._id_dictionary = pipeline.get_id_dictionary()
+        self._id_indices = [x for x in indices]
         self._outer_splitter.set_indices(indices)
+        results['id_indices'] = [x for x in indices]
+        results['limit'] = self._settings['data']['adjuster']['limit']
+        
+        logging.debug('x:{}, y:{}'.format(x, y))
+        results['optim_scoring'] = self._xval_settings['nested_xval']['optim_scoring']
         rankings = self._get_y_to_rankings(indices)
-        for f, (train_index, test_index) in enumerate(self._outer_splitter.split(x, rankings)):
-            if f != int(self._settings['ML']['pipeline']['outerfold_index']) and int(self._settings['ML']['pipeline']['outerfold_index']) != -10:
-                continue
-            logging.debug('outer fold, length train: {}, length test: {}'.format(len(train_index), len(test_index)))
-            logging.debug('outer fold: {}'.format(f))
+        for f, (train_index, test_index) in enumerate(self._outer_splitter.split(sequences, rankings)):
             logging.info('- ' * 30)
             logging.info('  Fold {}'.format(f))
             logging.debug('    train indices: {}'.format(train_index))
@@ -131,49 +183,74 @@ class RankingSeedXVal(XValidator):
             results[f]['train_indices'] = [indices[idx] for idx in train_index]
             results[f]['test_index'] = test_index
             results[f]['test_indices'] = [indices[idx] for idx in test_index]
-            
+
             # division train / test
-            x_train = [x[xx] for xx in train_index]
-            y_train = [y[yy] for yy in train_index]
-            x_test = [x[xx] for xx in test_index]
-            y_test = [y[yy] for yy in test_index]
+            x_train = [sequences[xx] for xx in train_index]
+            y_train = [labels[yy] for yy in train_index]
+            train_index, x_train, y_train, short_train = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, train_index, self._settings['ML']['pipeline']['train_pad'])
+            results[f]['longenough_train_indices'] = [indices[idx] for idx in train_index]
+            results[f]['longenough_train_indexes'] = train_index
+            results[f]['tooshort_trainindexes'] = short_train
+            results[f]['tooshort_trainindices'] = [indices[idx] for idx in short_train]
+
+            x_test = [sequences[xx] for xx in test_index]
+            y_test = [labels[yy] for yy in test_index]
+            test_index, x_test, y_test, short_test = self._pipeline.build_partial_sequence(begins, sequences, ends, labels, test_index, self._settings['ML']['pipeline']['test_pad'])
+            results[f]['longenough_test_indices'] = [indices[idx] for idx in test_index]
+            results[f]['longenough_test_indexes'] = test_index
+            results[f]['longenough_y_test'] = y_test
+            results[f]['longenough_x_test'] = x_test
             
-            # Inner loop
+            results[f]['tooshort_testindexes'] = short_test
+            results[f]['tooshort_testindices'] = [indices[idx] for idx in short_test]
+            
+            
             x_resampled, y_resampled = self._sampler.sample(x_train, y_train)
-            results[f]['oversample_indexes'] = self._sampler.get_indices()
-            results[f]['oversample_indices'] = [results[f]['train_indices'][idx] for idx in results[f]['oversample_indexes']]
-            
             results[f]['x_resampled'] = x_resampled
             results[f]['y_resampled'] = y_resampled
+            results[f]['oversample_indexes'] = self._sampler.get_indices()
+            results[f]['oversample_indices'] = [results[f]['train_indices'][idx] for idx in results[f]['oversample_indexes']]
 
-            logging.debug('  * data format: x [{}], y [{}]'.format(np.array(x_resampled).shape, np.array(y_resampled).shape))
-            print(x_resampled)
-
-            logging.debug('  * data details, mean: {};{} - std {};{}'.format(
-                np.mean([np.mean(idx) for idx in x_resampled]),
-                np.mean([np.mean(idx) for idx in y_resampled]),
-                np.std([np.std(idx) for idx in x_resampled]),
-                np.std([np.std(idx) for idx in y_resampled])
-            ))
-            
             # Train
             self._init_gs(f, results[f]['oversample_indices'])
+            if len(x_resampled) < self._xval_settings['nested_xval']['inner_n_folds'] or len(x_test) == 0:
+                continue
+
             self._gs.fit(x_resampled, y_resampled, f)
+            if len(x_test) == 0:
+                print(self._settings['data']['adjuster']['limit'])
+                continue
 
             results[f]['best_params_pre_seed'] = self._gs.get_best_model_settings()
             self._init_seed_gs(f, results[f]['oversample_indices'], results[f]['best_params_pre_seed'])
             self._gs.fit(x_resampled, y_resampled, f, seed=True)
-
-            # Predict
+                
+            logging.debug('lens: {}, {}'.format(len(x_train), len(x_test)))
+            print(self._settings['data']['adjuster']['limit'])
+            print(len(train_index), len(test_index))
+            print(np.array(x_train[0]).shape, np.array(x_test[0]).shape)
+            print(x_train[0])
+            
             y_pred = self._gs.predict(x_test)
             y_proba = self._gs.predict_proba(x_test)
             test_results = self._scorer.get_scores(y_test, y_pred, y_proba)
+            self._write_predictions(y_pred, y_proba, y_test, results[f]['longenough_test_indices'] )
             logging.debug('    predictions: {}'.format(y_pred))
             logging.debug('    probability predictions: {}'.format(y_proba))
-            
             results[f]['y_pred'] = y_pred
             results[f]['y_proba'] = y_proba
             results[f].update(test_results)
+            
+            # Carry on
+            if len(short_test) > 0:
+                pred, proba, truth = self._read_predictions(short_test)
+                pred = list(y_pred) + list(pred)
+                proba = list(y_proba) + list(proba)
+                truth = list(y_test) + list(truth)
+                carry_on_results = self._scorer.get_scores(truth, pred, proba)
+                results[f]['carry_on_scores'] = carry_on_results
+            else:
+                results[f]['carry_on_scores'] = test_results
             
             results[f]['best_params'] = self._gs.get_best_model_settings()
             best_estimator = self._gs.get_best_model()
@@ -183,12 +260,10 @@ class RankingSeedXVal(XValidator):
             logging.info('    estimator path: {}'.format(results[f]['best_estimator']))
             logging.info('    gridsearch path: {}'.format(results[f]['gridsearch_object']))
             
-            print('Best Results on outer fold: {}'.format(test_results))
-            logging.info('Best Results on outer fold: {}'.format(test_results))
             self._model_notation = best_estimator.get_notation()
             self.save_results(results)
         return results
-    
+
     def save_results(self, results):
         path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/' 
         os.makedirs(path, exist_ok=True)

@@ -1,5 +1,5 @@
 experiment:
-  name: flat_chemlab/final
+  name: to_sort/wrong_folds/jade-tsattention
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
