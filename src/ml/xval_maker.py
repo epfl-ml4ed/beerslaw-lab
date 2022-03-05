@@ -50,6 +50,8 @@ from ml.xvalidators.ranking_xval import RankingXVal
 from ml.xvalidators.ranking_early_nested_xval import RankingEarlyNestedXVal
 from ml.xvalidators.rankingseed_xval import RankingSeedXVal
 from ml.xvalidators.rankingseed_early_xval import SeedRankingEarlyNestedXVal
+from ml.xvalidators.nonnested_xval import NonNestedRankingXVal
+from ml.xvalidators.ranking_early_nonnested_xval import RankingEarlyNonNestedXVal
 
 from ml.gridsearches.gridsearch import GridSearch
 from ml.gridsearches.supervised_gridsearch import SupervisedGridSearch
@@ -218,11 +220,12 @@ class XValMaker:
                 gs_path = './configs/gridsearch/gs_ssan.yaml'
 
                 
-            with open(gs_path, 'r') as fp:
-                gs = yaml.load(fp, Loader=yaml.FullLoader)
-                self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
-                print(gs)
-                
+            if self._settings['ML']['pipeline']['gridsearch'] != 'nogs':
+                with open(gs_path, 'r') as fp:
+                    gs = yaml.load(fp, Loader=yaml.FullLoader)
+                    self._settings['ML']['xvalidators']['nested_xval']['param_grid'] = gs
+                    print(gs)
+                    
     def _choose_scorer(self):
         if self._pipeline_settings['scorer'] == '2clfscorer':
             self._scorer = BinaryClfScorer
@@ -263,6 +266,12 @@ class XValMaker:
         if self._pipeline_settings['xvalidator'] == 'rankingseed_early':
             self._choose_gridsearcher()
             self._xval = SeedRankingEarlyNestedXVal
+        if self._pipeline_settings['xvalidator'] == 'nonnested':
+            self._gridsearch = {}
+            self._xval = NonNestedRankingXVal
+        if self._pipeline_settings['xvalidator'] == 'early_nonnested':
+            self._gridsearch = {}
+            self._xval = RankingEarlyNonNestedXVal
         self._xval = self._xval(self._settings, self._gridsearch, self._inner_splitter, self._gs_splitter, self._outer_splitter, self._sampler, self._model, self._scorer)
                 
     def _build_pipeline(self):
@@ -278,4 +287,3 @@ class XValMaker:
     def train(self, X:list, y:list, indices:list):
         results = self._xval.xval(X, y, indices)
         
-

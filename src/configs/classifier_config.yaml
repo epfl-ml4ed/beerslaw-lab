@@ -19,6 +19,7 @@ data:
       type: chemconcat
       tasks: 
         - '2'
+    demographic_filter: chemlab
     event_filter: nofilt
     break_filter: blank
     break_threshold: 0.6
@@ -63,7 +64,7 @@ ML:
       # - 1nn
       # - adaboost
   permutation:
-    label_map: 2classes
+    label_map: vector_labels
   models:
     classifiers:
       lstm:

@@ -408,13 +408,49 @@ def main(settings):
         settings['data']['pipeline']['sequencer'] = settings['sequencer']
         settings['experiment']['root_name'] += '/' + settings['sequencer']
         settings['experiment']['old_root_name'] += '/' + settings['sequencer']
+        if 'old' == 'not in use': # Old parameters, here for archive
+            if settings['sequencer'] == 'extended12' or settings['sequencer'] == 'minimised12':
+                settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+                settings['data']['pipeline']['break_filter'] = 'cumul80br'
+                
+            if settings['sequencer'] == 'bin1hotext' or settings['sequencer'] == 'bin1hotmini':
+                settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['raw', 'cumulaveagg'],
+                    1: ['1hotactionspan', 'cumulaveagg']
+                }
+                settings['data']['pipeline']['break_filter'] = 'cumul1hot80br'
 
-        if 'binary_edm2021' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
+        if 'extended' in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'cumulbr'
+            settings['classification'] = False
+            settings['classification_comparison'] = True
 
-        if 'edm2021_secondsflat'in settings['sequencer']:
+        if 'colourbreak_flat' in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['classification'] = False
+            settings['classification_comparison'] = True
+
+        if 'colournobreak_flat'in settings['sequencer']:
+            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
+                    0: ['1hot', 'aveagg'],
+                    1: ['actionspan', 'normagg']
+                }
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['classification'] = False
+            settings['classification_comparison'] = True
+        
+        if 'simplestate_secondsflat'in settings['sequencer']:
             settings['data']['pipeline']['encoders_aggregators_pairs'] = {
                     0: ['1hot', 'aveagg'],
                     1: ['actionspan', 'normagg']
@@ -423,6 +459,107 @@ def main(settings):
             if settings['classification']:
                 settings['classification'] = False
                 settings['classification_comparison'] = True
+        
+        if 'stateaction_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+        
+        if 'stateaction_encodedlstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'stateaction_adaptivelstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['sequencer_interval'] = int(settings['adaptiveseconds'])
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'colourbreak_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'tsnorm'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'year_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'prior_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+        
+        if 'language_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'field_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'yl_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'ylf_colourbreak' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'noagg'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'colournobreak_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
+            settings['data']['pipeline']['aggregator'] = 'tsnorm'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'simplestate_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'year_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+        
+        if 'prior_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'language_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'field_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'yl_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'ylf_simplestate' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'simplemorestates_secondslstm' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
+
+        if 'chem2cap' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulbr'
+            settings['ML']['xvalidators']['nested_xval']['inner_n_folds'] = 10
+            settings['ML']['xvalidators']['nested_xval']['outer_n_folds'] = 10
     
     if settings['fulltime']:
         settings['data']['pipeline']['adjuster'] = 'full'
