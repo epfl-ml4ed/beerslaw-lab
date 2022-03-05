@@ -117,7 +117,7 @@ class TimestepAttentionModel(Model):
         path += '_drop{}_optim{}_loss{}_bs{}_ep{}'.format(
             self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'], self._model_settings['batch_size'], self._model_settings['epochs']
         )
-        path += '/f{}_model_checkpoint'.format(self._gs_fold)
+        path += '/f{}_model_checkpoint/'.format(self._gs_fold)
         return path
 
     def _retrieve_attentionlayer(self):
@@ -241,12 +241,20 @@ class TimestepAttentionModel(Model):
             callbacks=self._callbacks
         )
 
+<<<<<<< HEAD
         self._best_epochs = np.argmax(self._history.history['val_auc'])
         print('best epoch: {}'.format(self._best_epochs))
 
         if self._model_settings['save_best_model']:
             checkpoint_path = self._get_model_checkpoint_path()
             self.load_model_weights(x_train, checkpoint_path)
+=======
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+            self._best_epochs = np.argmax(self._history.history['val_auc'])
+            print('best epoch: {}'.format(self._best_epochs))
+>>>>>>> 0582157c0269f6cc8ccca783e6083be80323c25d
 
         self._fold += 1
         

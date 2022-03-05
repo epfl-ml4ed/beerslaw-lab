@@ -287,4 +287,3 @@ class XValMaker:
     def train(self, X:list, y:list, indices:list):
         results = self._xval.xval(X, y, indices)
         
-

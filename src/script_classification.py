@@ -94,6 +94,12 @@ def early_prediction_classification(settings):
         datefmt=''
     )
 
+    seeds = settings['model_seeds']
+    seeds = seeds.split('.')
+    seed = int(seeds[0])
+    for clf in settings['ML']['models']['classifiers']:
+        settings['ML']['models']['classifiers'][clf]['seed'] = seed
+
     config = dict(settings)
     settings['data']['pipeline']['adjuster'] = 'tscrp'
     for l in settings['data']['adjuster']['limits']:
@@ -345,12 +351,12 @@ def test(settings):
     # with open('../data/parsed simulations/p_2013_lidsvdphyjs_t2_sequenced.pkl', 'rb') as fp:
     #     sim2 = pickle.load(fp)
 
-    seq = YearSimpleStateSecondsLSTM(settings)
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
-        ranks = pickle.load(fp)
-        ranks = ranks.set_index('username')
-    seq.set_rankings(ranks)
-    # print(seq)
+    # seq = YearSimpleStateSecondsLSTM(settings)
+    # with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    #     ranks = pickle.load(fp)
+    #     ranks = ranks.set_index('username')
+    # seq.set_rankings(ranks)
+    # # print(seq)
     # labs, begins, ends = seq.get_sequences(sim1)
     # print(sum(np.array(ends) - np.array(begins)))
     # print(sim1.get_last_timestamp())
@@ -500,4 +506,3 @@ if __name__ == '__main__':
     settings.update(vars(parser.parse_args()))
     
     main(settings)
-
