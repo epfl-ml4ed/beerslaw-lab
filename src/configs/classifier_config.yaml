@@ -53,7 +53,7 @@ ML:
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: nonnested
+    xvalidator: early_nonnested
     scorer: 2clfscorer
     gridsearch: nogs
     test_pad: False
