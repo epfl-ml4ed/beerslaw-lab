@@ -1,8 +1,8 @@
 ---
 name: colour binary (yes, no)
 labels: 
-  colour
-  no_colour
+  - colour
+  - no_colour
 target_index:
   colour: 0
   no_col: 1
