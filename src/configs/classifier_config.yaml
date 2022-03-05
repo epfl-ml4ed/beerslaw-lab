@@ -2,7 +2,7 @@
 paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  class_name: binconcepts
+  class_name: 2classes
   root_name: capacitor
   name: blank
   old_root_name: blank
@@ -63,7 +63,7 @@ ML:
       # - 1nn
       # - adaboost
   permutation:
-    label_map: vector_labels
+    label_map: 2classes
   models:
     classifiers:
       lstm:

@@ -16,12 +16,6 @@ from utils.config_handler import ConfigHandler
 
 
 from ml.xval_maker import XValMaker
-from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
-from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
-from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
-from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
-from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
-
 def seed_nonnested(settings):
     rn = settings['experiment']['root_name']
     seeds = settings['model_seeds']
