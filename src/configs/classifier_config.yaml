@@ -2,8 +2,8 @@
 paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
-  class_name: 2classes
-  root_name: capacitor
+  class_name: binconcepts
+  root_name: chemlab--seed-
   name: blank
   old_root_name: blank
   random_seed: 129

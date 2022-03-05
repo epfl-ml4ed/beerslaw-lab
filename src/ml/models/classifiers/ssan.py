@@ -141,13 +141,12 @@ class SSANModel(Model):
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
 
-        if self._model_settings['save_best_model']:
-            model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-            filepath=checkpoint_path,
-            monitor='val_auc',
-            mode='max',
-            save_best_only=True)
-            self._callbacks.append(model_checkpoint_callback)
+        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+        filepath=checkpoint_path,
+        monitor='val_auc',
+        mode='max',
+        save_best_only=True)
+        self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
 
