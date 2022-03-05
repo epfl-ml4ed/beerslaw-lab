@@ -23,7 +23,7 @@ data:
     event_filter: nofilt
     break_filter: blank
     break_threshold: 0.6
-    adjuster: tscrp
+    adjuster: full
     encoder: blank
     skipgram_weights: ''
     skipgram_map: ''

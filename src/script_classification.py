@@ -94,6 +94,12 @@ def early_prediction_classification(settings):
         datefmt=''
     )
 
+    seeds = settings['model_seeds']
+    seeds = seeds.split('.')
+    seed = int(seeds[0])
+    for clf in settings['ML']['models']['classifiers']:
+        settings['ML']['models']['classifiers'][clf]['seed'] = seed
+
     config = dict(settings)
     settings['data']['pipeline']['adjuster'] = 'tscrp'
     for l in settings['data']['adjuster']['limits']:
