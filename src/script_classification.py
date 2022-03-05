@@ -16,11 +16,19 @@ from utils.config_handler import ConfigHandler
 
 
 from ml.xval_maker import XValMaker
-from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
-from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
-from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateActionAdaptiveLSTM
-from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
-from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
+def seed_nonnested(settings):
+    rn = settings['experiment']['root_name']
+    seeds = settings['model_seeds']
+    seeds = seeds.split('.')
+    seeds = list(range(int(seeds[0]), int(seeds[1]), 1))
+    for seed in seeds:
+        print('*' * 500)
+        print('SEED: {}'.format(seed))
+        for clf in settings['ML']['models']['classifiers']:
+            settings['ML']['models']['classifiers'][clf]['seed'] = seed
+        full_prediction_classification(settings)
+        settings['experiment']['root_name'] = rn
+        settings['experiment']['name'] = 'blank'
 
 def full_prediction_classification(settings):
     """Uses the config settings to:
@@ -37,7 +45,9 @@ def full_prediction_classification(settings):
     settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_settings()
+    print(settings['experiment'])
     log_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/training_logs.txt'
+    print(log_path)
     logging.basicConfig(
         filename=log_path,
         level=logging.DEBUG, 
@@ -85,7 +95,13 @@ def early_prediction_classification(settings):
     )
 
     config = dict(settings)
+    settings['data']['pipeline']['adjuster'] = 'tscrp'
     for l in settings['data']['adjuster']['limits']:
+        config['data']['adjuster']['limit'] = l      
+        if int(l) <= 30:
+            config['ML']['pipeline']['test_pad'] = True
+        else:
+            config['ML']['pipeline']['test_pad'] = False
         config['data']['adjuster']['limit'] = l        
         logging.info('Creating the data')
         pipeline = PipelineMaker(config)
@@ -329,12 +345,12 @@ def test(settings):
     # with open('../data/parsed simulations/p_2013_lidsvdphyjs_t2_sequenced.pkl', 'rb') as fp:
     #     sim2 = pickle.load(fp)
 
-    seq = YearSimpleStateSecondsLSTM(settings)
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
-        ranks = pickle.load(fp)
-        ranks = ranks.set_index('username')
-    seq.set_rankings(ranks)
-    # print(seq)
+    # seq = YearSimpleStateSecondsLSTM(settings)
+    # with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    #     ranks = pickle.load(fp)
+    #     ranks = ranks.set_index('username')
+    # seq.set_rankings(ranks)
+    # # print(seq)
     # labs, begins, ends = seq.get_sequences(sim1)
     # print(sum(np.array(ends) - np.array(begins)))
     # print(sim1.get_last_timestamp())
@@ -392,49 +408,13 @@ def main(settings):
         settings['data']['pipeline']['sequencer'] = settings['sequencer']
         settings['experiment']['root_name'] += '/' + settings['sequencer']
         settings['experiment']['old_root_name'] += '/' + settings['sequencer']
-        if 'old' == 'not in use': # Old parameters, here for archive
-            if settings['sequencer'] == 'extended12' or settings['sequencer'] == 'minimised12':
-                settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                    0: ['1hot', 'aveagg'],
-                    1: ['actionspan', 'normagg']
-                }
-                settings['data']['pipeline']['break_filter'] = 'cumul80br'
-                
-            if settings['sequencer'] == 'bin1hotext' or settings['sequencer'] == 'bin1hotmini':
-                settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                    0: ['raw', 'cumulaveagg'],
-                    1: ['1hotactionspan', 'cumulaveagg']
-                }
-                settings['data']['pipeline']['break_filter'] = 'cumul1hot80br'
 
-        if 'extended' in settings['sequencer']:
-            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                    0: ['1hot', 'aveagg'],
-                    1: ['actionspan', 'normagg']
-                }
-            settings['data']['pipeline']['break_filter'] = 'cumulbr'
-            settings['classification'] = False
-            settings['classification_comparison'] = True
+        if 'binary_edm2021' in settings['sequencer']:
+            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
+            settings['data']['pipeline']['aggregator'] = 'minmax'
+            settings['data']['pipeline']['encoder'] = 'raw'
 
-        if 'colourbreak_flat' in settings['sequencer']:
-            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                    0: ['1hot', 'aveagg'],
-                    1: ['actionspan', 'normagg']
-                }
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['classification'] = False
-            settings['classification_comparison'] = True
-
-        if 'colournobreak_flat'in settings['sequencer']:
-            settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                    0: ['1hot', 'aveagg'],
-                    1: ['actionspan', 'normagg']
-                }
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['classification'] = False
-            settings['classification_comparison'] = True
-        
-        if 'simplestate_secondsflat'in settings['sequencer']:
+        if 'edm2021_secondsflat'in settings['sequencer']:
             settings['data']['pipeline']['encoders_aggregators_pairs'] = {
                     0: ['1hot', 'aveagg'],
                     1: ['actionspan', 'normagg']
@@ -443,112 +423,10 @@ def main(settings):
             if settings['classification']:
                 settings['classification'] = False
                 settings['classification_comparison'] = True
-        
-        if 'stateaction_secondslstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-        
-        if 'stateaction_encodedlstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumul1hotbr'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'stateaction_adaptivelstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['sequencer_interval'] = int(settings['adaptiveseconds'])
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'colourbreak_secondslstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'tsnorm'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'year_colourbreak' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'prior_colourbreak' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-        
-        if 'language_colourbreak' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'field_colourbreak' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'yl_colourbreak' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'ylf_colourbreak' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'noagg'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'colournobreak_secondslstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'nobrfilt'
-            settings['data']['pipeline']['aggregator'] = 'tsnorm'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'simplestate_secondslstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'year_simplestate' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-        
-        if 'prior_simplestate' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'language_simplestate' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'field_simplestate' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'yl_simplestate' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'ylf_simplestate' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'simplemorestates_secondslstm' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulseconds'
-            settings['data']['pipeline']['aggregator'] = 'minmax'
-            settings['data']['pipeline']['encoder'] = 'raw'
-
-        if 'chem2cap' in settings['sequencer']:
-            settings['data']['pipeline']['break_filter'] = 'cumulbr'
-            settings['ML']['xvalidators']['nested_xval']['inner_n_folds'] = 10
-            settings['ML']['xvalidators']['nested_xval']['outer_n_folds'] = 10
-
     
     if settings['fulltime']:
         settings['data']['pipeline']['adjuster'] = 'full'
-        settings['data']['adjuster']['limit'] = 900
+        settings['data']['adjuster']['limit'] = 300
 
     if settings['scrop']:
         settings['data']['pipeline']['adjuster'] = 'scrop'
@@ -577,6 +455,9 @@ def main(settings):
 
     if settings['classification_comparison']:
         full_prediction_classification_comparison(settings)
+
+    if settings['nonnested_seedsearch']:
+        seed_nonnested(settings)
         
     if settings['early_prediction']:
         early_prediction_classification(settings)
@@ -598,11 +479,12 @@ if __name__ == '__main__':
     parser.add_argument('--test', dest='test', default=False, help='testing method', action='store_true')
     parser.add_argument('--full', dest='classification', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--early', dest='early_clf', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
+    parser.add_argument('--nonnestedseed', dest='nonnested_seedsearch', default=False, action='store_true')
     parser.add_argument('--fullcombinations', dest='classification_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--sgcomparison', dest='skipgram_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--earlypreds', dest='early_prediction', default=False, help='train on the wanted features and algorithm combinations for the classification task at different time steps', action='store_true')
     parser.add_argument('--checkpoint', dest='checkpoint', default=False, help='loads the tensorflow models to make predictions on the best validation models', action='store_true')
-    
+
     # settings
     parser.add_argument('--sequencer', dest='sequencer', default='', help='sequencer to use', action='store')
     parser.add_argument('--adaptiveseconds', dest='adaptiveseconds', default='1', help='sequencer to use', action='store')
@@ -613,8 +495,8 @@ if __name__ == '__main__':
     parser.add_argument('--outerfoldindex', dest='outerfold_index', default='', help='0 to 10', action='store')
     parser.add_argument('--fulltime', dest='fulltime', default=False, action='store_true')
     parser.add_argument('--scrop', dest='scrop', default=False, action='store_true')
+    parser.add_argument('--modelseeds', dest='model_seeds', default='193.194', action='store')
 
     settings.update(vars(parser.parse_args()))
     
     main(settings)
-
