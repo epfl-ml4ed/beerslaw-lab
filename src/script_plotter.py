@@ -30,6 +30,11 @@ def plot_full_sequences(settings):
     config = dict(settings)
     plotter = NestedXValPlotter(config)
     plotter.plot_experiment()
+
+def plot_seed_nonnested(settings):
+    config = dict(settings)
+    plotter = NestedXValPlotter(config)
+    plotter.plot_seed_experiments()
     
 def plot_reproduction(settings):
     config = dict(settings)
@@ -107,6 +112,8 @@ def main(settings):
         predictionprobability_density(settings)
     if settings['ckptvalidationscores']:
         checkpoint_validation(settings)
+    if settings['seedplot']:
+        plot_seed_nonnested(settings)
     # if settings['test']:
     #     test(settings)
 
@@ -132,6 +139,7 @@ if __name__ == '__main__':
     parser.add_argument('--checkpointrepro', dest='checkpointrepro', default=False, action='store_true')
     parser.add_argument('--ckptproba', dest='ckptproba', default=False, action='store_true')
     parser.add_argument('--ckptvalidation', dest='ckptvalidationscores', default=False, action='store_true')
+    parser.add_argument('--seedplot', dest='seedplot', default=False, action='store_true')
     
 
     # Actions

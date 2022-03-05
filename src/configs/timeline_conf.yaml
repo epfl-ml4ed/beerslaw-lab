@@ -16,3 +16,5 @@ paths:
   new_path: '../reports/timelines/vector binary/'
   timelines_path: '../reports/timelines/colour timelines/'
   sorted_path: '../reports/timelines/vector binary/'
+features:
+  features: simplestate_secondslstm

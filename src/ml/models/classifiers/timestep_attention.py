@@ -64,25 +64,6 @@ class TimestepAttentionModel(Model):
         features = x[:, :, self._prior_states:]
         return priors, features
 
-    def load_model_weights(self, x:np.array, checkpoint_path:str):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
-        auc = tf.keras.metrics.AUC(name='auc')
-        self._model.compile(
-            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
-        )
-        checkpoint = tf.train.Checkpoint(self._model)
-        checkpoint.restore(checkpoint_path)
-    
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
         if self._model_settings['cell_type'] == 'LSTM':
@@ -176,7 +157,7 @@ class TimestepAttentionModel(Model):
         input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_prior')
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
-        selfattention_features = self.self_attention(full_features)
+        selfattention_features = layers.AdditiveAttention()([full_features, full_features])
         print('sa {}'.format(selfattention_features.shape)) # expect shape of None, 900, 10
         print('ff {}'.format(full_features.shape)) # expect shape of 900
 
@@ -212,12 +193,13 @@ class TimestepAttentionModel(Model):
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
 
-        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_path,
-        monitor='val_auc',
-        mode='max',
-        save_best_only=True)
-        self._callbacks.append(model_checkpoint_callback)
+        if self._model_settings['save_best_model']:
+            model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_path,
+            monitor='val_auc',
+            mode='max',
+            save_best_only=True)
+            self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
 
@@ -259,8 +241,12 @@ class TimestepAttentionModel(Model):
             callbacks=self._callbacks
         )
 
-        checkpoint_path = self._get_model_checkpoint_path()
-        self.load_model_weights(x_train, checkpoint_path)
+        self._best_epochs = np.argmax(self._history.history['val_auc'])
+        print('best epoch: {}'.format(self._best_epochs))
+
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
 
         self._fold += 1
         

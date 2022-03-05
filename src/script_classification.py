@@ -22,6 +22,20 @@ from extractors.sequencer.one_hot_encoded.stateaction_adaptivelstm import StateA
 from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
 from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
 
+def seed_nonnested(settings):
+    rn = settings['experiment']['root_name']
+    seeds = settings['model_seeds']
+    seeds = seeds.split('.')
+    seeds = list(range(int(seeds[0]), int(seeds[1]), 1))
+    for seed in seeds:
+        print('*' * 500)
+        print('SEED: {}'.format(seed))
+        for clf in settings['ML']['models']['classifiers']:
+            settings['ML']['models']['classifiers'][clf]['seed'] = seed
+        full_prediction_classification(settings)
+        settings['experiment']['root_name'] = rn
+        settings['experiment']['name'] = 'blank'
+
 def full_prediction_classification(settings):
     """Uses the config settings to:
     - decides what simulation to use
@@ -37,7 +51,9 @@ def full_prediction_classification(settings):
     settings['experiment']['root_name'] += '/' + settings['experiment']['class_name'] + '/' + settings['ML']['pipeline']['model'] + '/' + settings['data']['pipeline']['encoder'] + '_' + settings['data']['pipeline']['adjuster'] + '/'
     cfg_handler = ConfigHandler(settings)
     settings = cfg_handler.handle_settings()
+    print(settings['experiment'])
     log_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] + '/training_logs.txt'
+    print(log_path)
     logging.basicConfig(
         filename=log_path,
         level=logging.DEBUG, 
@@ -85,7 +101,13 @@ def early_prediction_classification(settings):
     )
 
     config = dict(settings)
+    settings['data']['pipeline']['adjuster'] = 'tscrp'
     for l in settings['data']['adjuster']['limits']:
+        config['data']['adjuster']['limit'] = l      
+        if int(l) <= 30:
+            config['ML']['pipeline']['test_pad'] = True
+        else:
+            config['ML']['pipeline']['test_pad'] = False
         config['data']['adjuster']['limit'] = l        
         logging.info('Creating the data')
         pipeline = PipelineMaker(config)
@@ -577,6 +599,9 @@ def main(settings):
 
     if settings['classification_comparison']:
         full_prediction_classification_comparison(settings)
+
+    if settings['nonnested_seedsearch']:
+        seed_nonnested(settings)
         
     if settings['early_prediction']:
         early_prediction_classification(settings)
@@ -598,11 +623,12 @@ if __name__ == '__main__':
     parser.add_argument('--test', dest='test', default=False, help='testing method', action='store_true')
     parser.add_argument('--full', dest='classification', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--early', dest='early_clf', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
+    parser.add_argument('--nonnestedseed', dest='nonnested_seedsearch', default=False, action='store_true')
     parser.add_argument('--fullcombinations', dest='classification_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--sgcomparison', dest='skipgram_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--earlypreds', dest='early_prediction', default=False, help='train on the wanted features and algorithm combinations for the classification task at different time steps', action='store_true')
     parser.add_argument('--checkpoint', dest='checkpoint', default=False, help='loads the tensorflow models to make predictions on the best validation models', action='store_true')
-    
+
     # settings
     parser.add_argument('--sequencer', dest='sequencer', default='', help='sequencer to use', action='store')
     parser.add_argument('--adaptiveseconds', dest='adaptiveseconds', default='1', help='sequencer to use', action='store')
@@ -613,6 +639,7 @@ if __name__ == '__main__':
     parser.add_argument('--outerfoldindex', dest='outerfold_index', default='', help='0 to 10', action='store')
     parser.add_argument('--fulltime', dest='fulltime', default=False, action='store_true')
     parser.add_argument('--scrop', dest='scrop', default=False, action='store_true')
+    parser.add_argument('--modelseeds', dest='model_seeds', default='193.194', action='store')
 
     settings.update(vars(parser.parse_args()))
     

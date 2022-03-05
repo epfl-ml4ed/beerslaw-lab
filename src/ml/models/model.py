@@ -42,6 +42,9 @@ class Model:
             
     def get_settings(self):
         return dict(self._model_settings)
+    
+    def get_best_epochs(self):
+        return self._best_epochs
         
     def _format(self, x: list, y: list) -> Tuple[list, list]:
         """formats the data into list or numpy array according to the library the model comes from

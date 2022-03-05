@@ -45,42 +45,8 @@ from extractors.lengths.seconds_cropped import SecondCropper
 from extractors.lengths.timestep_cropped import TimestepCropper
 
 from extractors.sequencer.sequencing import Sequencing
-from extractors.sequencer.flat.basic_sequencer import BasicSequencing
-from extractors.sequencer.flat.extended_sequencer import ExtendedSequencing
-from extractors.sequencer.flat.minimise_sequencer import MinimiseSequencing
-from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
-from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
-from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
-from extractors.sequencer.flat.simplestate_secondsflat import SimpleStateSecondsFlat
-
-from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
-from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
-from extractors.sequencer.one_hot_encoded.old.binaryextended_sequencer import Bin1hotExtendedSequencing
-
-from extractors.sequencer.one_hot_encoded.base_encodedlstm_sequencer import BaseLSTMEncoding
-from extractors.sequencer.one_hot_encoded.base_sampledlstm_sequencer import BaseLSTMSampling
-from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
-from extractors.sequencer.one_hot_encoded.stateaction_secondslstm import StateActionSecondsLSTM
-from extractors.sequencer.one_hot_encoded.stateaction_encodedlstm import StateActionLSTMEncoding
-from extractors.sequencer.one_hot_encoded.stateaction_sampledlstm import StateActionLSTMSampling
-from extractors.sequencer.one_hot_encoded.colournobreak_secondslstm import ColourNobreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.colourbreak_secondslstm import ColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.simplestate_secondslstm import SimpleStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.simplemorestates_secondslstm import SimpleMoreStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.year_colourbreak import YearColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.year_simplestates import YearSimpleStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.prior3_colourbreak import PriorColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.prior3_simplestates import PriorSimpleStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.language_colourbreak import LanguageColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.language_simplestate import LanguageSimpleStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.field_colourbreak import FieldColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.field_simplestate import FieldSimpleStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.yearlang_colourbreak import YLColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.yearlang_simplestate import YLSimpleStateSecondsLSTM
-from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
-from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
-
-from extractors.sequencer.capacitor.edm2021_secondslstm import BinEDM2021SecondsLSTM
+from extractors.sequencer.one_hot_encoded.edm2021_secondslstm import BinEDM2021SecondsLSTM
+from extractors.sequencer.flat.edm2021_secondsflat import BinEDM2021SecondsFlat
 
 class PipelineMaker:
     """This class generates the pipeline that will take a simulation in, and returns a vector 'featurised' according to what we want.
@@ -121,49 +87,10 @@ class PipelineMaker:
         
     def _get_label_map(self):
         self._settings['experiment']['class_name']
-        if self._settings['experiment']['class_name'] == 'colbin':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_binary.yaml'
+        if self._settings['experiment']['class_name'] == '2classes':
+            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/closedopen.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
-        elif self._settings['experiment']['class_name'] == 'colbinsg':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_binary.yaml'
-            self._settings['experiment']['n_classes'] = 68
-        elif self._settings['experiment']['class_name'] == 'conbin':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/concentration_binary.yaml'
-            self._settings['experiment']['n_classes'] = 2
-            self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
-        elif self._settings['experiment']['class_name'] == 'widbin':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/width_binary.yaml'
-            self._settings['experiment']['n_classes'] = 2
-            self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
-        elif self._settings['experiment']['class_name'] == 'coltri':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_ternary.yaml'
-            self._settings['experiment']['n_classes'] = 3
-            self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
-        elif self._settings['experiment']['class_name'] == 'contri':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/concentration_ternary.yaml'
-            self._settings['experiment']['n_classes'] = 3
-            self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
-        elif self._settings['experiment']['class_name'] == 'widtri':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/width_ternary.yaml'
-            self._settings['experiment']['n_classes'] = 3
-            self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
-        elif self._settings['experiment']['class_name'] == 'nconcepts':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/nconcepts_4.yaml'
-            self._settings['experiment']['n_classes'] = 4
-            self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
-        elif self._settings['experiment']['class_name'] == 'binconcepts':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/nconcepts_binary.yaml'
-            self._settings['experiment']['n_classes'] = 2
-            self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
-        elif self._settings['experiment']['class_name'] == 'vector_labels':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
-            self._settings['experiment']['n_classes'] = 8
-            self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
-        elif self._settings['experiment']['class_name'] == 'hierarchical':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/hierarchical.yaml'
-            self._settings['experiment']['n_classes'] = 4
-            self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
                         
         self._label_map = self._settings['experiment']['class_map']
         with open(self._label_map) as fp:
@@ -174,250 +101,16 @@ class PipelineMaker:
         
     def _choose_sequencer(self):
         # Capacitor Lab
-        if False and 'old': # Keeping this for archives of what did not work
-            if self._data_settings['pipeline']['sequencer'] == 'basic':
-                self._sequencer = BasicSequencing()
-                self._sequencer_path = 'basic'
-            if self._data_settings['pipeline']['sequencer'] == 'extended':
-                self._sequencer = ExtendedSequencing()
-                self._sequencer_path = 'extended'
-            if self._data_settings['pipeline']['sequencer'] == 'minimise':
-                self._sequencer = MinimiseSequencing()
-                self._sequencer_path = 'minimise'
-            if self._data_settings['pipeline']['sequencer'] == 'basic12':
-                self._sequencer = BasicSequencing()
-                self._sequencer_path = 'basic_12'
-            if self._data_settings['pipeline']['sequencer'] == 'extended12':
-                self._sequencer = ExtendedSequencing()
-                self._sequencer_path = 'extended_12'
-            if self._data_settings['pipeline']['sequencer'] == 'minimised12':
-                self._sequencer = MinimiseSequencing()
-                self._sequencer_path = 'minimise_12'
-            if self._data_settings['pipeline']['sequencer'] == 'onehotmini':
-                self._sequencer = OneHotMinimiseSequencing()
-                self._sequencer_path = 'onehotmini'
-            if self._data_settings['pipeline']['sequencer'] == 'onehotmini12':
-                self._sequencer = OneHotMinimiseSequencing()
-                self._sequencer_path = 'onehotmini_12'
-            if self._data_settings['pipeline']['sequencer'] == 'bin1hotmini':
-                self._sequencer = Bin1HotMinimiseSequencing()
-                self._sequencer_path = 'bin1hotmini'
-            if self._data_settings['pipeline']['sequencer'] == 'bin1hotext':
-                self._sequencer = Bin1hotExtendedSequencing()
-                self._sequencer_path = 'bin1hotext'
-            if self._data_settings['pipeline']['sequencer'] == 'lstmencoding':
-                self._sequencer_path = 'lstmencoding'
-                self._sequencer = LSTMEncoding()
-            if self._data_settings['pipeline']['sequencer'] == 'lstmencoding_12':
-                self._sequencer_path = 'lstmencoding_12'
-                self._sequencer = LSTMEncoding()
-            
-        if self._data_settings['pipeline']['sequencer'] == 'extended':
-            self._sequencer = ExtendedSequencing(self._settings)
-            self._sequencer_path = 'extended'
-        if self._data_settings['pipeline']['sequencer'] == 'extended_12':
-            self._sequencer = ExtendedSequencing(self._settings)
-            self._sequencer_path = 'extended_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'simplestate_flat':
-            self._sequencer = SimpleStateSecondsFlat(self._settings)
-            self._sequencer_path = 'simplestate_flat'
-        if self._data_settings['pipeline']['sequencer'] == 'simplestate_flat_12':
-            self._sequencer = SimpleStateSecondsFlat(self._settings)
-            self._sequencer_path = 'simplestate_flat_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat':
-            self._sequencer = ColourNobreakFlat(self._settings)
-            self._sequencer_path = 'colournobreak_flat'
-        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_flat_12':
-            self._sequencer = ColourNobreakFlat(self._settings)
-            self._sequencer_path = 'colournobreak_flat_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_flat':
-            self._sequencer = ColourbreakFlat(self._settings)
-            self._sequencer_path = 'colourbreak_flat'
-        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_flat_12':
-            self._sequencer = ColourbreakFlat(self._settings)
-            self._sequencer_path = 'colourbreak_flat_12'
-
-        
-        if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
-            self._sequencer = BaseLSTMEncoding(self._settings)
-            self._sequencer_path = 'base_lstmencoded'
-        if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm_12':
-            self._sequencer = BaseLSTMEncoding(self._settings)
-            self._sequencer_path = 'base_lstmencoded_12'
-        if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm':
-            self._sequencer = BaseLSTMSampling(self._settings)
-            self._sequencer_path = 'base_sampledlstm'
-        if self._data_settings['pipeline']['sequencer'] == 'base_sampledlstm_12':
-            self._sequencer = BaseLSTMSampling(self._settings)
-            self._sequencer_path = 'base_sampledlstm_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'chem2cap':
-            self._sequencer = Chem2CapSequencer(self._settings)
-            self._sequencer_path = 'chem2cap'
-
-        if self._data_settings['pipeline']['sequencer'] == 'stateaction_secondslstm':
-            self._sequencer = StateActionSecondsLSTM(self._settings)
-            self._sequencer_path = 'stateaction_secondslstm'
-        if self._data_settings['pipeline']['sequencer'] == 'stateaction_secondslstm_12':
-            self._sequencer = StateActionSecondsLSTM(self._settings)
-            self._sequencer_path = 'stateaction_secondslstm_12'
-        
-        if self._data_settings['pipeline']['sequencer'] == 'stateaction_encodedlstm':
-            self._sequencer = StateActionLSTMEncoding(self._settings)
-            self._sequencer_path = 'stateaction_encodedlstm'
-        if self._data_settings['pipeline']['sequencer'] == 'stateaction_encodedlstm_12':
-            self._sequencer = StateActionLSTMEncoding(self._settings)
-            self._sequencer_path = 'stateaction_encodedlstm_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_secondslstm':
-            self._sequencer = ColourNobreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'colournobreak_secondslstm'
-        if self._data_settings['pipeline']['sequencer'] == 'colournobreak_secondslstm_12':
-            self._sequencer = ColourNobreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'colournobreak_secondslstm_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm':
-            self._sequencer = ColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'colourbreak_secondslstm'
-        if self._data_settings['pipeline']['sequencer'] == 'colourbreak_secondslstm_12':
-            self._sequencer = ColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'colourbreak_secondslstm_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'year_colourbreak':
-            self._sequencer = YearColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'year_colourbreak'
-        if self._data_settings['pipeline']['sequencer'] == 'year_colourbreak_12':
-            self._sequencer = YearColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'year_colourbreak_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'prior_colourbreak':
-            self._sequencer = PriorColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'prior_colourbreak'
-        if self._data_settings['pipeline']['sequencer'] == 'prior_colourbreak_12':
-            self._sequencer = PriorColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'prior_colourbreak_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'language_colourbreak':
-            self._sequencer = LanguageColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'language_colourbreak'
-        if self._data_settings['pipeline']['sequencer'] == 'language_colourbreak_12':
-            self._sequencer = LanguageColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'language_colourbreak_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'field_colourbreak':
-            self._sequencer = FieldColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'field_colourbreak'
-        if self._data_settings['pipeline']['sequencer'] == 'field_colourbreak_12':
-            self._sequencer = FieldColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'field_colourbreak_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'yl_colourbreak':
-            self._sequencer = YLColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'yl_colourbreak'
-        if self._data_settings['pipeline']['sequencer'] == 'yl_colourbreak_12':
-            self._sequencer = YLColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'yl_colourbreak_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'ylf_colourbreak':
-            self._sequencer = YLFColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'ylf_colourbreak'
-        if self._data_settings['pipeline']['sequencer'] == 'ylf_colourbreak_12':
-            self._sequencer = YLFColourBreakSecondsLSTM(self._settings)
-            self._sequencer_path = 'ylf_colourbreak_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondsflat':
-            self._sequencer = SimpleStateSecondsFlat(self._settings)
-            self._sequencer_path = 'simplestate_secondsflat'
-        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondsflat_12':
-            self._sequencer = SimpleStateSecondsFlat(self._settings)
-            self._sequencer_path = 'simplestate_secondsflat_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm':
-            self._sequencer = SimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'simplestate_secondslstm'
-        if self._data_settings['pipeline']['sequencer'] == 'simplestate_secondslstm_12':
-            self._sequencer = SimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'simplestate_secondslstm_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'year_simplestate':
-            self._sequencer = YearSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'year_simplestate'
-        if self._data_settings['pipeline']['sequencer'] == 'year_simplestate_12':
-            self._sequencer = YearSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'year_simplestate_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'prior_simplestate':
-            self._sequencer = PriorSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'prior_simplestate'
-        if self._data_settings['pipeline']['sequencer'] == 'prior_simplestate_12':
-            self._sequencer = PriorSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'prior_simplestate_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'language_simplestate':
-            self._sequencer = LanguageSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'language_simplestate'
-        if self._data_settings['pipeline']['sequencer'] == 'language_simplestate_12':
-            self._sequencer = LanguageSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'language_simplestate_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'field_simplestate':
-            self._sequencer = FieldSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'field_simplestate'
-        if self._data_settings['pipeline']['sequencer'] == 'field_simplestate_12':
-            self._sequencer = FieldSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'field_simplestate_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'yl_simplestate':
-            self._sequencer = YLSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'yl_simplestate'
-        if self._data_settings['pipeline']['sequencer'] == 'yl_simplestate_12':
-            self._sequencer = YLSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'yl_simplestate_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'ylf_simplestate':
-            self._sequencer = YLFSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'ylf_simplestate'
-        if self._data_settings['pipeline']['sequencer'] == 'ylf_simplestate_12':
-            self._sequencer = YLFSimpleStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'ylf_simplestate_12'
-
-        if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm':
-            self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'simplemorestates_secondslstm'
-        if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm_12':
-            self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
-            self._sequencer_path = 'simplemorestates_secondslstm_12'
-
-
-        if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
-            interval = str(self._data_settings['pipeline']['sequencer_interval'])
-            interval = interval.replace('.', '-')
-            break_threshold = str(self._data_settings['pipeline']['break_threshold'])
-            break_threshold = break_threshold.replace('.', '-')
-            name = self._data_settings['pipeline']['sequencer'] + '_' + interval
-            name += '_' + break_threshold
-            if self._data_settings['pipeline']['sequencer_dragasclick']:
-                name += '_dac'
-            tasks = self._data_settings['pipeline']['concatenator']['tasks']
-            if '1' in tasks and '2' in tasks:
-                name += '_12'
-            self._sequencer = StateActionLSTMSampling(self._settings)
-            self._sequencer_path = name
+        if self._data_settings['pipeline']['sequencer'] == 'binary_edm2021':
+            self._sequencer = BinEDM2021SecondsLSTM(self._settings)
+            self._sequencer_path = 'binary_edm2021'
+        if self._data_settings['pipeline']['sequencer'] == 'edm2021_secondsflat':
+            self._sequencer = BinEDM2021SecondsFlat(self._settings)
+            self._sequencer_path = 'edm2021_secondsflat'
                         
         self._pipeline_name += self._data_settings['pipeline']['sequencer']
         self._sequenced_directory = self._paths_settings['sequenced_simulations'] + self._sequencer_path + '/'
             
-    def _concatenate_sequences(self):
-        if self._data_settings['pipeline']['concatenator']['type'] == 'chemconcat':
-            concat = ChemlabConcatenate(self._sequenced_directory, 
-                                        self._data_settings['pipeline']['concatenator']['tasks'],
-                                        self._data_settings['min_length']
-                                        )
-            concat.concatenate()
-        
     def _load_sequences(self):    
         # Retrieve dictionary containing all sequence paths and details
         with open(self._sequenced_directory + 'id_dictionary.pkl', 'rb') as fp:
@@ -425,14 +118,6 @@ class PipelineMaker:
             self._id_indices = list(self._id_dictionary['sequences'].keys())
         self._sequenced_files = os.listdir(self._sequenced_directory)
 
-    def _filter_data(self):
-        if self._data_settings['pipeline']['demographic_filter'] == 'chemlab':
-            chemlab = ChemLabFilter(self._settings, self._id_dictionary)
-            self._id_dictionary = chemlab.filter_data()
-
-            with open('../notebooks/debug_filter_data.pkl', 'wb') as fp:
-                pickle.dump(self._id_dictionary, fp)
-        
     def _choose_event_filter(self):
         self._pipeline_name += self._data_settings['pipeline']['event_filter']
         if self._data_settings['pipeline']['event_filter'] == 'nofilt':
@@ -514,9 +199,7 @@ class PipelineMaker:
         
     def _build_pipeline(self):
         self._choose_sequencer()
-        self._concatenate_sequences()
         self._load_sequences()
-        self._filter_data()
         self._pipeline_name += '_'
         self._choose_event_filter()
         self._pipeline_name += '_'

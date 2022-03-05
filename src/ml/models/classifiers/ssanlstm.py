@@ -5,7 +5,7 @@ from tabnanny import check
 import numpy as np
 import pandas as pd
 from typing import Tuple
-from shutil import copytree
+from shutil import copytree, rmtree
 
 from ml.models.model import Model
 
@@ -84,7 +84,7 @@ class SSANLSTMModel(Model):
             self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'],
             self._model_settings['batch_size'], self._model_settings['epochs']
         )
-        path += '/f{}_model_training.csv'.format(self._gs_fold)
+        path += '/f{}_model_checkpoint/'.format(self._gs_fold)
         return path
 
     def _init_model(self, x:np.array):
@@ -141,27 +141,40 @@ class SSANLSTMModel(Model):
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
 
-        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_path,
-        monitor='val_auc',
-        mode='max',
-        save_best_only=True)
-        self._callbacks.append(model_checkpoint_callback)
+        if self._model_settings['save_best_model']:
+            model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_path,
+            monitor='val_auc',
+            mode='max',
+            save_best_only=True)
+            self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
 
-    def load_checkpoints(self, checkpoint_path:str, x:list):
-        """Sets the inner model back to the weigths present in the checkpoint folder.
-        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
-        a variables folder, and index and data checkpoint files.
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
 
         Args:
-            checpoint_path (str): path to the checkpoint folder
-            x (list): partial sample of data, to format the layers
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
         """
         x = self._format_features(x) 
         self._init_model(x)
-        self._model.load_weights(checkpoint_path)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        # print('pre-weight check: {}'.format(self._model.layers[2].weights[0][0]))
+        checkpoint = tf.train.Checkpoint(self._model)
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+        copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+        # print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
 
         
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
@@ -179,6 +192,13 @@ class SSANLSTMModel(Model):
             callbacks=self._callbacks
         )
         self._fold += 1
+        self._best_epochs = np.argmax(self._history.history['val_auc'])
+        print('best epoch: {}'.format(self._best_epochs))
+
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+
         
     def predict(self, x:list) -> list:
         print('hello')
