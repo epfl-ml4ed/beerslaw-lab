@@ -148,7 +148,9 @@ class NonNestedRankingXVal(XValidator):
             results[f]['x_resampled_val'] = val_x
             results[f]['y_resampled_val'] = val_y
             results[f]['best_params'] = model.get_settings()
-            results[f]['best_epochs'] = model.get_best_epochs()
+
+            if model.get_settings()['save_best_model']:
+                results[f]['best_epochs'] = model.get_best_epochs()
 
             model.save_fold(f)
 

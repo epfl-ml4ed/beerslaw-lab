@@ -1,9 +1,9 @@
 ---
 name: colour ternary (yes, inv, no)
 labels: 
-  colour
-  inv_col
-  no_colour
+  - colour
+  - inv_col
+  - no_colour
 target_index:
   colour: 0
   inv_col: 1

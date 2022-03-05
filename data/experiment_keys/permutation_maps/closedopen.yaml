@@ -1,0 +1,28 @@
+---
+labels: 
+  - closed
+  - both
+target_index:
+  closed: 0
+  both: 1
+index_target:
+  0: closed
+  1: both
+map: 
+  '4213': both
+  '4231': both
+  '2431': both
+  '4321': both
+  '2413': both
+  '2143': both
+  '1324': closed
+  '1243': closed
+  '1342': closed
+  '3412': closed
+  '3124': closed
+  '1234': closed
+  '4123': closed
+  '4132': closed
+  '1432': closed
+  '134': closed
+...
