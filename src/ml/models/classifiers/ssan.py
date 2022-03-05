@@ -26,10 +26,8 @@ from numpy.random import seed
 class SSANModel(Model):
     """This class implements SSAN as described in "Self-Attention: A Better Building Block for Sentiment Analysis Neural Network Classifiers"
     by Artaches Ambartsoumian Fred Popowich [https://arxiv.org/pdf/1812.07860.pdf]
-
         Notion link to the details of the implementation:
             https://www.notion.so/SSAN-Network-02086320745d45d2b7c5b803206f0cb5
-
     Args:
         Model (Model): inherits from the model class
     """
@@ -143,12 +141,13 @@ class SSANModel(Model):
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
 
-        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_path,
-        monitor='val_auc',
-        mode='max',
-        save_best_only=True)
-        self._callbacks.append(model_checkpoint_callback)
+        if self._model_settings['save_best_model']:
+            model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_path,
+            monitor='val_auc',
+            mode='max',
+            save_best_only=True)
+            self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
 
@@ -156,7 +155,6 @@ class SSANModel(Model):
         """Sets the inner model back to the weigths present in the checkpoint folder.
         Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
         a variables folder, and index and data checkpoint files.
-
         Args:
             checpoint_path (str): path to the checkpoint folder
             x (list): partial sample of data, to format the layers
@@ -180,6 +178,12 @@ class SSANModel(Model):
             verbose=self._model_settings['verbose'],
             callbacks=self._callbacks
         )
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+            self._best_epochs = np.argmax(self._history.history['val_auc'])
+            print('best epoch: {}'.format(self._best_epochs))
+            
         self._fold += 1
         
     def predict(self, x:list) -> list:
@@ -216,9 +220,3 @@ class SSANModel(Model):
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path
-    
-    
-    
-    
-    
-    

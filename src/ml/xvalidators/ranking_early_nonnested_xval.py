@@ -64,7 +64,7 @@ class RankingEarlyNonNestedXVal(XValidator):
             if learner_id not in predictions:
                 predictions[learner_id] = {}
                 
-            predictions[learner_id][self._settings['data']['adjuster']['limit']] ={
+            predictions[learner_id][self._settings['data']['adjuster']['limit']] = {
                     'pred': test_pred[i],
                     'proba': test_proba[i],
                     'truth': test_y[i]
@@ -200,56 +200,53 @@ class RankingEarlyNonNestedXVal(XValidator):
             else:
                 train_x, train_y = x_resampled, y_resampled
                 val_x, val_y = x_test, y_test
-        #     model.set_outer_fold(f)
-        #     results[f]['x_resampled'] = x_resampled
-        #     results[f]['y_resampled'] = y_resampled
-        #     results[f]['x_resampled_train'] = train_x
-        #     results[f]['y_resampled_train'] = train_y
-        #     results[f]['x_resampled_val'] = val_x
-        #     results[f]['y_resampled_val'] = val_y
+            model.set_outer_fold(f)
+            results[f]['x_resampled'] = x_resampled
+            results[f]['y_resampled'] = y_resampled
+            results[f]['x_resampled_train'] = train_x
+            results[f]['y_resampled_train'] = train_y
+            results[f]['x_resampled_val'] = val_x
+            results[f]['y_resampled_val'] = val_y
 
-        #     if len(x_resampled) < self._xval_settings['nested_xval']['inner_n_folds'] or len(x_test) == 0:
-        #         continue
+            if len(x_resampled) < self._xval_settings['nested_xval']['inner_n_folds'] or len(x_test) == 0:
+                continue
 
-        #     model.fit(train_x, train_y, x_val=val_x, y_val=val_y)
-        #     if len(x_test) == 0:
-        #         print(self._settings['data']['adjuster']['limit'])
-        #         continue
+            model.fit(train_x, train_y, x_val=val_x, y_val=val_y)
+            if len(x_test) == 0:
+                print(self._settings['data']['adjuster']['limit'])
+                continue
         
-        #     results[f]['best_params'] = model.get_settings()
-        #     results[f]['best_epochs'] = model.get_best_epochs()
+            results[f]['best_params'] = model.get_settings()
+            results[f]['best_epochs'] = model.get_best_epochs()
                 
             
-            # y_pred = model.predict(x_test)
-            # y_proba = model.predict_proba(x_test)
-            # test_results = self._scorer.get_scores(y_test, y_pred, y_proba)
-            # self._write_predictions(y_pred, y_proba, y_test, results[f]['longenough_test_indices'] )
-            # logging.debug('    predictions: {}'.format(y_pred))
-            # logging.debug('    probability predictions: {}'.format(y_proba))
-            # results[f]['y_pred'] = y_pred
-            # results[f]['y_proba'] = y_proba
-            # results[f].update(test_results)
+            y_pred = model.predict(x_test)
+            y_proba = model.predict_proba(x_test)
+            test_results = self._scorer.get_scores(y_test, y_pred, y_proba)
+            self._write_predictions(y_pred, y_proba, y_test, results[f]['longenough_test_indices'] )
+            logging.debug('    predictions: {}'.format(y_pred))
+            logging.debug('    probability predictions: {}'.format(y_proba))
+            results[f]['y_pred'] = y_pred
+            results[f]['y_proba'] = y_proba
+            results[f].update(test_results)
 
-            #DELETE
-            # test_results = self._scorer.get_scores(y_test, y_pred, y_proba)
-            self._write_predictions(y_test, y_test, y_test, results[f]['longenough_test_indices'] )
             
-        #     # Carry on
-        #     if len(short_test) > 0:
-        #         pred, proba, truth = self._read_predictions(results[f]['tooshort_testindices'])
-        #         pred = list(y_pred) + list(pred)
-        #         proba = list(y_proba) + list(proba)
-        #         truth = list(y_test) + list(truth)
-        #         carry_on_results = self._scorer.get_scores(truth, pred, proba)
-        #         results[f]['carry_on_scores'] = carry_on_results
-        #     else:
-        #         results[f]['carry_on_scores'] = test_results
+            # Carry on
+            if len(short_test) > 0:
+                pred, proba, truth = self._read_predictions(results[f]['tooshort_testindices'])
+                pred = list(y_pred) + list(pred)
+                proba = list(y_proba) + list(proba)
+                truth = list(y_test) + list(truth)
+                carry_on_results = self._scorer.get_scores(truth, pred, proba)
+                results[f]['carry_on_scores'] = carry_on_results
+            else:
+                results[f]['carry_on_scores'] = test_results
             
-        #     results[f]['best_estimator'] = model.save_fold(f)
+            results[f]['best_estimator'] = model.save_fold(f)
             
-        #     self._model_notation = model.get_notation()
-        #     self.save_results(results)
-        # return results
+            self._model_notation = model.get_notation()
+            self.save_results(results)
+        return results
 
     def save_results(self, results):
         path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/' 

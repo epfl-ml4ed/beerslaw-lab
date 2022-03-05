@@ -20,6 +20,7 @@ from tensorflow.keras.metrics import get as get_metric, Metric
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+
 from numpy.random import seed
 
 class LSTMModel(Model):
@@ -82,6 +83,8 @@ class LSTMModel(Model):
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
+
+
     def _get_model_checkpoint_path(self) -> str:
         path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
         path += str(self._outer_fold) + '/logger/'
@@ -95,10 +98,8 @@ class LSTMModel(Model):
 
     def load_model_weights(self, x:np.array, checkpoint_path:str):
         """Given a data point x, this function sets the model of this object
-
         Args:
             x ([type]): [description]
-
         Raises:
             NotImplementedError: [description]
         """
@@ -114,7 +115,7 @@ class LSTMModel(Model):
         temporary_path = '../experiments/temp_checkpoints/training/'
         if os.path.exists(temporary_path):
             rmtree(temporary_path)
-            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
         checkpoint.restore(temporary_path)
         print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
 
@@ -158,12 +159,13 @@ class LSTMModel(Model):
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
 
-        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_path,
-        monitor='val_auc',
-        mode='max',
-        save_best_only=True)
-        self._callbacks.append(model_checkpoint_callback)
+        if self._model_settings['save_best_model']:
+            model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_path,
+            monitor='val_auc',
+            mode='max',
+            save_best_only=True)
+            self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
 
@@ -171,7 +173,6 @@ class LSTMModel(Model):
         """Sets the inner model back to the weigths present in the checkpoint folder.
         Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
         a variables folder, and index and data checkpoint files.
-
         Args:
             checpoint_path (str): path to the checkpoint folder
             x (list): partial sample of data, to format the layers
@@ -195,8 +196,12 @@ class LSTMModel(Model):
             verbose=self._model_settings['verbose'],
             callbacks=self._callbacks
         )
-        checkpoint_path = self._get_model_checkpoint_path()
-        self.load_model_weights(x_train, checkpoint_path)
+
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+            self._best_epochs = np.argmax(self._history.history['val_auc'])
+            print('best epoch: {}'.format(self._best_epochs))
         self._fold += 1
         
     def predict(self, x:list) -> list:
@@ -233,9 +238,3 @@ class LSTMModel(Model):
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path
-    
-    
-    
-    
-    
-    
