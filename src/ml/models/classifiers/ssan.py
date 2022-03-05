@@ -141,12 +141,13 @@ class SSANModel(Model):
         csv_logger = CSVLogger(csv_path, append=True, separator=';')
         self._callbacks.append(csv_logger)
 
-        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_path,
-        monitor='val_auc',
-        mode='max',
-        save_best_only=True)
-        self._callbacks.append(model_checkpoint_callback)
+        if self._model_settings['save_best_model']:
+            model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_path,
+            monitor='val_auc',
+            mode='max',
+            save_best_only=True)
+            self._callbacks.append(model_checkpoint_callback)
 
         print(self._model.summary())
 
@@ -182,7 +183,7 @@ class SSANModel(Model):
             self.load_model_weights(x_train, checkpoint_path)
             self._best_epochs = np.argmax(self._history.history['val_auc'])
             print('best epoch: {}'.format(self._best_epochs))
-            
+
         self._fold += 1
         
     def predict(self, x:list) -> list:
