@@ -22,7 +22,7 @@ data:
     event_filter: nofilt
     break_filter: blank
     break_threshold: 0.6
-    adjuster: tscrp
+    adjuster: full
     encoder: blank
     skipgram_weights: ''
     skipgram_map: ''
@@ -35,7 +35,7 @@ data:
         - 1hot
         - aveagg
   adjuster:
-    limit: 30
+    limit: 250
     limits: 
       - 30
       - 40
