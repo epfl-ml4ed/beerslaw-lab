@@ -70,7 +70,7 @@ ML:
         seed: 1
         batch_size: 16
         cell_type: GRU
-        dropout: 0.02
+        dropout: 0.05
         early_stopping: False
         epochs: 30
         loss: auc
@@ -86,7 +86,7 @@ ML:
       ssan:
         save_best_model: False
         batch_size: 16
-        dropout: 0.02
+        dropout: 0.05
         early_stopping: false
         epochs: 30
         key_cells: 8
