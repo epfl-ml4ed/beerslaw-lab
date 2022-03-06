@@ -74,6 +74,8 @@ class Styler:
             algo = 'BiLSTM'
         elif 'lstm' in path:
             algo = 'LSTM'
+        elif 'ssan' in path:
+            algo='ssan' 
         return algo
     
     def _get_feature(self, path:str) -> str:
@@ -94,7 +96,7 @@ class Styler:
         elif 'sgenc_e10' in path or 'sgenc_e15' in path:
             feature = 'shortpw'
         elif 'sgenc' in path:
-            feature = 'pw'
+           feature = 'pw'
         elif 'raw_full' in path and 'stateaction_secondslstm':
             feature = 'seconds_pad'
         elif 'raw_scrop' in path and 'stateaction_secondslstm':

@@ -16,6 +16,7 @@ from bokeh.sampledata.autompg import autompg as df
 from bokeh.layouts import gridplot
 
 from visualisers.stylers.full_sequences_styler import FullStyler
+from matplotlib import pyplot as plt
 
 class NestedXValPlotter:
     """This class plots nested crossvalidation results
