@@ -91,11 +91,11 @@ LSTM:
   seconds_crop: deeppink
   encoded_crop: hotpink
   col: '#cbf3f0'
-  simple: '#ffbf69'
-ssan:
+  simple: '#D1AC00'
+ssanlstm:
   seconds_pad: mediumvioletred
   encoded_pad: crimson
   seconds_crop: deeppink
   encoded_crop: hotpink
   col: '#cbf3f0'
-  simple: '#ffbf69'
+  simple: '#7389AE'

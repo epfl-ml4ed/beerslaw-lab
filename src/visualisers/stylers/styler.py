@@ -72,10 +72,10 @@ class Styler:
             algo = 'adaboost'
         elif 'BiLSTM' in path:
             algo = 'BiLSTM'
+        elif 'ssanlstm' in path:
+            algo='ssanlstm' 
         elif 'lstm' in path:
             algo = 'LSTM'
-        elif 'ssan' in path:
-            algo='ssan' 
         return algo
     
     def _get_feature(self, path:str) -> str:

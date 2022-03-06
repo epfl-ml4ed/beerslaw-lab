@@ -214,7 +214,7 @@ class RankingEarlyNestedXVal(XValidator):
             
             # Carry on
             if len(short_test) > 0:
-                pred, proba, truth = self._read_predictions(short_test)
+                pred, proba, truth = self._read_predictions(results[f]['tooshort_testindices'])
                 pred = list(y_pred) + list(pred)
                 proba = list(y_proba) + list(proba)
                 truth = list(y_test) + list(truth)
