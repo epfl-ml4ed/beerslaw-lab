@@ -321,6 +321,55 @@ class NestedXValPlotter:
             boxplots.append(b)
         
         self._multiple_plots(dots, parameters, boxplots, x_axis, plot_styling)
+
+    def plot_seed_experiments(self):
+        means = []
+        stds = []
+        seeds = []
+        dots, parameters, boxplots = [], [], []
+        xvs = self._crawl()
+        xvs, x_axis = self._styler.get_x_styling(xvs)
+        print(x_axis)
+        plot_styling = self._styler.get_plot_styling(x_axis['paths'])
+        for path in x_axis['paths']:
+            print(path)
+            xv = xvs[path]['data']
+            d, p, b = self._create_dataframes(xv)
+            means.append(b.iloc[0]['mean'])
+            stds.append(b.iloc[0]['std'])
+            seeds.append(d.iloc[0]['seed'])
+            
+        sort_indices = np.argsort(means)
+        ordered_means = [means[idx] for idx in sort_indices]
+        ordered_stds = [stds[idx] for idx in sort_indices]
+
+        ordered_mins = np.array(ordered_means) - np.array(ordered_stds)
+        ordered_maxs = np.array(ordered_means) + np.array(ordered_stds)
+
+        # x = list(range(len(ordered_means)))
+        # plt.figure(figsize=(16, 4))
+        # plt.plot(x, ordered_means, color='yellowgreen')
+        # plt.fill_between(x, ordered_mins, ordered_maxs, color='yellowgreen', alpha=0.3)
+        # plt.xticks(x, seeds)
+        # plt.ylim([0, 1])
+        # if self._settings['show']:
+        #     plt.show()
+
+
+        x = list(range(len(ordered_means)))
+        large_markers = [10 for _ in ordered_mins]
+        small_markers = [5 for _ in ordered_mins]
+        plt.figure(figsize=(16, 4))
+        plt.scatter(x, ordered_means, s=large_markers, color='yellowgreen')
+        plt.scatter(x, ordered_mins, s=small_markers, color='yellowgreen', alpha=0.3)
+        plt.scatter(x, ordered_maxs, s=small_markers, color='yellowgreen', alpha=0.3)
+        plt.xticks(x, seeds)
+        plt.ylim([0, 1])
+        if self._settings['show']:
+            plt.show()
+
+
+        print(np.mean(means))
         
     def plot_reproduction(self):
         dots, parameters, boxplots = [], [], []

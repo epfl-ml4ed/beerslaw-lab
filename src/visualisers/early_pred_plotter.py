@@ -28,10 +28,17 @@ class EarlyPredPlotter:
         self._styler = EarlyPredStyler(settings)
         
     def _process_path(self, path:str) -> Tuple[str, int]:
+        # Process length
         regex = re.compile('l([0-9]+)')
         length = regex.findall(path)
         p = path.replace('_l' + str(length[0]), '')
-        return p, int(length[0])
+
+        # process _date
+        date_re = re.compile('.*(202[0-9]_[0-9]+_[0-9]+_[0-9]+/)')
+        date = date_re.findall(path)
+        p = p.replace(date[0], '')
+
+        return p, int(length[0]), date[0]
         
     def _crawl(self):
         # crawl paths
@@ -58,12 +65,14 @@ class EarlyPredPlotter:
         # Load xvals
         xvs = {}
         for xv in xval_path:
-            path, l = self._process_path(xv)
+            path, l, date = self._process_path(xv)
             regex = re.compile('([0-9]+classes)')
             with open(xv, 'rb') as fp:
                 if path not in xvs:
                     xvs[path] = {}
-                xvs[path][l] = pickle.load(fp)
+                if date not in xvs[path]:
+                    xvs[path][date] = {}
+                xvs[path][date][l] = pickle.load(fp)
         return xvs
     
     def _crawl_reproduction(self):# crawl paths
@@ -83,24 +92,34 @@ class EarlyPredPlotter:
        
     def _create_lineframes(self, xvals: dict):
         xs = []
-        means = []
-        stds = []
-        for length in xvals:
-            folds = []
-            for fold in xvals[length]:
-                if fold != 'x' and fold != 'y' and fold != 'optim_scoring' and fold != 'id_indices' and fold != 'limit':
-                    if self._settings['plot_style']['carry_on']:
-                        folds.append(xvals[length][fold]['carry_on_scores'][self._settings['plot_style']['measure']])
-                    else:
-                        folds.append(xvals[length][fold][self._settings['plot_style']['measure']])
-            xs.append(length)
-            means.append(np.mean(folds))
-            stds.append(np.std(folds))
+        means = {}
+        stds = {}
+        for date in xvals:
+            for length in xvals[date]:
+                folds = []
+                for fold in xvals[date][length]:
+                    if fold != 'x' and fold != 'y' and fold != 'optim_scoring' and fold != 'id_indices' and fold != 'limit':
+                        if self._settings['plot_style']['carry_on']:
+                            folds.append(xvals[date][length][fold]['carry_on_scores'][self._settings['plot_style']['measure']])
+                        else:
+                            folds.append(xvals[date][length][fold][self._settings['plot_style']['measure']])
+                    xs.append(length)
+                if length not in means:
+                    means[length] = []
+                    stds[length] = []
+                
+                means[length].append(np.mean(folds))
+                stds[length].append(np.std(folds))
+            
+        xs = list(set(xs))
+        xs.sort()
+        plot_means = [np.mean(means[length]) for length in xs]
+        plot_stds = [np.std(stds[length]) for length in xs]
             
         data = pd.DataFrame()
         data['x'] = xs
-        data['mean'] = means
-        data['std'] = stds
+        data['mean'] = plot_means
+        data['std'] = plot_stds
         data['upper'] = data['mean'] + data['std']
         data['lower'] = data['mean'] - data['std']
         data = data.sort_values('x')
@@ -160,6 +179,7 @@ class EarlyPredPlotter:
         
         datas = []
         for path in xvs:
+            print('path', path)
             data = self._create_lineframes(xvs[path])
             data['name'] = path
             datas.append(data)

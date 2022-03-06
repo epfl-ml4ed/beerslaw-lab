@@ -1,16 +1,16 @@
 experiment:
-  name: to_sort/partial/chemlab-ssanlstm
+  name: non nested capacitor/lstm
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Full Predictions For Beer's Law Lab (RF and flat features)
+  title: Full Predictions For Capacitor's Law Lab (LSTM and action-state features)
   measure: roc
-  carry_on: False
+  carry_on: True
   sizing_mode: stretch_both
   colour_map: cm_algo_feature
   label_map: lm_algo_feature
   style: algo_features
-  type: errorplot #errorplot # change in early pred -> lineplot
+  type: lineplot #errorplot # change in early pred -> lineplot
   boxplot_spacing: 0.4
   radius: 0.005
   bar_length: 0.05
@@ -24,7 +24,7 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
-      - binconcepts
+      - 2classes
       # - colourbreak
       # - colournobreak
       # - simplestate
