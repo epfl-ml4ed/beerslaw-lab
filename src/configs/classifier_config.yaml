@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: binconcepts
-  root_name: chemlab--seed-
+  root_name: rf-early
   name: blank
   old_root_name: blank
   random_seed: 129
@@ -24,10 +24,10 @@ data:
     break_filter: blank
     break_threshold: 0.6
     adjuster: full
-    encoder: blank
+    encoder: actionspan
     skipgram_weights: ''
     skipgram_map: ''
-    aggregator: blank
+    aggregator: normagg
     encoders_aggregators_pairs:
       1:
         - actionspan
@@ -53,7 +53,7 @@ ML:
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: early_nonnested
+    xvalidator: ranking_earlynested
     scorer: 2clfscorer
     gridsearch: nogs
     test_pad: False
