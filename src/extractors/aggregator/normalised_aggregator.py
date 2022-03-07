@@ -13,4 +13,7 @@ class NormalisedAggregator(Aggregator):
         self._notation = 'normagg'
         
     def aggregate(self, matrix: list) -> list:
+        print(matrix)
+        print(list(np.array(matrix) / np.sum(matrix)))
+        print()
         return list(np.array(matrix) / np.sum(matrix))

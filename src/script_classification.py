@@ -458,8 +458,8 @@ def main(settings):
         
         if 'simplestate_secondsflat'in settings['sequencer']:
             settings['data']['pipeline']['encoders_aggregators_pairs'] = {
-                    0: ['1hot', 'aveagg'],
-                    1: ['actionspan', 'normagg']
+                    0: ['actionspan', 'normagg'],
+                    1: ['1hot', 'aveagg']
                 }
             settings['data']['pipeline']['break_filter'] = 'nobrfilt'
             if settings['classification']:

@@ -3,7 +3,7 @@ paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
   class_name: binconcepts
-  root_name: rf-early
+  root_name: test
   name: blank
   old_root_name: blank
   random_seed: 129
@@ -53,7 +53,7 @@ ML:
     sampler: nosplr
     task: classification
     model: rnn_attention
-    xvalidator: ranking_earlynested
+    xvalidator: nonnested
     scorer: 2clfscorer
     gridsearch: nogs
     test_pad: False
