@@ -217,7 +217,8 @@ class RankingEarlyNonNestedXVal(XValidator):
                 continue
         
             results[f]['best_params'] = model.get_settings()
-            results[f]['best_epochs'] = model.get_best_epochs()
+            if model.get_settings()['save_best_model']:
+                results[f]['best_epochs'] = model.get_best_epochs()
                 
             
             y_pred = model.predict(x_test)

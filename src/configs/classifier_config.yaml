@@ -23,10 +23,10 @@ data:
     break_filter: blank
     break_threshold: 0.6
     adjuster: full
-    encoder: blank
+    encoder: actionspan
     skipgram_weights: ''
     skipgram_map: ''
-    aggregator: blank
+    aggregator: normagg
     encoders_aggregators_pairs:
       1:
         - actionspan

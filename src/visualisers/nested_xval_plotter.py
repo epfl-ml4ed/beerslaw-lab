@@ -377,7 +377,6 @@ class NestedXValPlotter:
 
 
         print(np.mean(means))
-
         
     def plot_reproduction(self):
         dots, parameters, boxplots = [], [], []

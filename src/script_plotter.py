@@ -19,7 +19,6 @@ from visualisers.checkpoint_plotter import CheckpointPlotter
 def create_checkpoint_reproductions(settings):
     """Given an experiment ran as:
         python script_classification.py --full --fulltime --sequencer name_sequencer
-
         and with TF models recording tensorflow checkpoint, that function recreates the same files as the normal results
         with the validation models instead.
     """
@@ -152,4 +151,3 @@ if __name__ == '__main__':
     
     settings.update(vars(parser.parse_args()))
     main(settings)
-        

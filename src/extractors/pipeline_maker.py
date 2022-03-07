@@ -318,7 +318,7 @@ class PipelineMaker:
             with open(seq_path, 'rb') as fp:
                 sim_seq = pickle.load(fp)
                 seq, begin, end = sim_seq['sequence'], sim_seq['begin'], sim_seq['end']
-            perm = str(sim_seq['permutation'])
+            perm = str(int(sim_seq['permutation']))
             if perm in self._label_map['map']:
                 permu = self._label_map['map'][perm]
                 permu = self._label_map['target_index'][permu]
