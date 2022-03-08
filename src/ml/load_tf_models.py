@@ -1,10 +1,12 @@
 import os
 import re
 import pickle
+import numpy as np
 from tabnanny import check
 from shutil import copytree, rmtree
 import tensorflow as tf
 
+import numpy as np
 from extractors.pipeline_maker import PipelineMaker
 from ml.xval_maker import XValMaker
 from ml.models.model import Model
@@ -66,15 +68,24 @@ def _crawl_test_paths(experiment:str):
     paths = [p.replace('saved_model.pb', '') for p in paths]
 
     model_checkpoints = {}
-    outer_fold_re = re.compile('.*([0-9]+)/logger')
+    outer_fold_re = re.compile('_f([0-9])/')
     for path in paths:
+        print(path)
         outer_fold = outer_fold_re.findall(path)[0]
         model_checkpoints[outer_fold] = path
 
     return model_checkpoints
 
 def _read_config_file(experiment:str):
-    with open(experiment + '/config.yaml', 'rb') as fp:
+    configs = []
+    for (dirpath, dirnames, filenames) in os.walk(experiment):
+        files = [os.path.join(dirpath, file) for file in filenames]
+        configs.extend(files)
+    configs = [cc for cc in configs if 'config.yaml' in cc]
+    conf = [len(cc) for cc in configs]
+    conf = np.argmin(conf)
+    path = configs[conf]
+    with open(path, 'rb') as fp:
         return pickle.load(fp)
 
 def load_all_nn(experiment:str):
@@ -119,7 +130,8 @@ def load_test_nn(experiment:str):
         inner_fold: inner fold from which to retrieve the model
     """
     settings = _read_config_file(experiment)
-    paths = _crawl_checkpoint_paths(experiment)
+    print(settings['data']['pipeline'])
+    paths = _crawl_test_paths(experiment)
     temporary_path = '../experiments/temp_checkpoints/plotter/'
 
     pipeline = PipelineMaker(settings)
