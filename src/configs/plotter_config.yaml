@@ -1,5 +1,5 @@
 experiment:
-  name: non nested capacitor/ssanlstm
+  name: non nested early capacitor/nested rf
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
