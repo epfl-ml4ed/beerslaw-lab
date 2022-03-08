@@ -22,7 +22,7 @@ rf:
   longpw: darkslateblue
   shortpw: darkorchid
   pw: darkslateblue
-  as: royalblue
+  as: "#7389AE"
   ac: skyblue
   ac_av: skyblue
   ac_cum: lightskyblue

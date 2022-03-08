@@ -313,6 +313,7 @@ class NestedXValPlotter:
         xvs, x_axis = self._styler.get_x_styling(xvs)
         print(x_axis)
         plot_styling = self._styler.get_plot_styling(x_axis['paths'])
+        means = []
         for path in x_axis['paths']:
             xv = xvs[path]['data']
             d, p, b = self._create_dataframes(xv)
@@ -324,13 +325,14 @@ class NestedXValPlotter:
             dots.append(d)
             parameters.append(p)
             boxplots.append(b)
-            
-        print(np.mean(means))
+            means.append(b.iloc[0]['mean'])
         
         self._multiple_plots(dots, parameters, boxplots, x_axis, plot_styling)
+        print(means)
 
     def plot_seed_experiments(self):
         means = []
+        flat_means = []
         stds = []
         seeds = []
         dots, parameters, boxplots = [], [], []
@@ -342,9 +344,11 @@ class NestedXValPlotter:
             print(path)
             xv = xvs[path]['data']
             d, p, b = self._create_dataframes(xv)
+            flat_means = flat_means + list(d['data'])
             means.append(b.iloc[0]['mean'])
             stds.append(b.iloc[0]['std'])
             seeds.append(d.iloc[0]['seed'])
+
             
         sort_indices = np.argsort(means)
         ordered_means = [means[idx] for idx in sort_indices]
@@ -376,8 +380,9 @@ class NestedXValPlotter:
             plt.show()
 
 
-        print(np.mean(means))
-        
+        # print(flat_means)
+        print(means)
+                
     def plot_reproduction(self):
         dots, parameters, boxplots = [], [], []
         

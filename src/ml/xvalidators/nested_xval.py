@@ -65,24 +65,25 @@ class NestedXVal(XValidator):
         if label_map == 'none':
             return lambda x: x
 
-        if label_map == 'vector_labels':
-            map_path = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+        if label_map == '2classes':
+            map_path = '../data/experiment_keys/permutation_maps/closedopen.yaml'
             
         with open(map_path) as fp:
-            map = yaml.load(fp, Loader=yaml.FullLoader)
+            map_label = yaml.load(fp, Loader=yaml.FullLoader)
 
-        return lambda x: map['map'][x]
+        return map_label
         
     def _get_y_to_rankings(self, indices):
-        with open('../data/post_test/rankings.pkl', 'rb') as fp:
-            rankings = pickle.load(fp)
-            id_rankings = {rankings.iloc[i]['username']: rankings.iloc[i]['ranking'] for i in range(len(rankings))}
+        rankings = pd.read_csv('../data/post_test/sim_details.tsv', index_col=0, sep='\t')
+        rankings['username'] = rankings.index
+        rankings['username'] = rankings['username'].apply(lambda x: str(int(str(x)[:-2])))
+        id_rankings = {rankings.iloc[i]['username']: rankings.iloc[i]['permutation'] for i in range(len(rankings))}
         id_dictionary = self._settings['id_dictionary']
-        vector_map = self._get_map('vector_labels')
+        vector_map = self._get_map()
 
         lids = [id_dictionary['sequences'][idx]['learner_id'] for idx in indices]
         rankings = [id_rankings[lid] for lid in lids]
-        rankings = [vector_map(ranking) for ranking in rankings]
+        rankings = [vector_map['map'][str(ranking)] for ranking in rankings]
         return rankings
         
     def xval(self, x:list, y:list, indices:list) -> dict:
