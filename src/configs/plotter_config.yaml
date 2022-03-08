@@ -1,16 +1,16 @@
 experiment:
-  name: non nested capacitor/lstm
+  name: non nested capacitor/ssanlstm
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
-  title: Full Predictions For Chemlab Lab (SSANLSTM for action-state features)
+  title: Full Predictions For Beer's Law Lab (SSANLSTM for state action)
   measure: roc
   carry_on: True
   sizing_mode: stretch_both
   colour_map: cm_algo_feature
   label_map: lm_algo_feature
   style: algo_features
-  type: errorplot #errorplot # change in early pred -> lineplot
+  type: lineplot #errorplot # change in early pred -> lineplot
   boxplot_spacing: 0.4
   radius: 0.005
   bar_length: 0.05
