@@ -1,0 +1,475 @@
+	index	username	gender	year	field	beerslaw	Chris granular	Jade granular	flag_jade_label	flag_chris_label	decisions	D	FLAG
+0	0	7sfwehhm	2.0	2nd	Chemistry	missing	unknown	unknown			v		
+1	1	786zpupn	1.0	1st	Chemistry	nicht sehr	don't know	don't know			v		
+2	2	pt2nbb4w	2.0	1st	Chemistry	Ich wusste noch nichts zu diesem Thema.	don't know	don't know			v		
+3	3	sqrqdsge	2.0	1st	Chemistry	Fast gar nicht	don't know	don't know			v		
+4	4	h8624awf	1.0	2nd	Biology	Gut	"know,no mention"	"know,no mention"			v		
+5	5	du727jdw	1.0	2nd	Chemistry	Wir haben das vor einigerzeit in der Schule kurz angeschaut. Jedoch konnte ich mich an nichts mehr erinnern.	"forgot,in class"	"forgot,in class"			v		
+6	6	a3tffvsb	2.0	3rd	"Chemistry, Textiles"	kaum	don't know	don't know			v		
+7	7	y8qbtkmf	1.0	2nd	Chemistry	Gar nicht. 	don't know	don't know			v		
+8	8	sr34qyfx	1.0	2nd	Chemistry	Einwenig	"heard about,no mention"	"heard about,no mention"			v		
+9	9	ntqpqkpq	2.0	2nd	Chemistry	"Nicht soo sehr. Wurde in der Schule durchgenommen, jedoch nicht sehr vertieft."	"heard about,in class"	"heard about,in class"			v		
+10	10	r29wzm6f	2.0	2nd	Chemistry	Ja 	"yes,no mention"	"yes,no mention"			v		
+11	11	zgs84jfy	1.0	2nd	Chemistry	sehr	"know,no mention"	"know,no mention"			v		
+12	12	dzakgq29	1.0	2nd	Chemistry	"nit gut weil ich das Labor übersprungen habe
+
+"	don't know	don't know			v		
+13	13	ybxahrra	2.0	2nd	Chemistry	nicht sehr vertraut	don't know	don't know			v		
+14	14	x5sm9pfu	1.0	2nd	Chemistry	Nicht sehr gut vertraut	don't know	don't know			v		
+15	15	b72hbgvw	2.0	2nd	Chemistry	"Schon ein zwei mal angesehen, aber immer noch nicht Sattelfest, was man an den Antworten merken wird"	"heard about,no mention"	"heard about,no mention"			v		
+16	16	g43q3d94	2.0	2nd	Chemistry	ein wenig	"heard about,no mention"	"heard about,no mention"			v		
+17	17	vqumj3t3	1.0	2nd	Chemistry	Einigermassen	"heard about,no mention"	"heard about,no mention"			v		
+18	18	4vuc8rr3	1.0	2nd	Chemistry	nicht Viel  	don't know	"heard about,no mention"	1.0		don’t know	Closer to not much than to a little	
+19	19	cwgvxrvx	1.0	2nd	Chemistry	ja ich war vertraut	"know,no mention"	"know,no mention"			v		
+20	20	rmd35un4	1.0	2nd	Chemistry	Nicht mehr so gut hatte mehrheitlich alles geraten 	"forgot,no mention"	"forgot,no mention"			v		
+21	21	55yavcue	1.0	2nd	Chemistry	"schlecht, da ich schon lange nichts mehr damit zu tun hatte"	"rusty,no mention"	"forgot,no mention"	1.0		"rusty,no mention"	"Schlecht says they are not familiar with it, but no explicit mention that they forgot -> rusty"	
+22	22	33asfz2u	1.0	2nd	Chemistry	nicht so	don't know	don't know			v		
+23	23	rfand3tt	2.0	2nd	Chemistry	Ein wenig	"heard about,no mention"	"heard about,no mention"			v		
+24	24	ew6cfr37	2.0	2nd	Chemistry	Nicht so sehr.	don't know	"heard about,no mention"			don't know	"Not so much, no much -> should all be don’t know"	
+25	25	z8dtc572	2.0	2nd	Chemistry	Nicht	don't know	don't know			v		
+26	26	t7728bqp	2.0	2nd	Chemistry	wenig	"heard about,no mention"	"heard about,no mention"			v		
+27	27	tsvcrpeg	2.0	2nd	Chemistry	wir haben es im üK durchgenommen aber sonst nicht wirklich. 	"heard about,in class"	"forgot,at work"	1.0		"heard about,in class"		
+28	28	xngb9hff	1.0	2nd	Chemistry	Einigermasse gut. Schon etwas vertraut mit Spektroskopie. 	"know,no mention"	"know,no mention"	1.0		v		
+29	29	gyerx2d9	1.0	2nd	Chemistry	"Ganz ok, da wir es in der Schule angeschaut hatten. War jedoch ein bisschen länger her."	"rusty,in class"	"rusty,in class"			v		
+30	30	wvxkvhne	1.0	2nd	Chemistry	Nicht so wie ich erwartete (Ich hatte es vorgängig im ÜK gehabt und vertieft damit gearbeitet)	"overestimate,in class"	"overestimate,in class"			v		
+31	31	o9ffsiwt	2.0	1st	Chemistry	"vor einem Jahr mal gehört, jedoch keine Erinnerungen daran"	"forgot,no mention"	"forgot,no mention"			v		
+32	32	ecaf72fu	2.0	1st	Chemistry	"gar nicht, wir haben das Lambert-Beer'schen Gesetz noch nie in der Schule angeschaut"	don't know	don't know			v		
+33	33	bf4iuomx	2.0	1st	Chemistry	gar nicht	don't know	don't know			v		
+34	34	qsx2cc4b	2.0	1st	Chemistry	"Etwas, ich kann das Gesetz nicht aufsagen und habe kaum Berechnungnen durchgeführt.
+Aber ich habe im ÜK schon einmal etwas damit berechnet, jedoch nur die Formel angewendet mit gegebenen Werten."	"heard about,in class"	"forgot,no mention"			"heard about,in class"	"Have only. Used it, never actually integrated it"	
+35	35	kq2e6dgu	1.0	1st	Chemistry	"Nei ich kannte es nicht.
+Es wäre sehr hilfreich bei der 1. Seite zu schreiben was man tuen soll und das man dort alles ausprobieren soll. weil ich habe das einfach übersprungen en konnte daher die aufgaben nicht lösen"	don't know	don't know			v		
+36	36	oikzz9af	1.0	1st	Chemistry	"nein. Ich wusste nur das es ein Gesetz gibt.
+"	don't know	don't know			v		
+37	37	xau6wapw	1.0	1st	Chemistry	Nein	don't know	don't know			v		
+38	38	ac4q67z9	1.0	1st	Chemistry	Garnicht	don't know	don't know			v		
+39	39	r2q9q35x	1.0	1st	Chemistry	Gar nicht. 	don't know	don't know			v		
+40	40	p2u7xw38	1.0	1st	Chemistry	"Garnicht, habe nochnie davon gehört."	don't know	don't know			v		
+41	41	n6zakrku	2.0	1st	Chemistry	"null prozent
+"	don't know	don't know			v		
+42	42	padezf8m	1.0	1st	Chemistry	"Gar nicht, habe keine Ahnung:)"	don't know	don't know			v		
+43	43	amqnxthw	2.0	1st	Chemistry	Gar nicht.	don't know	don't know			v		
+44	44	j9ukgkp5	2.0	1st	Chemistry	Habe es mal kurz besprochen im Betrieb aber nicht vertieft. 	"heard about,no mention"	"heard about,at work"			"heard about,no mention"	Could have heard about it in school but still not have applied it at work	
+45	45	szvqb37f	2.0	1st	Chemistry	Eher weniger. Einmal kurz damit gearbeitet aber noch sehr unsicher.	"heard about,no mention"	"heard about,no mention"	1.0		v		
+46	46	dnvedphf	2.0	1st	Chemistry	Noch nicht Thematisiert	don't know	don't know			v		
+47	47	chca7sdb	1.0	1st	Chemistry	"gar nicht, noch nie gehört."	don't know	don't know			v		
+48	48	temu2736	2.0	1st	Chemistry	Oui 	"yes,no mention"	"yes,no mention"			v		
+49	49	v2kw3kup	2.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+50	50	mcjaj2aj	2.0	1st	Chemistry	Oui car on l'utilise souvent au labo	"know,at work"	"can use,at work"	1.0		"know,can use,at work"	"Labo work -> use it regularly, can use TP for lab at school. They say yes, (imply they know it) and then prove it by saying they use it"	
+51	51	xuwyv9hz	2.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+52	52	h543nsc8	1.0	1st	Chemistry	"oui on en a parlé
+
+"	"yes,no mention"	"heard about,no mention"			"heard about,no mention"	Gut feeling	Could be both
+53	53	wxz98urt	2.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+54	54	qk6q49f4	1.0	1st	Chemistry	oui 	"yes,no mention"	"yes,no mention"			v		
+55	55	r42kwnt7	2.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+56	56	jvxejtp9	2.0	2nd	Biology	oui	"yes,no mention"	"yes,no mention"			v		
+57	57	vh8vedkw	1.0	2nd	Biology	oui 	"yes,no mention"	"yes,no mention"			v		
+58	58	m9u6p93a	2.0	2nd	Biology	oui	"yes,no mention"	"yes,no mention"			v		
+59	59	4s7gthwf	1.0	2nd	Chemistry	ganz okay	"know,no mention"	"know,no mention"			v		
+60	60	nmgve3yy	2.0	2nd	Chemistry	"Sehr, haben wir im ÜK oft gemacht"	"know,in class"	"know,in class"			v		
+61	61	3st3y5gc	1.0	2nd	Chemistry	Nur sehr selten in den Überbetrieblichen Kursen. Ich kenne die wichtigsten Grundlagen. Mehr habe ich mich nicht damit beschäftigt.	"heard about,in class"	"heard about,in class"			v		
+62	62	fyf6ag5v	1.0	2nd	Chemistry	sehr gut	"know,no mention"	"know,no mention"			v		
+63	63	fm5rcvdy	2.0	2nd	Chemistry	Gut	"know,no mention"	"know,no mention"			v		
+64	64	wger3sfa	1.0	2nd	Chemistry	kaum ich kenne es habe schon damit gerechnet und hasse es	"heard about,no mention"	don't know			"heard about,no mention"	"Already hated it from the simulation, not because of the simulation"	
+65	65	sjz2rptd	1.0	2nd	Chemistry	nicht sehr vertraut	don't know	don't know			v		
+66	66	b2q8ay65	2.0	2nd	Chemistry	Das Lambert-Beer'sche Gesetz in der Schule besprochen. 	"know,in class"	"heard about,in class"			"know,in class"		
+67	67	u96tpd55	2.0	2nd	Chemistry	Wir hatten es bereits in der Schule gelernt und im Labor angewendet	"know,can use,in class"	"know,can use,in class,at work"			"know,can use,in class,at work"		
+68	68	9p9gwu88	1.0	2nd	Chemistry	Zum rechnen genutzt	don't know	"can use,no mention"			"heard about,no mention"		
+69	69	pyamv67t	2.0	2nd	Chemistry	"Nicht sehr. 
+Ich habe bisher nur mit dem Gesetzt gerechnet, es nie Praktisch angewandt "	don't know	"know,no mention"			"heard about,no mention"		
+70	70	p6ut882m	2.0	2nd	Chemistry	in der Schule angeschaut vor einigen Monaten	"rusty,in class"	"rusty,in class"			v		
+71	71	egg8756y	2.0	2nd	Chemistry	in bisschen im Unterricht behandelt	"heard about,in class"	"heard about,in class"			v		
+72	72	eau7bsmq	2.0	2nd	Chemistry	"Schon mal in der Schule durchgenommen. Mit mathematischer Formel, aber konnte mich nicht mehr so gut erinnern, da es schon länger her war."	"forgot,in class"	"forgot,in class"			v		
+73	73	zxp438xr	2.0	2nd	Chemistry	nicht so stark	don't know	don't know			v		
+74	74	va43652k	1.0	2nd	Chemistry	"recht ok
+"	"know,no mention"	"know,no mention"			v		
+75	75	p44vw7td	2.0	1st	Chemistry	Nicht wirklich vielleicht mal gehört aber sonst nicht.	"heard about,no mention"	"heard about,no mention"			v		
+76	76	z5dzzgk5	1.0	1st	Chemistry	"Ich verwende im Labor einen NanoDrop zur Bestimmung der Absorbanz um danach die Konzentration zu berechnen.
+(etwas)"	"heard about,can use,at work"	"can use,at work"			"know,can use,at work"	"Know the formula and then use it to compute the concentration. Even with the a little, the task is still complicated and requires the student to know beerslaw"	
+77	77	baqyfz2h	1.0	1st	Chemistry	"Eher wenig. Das Gesetz war mir unbekannt, jedoch habe ich bereits im Labor mit einem Fotometer gearbeitet."	"can use,don't know,at work"	don't know			don't know	Photometer might or might not imply that they’ve used beerslaw-> Here it’s explicit that they don't know the law	
+78	78	mzjq6z9t	2.0	1st	Chemistry	Ich habe leider noch nie etwas von diesem Gesetz gehört.	don't know	don't know			v		
+79	79	v9sra3j2	1.0	1st	Chemistry	"Gar nicht, hatte keine Ahnung"	don't know	don't know			v		
+80	80	4ak6da99	2.0	1st	Chemistry	Gar nicht.	don't know	don't know			v		
+81	81	5zqfzwjg	1.0	1st	Chemistry	Überhaupt nicht ich hatte die längste Zeit keine Ahnung wie ich vorgehen sollte	don't know	don't know			v		
+82	82	sz8qvgyv	2.0	1st	Chemistry	ich war nicht wirklich vertraut damit	don't know	don't know			v		
+83	83	xw9qt6r4	1.0	1st	Chemistry	"Ich habe vom Gesetz an sich noch nie gehört, jedoch kenne ich die Prinzipien welche es beschreibt grob."	don't know	don't know			v		
+84	84	85pdk9mq	1.0	1st	Chemistry	Noch nie gehört.	don't know	don't know			v		
+85	85	svdphyjs	2.0	1st	Chemistry	gar nicht	don't know	don't know			v		
+86	86	982cf4dn	2.0	1st	Chemistry	kenne ich nicht	don't know	don't know			v		
+87	87	6rfakyp7	2.0	1st	Chemistry	Gar nicht. Ich habe es mir so vorgestellt wie eine Refraktion. 	don't know	don't know			v		
+88	88	3kzp9bet	2.0	1st	Chemistry	Man hat von diesem Thema noch nie was gehört.	don't know	don't know			v		
+89	89	2ejxq2u8	1.0	1st	Chemistry	"Nicht so gut da wir es noch nicht behandelt haben
+"	don't know	don't know			v		
+90	90	qkeyp2rg	1.0	1st	Chemistry	"Ich war sehr wenig vertraut
+"	don't know	don't know			v		
+91	91	sm8sfpcg	1.0	1st	Chemistry	"Kaum, schon gehört aber nicht angewendet"	"heard about,no mention"	"heard about,no mention"			v		
+92	92	eb9iv6v2	2.0	2nd	Chemistry	Gar nicht	don't know	don't know			v		
+93	93	ssz3uyqn	2.0	2nd	Chemistry	Ich persönlich kannte jenes Gesetz bis jetzt noch nicht.	don't know	don't know			v		
+94	94	s8w65sm5	1.0	2nd	Chemistry	Sehr sehr wenig.	don't know	don't know			v		
+95	95	5a69aw4h	2.0	2nd	Chemistry	Überhaupt nicht.	don't know	don't know			v		
+96	96	dbt5na3s	2.0	2nd	Chemistry	"Ich hatte noch nie damit zu tun.
+"	don't know	don't know			v		
+97	97	e3b96acv	1.0	2nd	Chemistry	"Noch nie davongehört,, bzw. in der Schule noch nicht angeschaut."	don't know	don't know			v		
+98	98	5y535ct3	1.0	2nd	"Chemistry, Textiles"	Es ist eine Weile her. Ich musste erst wieder ein wenig reinkommen.	"rusty,no mention"	"rusty,no mention"			v		
+99	99	6bq62prp	1.0	2nd	"Chemistry, Textiles"	Gar nicht	don't know	don't know			v		
+100	100	ay2erc3c	1.0	2nd	"Chemistry, Textiles"	noch nicht sehr stark 	don't know	don't know			v		
+101	101	r74r26kt	1.0	2nd	"Chemistry, Textiles"	"Nicht sehr viel, einmal kurz im Biolabor"	"heard about,in class"	"heard about,in class"			v		
+102	102	jwajupwj	2.0	2nd	"Chemistry, Textiles"	gar nicht.	don't know	don't know			v		
+103	103	j6nndaxp	2.0	2nd	"Chemistry, Textiles"	"Ich habe es noch nur einmal gehört, jedoch nicht genau angeschaut. Wir machten damals nur einzelne Berechnungen dazu."	"heard about,no mention"	"heard about,no mention"			v		
+104	104	4vtjgtja	1.0	2nd	"Chemistry, Textiles"	"eigentlich vertraut. am Anfang war es schwer, die Sachen zu verstehn."	"overestimate,no mention"	"overestimate,no mention"			v		
+105	105	araav4jr	2.0	2nd	"Chemistry, Textiles"	Im Unterricht wurde Optik thematisiert. Zusätzlich wurde vorhin auch UV/VIS-Spektroskopie behandelt.	"don't know,no mention"	don't know			don't know		
+106	106	xvsgn53d	2.0	2nd	"Chemistry, Textiles"	"Im Unterricht kurz besprochen, aber nicht mit Wellenlänge und Breite"	"heard about,in class"	"heard about,in class"			v		
+107	107	7ygreyfc	2.0	2nd	"Chemistry, Textiles"	Ich habe es schon einmal gehört aber keine Berechnungen dazu durchgeführt.	"heard about,no mention"	"heard about,no mention"			v		
+108	108	nba9d6t2	2.0	2nd	"Chemistry, Textiles"	"Im Unterricht kurz besprochen, aber nicht mit Wellenlänge, Breite. Nur grob. Also nicht sehr vertraut."	"heard about,in class"	"heard about,no mention"			"heard about,in class"		
+109	109	smqjhu44	1.0	2nd	"Chemistry, Textiles"	Grundlegende dinge wahren bekannt 	"know,no mention"	don't know			don't know	Basic principles (rubrique)	
+110	110	qpmzsb6t	1.0	2nd	"Chemistry, Textiles"	Nur entfernt	don't know	"heard about,no mention"			"heard about,no mention"	They would not have put said far away had they not seen it	
+111	111	8ethqmkd	2.0	2nd	"Chemistry, Textiles"	wir hatten otrik in der schule abr so genau habe ich das nichtb mehr in erinnerung XD	"don't know,in class"	"forgot,in class"	1.0		"forgot,in class"	Beerslaw is optics	Need to know if it falls in optics
+112	112	upkt7qb4	1.0	2nd	"Chemistry, Textiles"	noch nie davor was davon gehört	don't know	don't know			v		
+113	113	xe7c36dk	2.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+114	114	ydws5xx9	2.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+115	115	3se7z466	1.0	2nd	Chemistry	Oui	"yes,no mention"	"yes,no mention"			v		
+116	116	akgpua6j	2.0	2nd	Chemistry	oui vaguement	"heard about,no mention"	"yes,no mention"			"heard about,no mention"	Vaguely -> closer to heard about	
+117	117	84nmc3df	1.0	2nd	Chemistry	oui 	"yes,no mention"	"yes,no mention"			v		
+118	118	nsj6k2rg	2.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+119	119	sx3vqc32	2.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+120	120	9aagpn4d	2.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+121	121	mwwddfvg	1.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+122	122	xj86wyup	2.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+123	123	hkvk9vt9	1.0	2nd	Chemistry	A=Elc	"yes,no mention"	"know,no mention"		1.0	"know,no mention"	Question is connaissez vous beerslaw -> showing the equation is a stronger proof than yes	
+124	124	jkbx6axr	1.0	2nd	Chemistry	Oui	"yes,no mention"	"yes,no mention"			v		
+125	125	ujp9fgpn	1.0	2nd	Chemistry	Oui mais cela fait un moment que je ne l'ai pas utilisée donc besoin de se remettre gentiment dedans. 	"rusty,no mention"	"rusty,no mention"			v		
+126	126	5zrt4f8z	1.0	2nd	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+127	127	tzpqpfaa	2.0	2nd	Chemistry	"Nicht sehr gut vertraut, nur wenig!"	don't know	"heard about,no mention"			don't know	Discussed earlier	
+128	128	2ep3hayy	2.0	2nd	Chemistry	Wir hatten das noch nie in der Schule	don't know	don't know			v		
+129	129	e8zdytr2	1.0	2nd	Chemistry	Etwas	"heard about,no mention"	"heard about,no mention"			v		
+130	130	hg7zc2sv	2.0	2nd	Chemistry	So gut wie garnicht	don't know	don't know			v		
+131	131	3xcaamq9	2.0	2nd	Chemistry	"Wir haben dieses Thema noch nie behandelt
+"	don't know	don't know			v		
+132	132	4k4dk9pu	1.0	2nd	Chemistry	"Sehr stark
+"	"know,no mention"	"know,at work"			"know,no mention"	Typo?  	
+133	133	fzagvhvf	2.0	2nd	Chemistry	Habe mich damit vor ca. einem halben Jahr für 1 Tag beschäftigt.	"rusty,no mention"	"rusty,no mention"			v		
+134	134	y9tk3ysm	2.0	2nd	Chemistry	nicht mehr so gut. 	"rusty,no mention"	don't know			"rusty,no mention"	Not so good anymore -> rusty (no explicit mention of forget)	
+135	135	tzbaaz7e	1.0	2nd	Chemistry	"Im Unterricht kurz behandelt, jedoch noch nie in der Praxis angewendet"	"heard about,in class"	"heard about,in class"			v		
+136	136	sgsxmkfm	1.0	3rd	Chemistry	mittelmässig bis gut	"know,no mention"	"know,no mention"			v		
+137	137	cjarhqn9	1.0	3rd	Chemistry	"mittelmässig-gut 
+7/10"	"know,no mention"	"know,no mention"	1.0		v		
+138	138	6ruh7enb	1.0	3rd	Chemistry	"An sich sehr gut, jedoch fällt es mir mir wesentlich leichter mit der Extinktion als mit der Absorption zu arbeiten. "	"know,no mention"	"know,no mention"			v		
+139	139	7fj2vydr	1.0	3rd	Chemistry	Ich habe mehrere Aufgaben im Labor am Fotometer gemacht und habe dort mit diesem Gesetz arbeiten müssen.	"know,can use,at work"	"can use,at work"			"know,can use,at work"	Consistant with above. They really used it -> mut have known the law too  (small interpretation)	
+140	140	suyrrcqe	4.0	3rd	Chemistry	gut 	"know,no mention"	"know,no mention"			v		
+141	141	chm4sr6j	4.0	3rd	Chemistry	"Sehr, ist ein grosser Teil der Lehrabschlussprüfung"	"know,no mention"	"know,at work"			"know,no mention"	Says it parts of the exam -> don’t know whether it’s at work or in class	
+142	142	gvqh7qr2	2.0	1st	"Chemistry, Textiles"	Gar nicht. Dieses Gesetz war für mich ganz neu	don't know	don't know			v		
+143	143	zkrr45y5	1.0	1st	"Chemistry, Textiles"	garnicht	don't know	don't know			v		
+144	144	4rhnvke9	1.0	1st	"Chemistry, Textiles"	00000000000000000000000000000000000000000000000000000000000000000000000000000000000	unknown	unknown	1.0		don't know	"Seemed like a fluke at first, but there are some people saying 0% familiar"	
+145	145	7xhcecye	2.0	1st	"Chemistry, Textiles"	garnicht	don't know	don't know			v		
+146	146	qsd9cb5e	1.0	1st	"Chemistry, Textiles"	"Habe noch nicht oft damit gearbeitet, kenne es aber schon aus der Theorie zur Spektroskopie."	"know,no mention"	"know,no mention"			v		
+147	147	s7mdq5tk	2.0	1st	"Chemistry, Textiles"	Ich kenne diesen Gesetz gar nicht und mit der Spektoskropie habe ich auch nicht so viele Erfahrungen. 	don't know	don't know			v		
+148	148	pbxyuw7u	1.0	1st	Chemistry	"oui, nous l'avons apprise, mais nous avons le droit a un manuel de survie ou elle est décrite, donc je ne la savais plus par <3"	"forgot,no mention"	"forgot,no mention"			v		
+149	149	dk43m2pe	1.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+150	150	e22ppyf7	4.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+151	151	ur9sxzx7	1.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+152	152	aj47uhb9	1.0	1st	Chemistry	oui. 	"yes,no mention"	"yes,no mention"			v		
+153	153	cb6wcvyn	1.0	1st	Chemistry	Oui	"yes,no mention"	"yes,no mention"			v		
+154	154	nmptx7nj	1.0	1st	Chemistry	Oui mais je ne me souvient plus 	"forgot,no mention"	"forgot,no mention"			v		
+155	155	puzxz678	2.0	1st	Chemistry	Oui	"yes,no mention"	"yes,no mention"			v		
+156	156	3gqs3sgc	4.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+157	157	tt5n8d2r	2.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+158	158	2crhmbq7	2.0	1st	Chemistry	"Oui, mais je ne l'ai pas revu récemment."	"rusty,no mention"	"rusty,no mention"			v		
+159	159	urwu33jd	1.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+160	160	n977pem4	2.0	1st	Chemistry	oui. un peu	"heard about,no mention"	"heard about,no mention"			v		
+161	161	qfu6r8c7	1.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+162	162	cb3z5rjs	2.0	1st	Chemistry	Oui	"yes,no mention"	"yes,no mention"			v		
+163	163	dmdc53tx	1.0	1st	Chemistry	oui	"yes,no mention"	"yes,no mention"			v		
+164	164	fw2ajjmt	2.0	1st	Biology	Oui.	"yes,no mention"	"yes,no mention"			v		
+165	165	rg4fgfyh	2.0	1st	Biology	"oui, vu pendant les cours de métodologie en première année de laborantin en biologie
+"	"yes,in class"	"know,in class"			"know,in class"	A bit more than just yes	
+166	166	srmr7pcp	2.0	1st	Biology	oui	"yes,no mention"	"yes,no mention"			v		
+167	167	uqven68r	2.0	1st	Biology	Oui en cours de méthodologie 	"yes,in class"	"yes,in class"			v		
+168	168	u4zu9xxc	2.0	1st	Biology	Oui mais oubliée 	"forgot,no mention"	"forgot,no mention"			v		
+169	169	hrhu4yph	1.0	1st	Biology	"Oui, connaissances du gymnase"	"know,in class"	"know,in class"			v		
+170	170	zbabnwym	2.0	1st	Biology	"Oui, on l'a vu en classe l'année dernière "	"know,in class"	"know,in class"			v		
+171	171	xdxyjh8j	3.0	1st	Biology	J'eu connu il y a 2 mois mais complétement oublié à priori	"forgot,no mention"	"forgot,no mention"			v		
+172	172	4e438nww	2.0	1st	Biology	"Oui, mais j'ai oublié depuis le temps"	"forgot,no mention"	"forgot,no mention"			v		
+173	173	drccqhk4	1.0	1st	Biology	Oui et non.  	"overestimate,no mention"	"heard about,no mention"		1.0	"heard about,no mention"	"Oui et non = so so, not so much the metacognition reflection about overeestimation"	
+174	174	nemddmx6	2.0	1st	Biology	oui	"yes,no mention"	"yes,no mention"			v		
+175	175	dubyutqd	1.0	1st	Chemistry	"Ab und zu mit dem UV/VIS Photometer Gerät Glycerin gemessen, aber nichts anderes"	"can use,don't know,no mention"	don't know			"can use,know, no mention"	"Cannot retrieve concentration without using beerslaw, consistant with the three entries above also classified as such"	
+176	176	wu7kdm6q	2.0	1st	Chemistry	Habe Erinnerungen daran von Schulzeiten	"rusty,in class"	"rusty,in class"			v		
+177	177	39htvmt5	2.0	1st	Chemistry	Ich habe davor nichts mit diesem Gesetz zu tun gehabt. Somit war mir alles neu.	don't know	don't know			v		
+178	178	sctj44cs	2.0	1st	Chemistry	"Ich war gar nicht vertraut, da ich diese Thema nicht kenne."	don't know	don't know			v		
+179	179	jnjd79vh	1.0	1st	Chemistry	OK	"know,no mention"	"yes,no mention"	1.0		"yes,no mention"		
+180	180	qqf6nsga	1.0	1st	Chemistry	relativ gut 	"know,no mention"	"know,no mention"			v		
+181	181	qevswkvj	1.0	1st	Chemistry	Nicht sehr gut	don't know	don't know			v		
+182	182	xz56yha8	2.0	1st	Chemistry	"Wir haben es in der Schule angeschaut, aber ich habe mich nicht mehr stark damit beschäftigt, weshalb ich nicht mehr so viel Ahnung hatte.
+"	"rusty,in class"	"forgot,in class"	1.0		"rusty,in class"	"Said they did not engage anymore, no explicit mention of forgetting"	
+183	183	bebyve9b	2.0	1st	Chemistry	ein Wenig	"heard about,no mention"	"heard about,no mention"			v		
+184	184	pmd5dyu3	2.0	1st	Chemistry	keine Ahnung	don't know	unknown			don't know	Means no idea	
+185	185	rwax4gk7	1.0	1st	Chemistry	"sehr gut, viel damit gearbeitet"	"know,no mention"	"can use,no mention"			"know,no mention"		
+186	186	jcrv9m9j	1.0	1st	Chemistry	"Grundsätzlich gut aber das Problem war, dass die Absorption nicht mit diesen angaben im Kopf zu berechnen ist. Ich kann nur die Extinktion davon ableiten eng. absorbence. dies hat nichts mit der absorbtion zu tun."	"overestimate,no mention"	"overestimate,no mention"			v		
+187	187	jamrhf3h	1.0	1st	Chemistry	"hatten im Uek schon einmal Lambert-Beer'schen Gesetz ging aber mit der Zeit etwas vergessen, grosse Mühe beim Lösen der Aufgaben"	"forgot,in class"	"forgot,in class"			v		
+188	188	552gbupp	1.0	1st	Chemistry	Nicht sehr vertraut	don't know	don't know			v		
+189	189	5xuzjwdp	1.0	1st	Chemistry	"Schon gehört.
+"	"heard about,no mention"	"heard about,no mention"			v		
+190	190	mkw5afyy	1.0	2nd	Biology	gut	"know,no mention"	"know,no mention"			v		
+191	191	nw65tu6j	1.0	2nd	Biology	Gar nicht	don't know	don't know			v		
+192	192	nfshnktq	2.0	2nd	Biology	gar nicht	don't know	don't know			v		
+193	193	eh9jq2bp	1.0	2nd	Biology	Gar nicht 	don't know	don't know			v		
+194	194	p6269reg	2.0	2nd	Biology	"Schon im Unterricht behandelt, aber hauptsächlich damit gerechnet (als Formel). Nicht genauer auf die Grössen eingegangen."	"heard about,in class"	"know,in class"			"heard about,in class"	Consistent with above: when it’s only formula we put heard about	
+195	195	p6mkaa4e	1.0	2nd	Biology	Gar nicht.	don't know	don't know			v		
+196	196	4k4kc2k6	1.0	2nd	Biology	ein bisschen	"heard about,no mention"	"heard about,no mention"			v		
+197	197	a3vdjxy9	2.0	2nd	Biology	Gar nicht	don't know	don't know			v		
+198	198	nj859xxh	1.0	2nd	Biology	Noch nie davon gehört geschweige denn was damit gemacht wird.	don't know	don't know			v		
+199	199	crak75dx	2.0	2nd	Biology	hatte es schon in der Beufsschule	"know,in class"	"know,in class"			v		
+200	200	jhrkm85q	2.0	2nd	Biology	kannte die Formel	"know,no mention"	"know,no mention"			v		
+201	201	6j6u2yct	2.0	2nd	Biology	ein wenig 	"heard about,no mention"	"heard about,no mention"			v		
+202	202	5es5yqs8	1.0	1st	Pharma Chemistry	garnicht	don't know	don't know			v		
+203	203	unkrat9w	1.0	1st	Pharma Chemistry	Logisch!	"know,no mention"	"know,no mention"			v		
+204	204	beypwbck	1.0	1st	Pharma Chemistry	Hatte noch nichts davon gehört.	don't know	don't know			v		
+205	205	wnurkn96	1.0	1st	Pharma Chemistry	0%	don't know	don't know			v		
+206	206	jydsy777	1.0	1st	Pharma Chemistry	so um die 20 prozent	"heard about,no mention"	"heard about,no mention"		1.0	v	X is under 50	
+207	207	uamuwrx2	1.0	1st	Pharma Chemistry	"Garnicht das Thema war nicht so verständig.
+"	don't know	don't know	1.0		v		
+208	208	9qvk2wew	2.0	1st	Pharma Chemistry	gar nichts	don't know	don't know			v		
+209	209	uhq3p7yr	1.0	1st	Pharma Chemistry	"Garnicht, allerdings mit logischem verständnis bin ich auf eine Antwort gekommen. Ob die Antwort richtig ist, ist fraglich"	don't know	don't know	1.0		v		Curious to look at their timeline
+210	210	9p4h3zdx	1.0	1st	Pharma Chemistry	gar nicht deshalb ist das Program auch absolut nicht geeignet da kein text irgendwas erklärt ausserdem hat die extiktions anzeige nicht funktioniert	don't know	don't know			v		
+211	211	v5gwycag	1.0	1st	Pharma Chemistry	Nein	don't know	don't know			v		
+212	212	wyj76ntd	1.0	1st	Pharma Chemistry	"fast garnicht
+"	don't know	don't know			v		
+213	213	4jchqv4d	2.0	1st		oui bien sur 	"know,no mention"	"know,no mention"			v		
+214	214	u6c3cp6c	1.0	1st		oui mais plus de souvenir	"forgot,no mention"	"forgot,no mention"			v		
+215	215	m4zvafhs	1.0	1st		oui	"yes,no mention"	"yes,no mention"			v		
+216	216	u25vrfyy	1.0	1st		oui	"yes,no mention"	"yes,no mention"			v		
+217	217	c9dj36r7	1.0	1st		non 	don't know	don't know			v		
+218	218	fy29cvrj	3.0	1st		OUI	"yes,no mention"	"yes,no mention"			v		
+219	219	st3mf78y	2.0	1st		oui	"yes,no mention"	"yes,no mention"			v		
+220	220	5f4q4ng5	1.0	1st		oui mais il aurait fallu un refresh	"rusty,no mention"	"rusty,no mention"		1.0	v		
+221	221	f54jkrsw	1.0	1st		"Oui
+A = E * d * c
+Mais je ne l'utilise pas couramment dans mon apprentissage "	"rusty,no mention"	"yes,no mention"			v		
+222	222	6z7nfy2j	1.0	1st		Oui mais quelques notions oubliées	"forgot,no mention"	"forgot,no mention"			v		
+223	223	rdy7sx9b	1.0	1st		oui	"yes,no mention"	"yes,no mention"			v		
+224	224	5j7hdews	1.0	1st		oui.	"yes,no mention"	"yes,no mention"			v		
+225	225	uad7cmhv	1.0	1st		"Oui, je l'avais vu en cours de physique "	"know,in class"	"yes,in class"			"know,in class"		
+226	226	hrxpbujy	1.0	1st		J'ai une meilleure idée de ce que c'est.	"know,no mention"	"heard about,no mention"	1.0	1.0	"heard about,no mention"		Curious to see
+227	227	wbdyh5vk	1.0	1st		nope	don't know	don't know			v		
+228	228	wktpsvp8	1.0	1st		Oui	"yes,no mention"	"yes,no mention"			v		
+229	229	22wyn9xy	1.0	1st		"Bien sure, pas à fond vu que je ne sais pas ce que représente la constante"	"know,no mention"	"heard about,no mention"			"heard about,no mention"	Consistance with rubriques: missing one variable	
+230	230	3vsn2h9f	1.0	1st		Loi étudilée mais oublier avec le temps	"forgot,no mention"	"forgot,no mention"			v		
+231	231	9wdm7zue	2.0	1st		oui	"yes,no mention"	"yes,no mention"			v		
+232	232	5m3ka2m2	1.0	1st		Oui	"yes,no mention"	"yes,no mention"			v		
+233	233	9yv4uxn3	1.0	1st		oui	"yes,no mention"	"yes,no mention"			v		
+234	234	vjr7tshm	4.0	1st		Oui	"yes,no mention"	"yes,no mention"			v		
+235	235	c87kgzbr	1.0	1st		oui mais je ne suis pas sur de bien m'en rappeler	"forgot,no mention"	"forgot,no mention"	1.0		v		
+236	236	qjfn2j8z	1.0	1st	Pharma Chemistry	"Garnicht bis heute noch nie davon gehört.
+"	don't know	don't know			v		
+237	237	h4hxzc6s	1.0	1st	Pharma Chemistry	Ich war garnicht vertraut mit Lambert-Beer`schen Gesetz.	don't know	don't know			v		
+238	238	rdbqasqa	1.0	1st	Pharma Chemistry	"Garnicht, ich habe noch nie damit gearbeitet, aber ich denke dass es für professionelle auf diesem Gebiet nützlich sein kann, für mich aber eigentlich im Moment unbrauchbar, bzw halt nicht nützlich."	don't know	don't know	1.0		v		Nice answer
+239	239	yez72a8b	1.0	1st	Pharma Chemistry	"Dieses Gesetz ist/wahr mir nicht vertraut.
+"	don't know	don't know			v		
+240	240	gu7jpyum	1.0	1st	Pharma Chemistry	Sehr gut vertraut	"know,no mention"	"know,no mention"			v		
+241	241	x844md8u	1.0	1st	Pharma Chemistry	"Gar nicht.  Keinen Formeln vorhanden!!! Keine Deutsche Begriffe
+Einfach nur schlecht 
+"	don't know	"don't know,no mention"			don't know	Jade’s bad	
+242	242	a57jkjgv	1.0	1st	Pharma Chemistry	Vor dem virtuellen Labor noch gar nicht	don't know	don't know			v		
+243	243	qn4qjrvd	2.0	1st	Pharma Chemistry	garnicht	don't know	don't know			v		
+244	244	urxv4evt	1.0	1st	Pharma Chemistry	Nein vorher war es mir unklar	don't know	"heard about,no mention"	1.0		"heard about,no mention"	There needs to be something they can be unclear about. No can be unfamiliar because they did not understand anything	Look at timeline
+245	245	sgdgynxy	1.0	1st	Pharma Chemistry	schon gehört aber nicht wirklich bekannt	"heard about,no mention"	"heard about,no mention"			v		
+246	246	uagxrke6	1.0	1st	Pharma Chemistry	"Gar nicht
+"	don't know	don't know			v		
+247	247	s9prcjfd	3.0	1st	Pharma Chemistry	Gar nicht 	don't know	don't know			v		
+248	248	vckta85p	2.0	1st	Pharma Chemistry	"garnicht
+"	don't know	don't know			v		
+249	249	63xqh9t5	2.0	2nd	Chemistry	Ein bisschen	"heard about,no mention"	"heard about,no mention"			v		
+250	250	upp6pqmx	2.0	2nd	Chemistry	Fast gar nicht	don't know	don't know			v		
+251	251	yxf7q6ap	1.0	2nd	Chemistry	ich war nur mit dem Effekt der Wellenlänge auf E vertraut	"heard about,no mention"	"heard about,no mention"			v		
+252	252	wpszzhxa	2.0	2nd	Chemistry	"Eher weniger.
+Es wurde mal kurz angeschnitten, aber vertieft behandelt noch nicht."	"heard about,no mention"	"heard about,no mention"			v		
+253	253	xpyjyx4m	2.0	2nd	Chemistry	nicht besonders gut.	don't know	"heard about,no mention"			don't know	Consistance with rubriques	
+254	254	w9w2hw35	2.0	2nd	Chemistry	Nicht gut	don't know	don't know			v		
+255	255	pggnv6xw	2.0	2nd	Chemistry	gar nicht	don't know	don't know			v		
+256	256	qner25zp	2.0	3rd	Chemistry	"Was die Bedeutung dessen angeht relativ gut, aber mit dem direkten Umrechnen nicht wirklich."	"know,no mention"	"heard about,no mention"	1.0		"know,no mention"	They might know the concepts behind it without understanding how it correlates with the formulae	
+257	257	mnhmyuhb	2.0	3rd	Chemistry	"Schon vertraut, jedoch lange nicht angeschaut und musste wieder Sachen auffrischen"	"rusty,no mention"	"rusty,no mention"			v		
+258	258	cp7mfn24	3.0	3rd	Chemistry	"nicht wirklich so wahnsinnig gut, habe mich noch an einzelne Sachen aus dem Unttericht erinnern können, aber nicht wirklich viel"	"forgot,in class"	"forgot,in class"			v		
+259	259	t3dwkezr	2.0	3rd	Chemistry	ein wenig in der Theorie. Praktisch eigentlich nicht wirklich. 	"heard about,no mention"	"heard about,no mention"			v		
+260	260	npkrjraq	1.0	3rd	Chemistry	Eigentlich sehr gut. In der Berufsschule wurde das Thema gut behandelt und im Beruf mache ich auch öfters eine Fotometrie.	"know,can use,in class"	"know,can use,in class,at work"			"know,can use,in class"	Beruf is not at school	
+261	261	zs35fg8g	1.0	3rd	Chemistry	Ziemlich gut. 	"know,no mention"	"know,no mention"			v		
+262	262	aurjfgnn	1.0	3rd	Chemistry	Wir hatten das Lambert-Beer'schen Gesetz schon in der Berufsschule als wir UV-VIS durchnahmen.	"know,in class"	"know,in class"			v		
+263	263	nrxpa2ac	1.0	3rd	Chemistry	Ein wenig. Wenige male mit dem UV/VIS Spektrometer gearbeitet und dabei das Lambert-Beer'sche Gesetz verwendet.	"heard about,can use,no mention"	"can use,no mention"			"know,can use,no mention"	Consistant with using the law to work with it as above	
+264	264	a6t5p3sb	2.0	3rd	Chemistry	"Eig sollte ich gut informiert sein, doch heute fiel mir das Thema schwer."	"overestimate,no mention"	"overestimate,no mention"			v		
+265	265	6tg95rzr	2.0	3rd	Chemistry	"Geht so. Zuerst wurden die Aufgaben falsch gelesen, daher habe ich zuerst falsch geantwortet hbe es dann ab Aufgabe 5 bemerkt. Daher war ich zuerst etwas verwirrt. Die Begriffe werden oft verwechselt."	"know,no mention"	"heard about,no mention"			"heard about,no mention"	Said soso	
+266	266	h75kp27p	1.0	3rd	Chemistry	"Ich war bereits mit dem Lambert-Beer'schen Gesetz vertraut, jedoch habe ich es bisher nicht oft anwenden müssen. Ich hatte es als eher im Hinterkopf."	"rusty,no mention"	"know,no mention"			"rusty,no mention"	Back in my head: it’s far away in my mind	
+267	267	v2cxb3a5	2.0	3rd	Chemistry	gut	"know,no mention"	"know,no mention"			v		
+268	268	kg43uepa	1.0	3rd	Chemistry	sehr vertraut	"know,no mention"	"know,no mention"			v		
+269	269	4aaspwgs	1.0	3rd	Chemistry	eher wenig	"heard about,no mention"	"heard about,no mention"			v		
+270	270	v5w2e3zw	2.0	3rd	Chemistry	Aus dem Arbeitsalltag und der Berufsschule schon relativ gut damit vertraut.	"know,in class,at work"	"know,can use,in class,at work"			"know,can use,in class,at work"	"If they are familiar with it in every day life, chances are that they are using it every day. Not putting can use could be under interpretation from our side"	
+271	271	s47edumx	2.0	3rd	Chemistry	gut	"know,no mention"	"know,no mention"			v		
+272	272	knun7j9s	1.0	3rd	Chemistry	"Praktisch und theoretisch durchgenommen, jedoch ist die Theorie schon lange her "	"rusty,no mention"	"rusty,no mention"			v		
+273	273	3s6pz8qy	2.0	3rd	Chemistry	"Ein wenig, also nur in der Schule und 2-5 mal im Labor"	"heard about,in class,at work"	"rusty,in class,at work"	1.0		"heard about,in class,at work"	"Just: heard about, but 2-5 times seems like a lot. Saw it AND in school and at work. No mention of long time or forgetting. We will go for heard about because know is too strong."	
+274	274	b8g49nvw	4.0	3rd	Chemistry	Nicht so	don't know	don't know			v		
+275	275	dq4zzkyt	1.0	3rd	Chemistry	gar nicht habe es in der schule schon nicht wirklich begriffen und am Arbeitsort nie gebraucht	don't know	don't know	1.0		v		
+276	276	ryfqnvfh	1.0	3rd	Chemistry	ziemlich gut	"know,no mention"	"know,no mention"			v		
+277	277	uswb2jez	2.0	3rd	Chemistry	"Mehr oder weniger - im Labor, sonst nicht"	"heard about,can use,at work"	"heard about,at work"			"heard about,can use,at work"	"Consistant with above with daily life: if you’ve used it in the lab, what else then knowing how to use it can you do"	
+278	278	xsxkdf7k	2.0	3rd	Chemistry	"Genug, habe dieses Gestzt auch oft praktisch angewendet"	"know,no mention"	"can use,no mention"			"know,can use,no mention"		
+279	279	neuwx57b	2.0	3rd	Chemistry	Ich habe die Formel gekannt und dies praktisch im Labor angewendet.	"know,can use,at work"	"know,can use,in class,at work"			"know,can use,at work"		
+280	280	26z3wbqz	2.0	3rd	Chemistry	Schon öfters Rechnungen damit gelöst oder auch Fotometrien durchgeführt jedoch nicht meine stärke	"know,can use,no mention"	"know,can use,no mention"			v		
+281	281	jx3yyy26	2.0	3rd	Chemistry	Gut	"know,no mention"	"know,no mention"			v		
+282	282	g4xpwwac	1.0	1st	Chemistry	Gar nicht	don't know	"don't know,no mention"			don't know		
+283	283	2cetp8yc	2.0	1st	Chemistry	Ich habe das Lambert-Beer'schen Gesetz noch nie gehöhrt und hatte das noch nie in der Schule. Deshalb war es sehr schwer für mich die Aufgabe zu bearbeiten wenn man absolut keine anung vom Thema hat.	don't know	don't know			v		
+284	284	6cs3annc	3.0	1st	Chemistry	"null, gar nicht, was soll der scheiss"	don't know	don't know			v		
+285	285	npatrq7r	1.0	1st	Chemistry	0.000000000000%	don't know	don't know			v		
+286	286	7xwv3xfe	1.0	1st	Chemistry	überhaupt nicht (noch nie gehört)	don't know	don't know			v		
+287	287	xcmyd5r5	2.0	1st	Chemistry	gar nicht	don't know	don't know			v		
+288	288	7ck7mq6a	1.0	1st	Chemistry	gar nicht	don't know	don't know			v		
+289	289	2xh9zuvc	1.0	1st	Chemistry	gar nicht	don't know	don't know			v		
+290	290	qdp9ant4	2.0	2nd	Biology	"On l'as vue en cours mais je ne me rappelle pas de la formule exact, il me faudrait mon cahier car cela fait plusieurs années. "	"forgot,in class"	"forgot,no mention"			"forgot,in class"		
+291	291	rrykpeqz	2.0	2nd	Biology	Oui 	"yes,no mention"	"yes,no mention"			v		
+292	292	g6z8qykr	1.0	2nd	Biology	oui mais je ne l'ai pas apprise par coeur	"forgot,no mention"	"forgot,no mention"			v		
+293	293	prr8qsns	1.0	2nd	Biology	Oui	"yes,no mention"	"yes,no mention"			v		
+294	294	h9t9mxtx	2.0	2nd	Biology	Oui...	"yes,no mention"	"yes,no mention"			v		
+295	295	caq55qe8	2.0	2nd	Biology	oui 	"yes,no mention"	"yes,no mention"			v		
+296	296	vhsgf3xa	4.0	2nd	Biology	vite fait	"heard about,no mention"	"heard about,no mention"			v		
+297	297	knbr3qun	1.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+298	298	7g36g5tz	2.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+299	299	bqmcqxyx	2.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+300	300	fs32fqe3	1.0	2nd		Oui 	"yes,no mention"	"yes,no mention"			v		
+301	301	9xc2v9vu	1.0	2nd		"Oui, je l'ai utilisé durant ma formation et mon activité professionnel. "	"know,in class,at work"	"can use,in class,at work"			"know,can use,in class,at work"		
+302	302	xmh5qd3z	2.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+303	303	gpq26qq9	1.0	2nd		oui mais sa fais un moment	"rusty,no mention"	"rusty,no mention"			v		
+304	304	5pt9tpaj	2.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+305	305	gc663sap	1.0	2nd		"Oui, on l'avait vu il y a quelques temps"	"rusty,no mention"	"rusty,no mention"			v		
+306	306	4rjjdez9	2.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+307	307	rjx9d3gf	2.0	2nd		oui mais pas par coeur 	"forgot,no mention"	"forgot,no mention"			v		
+308	308	7zjqat99	1.0	2nd		"Oui, nous en avions parlé en cours ainsi que vu en pratique lors de TP concernant la spectroscopie UV"	"know,can use,in class"	"heard about,can use,in class,at work"			"heard about,can use,in class,at work"	Consistent with first samples : use of the word parler rather then saw or learnt or studied …	"Check with Jérome: je l’ai vu, j’en ai parlé"
+309	309	m4frzqy6	2.0	2nd		Je me rappelle plus	"forgot,no mention"	"forgot,no mention"			v		
+310	310	jwntt96k	2.0	2nd	Chemistry	ich habe es schon mal gehört aber bin mir nicht ganz sicher bei der Anwendung	"heard about,no mention"	"heard about,no mention"			v		
+311	311	q4z45p85	2.0	2nd	Chemistry	Ein bisschen. Es wurde teilweise im ÜK behandelt.	"heard about,in class"	"heard about,in class"			v		
+312	312	p5t7d3sb	2.0	2nd	Chemistry	"Nicht wirklich gross. Ich habe bereits einige Fotometrie-Aufgaben praktisch durchgeführt, aber das theoretische Wissen ist nicht so gross."	"heard about,can use,no mention"	"can use,no mention"			"heard about,can use,no mention"		
+313	313	evqzjs5p	1.0	2nd	Chemistry	"Gar nicht, nur mal davon etw. gehört bei einem Praktikum über Nititanalytik."	"heard about,in class"	"heard about,in class"			v		
+314	314	tcnba4ca	3.0	3rd	"Chemistry, Textiles"	Ich habe schon einiges davon gehört	"know,no mention"	"heard about,no mention"			"know,no mention"	“I heard quite a bit”	
+315	315	4bu2rkv3	2.0	3rd	"Chemistry, Textiles"	"Berufsschule, hatte das Diagramm vor Augen. "	"know,in class"	"know,in class"			v		Nice comment
+316	316	d7777ske	1.0	3rd	"Chemistry, Textiles"	GUT	"know,no mention"	"know,no mention"			v		
+317	317	mhek2323	2.0	3rd	"Chemistry, Textiles"	"Ein wenig, hatte noch nicht sehr viel mit dem Gesetz zu tun."	"heard about,no mention"	"heard about,no mention"			v		
+318	318	e93na59g	2.0	3rd	"Chemistry, Textiles"	"So halb. Ist sehr lange her, seit der letzten Unterrichtsstunde über das Thema"	"rusty,in class"	"rusty,in class"			v		
+319	319	ujpk3gf4	1.0	3rd	"Chemistry, Textiles"	Haben es in der Schule durchgemacht. Dies ist aber sehr lange her.	"rusty,in class"	"rusty,in class"			v		
+320	320	fddsxudu	2.0	3rd	"Chemistry, Textiles"	nicht sehr	don't know	don't know			v		
+321	321	76wvaew4	1.0	3rd	"Chemistry, Textiles"	Haben es in der Schule behandelt. Dies liegt aber bereits eine Zeit zurück. 	"rusty,in class"	"rusty,no mention"			v		
+322	322	z6ur4njh	1.0	2nd		"Non pas vraiment, au talent. "	don't know	don't know			v		
+323	323	6fkbh35u	1.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+324	324	9pjrsbth	1.0	2nd		oui	"yes,no mention"	"yes,no mention"			v		
+325	325	26mtbtye	1.0	2nd		oui mais je ne sait plus comment l'appliquer	"forgot,no mention"	"forgot,no mention"			v		
+326	326	ecy9k833	1.0	2nd		"Connaître oui, se souvenir a moitié."	"forgot,no mention"	"forgot,no mention"			v		
+327	327	uqw5vh3j	1.0	2nd		Oui	"yes,no mention"	"yes,no mention"			v		
+328	328	wwj8nq34	2.0	2nd		Oui	"yes,no mention"	"yes,no mention"			v		
+329	329	tvtbbfhg	1.0	2nd		Oui	"yes,no mention"	"yes,no mention"			v		
+330	330	9hdhrrat	2.0	2nd		oui vaguement 	"heard about,no mention"	"heard about,no mention"		1.0	v		
+331	331	edmrufua	1.0	2nd		"Oui, mais je ne l'avais plus utilisée depuis 2 ans lors de ma première année d'apprentissage"	"rusty,at work"	"rusty,no mention"		1.0	"rusty,no mention"	Apprentissage is a bit too vague	
+332	332	gk7r7cee	2.0	1st	Fast track	oui	"yes,no mention"	"yes,no mention"			v		
+333	333	vbym9sms	2.0	1st	Fast track	oui	"yes,no mention"	"yes,no mention"			v		
+334	334	hf8uz5t3	2.0	1st	Fast track	oui	"yes,no mention"	"yes,no mention"			v		
+335	335	bje92qp8	2.0	1st	Fast track	On en avait parlé en cours mais je m'en souvenais pas vraiment	"forgot,in class"	"forgot,in class"			v		
+336	336	mp2aa258	2.0	1st	Fast track	très peu	"heard about,no mention"	"heard about,no mention"			v		
+337	337	4zsmj6s3	2.0	1st	Fast track	Oui depuis peu	"rusty,no mention"	"know,no mention"			"know,no mention"		
+338	338	wguewwkp	1.0	1st	Fast track	oui	"yes,no mention"	"yes,no mention"			v		
+339	339	uenn9vgu	1.0	1st	Fast track	"non
+"	don't know	don't know			v		
+340	340	kq4eymtu	2.0	1st	Fast track	Oui mais je l'ai oublié	"forgot,no mention"	"forgot,no mention"			v		
+341	341	bswtap2v	2.0	1st	Fast track	oui un peu	"heard about,no mention"	"yes,no mention"			"yes,no mention"	"First instinct is to say yes, un peu seems a bit above 50%, because the question is ado you KNOW it"	
+342	342	9rked2x5	2.0	1st	Fast track	Oui	"yes,no mention"	"yes,no mention"			v		
+343	343	phupma28	2.0	1st	Fast track	je ne la connais pas par coeur mais j'en ai entendu parler pendant mes cours de chimie analytique  	"heard about,in class"	"forgot,in class"		1.0	"heard about,in class"		
+344	344	7t9zwtmr	2.0	1st	Fast track	Un peu	"heard about,no mention"	"yes,no mention"			"heard about,no mention"	Small nuance: first instinct is not to say yes	
+345	345	n3977erj	2.0	1st	Fast track	oui 	"yes,no mention"	"yes,no mention"			v		
+346	346	x3ykresy	2.0	1st	Fast track	Oui	"yes,no mention"	"yes,no mention"			v		
+347	347	v5wcy2tt	2.0	1st	Fast track	Un petit peu oui 	"heard about,no mention"	"yes,no mention"			"heard about,no mention"	"First instinct is not to say no, and it’s a un petit peu, not un peu"	
+348	348	7e4jt9hn	2.0	1st	Chemistry	gar nicht	don't know	don't know			v		
+349	349	6uakv8nx	1.0	1st	Chemistry	So gut wie gar nicht	don't know	don't know			v		
+350	350	8pskk9tr	1.0	1st	Chemistry	Bis  zu dieser Frage wusste ich nicht das dieses Gesetz existiert. 	don't know	don't know			v		
+351	351	5vvwhzqs	3.0	1st	Chemistry	nein noch nie davon gehört	don't know	don't know			v		
+352	352	eqdntxer	1.0	1st	Chemistry	Überhaupt nicht	don't know	don't know			v		
+353	353	rgeb7wr9	1.0	1st	Chemistry	"Fast garnicht, wir hatten erst einmal kurz Optik in der Schule. "	don't know	don't know			v		
+354	354	6h5vmwys	1.0	1st	Chemistry	o garnicht	don't know	don't know			v		
+355	355	ht865nws	1.0	1st	"Chemistry, Textiles"	Gar nicht und immer noch nicht.	don't know	don't know			v		
+356	356	sh6tu9g2	1.0	1st	"Chemistry, Textiles"	garnicht	don't know	don't know			v		
+357	357	sp82v9ds	1.0	1st	"Chemistry, Textiles"	"Gar nicht, wusste nicht was das ist."	don't know	don't know			v		
+358	358	m35ub35g	2.0	1st	"Chemistry, Textiles"	gar nicht	don't know	don't know			v		
+359	359	w7asnymz	1.0	1st	"Chemistry, Textiles"	Ich habe noch nicht viel von ihm gehört es war praktisch neu für mich.	don't know	don't know			v		
+360	360	j9qgkaej	2.0	1st	"Chemistry, Textiles"	Gar nicht	don't know	don't know			v		
+361	361	rve4n5nv	2.0	1st	"Chemistry, Textiles"	Nein	don't know	don't know			v		
+362	362	djnysnd6	2.0	1st	"Chemistry, Textiles"	"Nur ein wenig, nicht so gut."	don't know	don't know			v		
+363	363	z4nrhe2e	2.0	1st	"Chemistry, Textiles"	nicht sehr gut	don't know	don't know			v		
+364	364	zgyc948n	2.0	1st	"Chemistry, Textiles"	Nicht so sehr	don't know	don't know			v		
+365	365	cdq4drkk	1.0	3rd	Chemistry	Wir hatten es in der Schule damit gerechnet jedoch habe ich mir noch nie die einzelnen Einflüsse der Komponenten überlegt. 	"don't know,in class"	"know,in class"			"overestimate, in class"	"They know the law, but don’t know how it really works"	
+366	366	w25mph3c	1.0	3rd	Chemistry	Unsicherheiten aber kann es brauchen	"know,no mention"	"can use,no mention"	1.0		"know,no mention"	"Brauchen: can use the formula, not the spectrometer"	
+367	367	tsrnkj8w	2.0	3rd	Chemistry	Gut.	"know,no mention"	"know,no mention"			v		
+368	368	2xjmtbvz	1.0	3rd	Chemistry	"Praktisch eher weniger, Photometrie nur mit Kalibrierreihen 
+Theoretisch schon mehrfach angewandt"	"know,no mention"	"heard about,no mention"			"know,no mention"		
+369	369	3e3k2662	1.0	3rd	Chemistry	Sehr vertraut	"know,no mention"	"know,no mention"			v		
+370	370	k8x4ru7k	1.0	3rd	Chemistry	"Wir haben diese Thematik bereits in der Berufsschule bearbeitet, es ist aber noch ein gewisses Auffrischungspotenzial vorhanden."	"rusty,in class"	"rusty,in class"			v		
+371	371	m749z8u9	2.0	3rd	"Chemistry, Textiles"	Sie war mir theoretisch wie auch praktisch bekannt.	"know,can use,no mention"	"know,can use,no mention"			v		
+372	372	bg7x3db2	2.0	3rd	"Chemistry, Textiles"	"Dieses Gesetzt wurde in der Schule behandelt, jedoch war es mir nicht mehr so präsent.
+Die Formel wusste ich noch, aber die Komplementärfarben waren nicht mehr bekannt."	"rusty,in class"	"forgot,no mention"			"forgot,in class"	"Mention of class, mention of not knowing the complementary colour"	
+373	373	43e33t3h	2.0	3rd	"Chemistry, Textiles"	Es war mir bekannt. Jedoch auf eine andere Art für die Berechnungen. Wir mussten in der Schule beispielsweise eher berechnen welche Absorption entsteht und nicht (wie hier) welchen Einfluss die einzelnen Grössen auf die Absorption haben.	"overestimate,in class"	"overestimate,in class"			v		
+374	374	ky8kttpv	1.0	3rd	"Chemistry, Textiles"	"nicht mehr so gut
+"	"rusty,no mention"	"forgot,no mention"			"rusty,no mention"	No explicit mention	
+375	375	9bp6yz7m	2.0	3rd	"Chemistry, Textiles"	mittelmässig	"know,no mention"	"know,no mention"			v		
+376	376	ke6msbfr	2.0	3rd	"Chemistry, Textiles"	"Es wurde in der Schule behandelt, jedoch wusste ich nicht mehr viel darüber. Die Einflussfaktoren (Bsp. Schichtdicke) waren mir noch bekannt, wusste allerdings nicht welche Auswirkung eine Veränderung diese hat.
+"	"rusty,in class"	"overestimate,in class"			"forgot,in class"		
+377	377	t6rjyw6s	2.0	3rd	"Chemistry, Textiles"	"Das Thema Optik wurde in der Schule behandelt
+Formel E= speziefischer Extinktionskoeffizientent*c*d war bekannt jedoch nicht die komplementär Farben "	"rusty,in class"	"know,in class"			"heard about,in class"	Missing the complementary colour	
+378	378	r8n3bcnu	2.0	2nd	Chemistry	Nicht so stark	don't know	don't know			v		
+379	379	e2825x2d	2.0	2nd	Chemistry	Gar nicht.	don't know	don't know			v		
+380	380	akzsmgnj	2.0	2nd	Chemistry	Gar nicht.	don't know	don't know			v		
+381	381	p5ac3mu7	1.0	2nd	Chemistry	Schon mal gehabt aber lange nicht mehr gebraucht und wäre wieder Zeit zum Repetieren.	"rusty,no mention"	"rusty,no mention"			v		
+382	382	tbdn5up8	2.0	2nd	Chemistry	Ich wusste das es existiert und das es etwas mit Lichtabsorption zu tun hatte. Mehr nicht.	"heard about,no mention"	"heard about,no mention"			v		
+383	383	ebt3e6ae	1.0	2nd	Chemistry	Nicht wirklich	don't know	don't know			v		
+384	384	ww2m3qch	2.0	2nd	Chemistry	Nicht so 	don't know	don't know			v		
+385	385	jukxh9s4	2.0	2nd	Chemistry	"Gar nicht, habe kein Vorwissen darüber gehabt."	don't know	don't know			v		
+386	386	s3ufctgg	1.0	2nd	Chemistry	Gar nicht vertraut. Komplettes Neuland.	don't know	don't know			v		
+387	387	usa5gyb9	1.0	2nd	Chemistry	Gar nicht schon mal gehört und gelesen aber keine grosse Ahnung	"heard about,no mention"	"heard about,no mention"			v		
+388	388	wef64erj	1.0	2nd	Chemistry	Gar nicht 	don't know	don't know			v		
+389	389	ft5xsvy4	1.0	2nd	Chemistry	"Habe es im Betrieb schon öfters gemacht, aber mit komplett anderen Angaben."	"can use,overestimate,at work"	"overestimate,at work"			"can use,overestimate,at work"	They say they use it at the company	
+390	390	8p35t5qs	2.0	2nd	Chemistry	Wenig	"heard about,no mention"	don't know			"heard about,no mention"	A bit rather than not much	
+391	391	9x24tp6b	2.0	2nd	Chemistry	ein wenig 	"heard about,no mention"	don't know			"heard about,no mention"		
+392	392	ktd99zh9	4.0	2nd	Chemistry	Eher wenig	"heard about,no mention"	don't know			"heard about,no mention"		
+393	393	txg5vjzw	1.0	1st	Chemistry	0%	don't know	don't know			v		
+394	394	xq567sht	1.0	1st	Chemistry	gut vertraut	"know,no mention"	"know,no mention"			v		
+395	395	f5wa2gzf	2.0	1st	Chemistry	"Anhand der Simulation, konnte ich es ein Bisschen verstehen. "	"don't know,no mention"	don't know		1.0	don't know		Interesting
+396	396	n238pypu	1.0	1st	Chemistry	Gar nicht	don't know	don't know			v		
+397	397	habxmccr	2.0	1st	Chemistry	Ich habe noch nie von diesem Gesetz gehört und habe mich auch noch nicht richtig mit dem Thema Spektroskopie befasst	don't know	don't know			v		
+398	398	rqpdjumr	2.0	1st	Chemistry	Noch gar nicht	don't know	don't know			v		
+399	399	nyyfpabq	2.0	1st	Chemistry	Gar nicht. Ich kannte nur was Wellenlängen sind.	don't know	don't know			v		
+400	400	kcv4kfm2	1.0	1st	Chemistry	"Ich wusste schon ein wenig über Spektroskopie aus dem Labor, jedoch nicht all zu viel, da dies erst im zweiten Lehrjahr kommt. "	"heard about,at work"	don't know			"heard about,at work"		
+401	401	eq6xvgmg	2.0	1st	Chemistry	"Wurde unterrichtet, jedoch vergessen gegangen. Deshalb nicht so vertraut."	"forgot,in class"	"forgot,no mention"			"forgot,in class"		
+402	402	phcrjd9q	2.0	1st	Chemistry	Gar nicht	don't know	don't know			v		
+403	403	htf3xwbw	1.0	1st	Chemistry	Das Gesetzt kannte ich nicht aber ich habe mich schon ein paar mal bei der Arbeit mit Spektroskopie beschäftigt.	"can use,don't know,at work"	don't know			"heard about,at work"	"Spectroscopy is a part of measuring, no explicit mention of can use"	
+404	404	39ggtzcu	1.0	2nd	"Chemistry, Textiles"	Schulwissen	"know,in class"	"know,in class"			v		
+405	405	w6az39g6	3.0	2nd	"Chemistry, Textiles"	"Begriff unbekannt, Theorie der Absorbtion durch Anwendung im Labor und Optik (in der Schule und Alltag)"	"know,in class,at work"	"know,can use,in class,at work"	1.0		"know,in class,at work"		Optic
+406	406	4rxkb9bc	2.0	2nd	"Chemistry, Textiles"	"Ein wenig, das was in der Schule behandelt wurde. ( ist 1 Jahr her) und immer wieder etwas repetiotion im Lehrbetrieb, jedoch nicht allzu stark."	"heard about,in class,at work"	"rusty,no mention"			"rusty,in class,at work"		
+407	407	ddu7y6bv	1.0	2nd	"Chemistry, Textiles"	"Ich hatte das mal in der Schule, wusste aber vieles nicht mehr."	"forgot,in class"	"forgot,in class"			v		
+408	408	6hbvyq5m	2.0	2nd	"Chemistry, Textiles"	"Ja, da schon mit einem UV-Vis Gerät gearbeitet habe. Jedoch ist die Berechnungsformel zur Absorption nicht mehr bekannt gewesen. "	"can use,forgot,no mention"	"forgot,no mention"			"can use,forgot,no mention"	They explicitly say “yes”	
+409	409	vvtfq98r	1.0	3rd	Chemistry	Grundkentnisse	"know,no mention"	"know,no mention"			v		
+410	410	qbf3sp76	2.0	3rd	Chemistry	"Die Zusammenhänge zwischen Konzentration, Schichtdicke und Extinktion waren mir bereits bekannt. Auch die Abhängigkeit der Absorption von der Wellenlänge. Die Animation hat den Zusammenhang aber weiter verdeutlicht."	"know,no mention"	"know,no mention"	1.0		v		Nice comemnt
+411	411	2dfxa5he	2.0	3rd	Chemistry	Recht gut	"know,no mention"	"know,no mention"			v		
+412	412	u2ntt4wv	2.0	1st	"Chemistry, Textiles"	Ich kenne das Gesetz ein wenig und habe schon Spektroskopie gemacht.	"heard about,can use,no mention"	"know,no mention"			"heard about,can use,no mention"	They know it buta bit -> heard about	
+413	413	xtxat8eg	1.0	1st	"Chemistry, Textiles"	gar nicht	don't know	don't know			v		
+414	414	pqd874qd	1.0	1st	"Chemistry, Textiles"	Ich habe schon Berechnungen mit dem Lambert Beer'schen Gesetz durchgeführt.	"know,no mention"	"know,no mention"			v		
+415	415	7cm9kver	2.0	1st	"Chemistry, Textiles"	Überhaupt nicht.	don't know	don't know			v		
+416	416	da4vrrwz	1.0	1st	Chemistry	überhaupt nicht	don't know	don't know			v		
+417	417	6mrsnksc	2.0	1st	Chemistry	"Wir haben es im Geschäft schon mal angeschaut, doch ich haben die aufgabenstellung nicht verstanden und wusste am anfang nicht was ich machen muss."	"don't know,at work"	"overestimate,at work"		1.0	"overestimate,at work"	"No clear don't know, they should know it, but couldn’t use it"	
+418	418	zxmtbzda	2.0	1st	Chemistry	Ich kannte es noch nicht.	don't know	don't know			v		
+419	419	8n8w8zkd	2.0	1st	Chemistry	Ich habe noch nie davon gehört oder kontakt mit diesem gesetzt gehabt 	don't know	don't know			v		
+420	420	84khcu2r	2.0	1st	Chemistry	Ich habe absolut keinen Plan :(	don't know	don't know			v		
+421	421	rqyaqs75	1.0	1st	Chemistry	"nicht wirklich, hatte noch nie davon gehört
+"	don't know	don't know			v		
+422	422	rwu8yjw9	1.0	1st	Chemistry	Gar nicht	don't know	don't know			v		
+423	423	57nwt7qa	1.0	1st	Chemistry	Ich messe im Labor wöchentlich Wasserproben weshalb ich eigentlich ziemlich vertraut bin.	"know,can use,at work"	"can use,at work"			"know,can use,at work"	Should know beerslaw if they are using it	
+424	424	mvhzrv2y	2.0	2nd	Biology	Gar nicht	don't know	don't know			v		
+425	425	demo	1.0	1st		"oui
+"	"yes,no mention"	"yes,no mention"			v		
+426	426	suz5fszu	2.0	2nd	Chemistry	"Fast nicht. Bei der Arbeit mache ich schon sachen mit dem UV/VIS Spektrometer, aber habe mich noch nie mit dem Lambert-Beer'schen Gesetz auseinandergesetzt."	"can use,don't know,at work"	don't know			don't know	"Can use a spectrometer for something else, and then mention they know almost nothing, and never used it with beerslaw"	
+427	427	u9gxp77h	1.0	2nd	Chemistry	Ich konnte mich an so gut wie kein Gestzt mehr erinnern deshalb eher schlecht.	"forgot,no mention"	"forgot,no mention"			v		
+428	428	s43ut7tg	2.0	2nd	Chemistry	Ich habe bereits UV-Messungen einige gemacht.	"know,can use,no mention"	don't know			don't know	Same	
+429	429	etxwsdtx	2.0	3rd	"Chemistry, Textiles"	o8zvguhj	unknown	don't know	1.0	1.0	unknown		Rein put ranking
+430	430	u5ebbg3v	1.0	3rd	"Chemistry, Textiles"	"Es ist eines dieser Schulthemen, in die ich schnell wieder hineinfinde, da es relativ einfach ist, aber da es selten gebraucht wird, verschwindet es oft in den Hinterkopf. Die Formel beispielsweise kann ich mir nie merken, aber mit ihr rechnen schon.
+"	"rusty,in class"	"forgot,in class"			"rusty,in class"	"More rusty, even though there is the mention of forgetting: can still compute stuff with it !"	
+431	431	bm89te3c	2.0	3rd	"Chemistry, Textiles"	n.a	unknown	unknown			v		
+432	432	missing		2nd		missing	unknown	unknown			v		
+433	433	3pz22p3a	1.0	3rd	Chemistry	Wurde in der Schule bereits behandelt	"know,in class"	"know,in class"			v		
