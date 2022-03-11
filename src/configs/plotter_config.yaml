@@ -1,5 +1,5 @@
 experiment:
-  name: non nested early capacitor/capacitor-early-rf
+  name: non nested early chemlab/chemlab_early_ts
   keyword: xval # common trait within all nested cross val files
   reproduction_path : '../data/reproduction/'
 plot_style:
@@ -24,7 +24,7 @@ plot_style:
     label: classes
     type: groups # change in earlypred
     groups:
-      - 2classes
+      - binconcepts
       # - colourbreak
       # - colournobreak
       # - simplestate

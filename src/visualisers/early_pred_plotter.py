@@ -95,6 +95,7 @@ class EarlyPredPlotter:
         means = {}
         means_folds = {i:{} for i in range(10)}
         stds = {}
+        flat_means = {i:[] for i in range(30, 101, 10)}
         for date in xvals:
             for length in xvals[date]:
 
@@ -116,15 +117,15 @@ class EarlyPredPlotter:
                     means_folds[fold][length].append(folds[fold])
                 means[length].append(np.mean(folds))
                 stds[length].append(np.std(folds))
-
+                flat_means[length] = flat_means[length] + folds
+        print(means_folds)
         # Fold means
         fold_mean = {}
         std_mean = {}
         for length in means_folds[0]:
-            fold_mean[length] = np.mean([np.mean(means_folds[fold][length]) for fold in range(10)])
-            std_mean[length] = np.mean([np.std(means_folds[fold][length]) for fold in range(10)])
+            fold_mean[length] = np.mean([means_folds[fold][length] for fold in range(10)])
+            std_mean[length] = np.std([means_folds[fold][length] for fold in range(10)])
             # print(([(means_folds[fold][length]) for fold in range(10)]))
-
         # print(means_folds[0][30])
         # print([means_folds[fold][30] for fold in range(10)])
         # print(np.std([means_folds[fold][30] for fold in range(10)]))

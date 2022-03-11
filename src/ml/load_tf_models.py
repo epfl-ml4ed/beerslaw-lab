@@ -130,6 +130,23 @@ def _read_config_file(experiment:str):
         with open(path) as fp:
             return yaml.load(fp, Loader=yaml.FullLoader)
 
+def _read_config_length_file(experiment:str, length:int):
+    configs = []
+    for (dirpath, dirnames, filenames) in os.walk(experiment):
+        files = [os.path.join(dirpath, file) for file in filenames]
+        configs.extend(files)
+    configs = [cc for cc in configs if 'config.yaml' in cc]
+    configs = [cc for cc in configs if 'l_' + length[1:] in cc]
+    conf = [len(cc) for cc in configs]
+    conf = np.argmin(conf)
+    path = configs[conf]
+    try:
+        with open(path, 'rb') as fp:
+            return pickle.load(fp)
+    except pickle.UnpicklingError:
+        with open(path) as fp:
+            return yaml.load(fp, Loader=yaml.FullLoader)
+
 
 def load_all_nn(experiment:str):
     """Loads a model from a checkpoint path
@@ -204,23 +221,24 @@ def load_early_test_nn(experiment:str):
         outer_fold: outer fold from which to retrieve the model
         inner_fold: inner fold from which to retrieve the model
     """
-    settings = _read_config_file(experiment)
-    print(settings['data']['pipeline'])
+
+
     paths = _crawl_early_test_paths(experiment)
-    temporary_path = '../experiments/temp_checkpoints/plotter/'
-
-    pipeline = PipelineMaker(settings)
-    sequences, labels, indices, id_dictionary = pipeline.build_data()
-
-    xval = XValMaker(settings)
-    model = xval.get_model()
-
     models = {}
     for date_path in paths:
         models[date_path] = {}
         for outer_fold in paths[date_path]:
             models[date_path][outer_fold] = {}
             for length in paths[date_path][outer_fold]:
+                settings = _read_config_length_file(experiment, length)
+                print(settings['data']['pipeline'])
+                temporary_path = '../experiments/temp_checkpoints/plotter/'
+
+                pipeline = PipelineMaker(settings)
+                sequences, labels, indices, id_dictionary = pipeline.build_data()
+
+                xval = XValMaker(settings)
+                model = xval.get_model()
                 print(length)
                 print()
                 models[date_path][outer_fold][length] = model(settings)

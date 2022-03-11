@@ -381,7 +381,7 @@ class NestedXValPlotter:
             plt.show()
 
 
-        # print(flat_means)
+        print(flat_means)
         # print(means)
         for fold in fold_means:
             print('fold {}: {}'.format(fold, np.mean(fold_means[fold])))
