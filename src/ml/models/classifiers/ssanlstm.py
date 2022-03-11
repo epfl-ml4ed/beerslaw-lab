@@ -5,7 +5,7 @@ from tabnanny import check
 import numpy as np
 import pandas as pd
 from typing import Tuple
-from shutil import copytree
+from shutil import copytree, rmtree
 
 from ml.models.model import Model
 
@@ -87,6 +87,29 @@ class SSANLSTMModel(Model):
         path += '/f{}_model_training.csv'.format(self._gs_fold)
         return path
 
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+        Args:
+            x ([type]): [description]
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        # print('pre-weight check: {}'.format(self._model.layers[2].weights[0][0]))
+        checkpoint = tf.train.Checkpoint(self._model)
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+        # print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
+
     def _init_model(self, x:np.array):
         self._set_seed()
 
@@ -100,12 +123,13 @@ class SSANLSTMModel(Model):
         query_layer = layers.Dense(self._model_settings['query_cells'])(full_features)
 
         # Attention layer
-        attention_layer = layers.AdditiveAttention()([query_layer, value_layer, key_layer])
+        attention_layer, attention_scores = layers.AdditiveAttention()([query_layer, value_layer, key_layer], return_attention_scores=True)
 
         # LSTM
         gru_layer = layers.GRU(units=self._model_settings['gru_cells'], return_sequences=False)(attention_layer)
 
         print('at: {}'.format(attention_layer.shape))
+        print('at scores: {}'.format(attention_scores.shape))
         print('gru: {}'.format(gru_layer.shape))
         # Flatten
         flatten = layers.Flatten()(gru_layer)
@@ -210,11 +234,16 @@ class SSANLSTMModel(Model):
         return path
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path
     
+    def save_fold_early(self, fold: int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
+        os.makedirs(path, exist_ok=True)
+        self._model.save(path)
+        return path
     
     
     

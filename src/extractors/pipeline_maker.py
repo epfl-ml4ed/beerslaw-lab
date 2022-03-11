@@ -80,6 +80,7 @@ from extractors.sequencer.one_hot_encoded.yearlang_simplestate import YLSimpleSt
 from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
 
+
 from extractors.sequencer.capacitor.edm2021_secondslstm import BinEDM2021SecondsLSTM
 
 class PipelineMaker:
@@ -390,6 +391,10 @@ class PipelineMaker:
         if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondslstm_12':
             self._sequencer = SimpleMoreStateSecondsLSTM(self._settings)
             self._sequencer_path = 'simplemorestates_secondslstm_12'
+
+        if self._data_settings['pipeline']['sequencer'] == 'binary_edm2021':
+            self._sequencer = BinEDM2021SecondsLSTM(self._settings)
+            self._sequencer_path = 'binary_edm2021'
 
 
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':

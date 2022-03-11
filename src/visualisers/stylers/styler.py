@@ -76,6 +76,8 @@ class Styler:
             algo='ssanlstm' 
         elif 'lstm' in path:
             algo = 'LSTM'
+        elif 'ts_attention' in path:
+            algo = 'ts_attention'
         return algo
     
     def _get_feature(self, path:str) -> str:

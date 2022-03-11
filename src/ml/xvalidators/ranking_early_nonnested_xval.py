@@ -242,7 +242,7 @@ class RankingEarlyNonNestedXVal(XValidator):
             else:
                 results[f]['carry_on_scores'] = test_results
             
-            results[f]['best_estimator'] = model.save_fold(f)
+            results[f]['best_estimator'] = model.save_fold_early(f)
             
             self._model_notation = model.get_notation()
             self.save_results(results)

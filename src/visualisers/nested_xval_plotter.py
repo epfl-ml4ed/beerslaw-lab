@@ -329,6 +329,7 @@ class NestedXValPlotter:
     def plot_seed_experiments(self):
         means = []
         flat_means = []
+        fold_means = {i: [] for i in range(10)}
         stds = []
         seeds = []
         dots, parameters, boxplots = [], [], []
@@ -345,6 +346,10 @@ class NestedXValPlotter:
             stds.append(b.iloc[0]['std'])
             seeds.append(d.iloc[0]['seed'])
 
+            for fold in d['fold'].unique():
+                fold_means[fold] = fold_means[fold] + list((d[d['fold'] == fold])['data'])
+                print(len(fold_means[fold]))
+                print()
             
         sort_indices = np.argsort(means)
         ordered_means = [means[idx] for idx in sort_indices]
@@ -377,8 +382,10 @@ class NestedXValPlotter:
 
 
         # print(flat_means)
-        print(means)
-                
+        # print(means)
+        for fold in fold_means:
+            print('fold {}: {}'.format(fold, np.mean(fold_means[fold])))
+
     def plot_reproduction(self):
         dots, parameters, boxplots = [], [], []
         

@@ -44,11 +44,14 @@ class TrainValidationPlotter:
         epochs = []
         
         plt.figure(figsize=(12, 8))
-        for file in files:
+        for i, file in enumerate(files):
+            print(file)
             model = pd.read_csv(file, sep=';')
             metrics.append(list(model[metric]))
             val_metrics.append(list(model['val_' + metric]))
             epochs.append(model['epoch'])
+            # if i == 9:
+            #     break
             
         if self._settings['partial']:
             maximum = np.max([len(metr) for metr in metrics])
@@ -64,8 +67,8 @@ class TrainValidationPlotter:
         
         min_plot = min(means-stds)
         max_plot = max(means+stds)
-        plt.plot(epochs[0], means, color='#abc4ff')
-        plt.fill_between(epochs[0], means - stds, means + stds, alpha=0.3, color='#abc4ff', label='train')
+        plt.plot(epochs[0], means, color='#004648')
+        plt.fill_between(epochs[0], means - stds, means + stds, alpha=0.3, color='#004648', label='train')
         if self._settings['partial']:
             maximum = np.max([len(metr) for metr in val_metrics])
             val_metrics = [metri for metri in val_metrics if len(metri) == maximum]
@@ -80,8 +83,8 @@ class TrainValidationPlotter:
         
         min_plot = min(min_plot, min(means-stds))
         max_plot = max(max_plot, max(means+stds))
-        plt.plot(epochs[0], means, color='#ff5c8a')
-        plt.fill_between(epochs[0], means - stds, means + stds, alpha=0.3, color='#ff5c8a', label='validation')
+        plt.plot(epochs[0], means, color='#D1AC00')
+        plt.fill_between(epochs[0], means - stds, means + stds, alpha=0.3, color='#D1AC00', label='validation')
 
         plt.ylim([min_plot, max_plot])
         plt.legend()

@@ -93,9 +93,11 @@ class EarlyPredPlotter:
     def _create_lineframes(self, xvals: dict):
         xs = []
         means = {}
+        means_folds = {i:{} for i in range(10)}
         stds = {}
         for date in xvals:
             for length in xvals[date]:
+
                 folds = []
                 for fold in xvals[date][length]:
                     if fold != 'x' and fold != 'y' and fold != 'optim_scoring' and fold != 'id_indices' and fold != 'limit':
@@ -108,9 +110,24 @@ class EarlyPredPlotter:
                     means[length] = []
                     stds[length] = []
                 
+                for fold in range(10):
+                    if length not in means_folds[fold]:
+                        means_folds[fold][length] = []
+                    means_folds[fold][length].append(folds[fold])
                 means[length].append(np.mean(folds))
                 stds[length].append(np.std(folds))
-            
+
+        # Fold means
+        fold_mean = {}
+        std_mean = {}
+        for length in means_folds[0]:
+            fold_mean[length] = np.mean([np.mean(means_folds[fold][length]) for fold in range(10)])
+            std_mean[length] = np.mean([np.std(means_folds[fold][length]) for fold in range(10)])
+            # print(([(means_folds[fold][length]) for fold in range(10)]))
+
+        # print(means_folds[0][30])
+        # print([means_folds[fold][30] for fold in range(10)])
+        # print(np.std([means_folds[fold][30] for fold in range(10)]))
         xs = list(set(xs))
         xs.sort()
         plot_means = [np.mean(means[length]) for length in xs]
@@ -118,8 +135,8 @@ class EarlyPredPlotter:
             
         data = pd.DataFrame()
         data['x'] = xs
-        data['mean'] = plot_means
-        data['std'] = plot_stds
+        data['mean'] = [fold_mean[xx] for xx in xs]
+        data['std'] = [std_mean[xx] for xx in xs]
         data['upper'] = data['mean'] + data['std']
         data['lower'] = data['mean'] - data['std']
         data = data.sort_values('x')

@@ -81,7 +81,11 @@ class TimestepAttentionModel(Model):
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
         checkpoint = tf.train.Checkpoint(self._model)
-        checkpoint.restore(checkpoint_path)
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
     
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
@@ -190,6 +194,7 @@ class TimestepAttentionModel(Model):
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(concatenated)
 
         self._model = Mod(input_layer, classification_layer)
+        self._inference_model = Mod(input_layer, selfattention_features)
 
         # compiling
         cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')

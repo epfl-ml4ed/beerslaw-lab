@@ -248,6 +248,8 @@ class XvalLabelPlotter(LabelPlotter):
             else:
                 plt.close()
 
+        return df
+
     def _plot_confusion_matrix(self, config:dict, summary_df:dict, experiment:str):
         for strat in self._settings['scorer']['stratifiers']:
             self._confusion_matrix(summary_df, strat, config, experiment)
@@ -410,7 +412,5 @@ class XvalLabelPlotter(LabelPlotter):
 
             if self._settings['slicingplot']:
                 self._plot_slicing_bubbleplots(summary_df, experiment)
-                
-
-
+        
 
