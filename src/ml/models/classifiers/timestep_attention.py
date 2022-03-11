@@ -64,6 +64,29 @@ class TimestepAttentionModel(Model):
         features = x[:, :, self._prior_states:]
         return priors, features
 
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+
+        Args:
+            x ([type]): [description]
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        checkpoint = tf.train.Checkpoint(self._model)
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+    
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
         if self._model_settings['cell_type'] == 'LSTM':
@@ -157,7 +180,7 @@ class TimestepAttentionModel(Model):
         input_layer = layers.Input(shape=(x.shape[1], x.shape[2]), name='input_prior')
         full_features = layers.Masking(mask_value=self._model_settings['padding_value'], name='masking_prior')(input_layer)
 
-        selfattention_features = layers.AdditiveAttention()([full_features, full_features])
+        selfattention_features = self.self_attention(full_features)
         print('sa {}'.format(selfattention_features.shape)) # expect shape of None, 900, 10
         print('ff {}'.format(full_features.shape)) # expect shape of 900
 
@@ -171,6 +194,7 @@ class TimestepAttentionModel(Model):
         classification_layer = layers.Dense(self._settings['experiment']['n_classes'], activation='softmax')(concatenated)
 
         self._model = Mod(input_layer, classification_layer)
+        self._inference_model = Mod(input_layer, selfattention_features)
 
         # compiling
         cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
