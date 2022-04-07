@@ -77,35 +77,20 @@ class SimpleNN(Model):
         )
         
     def predict(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        predictions = self._model.predict(x_predict)
-        predictions = [np.argmax(x) for x in predictions]
-        return predictions
+        self.predict_tensorflow(x)
     
     def predict_proba(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        probs = self._model.predict(x_predict)
-        if len(probs[0]) != self._n_classes:
-            preds = self._model.predict(x_predict)
-            probs = self._inpute_full_prob_vector(preds, probs)
-        return probs
+        self.predict_proba_tensorflow(x)
     
-    def save(self):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '_l' + self._settings['data']['adjuster']['limit'] + '_f' + str(self._fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        return path
+    def save(self) -> str:
+        self.save_tensorflow()
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '/'
-        return path 
-    
+        self.get_path(fold)
+            
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        
-        temp_path = './temp_saving_weights/'
-        os.makedirs(temp_path, exist_ok=True)
-        self._model.save(temp_path)
-        shutil.move(temp_path, path)
-        return path 
+        self.save_fold_tensorflow(fold)
+
+    def save_fold_early(self, fold: int) -> str:
+        return self.save_fold_early_tensorflow(fold)
+    

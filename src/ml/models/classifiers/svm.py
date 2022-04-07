@@ -47,34 +47,16 @@ class SVMClassifier(Model):
         self._fold += 1
         
     def predict(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        return self._model.predict(x_predict)
+        return self.predict_sklearn(x)
     
     def predict_proba(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        probs = self._model.predict_proba(x_predict)
-        if len(probs[0]) != self._n_classes:
-            preds = self._model.predict(x_predict)
-            probs = self._inpute_full_prob_vector(preds, probs)
-        return probs
+        return self.predict_proba_sklearn(x)
     
     def save(self):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
-        os.makedirs(path, exist_ok=True)
-        path += self._name + '_l' + self._settings['data']['adjuster']['limit'] + '_f' + str(self._fold) + '.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self, fp)
-        return path
+        return self.save_sklearn()
     
     def get_path(self, fold:int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
-        path += self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
-        return path
+        return self.get_path_sklearn(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
-        os.makedirs(path, exist_ok=True)
-        path += self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self, fp)
-        return path
+        return self.save_fold_sklearn(fold)

@@ -44,10 +44,6 @@ class PriorLastAttentionModel(Model):
         pipeline = PipelineMaker(settings)
         sequencer = pipeline.get_sequencer()
         self._prior_states = sequencer.get_prior_states()
-
-    def _set_seed(self):
-        seed(self._model_settings['seed'])
-        tf.random.set_seed(self._model_settings['seed'])
         
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
@@ -105,20 +101,8 @@ class PriorLastAttentionModel(Model):
     def _retrieve_attentionlayer(self):
         return self._model.layers[4]
 
-    def load_model_weights(self, x:np.array, checkpoint_path:str):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        priors_train, features_train = self._format_prior_features(x)
-        self._init_model(priors_train, features_train)
-        self._model.summary()
-        self._model.load_weights(checkpoint_path)
+    def load_model_weights(self, x: np.array, checkpoint_path: str):
+        return self.load_priormodel_weights(x, checkpoint_path)
 
     def _init_model(self, priors_train:np.array, features_train:np.array):
         self._set_seed()
@@ -190,6 +174,11 @@ class PriorLastAttentionModel(Model):
             callbacks=self._callbacks
         )
         self._fold += 1
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+            self._best_epochs = np.argmax(self._history.history['val_auc'])
+            print('best epoch: {}'.format(self._best_epochs))
         
     def predict(self, x:list) -> list:
         x_predict = self._format_features(x)
@@ -208,26 +197,16 @@ class PriorLastAttentionModel(Model):
         return probs
     
     def save(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        self._model = path
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self._history.history, fp)
-        return path
+        self.save_tensorflow()
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        return path
+        self.get_path(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        return path
-    
-    
+        self.save_fold_tensorflow(fold)
+
+    def save_fold_early(self, fold: int) -> str:
+        return self.save_fold_early_tensorflow(fold)
     
     
     

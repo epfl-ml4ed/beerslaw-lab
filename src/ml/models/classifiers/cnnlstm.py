@@ -41,11 +41,6 @@ class CNNLSTMModel(Model):
         self._model_settings = settings['ML']['models']['classifiers']['cnnlstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
-        
-    def _set_seed(self):
-        print(self._model_settings)
-        seed(self._model_settings['seed'])
-        tf.random.set_seed(self._model_settings['seed'])
 
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
@@ -73,17 +68,8 @@ class CNNLSTMModel(Model):
         return csv_path, checkpoint_path
 
     def _get_model_checkpoint_path(self) -> str:
-        path = '../experiments/{}{}/{}/logger/cnnlstm/'.format(self._experiment_root, self._experiment_name, self._outer_fold)
-        path += 'seed{}_lstmcells{}_cnncells{}_cnnwindow{}_poolsize{}_stride{}_padding{}'.format(
-            self._model_settings['seed'], self._model_settings['lstm_cells'], self._model_settings['cnn_cells'],
-            self._model_settings['cnn_window'], self._model_settings['pool_size'], self._model_settings['stride'], self._model_settings['padding']
-        )
-        path += '_dropout{}_optim{}_loss{}_bs{}_ep{}'.format(
-            self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'],
-            self._model_settings['batch_size'], self._model_settings['epochs']
-        )
-        path += '/f{}_model_training.csv'.format(self._gs_fold)
-        return path
+        _, checkpoint_path = self._get_csvlogger_path()
+        return checkpoint_path
 
     def _init_model(self, x:np.array):
         self._set_seed()
@@ -163,20 +149,6 @@ class CNNLSTMModel(Model):
 
         print(self._model.summary())
 
-    def load_checkpoints(self, checkpoint_path:str, x:list):
-        """Sets the inner model back to the weigths present in the checkpoint folder.
-        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
-        a variables folder, and index and data checkpoint files.
-
-        Args:
-            checpoint_path (str): path to the checkpoint folder
-            x (list): partial sample of data, to format the layers
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        self._model.load_weights(checkpoint_path)
-
-        
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
         x_val, y_val = self._format(x_val, y_val)
@@ -192,41 +164,31 @@ class CNNLSTMModel(Model):
             callbacks=self._callbacks
         )
         self._fold += 1
+
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+            self._best_epochs = np.argmax(self._history.history['val_auc'])
+            print('best epoch: {}'.format(self._best_epochs))
+        self._fold += 1
         
     def predict(self, x:list) -> list:
-        print('hello')
-        x_predict = self._format_features(x)
-        predictions = self._model.predict(x_predict)
-        predictions = [np.argmax(x) for x in predictions]
-        return predictions
+        self.predict_tensorflow(x)
     
     def predict_proba(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        probs = self._model.predict(x_predict)
-        if len(probs[0]) != self._n_classes:
-            preds = self._model.predict(x_predict)
-            probs = self._inpute_full_prob_vector(preds, probs)
-        return probs
+        self.predict_proba_tensorflow(x)
     
     def save(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        self._model = path
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self._history.history, fp)
-        return path
+        self.save_tensorflow()
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        return path
+        self.get_path(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        return path
+        self.save_fold_tensorflow(fold)
+
+    def save_fold_early(self, fold: int) -> str:
+        return self.save_fold_early_tensorflow(fold)
     
     
     

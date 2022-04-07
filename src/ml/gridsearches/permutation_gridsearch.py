@@ -14,6 +14,10 @@ from ml.scorers.scorer import Scorer
 from ml.gridsearches.gridsearch import GridSearch
 
 class PermutationGridSearch(GridSearch):
+    """
+    Gridsearch where the stratification is done by the permutation label
+
+    """
     def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int, oversampled_indices:list):
         print('HELLO INIT')
         super().__init__(model, grid, scorer, splitter, settings, outer_fold)

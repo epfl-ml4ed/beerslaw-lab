@@ -36,11 +36,6 @@ class LSTMModel(Model):
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
         
-    def _set_seed(self):
-        # print(self._model_settings)
-        # seed(self._model_settings['seed'])
-        tf.random.set_seed(self._model_settings['seed'])
-
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
@@ -48,8 +43,6 @@ class LSTMModel(Model):
         return x_vector, y_vector
     
     def _format_features(self, x:list) -> list:
-        # print(np.array(x).shape)
-        # print(self._model_settings['padding_value'], self._maxlen)
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
     
@@ -74,24 +67,11 @@ class LSTMModel(Model):
         csv_path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
         csv_path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs']) + '_seed' + str(self._model_settings['seed'])
         csv_path += self._notation 
-        # with open(csv_path + '/architecture.pkl', 'wb') as fp:
-        #     pickle.dump(self._model_settings, fp)
 
         os.makedirs(csv_path, exist_ok=True)
         checkpoint_path = csv_path + '/f' + str(self._gs_fold) + '_model_checkpoint/'
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
-
-    def _get_model_checkpoint_path(self) -> str:
-        path = '../experiments/' + self._experiment_root + self._experiment_name + '/'
-        path += str(self._outer_fold) + '/logger/'
-        path += 'ct' + self._model_settings['cell_type'] + '_nlayers' + str(self._model_settings['n_layers'])
-        path += '_ncells' + str(self._model_settings['n_cells']) + '_drop' + str(self._model_settings['dropout']).replace('.', '')
-        path += '_optim' + self._model_settings['optimiser'] + '_loss' + self._model_settings['loss']
-        path += '_bs' + str(self._model_settings['batch_size']) + '_ep' + str(self._model_settings['epochs']) + '_seed' + str(self._model_settings['seed'])
-        path += self._notation
-        path += '/f' + str(self._gs_fold) + '_model_checkpoint/'
-        return path
 
     def load_model_weights(self, x:np.array, checkpoint_path:str):
         """Given a data point x, this function sets the model of this object
@@ -107,14 +87,12 @@ class LSTMModel(Model):
         self._model.compile(
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
-        print('pre-weight check: {}'.format(self._model.layers[2].weights[0][0]))
         checkpoint = tf.train.Checkpoint(self._model)
         temporary_path = '../experiments/temp_checkpoints/training/'
         if os.path.exists(temporary_path):
             rmtree(temporary_path)
             copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
         checkpoint.restore(temporary_path)
-        print('post-weight check: {}'.format(self._model.layers[2].weights[0][0]))
 
     def _init_model(self, x:np.array):
         # initial layers
@@ -166,19 +144,6 @@ class LSTMModel(Model):
 
         print(self._model.summary())
 
-    def load_checkpoints(self, checkpoint_path:str, x:list):
-        """Sets the inner model back to the weigths present in the checkpoint folder.
-        Checkpoint folder is in the format "../xxxx_model_checkpoint/ and contains an asset folder,
-        a variables folder, and index and data checkpoint files.
-        Args:
-            checpoint_path (str): path to the checkpoint folder
-            x (list): partial sample of data, to format the layers
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        self._model.load_weights(checkpoint_path)
-
-        
     def fit(self, x_train:list, y_train:list, x_val:list, y_val:list):
         x_train, y_train = self._format(x_train, y_train)
         x_val, y_val = self._format(x_val, y_val)
@@ -202,36 +167,19 @@ class LSTMModel(Model):
         self._fold += 1
         
     def predict(self, x:list) -> list:
-        print('hello')
-        x_predict = self._format_features(x)
-        predictions = self._model.predict(x_predict)
-        predictions = [np.argmax(x) for x in predictions]
-        return predictions
+        self.predict_tensorflow(x)
     
     def predict_proba(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        probs = self._model.predict(x_predict)
-        if len(probs[0]) != self._n_classes:
-            preds = self._model.predict(x_predict)
-            probs = self._inpute_full_prob_vector(preds, probs)
-        return probs
+        self.predict_proba_tensorflow(x)
     
     def save(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        self._model = path
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self._history.history, fp)
-        return path
+        self.save_tensorflow()
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        return path
+        self.get_path(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        return path
+        self.save_fold_tensorflow(fold)
+
+    def save_fold_early(self, fold: int) -> str:
+        return self.save_fold_early_tensorflow(fold)

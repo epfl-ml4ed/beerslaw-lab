@@ -39,10 +39,10 @@ class RandomForest(BaseEstimator, ClassifierMixin, Model):
         self._name = 'random forest'
         self._notation = 'rf'
         
-    def __format(self, x:list, y:list, x_val=[], y_val=[]) -> Tuple[list, list]:
+    def _format(self, x:list, y:list, x_val=[], y_val=[]) -> Tuple[list, list]:
         return [xx for xx in x], [yy for yy in y]
     
-    def __format_features(self, x:list) -> list:
+    def _format_features(self, x:list) -> list:
         return [xx for xx in x]
     
     def fit(self, x_train:list, y_train:list, x_val=[], y_val=[]):
@@ -63,32 +63,19 @@ class RandomForest(BaseEstimator, ClassifierMixin, Model):
         return self
     
     def predict(self, x:list) -> list:
-        x_predict = self.__format_features(x)
-        return self._model.predict(x_predict)
+        return self.predict_sklearn(x)
     
-    def predict_proba(self, x):
-        x_predict = self.__format_features(x)
-        return self._model.predict_proba(x_predict)
-    
-    def decision_function(self, x):
-        return self.predict_proba(x)
+    def predict_proba(self, x:list) -> list:
+        return self.predict_proba_sklearn(x)
     
     def save(self):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' 
-        os.makedirs(path, exist_ok=True)
-        path += self._name + '_f' + str(self._fold) + '.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self, fp)
-        return path
+        return self.save_sklearn()
+    
+    def get_path(self, fold:int) -> str:
+        return self.get_path_sklearn(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' 
-        os.makedirs(path, exist_ok=True)
-        path += self._name + '_f' + str(fold) + '.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self, fp)
-        return path
-        
+        return self.save_fold_sklearn(fold)
     
     
             

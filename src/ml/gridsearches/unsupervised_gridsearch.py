@@ -12,6 +12,9 @@ from ml.scorers.scorer import Scorer
 from ml.gridsearches.gridsearch import GridSearch
 
 class UnsupervisedGridSearch(GridSearch):
+    """
+    Gridsearch made for unsupervised algorithms
+    """
     def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int):
         super().__init__(model, grid, scorer, splitter, settings, outer_fold)
         self._name = 'unsupervised gridsearch'

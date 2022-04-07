@@ -3,6 +3,11 @@ from shutil import copytree
 import numpy as np
 import pandas as pd
 import logging
+import pickle
+
+import tensorflow as tf
+import os
+from shutil import copytree, rmtree
 
 from typing import Tuple
 class Model:
@@ -25,6 +30,9 @@ class Model:
 
     def get_notation(self):
         return self._notation
+
+    def _set_seed(self):
+        tf.random.set_seed(self._model_settings['seed'])
 
     def set_gridsearch_parameters(self, params, combinations):
         logging.debug('Gridsearch params: {}'.format(params))
@@ -75,7 +83,53 @@ class Model:
             x: formatted features
         """
         raise NotImplementedError
-    
+
+    def _get_model_checkpoint_path(self) -> str:
+        _, checkpoint_path = self._get_csvlogger_path()
+        return checkpoint_path
+
+    def load_model_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+        Args:
+            x ([type]): [description]
+        Raises:
+            NotImplementedError: [description]
+        """
+        x = self._format_features(x) 
+        self._init_model(x)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        checkpoint = tf.train.Checkpoint(self._model)
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+
+    def load_priormodel_weights(self, x:np.array, checkpoint_path:str):
+        """Given a data point x, this function sets the model of this object
+        Args:
+            x ([type]): [description]
+        Raises:
+            NotImplementedError: [description]
+        """
+        priors, x = self._format_prior_features(x) 
+        self._init_model(priors, x)
+        cce = tf.keras.losses.CategoricalCrossentropy(name='categorical_crossentropy')
+        auc = tf.keras.metrics.AUC(name='auc')
+        self._model.compile(
+            loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
+        )
+        checkpoint = tf.train.Checkpoint(self._model)
+        temporary_path = '../experiments/temp_checkpoints/training/'
+        if os.path.exists(temporary_path):
+            rmtree(temporary_path)
+            copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
+        checkpoint.restore(temporary_path)
+
     def _init_model(self):
         """Initiates a model with self._model
         """
@@ -127,6 +181,91 @@ class Model:
                 new_probs[index][new_map[i]] = prob[i]
             
         return new_probs
+
+    ############ SKLEARN
+    def predict_sklearn(self, x:list) -> list:
+        x_predict = self._format_features(x)
+        return self._model.predict(x_predict)
+    
+    def predict_proba_sklearn(self, x:list) -> list:
+        x_predict = self._format_features(x)
+        probs = self._model.predict_proba(x_predict)
+        if len(probs[0]) != self._n_classes:
+            preds = self._model.predict(x_predict)
+            probs = self._inpute_full_prob_vector(preds, probs)
+        return probs
+
+    def save_sklearn(self):
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
+        os.makedirs(path, exist_ok=True)
+        path += self._name + '_l' + self._settings['data']['adjuster']['limit'] + '_f' + str(self._fold) + '.pkl'
+        with open(path, 'wb') as fp:
+            pickle.dump(self, fp)
+        return path
+
+    def get_path_sklearn(self, fold:int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
+        path += self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
+        return path
+
+    def save_fold_sklearn(self, fold: int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
+        os.makedirs(path, exist_ok=True)
+        path += self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
+        with open(path, 'wb') as fp:
+            pickle.dump(self, fp)
+        return path
+
+    def save_fold_early_sklearn(self, fold: int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
+        os.makedirs(path, exist_ok=True)
+        self._model.save(path)
+        return path
+
+    ############ TENSORFLOW
+    def predict_tensorflow(self, x:list) -> list:
+        x_predict = self._format_features(x)
+        predictions = self._model.predict(x_predict)
+        predictions = [np.argmax(x) for x in predictions]
+        return predictions
+    
+    def predict_proba_tensorflow(self, x:list) -> list:
+        x_predict = self._format_features(x)
+        probs = self._model.predict(x_predict)
+        if len(probs[0]) != self._n_classes:
+            preds = self._model.predict(x_predict)
+            probs = self._inpute_full_prob_vector(preds, probs)
+        return probs
+    
+    def save_tensorflow(self) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
+        os.makedirs(path, exist_ok=True)
+        self._model.save(path)
+        self._model = path
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
+        with open(path, 'wb') as fp:
+            pickle.dump(self._history.history, fp)
+        return path
+    
+    def get_path_tensorflow(self, fold: int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
+        return path
+            
+    def save_fold_tensorflow(self, fold: int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
+        os.makedirs(path, exist_ok=True)
+        self._model.save(path)
+        return path
+
+    def save_fold_early_tensorflow(self, fold: int) -> str:
+        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
+        os.makedirs(path, exist_ok=True)
+        self._model.save(path)
+        return path
+
+
+
+
     
     def predict_proba(self, x:list) -> list:
         """Predict the probabilities of each label for x

@@ -41,14 +41,6 @@ class PriorRNNAttentionModel(Model):
         self._model_settings = settings['ML']['models']['classifiers']['lstm']
         self._maxlen = self._settings['data']['adjuster']['limit']
         self._fold = 0
-
-        pipeline = PipelineMaker(settings)
-        sequencer = pipeline.get_sequencer()
-        # self._prior_states = sequencer.get_prior_states()
-
-    def _set_seed(self):
-        seed(self._model_settings['seed'])
-        tf.random.set_seed(self._model_settings['seed'])
         
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
@@ -59,11 +51,6 @@ class PriorRNNAttentionModel(Model):
     def _format_features(self, x:list) -> list:
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
         return x_vector
-
-    def _format_prior_features(self, x):
-        priors = x[:, :, :self._prior_states]
-        features = x[:, :, self._prior_states:]
-        return priors, features
     
     def _get_rnn_layer(self, return_sequences:bool, l:int):
         n_cells = self._model_settings['n_cells'][l]
@@ -91,33 +78,8 @@ class PriorRNNAttentionModel(Model):
         csv_path += '/f' + str(self._gs_fold) + '_model_training.csv'
         return csv_path, checkpoint_path
 
-    def _get_model_checkpoint_path(self) -> str:
-        path = '../experiments/{}{}/{}/logger/{}/'.format(self._experiment_root, self._experiment_name, self._outer_fold, self._notation)
-        path += 'ct{}_nlayers{}_ncells{}_flatten{}'.format(
-            self._model_settings['cell_type'], self._model_settings['n_layers'], self._model_settings['n_cells'], self._model_settings['flatten']
-        )
-        path += '_drop{}_optim{}_loss{}_bs{}_ep{}'.format(
-            self._model_settings['dropout'], self._model_settings['optimiser'], self._model_settings['loss'], self._model_settings['batch_size'], self._model_settings['epochs']
-        )
-        path += '/f{}_model_checkpoint'.format(self._gs_fold)
-        return path
-
     def _retrieve_attentionlayer(self):
         return self._model.layers[4]
-
-    def load_model_weights(self, x:np.array, checkpoint_path:str):
-        """Given a data point x, this function sets the model of this object
-
-        Args:
-            x ([type]): [description]
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        x = self._format_features(x) 
-        self._init_model(x)
-        self._model.summary()
-        self._model.load_weights(checkpoint_path)
 
     def bi_modal_attention(x, y):
         ''' 
@@ -145,7 +107,7 @@ class PriorRNNAttentionModel(Model):
         o2 = layers.dot([n2, x], axes=[2, 1])
         a2 = layers.multiply([o2, y])
 
-        return concatenate([a1, a2])
+        return tf.layers.Concatenate([a1, a2])
 
     def _init_model(self, x:np.array):
         self._set_seed()
@@ -232,41 +194,31 @@ class PriorRNNAttentionModel(Model):
             callbacks=self._callbacks
         )
         self._fold += 1
+
+        if self._model_settings['save_best_model']:
+            checkpoint_path = self._get_model_checkpoint_path()
+            self.load_model_weights(x_train, checkpoint_path)
+            self._best_epochs = np.argmax(self._history.history['val_auc'])
+            print('best epoch: {}'.format(self._best_epochs))
+        self._fold += 1
         
     def predict(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        predictions = self._model.predict(x_predict)
-        predictions = [np.argmax(x) for x in predictions]
-        return predictions
+        self.predict_tensorflow(x)
     
     def predict_proba(self, x:list) -> list:
-        x_predict = self._format_features(x)
-        probs = self._model.predict(x_predict)
-        if len(probs[0]) != self._n_classes:
-            preds = self._model.predict(x_predict)
-            probs = self._inpute_full_prob_vector(preds, probs)
-        return probs
+        self.predict_proba_tensorflow(x)
     
     def save(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        self._model = path
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self._history.history, fp)
-        return path
+        self.save_tensorflow()
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        return path
+        self.get_path(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        return path
+        self.save_fold_tensorflow(fold)
     
+    def save_fold_early(self, fold: int) -> str:
+        return self.save_fold_early_tensorflow(fold)
     
     
     

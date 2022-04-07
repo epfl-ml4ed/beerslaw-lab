@@ -13,6 +13,11 @@ from ml.scorers.scorer import Scorer
 from ml.gridsearches.gridsearch import GridSearch
 
 class CheckpointGridsearch(GridSearch):
+    """Used just to create the checkpoint data when the algorithms hasn't recorded things correctly (old versions)
+
+    Args:
+        GridSearch (_type_): _description_
+    """
     def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int):
         # settings['experiment']['root_name'] = 'checkpoint-' + settings['experiment']['root_name']
         super().__init__(model, grid, scorer, splitter, settings, outer_fold)

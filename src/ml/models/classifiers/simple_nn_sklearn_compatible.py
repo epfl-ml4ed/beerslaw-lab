@@ -65,7 +65,7 @@ class SimpleNN(Model, BaseEstimator, ClassifierMixin):
                 monitor='val_loss', patience=10, min_delta=0.001, 
                 restore_best_weights=True
             )
-            self._callbacks.append(eary_stopping)
+            self._callbacks.append(early_stopping)
             
         # Training
         x_train, y_train = self.__format(x_train, y_train)
@@ -82,24 +82,16 @@ class SimpleNN(Model, BaseEstimator, ClassifierMixin):
         return self
         
     def predict(self, x:list) -> list:
-        x_predict = self.__format_features(x)
-        predictions = self._model.predict(x_predict)
-        predictions = [np.argmax(x) for x in predictions]
-        return predictions
+        return self.predict_sklearn(x)
     
     def predict_proba(self, x:list) -> list:
-        x_predict = self.__format_features(x)
-        return self._model.predict(x_predict)
-    
-    def decision_function(self, x):
-        return self.predict_proba(x)
+        return self.predict_proba_sklearn(x)
     
     def save(self):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '_f' + str(self._fold) + '/'
-        self._model.save(path)
-        return path
+        return self.save_sklearn()
     
+    def get_path(self, fold:int) -> str:
+        return self.get_path_sklearn(fold)
+            
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._name + '_f' + str(fold) + '/'
-        self._model.save(path)
-        return path 
+        return self.save_fold_sklearn(fold)

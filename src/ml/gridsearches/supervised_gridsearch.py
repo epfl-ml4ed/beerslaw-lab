@@ -13,6 +13,10 @@ from ml.scorers.scorer import Scorer
 from ml.gridsearches.gridsearch import GridSearch
 
 class SupervisedGridSearch(GridSearch):
+    """
+    Gridsearch where the folds are stratified by the label
+
+    """
     def __init__(self, model:Model, grid:dict, scorer:Scorer, splitter:Splitter, settings:dict, outer_fold:int):
         super().__init__(model, grid, scorer, splitter, settings, outer_fold)
         self._name = 'supervised gridsearch'

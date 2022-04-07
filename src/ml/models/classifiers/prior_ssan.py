@@ -50,11 +50,6 @@ class PriorSSANModel(Model):
         sequencer = pipeline.get_sequencer()
         self._prior_states = sequencer.get_prior_states()
         
-    def _set_seed(self):
-        print(self._model_settings)
-        seed(self._model_settings['seed'])
-        tf.random.set_seed(self._model_settings['seed'])
-
     def _format(self, x:list, y:list) -> Tuple[list, list]:
         #y needs to be one hot encoded
         x_vector = pad_sequences(x, padding="post", value=self._model_settings['padding_value'], maxlen=self._maxlen, dtype=float)
@@ -217,26 +212,16 @@ class PriorSSANModel(Model):
         return probs
     
     def save(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        self._model = path
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
-        with open(path, 'wb') as fp:
-            pickle.dump(self._history.history, fp)
-        return path
+        self.save_tensorflow()
     
     def get_path(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
-        return path
+        self.get_path(fold)
             
     def save_fold(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
-        os.makedirs(path, exist_ok=True)
-        self._model.save(path)
-        return path
-    
-    
+        self.save_fold_tensorflow(fold)
+
+    def save_fold_early(self, fold: int) -> str:
+        return self.save_fold_early_tensorflow(fold)
     
     
     
