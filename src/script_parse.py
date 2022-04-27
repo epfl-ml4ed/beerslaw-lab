@@ -14,7 +14,7 @@ from extractors.sequencer.sequencing import Sequencing
 
 def parse_simulations(settings: dict):
     print('hello')
-    """Parses all the logs and transforms them into objects into the folder ../../data/parsed simulations/
+    """Parses all the logs and transforms them into objects into the folder ../../data/beerslaw/parsed simulations/
 
     Args:
         settings (dict): settings read from the yaml
@@ -36,7 +36,7 @@ def parse_simulations(settings: dict):
         Simulation = ChemlabSimulation
         
     # files to parse
-    repo = '../data/temp/'
+    repo = '../data/beerslaw/temp/'
     files = []
     for r, d, f in os.walk(repo):
         for file in f:
@@ -45,12 +45,12 @@ def parse_simulations(settings: dict):
                 
     # Making sure we do not parse something we have already parsed (in case of bug, makes sure we do not need)
     # to go through the whole database again
-    with open('../data/debug/parsed.pkl', 'rb') as fp:
+    with open('../data/beerslaw/debug/parsed.pkl', 'rb') as fp:
         parsed = pickle.load(fp)
         files = [file for file in files if file not in parsed]
 
     # Rankings
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
         rankings = pickle.load(fp)
         rankings = rankings.set_index('username')
         
@@ -69,12 +69,12 @@ def parse_simulations(settings: dict):
             sim.save()
             parsed.append(path)
             
-            with open('../data/debug/parsed.pkl', 'wb') as fp:
+            with open('../data/beerslaw/debug/parsed.pkl', 'wb') as fp:
                 pickle.dump(parsed, fp)
         
 def update_rankings(settings):
     parsed_simulations = os.listdir(settings['paths']['crawl_path'])
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
         rankings = pickle.load(fp)
         rankings = rankings.set_index('username')
 
@@ -100,11 +100,11 @@ def test(settings):
         datefmt=''
     )
     paths = [
-        '../data/temp/Session 8/fj5tdybn-1.log',
-        '../data/temp/Session 8/fj5tdybn-2.log',
-        '../data/temp/Session 8/fj5tdybn-3.log'
+        '../data/beerslaw/temp/Session 8/fj5tdybn-1.log',
+        '../data/beerslaw/temp/Session 8/fj5tdybn-2.log',
+        '../data/beerslaw/temp/Session 8/fj5tdybn-3.log'
     ]
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
         rankings = pickle.load(fp)
         rankings = rankings.set_index('username')
 
@@ -115,7 +115,7 @@ def test(settings):
         sim.parse_simulation()
         sim.set_permutation(rankings.loc[sim.get_learner_id()]['ranking'])
         print('save')
-        sim.save(path='../data/temp parsed/perm'+ sim.get_permutation() + '_lid' + path.split('/')[-1])
+        sim.save(path='../data/beerslaw/temp parsed/perm'+ sim.get_permutation() + '_lid' + path.split('/')[-1])
         print()
 
 

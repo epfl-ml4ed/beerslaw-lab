@@ -82,7 +82,7 @@ class SeedRankingEarlyNestedXVal(XValidator):
         )
         
     def _write_predictions(self, test_pred: list, test_proba: list, test_y:list, test_indices: list):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/results/'
         os.makedirs(path, exist_ok=True)
         
         if 'predictions.pkl' in os.listdir(path):
@@ -106,7 +106,7 @@ class SeedRankingEarlyNestedXVal(XValidator):
             pickle.dump(predictions, fp)
             
     def _read_predictions(self, indices:list) -> list:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/results/'
         os.makedirs(path, exist_ok=True)
         if 'predictions.pkl' in os.listdir(path):
             with open(path + 'predictions.pkl', 'rb') as fp:
@@ -134,7 +134,7 @@ class SeedRankingEarlyNestedXVal(XValidator):
             return lambda x: x
 
         if label_map == 'vector_labels':
-            map_path = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            map_path = '../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml'
             
         with open(map_path) as fp:
             map = yaml.load(fp, Loader=yaml.FullLoader)
@@ -265,7 +265,7 @@ class SeedRankingEarlyNestedXVal(XValidator):
         return results
 
     def save_results(self, results):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/results/' 
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/results/' 
         os.makedirs(path, exist_ok=True)
         
         path += self._notation + '_m' + self._model_notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '.pkl'

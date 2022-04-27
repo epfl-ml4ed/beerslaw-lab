@@ -29,7 +29,7 @@ class NestedXValPlotter:
     def _crawl(self):
         # crawl paths
         xval_path = []
-        experiment_path = '../experiments/' + self._settings['experiment']['name'] + '/'
+        experiment_path = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/'
         for (dirpath, dirnames, filenames) in os.walk(experiment_path):
             files = [os.path.join(dirpath, file) for file in filenames]
             xval_path.extend(files)
@@ -159,7 +159,7 @@ class NestedXValPlotter:
     def _save(self, p, extension_path=''):
 
         if self._settings['saveimg'] and extension_path == '':
-            path = '../experiments/' + self._settings['experiment']['name'] 
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + self._settings['plot_style']['style'] + '_' + self._settings['plot_style']['type'] 
             if self._settings['reproduction']:
                 path += '_reproduction'
@@ -170,7 +170,7 @@ class NestedXValPlotter:
             save(p)
             
         elif self._settings['saveimg'] and extension_path !='':
-            path = '../experiments/' + self._settings['experiment']['name'] 
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + extension_path
             path += '.svg'    
 
@@ -180,7 +180,7 @@ class NestedXValPlotter:
             
 
         if self._settings['savepng'] and extension_path == '':
-            path = '../experiments/' + self._settings['experiment']['name'] 
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + self._settings['plot_style']['style'] + '_' + self._settings['plot_style']['type'] 
             if self._settings['reproduction']:
                 path += '_reproduction'
@@ -190,7 +190,7 @@ class NestedXValPlotter:
             save(p)
             
         elif self._settings['savepng'] and extension_path !='':
-            path = '../experiments/' + self._settings['experiment']['name'] 
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + extension_path
             path += '.png'    
 
@@ -199,7 +199,7 @@ class NestedXValPlotter:
             
 
         if self._settings['save'] and extension_path == '':
-            path = '../experiments/' + self._settings['experiment']['name'] 
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + self._settings['plot_style']['style'] + '_' + self._settings['plot_style']['type'] 
             if self._settings['reproduction']:
                 path += '_reproduction'
@@ -209,7 +209,7 @@ class NestedXValPlotter:
             save(p)
             
         elif self._settings['save'] and extension_path !='':
-            path = '../experiments/' + self._settings['experiment']['name'] 
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] 
             path += '/full_sequence_' + '_'.join(self._settings['plot_style']['xstyle']['groups']) + extension_path
             
             path += '.html'    

@@ -1,6 +1,6 @@
 ---
 paths:
-  sequenced_simulations: '../data/sequenced_simulations/'
+  sequenced_simulations: '../data/beerslaw/sequenced_simulations/'
 experiment:
   class_name: 2classes
   root_name: edm_repro
@@ -34,8 +34,8 @@ data:
       - sgenc
       - actionspan
     encoder: actionspan
-    skipgram_weights: ../data/reproduction/embeddings/
-    skipgram_map: ../data/reproduction/repro_skipgrammap.pkl
+    skipgram_weights: ../data/beerslaw/reproduction/embeddings/
+    skipgram_map: ../data/beerslaw/reproduction/repro_skipgrammap.pkl
     aggregator: normagg
   adjuster:
     limit: 999999999

@@ -36,7 +36,7 @@ class CheckpointXVal(NestedXVal):
         self._notation = 'ckpt_xval'
         
     def save_results(self, results):
-        path = '../experiments/checkpoint-' + self._experiment_root + '/' + self._experiment_name + '/results/' 
+        path = '../experiments/beerslaw/checkpoint-' + self._experiment_root + '/' + self._experiment_name + '/results/' 
         os.makedirs(path, exist_ok=True)
         
         path += self._notation + '_m' + self._model_notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '.pkl'

@@ -68,7 +68,7 @@ class PriorColourBreakSecondsLSTM(Sequencing):
         self._load_prior()
 
     def _load_prior(self):
-        with open('../data/post_test/some_scored.pkl', 'rb') as fp:
+        with open('../data/beerslaw/post_test/some_scored.pkl', 'rb') as fp:
             scored = pickle.load(fp)
             scored = scored.set_index('username')
         self._scored = scored

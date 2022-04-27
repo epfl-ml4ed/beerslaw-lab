@@ -81,7 +81,7 @@ class CheckpointGridsearch(GridSearch):
         
     def save(self, fold):
         print(self._settings['experiment'])
-        path = '../experiments/checkpoint-' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
+        path = '../experiments/beerslaw/checkpoint-' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
         os.makedirs(path, exist_ok=True)
         path += self._notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
         with open(path, 'wb') as fp:

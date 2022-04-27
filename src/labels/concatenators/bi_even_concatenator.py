@@ -49,13 +49,13 @@ class BiEvenConcatenator(Concatenator):
         
         
     def _load_maps(self):
-        with open('../data/experiment_keys/permutation_maps/colour_binary.yaml', 'rb') as fp:
+        with open('../data/beerslaw/experiment_keys/permutation_maps/colour_binary.yaml', 'rb') as fp:
             self._colbin = yaml.load(fp, Loader=yaml.FullLoader)
-        with open('../data/experiment_keys/permutation_maps/concentration_binary.yaml', 'rb') as fp:
+        with open('../data/beerslaw/experiment_keys/permutation_maps/concentration_binary.yaml', 'rb') as fp:
             self._conbin = yaml.load(fp, Loader=yaml.FullLoader)
-        with open('../data/experiment_keys/permutation_maps/width_binary.yaml', 'rb') as fp:
+        with open('../data/beerslaw/experiment_keys/permutation_maps/width_binary.yaml', 'rb') as fp:
             self._widbin = yaml.load(fp, Loader=yaml.FullLoader)
-        with open('../data/experiment_keys/permutation_maps/vector_binary.yaml', 'rb') as fp:
+        with open('../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml', 'rb') as fp:
             self._binary = yaml.load(fp, Loader=yaml.FullLoader)
         
     def _get_combinations_probabilities(self, predictions:dict) -> Tuple[str, float, list]:

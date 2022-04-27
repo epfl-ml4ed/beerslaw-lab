@@ -51,7 +51,7 @@ class CheckpointPlotter:
 
         # get all the paths
         model_paths = []
-        experiment_path = '../experiments/' + self._settings['experiment']['name']
+        experiment_path = '../experiments/beerslaw/' + self._settings['experiment']['name']
         for (dirpath, dirnames, filenames) in os.walk(experiment_path):
             files = [os.path.join(dirpath, file) for file in filenames]
             model_paths.extend(files)
@@ -127,7 +127,7 @@ class CheckpointPlotter:
         # print('    model')
         architecture = self._get_architecture(architecture_path)
          
-        checkpoint_path = '../experiments/temp_checkpoints/plotter/'
+        checkpoint_path = '../experiments/beerslaw/temp_checkpoints/plotter/'
         copytree(fold_path, checkpoint_path, dirs_exist_ok=True)
         settings = dict(config)
         settings['ML']['models']['classifiers'][settings['ML']['pipeline']['model']] = architecture
@@ -649,10 +649,10 @@ class CheckpointPlotter:
 
         if self._settings['saveimg']:
             p.output_backend = 'svg'
-            path = '../experiments/' + self._settings['experiment']['name'] + '/checkpoint_validation_folds.svg'
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/checkpoint_validation_folds.svg'
             export_svg(p, filename=path)
         if self._settings['save']:
-            path = '../experiments/' + self._settings['experiment']['name'] + '/checkpoint_validation_folds.html'
+            path = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/checkpoint_validation_folds.html'
             save(p, filename=path)
         if self._settings['show']:
             show(p)
@@ -663,7 +663,7 @@ class CheckpointPlotter:
     def _get_label_map(self):
         label_map = self._settings['model_checkpoint']['label_map']
         if self._settings['model_checkpoint']['label_map'] == 'vector_labels':
-            class_map = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            class_map = '../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml'
             n_classes = 8
                         
         with open(class_map) as fp:

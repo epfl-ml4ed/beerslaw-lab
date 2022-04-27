@@ -153,11 +153,11 @@ def sequence_simulations(settings):
     files = os.listdir(ps_path)
     files = [f for f in files if 'simulation' in f]
     # path of sequenced files
-    s_path = '../data/sequenced_simulations/' + settings['sequencing']['sequencer'] + '/'
+    s_path = '../data/beerslaw/sequenced_simulations/' + settings['sequencing']['sequencer'] + '/'
     os.makedirs(s_path, exist_ok=True)
     
     # ranking correspondance
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
         ranks = pickle.load(fp)
         ranks = ranks.set_index('username')
 
@@ -257,11 +257,11 @@ def test_sequence(settings):
             'sequencer_dragasclick': settings['sequencing']['dragasclick']
         }
     }
-    with open('../data/parsed simulations/perm0213_lidxsxkdf7k_t2v_simulation.pkl', 'rb') as fp:
+    with open('../data/beerslaw/parsed simulations/perm0213_lidxsxkdf7k_t2v_simulation.pkl', 'rb') as fp:
         sim = pickle.load(fp)
 
     seq = PriorSimpleStateSecondsLSTM(settings)
-    with open('../data/post_test/rankings.pkl', 'rb') as fp:
+    with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
         ranks = pickle.load(fp)
         ranks = ranks.set_index('username')
     seq.set_rankings(ranks)

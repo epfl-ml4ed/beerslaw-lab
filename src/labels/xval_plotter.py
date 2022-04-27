@@ -37,7 +37,7 @@ class XvalLabelPlotter(LabelPlotter):
         self._load_palettes()
 
     def _crawl_paths(self):
-        directory = '../experiments/' + self._settings['experiment']['name'] + '/'
+        directory = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/'
         paths = []
         for (dirpath, dirnames, filenames) in os.walk(directory):
             files = [os.path.join(dirpath, file) for file in filenames]
@@ -82,13 +82,13 @@ class XvalLabelPlotter(LabelPlotter):
 
     def _load_label_map(self, class_name:str):
         if class_name == 'colbin':
-            with open('../data/experiment_keys/permutation_maps/colour_binary.yaml', 'rb') as fp:
+            with open('../data/beerslaw/experiment_keys/permutation_maps/colour_binary.yaml', 'rb') as fp:
                 label_map = yaml.load(fp, Loader=yaml.FullLoader)
         if class_name == 'binconcepts':
-            with open('../data/experiment_keys/permutation_maps/nconcepts_binary.yaml', 'rb') as fp:
+            with open('../data/beerslaw/experiment_keys/permutation_maps/nconcepts_binary.yaml', 'rb') as fp:
                 label_map = yaml.load(fp, Loader=yaml.FullLoader)
         if class_name == 'vector_labels':
-            with open('../data/experiment_keys/permutation_maps/vector_binary.yaml', 'rb') as fp:
+            with open('../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml', 'rb') as fp:
                 label_map = yaml.load(fp, Loader=yaml.FullLoader)
 
         return label_map
@@ -97,7 +97,7 @@ class XvalLabelPlotter(LabelPlotter):
         """Returns the demographics 
         """
         index = {v:k for (k, v) in id_dictionary['index'].items()}
-        with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
             post_test = pickle.load(fp)
             post_test = post_test.set_index('username')
             
@@ -126,7 +126,7 @@ class XvalLabelPlotter(LabelPlotter):
             except:
                 print('USING TEMPORARY FIX')
                 # Issue is that some of the config yamls are not being read (copy error?)
-                path = '../experiments/baselines/algorithms/GRU/colourbreak_secondslstm/binconcepts/lstm/raw_full/2022_01_01_0/config.yaml'
+                path = '../experiments/beerslaw/baselines/algorithms/GRU/colourbreak_secondslstm/binconcepts/lstm/raw_full/2022_01_01_0/config.yaml'
                 with open(path, 'rb') as fp:
                     config = {'experiment':{}}
                     if 'binconcepts' in paths['config']:
@@ -137,7 +137,7 @@ class XvalLabelPlotter(LabelPlotter):
             if 'id_dictionary' not in config:
                 print('USING TEMPORARY FIX')
                 # Issue is that for static features, the id_dictionary was not in the config.
-                path = '../experiments/baselines/algorithms/GRU/colourbreak_secondslstm/binconcepts/lstm/raw_full/2022_01_01_0/config.yaml'
+                path = '../experiments/beerslaw/baselines/algorithms/GRU/colourbreak_secondslstm/binconcepts/lstm/raw_full/2022_01_01_0/config.yaml'
                 with open(path, 'rb') as fp:
                     config['id_dictionary'] = pickle.load(fp)['id_dictionary']
 

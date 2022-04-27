@@ -60,7 +60,7 @@ class LabelPlotter:
         """Returns the demographics 
         """
         index = {v:k for (k, v) in self._id_dictionary['index'].items()}
-        with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
             post_test = pickle.load(fp)
             post_test = post_test.set_index('username')
             

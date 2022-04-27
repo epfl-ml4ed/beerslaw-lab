@@ -29,7 +29,7 @@ class ChemLabFilter:
                 learner_ids = pickle.load(fp)
 
         if self._filter_settings['interactionlimit'] == 10:
-            with open('../data/experiment_keys/over10.pkl', 'rb') as fp:
+            with open('../data/beerslaw/experiment_keys/over10.pkl', 'rb') as fp:
                 over10 = pickle.load(fp)
 
         index = 0

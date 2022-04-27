@@ -123,46 +123,46 @@ class PipelineMaker:
     def _get_label_map(self):
         self._settings['experiment']['class_name']
         if self._settings['experiment']['class_name'] == 'colbin':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/colour_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'colbinsg':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/colour_binary.yaml'
             self._settings['experiment']['n_classes'] = 68
         elif self._settings['experiment']['class_name'] == 'conbin':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/concentration_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/concentration_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'widbin':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/width_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/width_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'coltri':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/colour_ternary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/colour_ternary.yaml'
             self._settings['experiment']['n_classes'] = 3
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'contri':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/concentration_ternary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/concentration_ternary.yaml'
             self._settings['experiment']['n_classes'] = 3
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'widtri':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/width_ternary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/width_ternary.yaml'
             self._settings['experiment']['n_classes'] = 3
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'nconcepts':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/nconcepts_4.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/nconcepts_4.yaml'
             self._settings['experiment']['n_classes'] = 4
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'binconcepts':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/nconcepts_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/nconcepts_binary.yaml'
             self._settings['experiment']['n_classes'] = 2
             self._settings['ML']['pipeline']['scorer'] = '2clfscorer'
         elif self._settings['experiment']['class_name'] == 'vector_labels':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml'
             self._settings['experiment']['n_classes'] = 8
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
         elif self._settings['experiment']['class_name'] == 'hierarchical':
-            self._settings['experiment']['class_map'] = '../data/experiment_keys/permutation_maps/hierarchical.yaml'
+            self._settings['experiment']['class_map'] = '../data/beerslaw/experiment_keys/permutation_maps/hierarchical.yaml'
             self._settings['experiment']['n_classes'] = 4
             self._settings['ML']['pipeline']['scorer'] = 'multiclfscorer'
                         
@@ -533,33 +533,33 @@ class PipelineMaker:
         self._pipeline_name += '_'
         self._choose_aggregator()
         
-        os.makedirs('../data/features/' + self._pipeline_name, exist_ok=True)
-        self._features_path = '../data/features/' + self._pipeline_name + '/features.pkl'
-        os.makedirs('../data/labels/' + self._pipeline_name, exist_ok=True)
-        self._labels_path = '../data/labels/' + self._settings['experiment']['class_name'] + '_labels.pkl'
+        os.makedirs('../data/beerslaw/features/' + self._pipeline_name, exist_ok=True)
+        self._features_path = '../data/beerslaw/features/' + self._pipeline_name + '/features.pkl'
+        os.makedirs('../data/beerslaw/labels/' + self._pipeline_name, exist_ok=True)
+        self._labels_path = '../data/beerslaw/labels/' + self._settings['experiment']['class_name'] + '_labels.pkl'
         
     def _save_index_maps(self):
-        state_index_path = '../data/features/' + self._pipeline_name + '/state_index.pkl'
+        state_index_path = '../data/beerslaw/features/' + self._pipeline_name + '/state_index.pkl'
         with open(state_index_path, 'wb') as fp:
             pickle.dump(self._encoder.get_state_index(), fp)
-        state_index_path = '../experiments/' + self._experiment_root + '/state_index.pkl'
+        state_index_path = '../experiments/beerslaw/' + self._experiment_root + '/state_index.pkl'
         with open(state_index_path, 'wb') as fp:
             pickle.dump(self._encoder.get_state_index(), fp)
             
-        index_state_path = '../data/features/' + self._pipeline_name + '/index_state.pkl'
+        index_state_path = '../data/beerslaw/features/' + self._pipeline_name + '/index_state.pkl'
         with open(index_state_path, 'wb') as fp:
             pickle.dump(self._encoder.get_index_state(), fp)
-        index_state_path = '../experiments/' + self._experiment_root + '/index_state.pkl'
+        index_state_path = '../experiments/beerslaw/' + self._experiment_root + '/index_state.pkl'
         with open(index_state_path, 'wb') as fp:
             pickle.dump(self._encoder.get_index_state(), fp)
     
     def _save_experiment_maps(self):
-        state_index_path = '../experiments/' + self._experiment_root 
+        state_index_path = '../experiments/beerslaw/' + self._experiment_root 
         state_index_path += self._experiment_name + '/state_index.pkl'
         with open(state_index_path, 'wb') as fp:
             pickle.dump(self._encoder.get_state_index(), fp)
             
-        index_state_path = '../experiments/' + self._experiment_root 
+        index_state_path = '../experiments/beerslaw/' + self._experiment_root 
         index_state_path += self._experiment_name + '/index_state.pkl'
         with open(index_state_path, 'wb') as fp:
             pickle.dump(self._encoder.get_index_state(), fp)

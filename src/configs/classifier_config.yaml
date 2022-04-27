@@ -1,6 +1,6 @@
 ---
 paths:
-  sequenced_simulations: '../data/sequenced_simulations/'
+  sequenced_simulations: '../data/beerslaw/sequenced_simulations/'
 experiment:
   class_name: binconcepts
   root_name: chemlab-earlyx
@@ -113,8 +113,8 @@ ML:
       shuffle: True
       stratifier_col: y
     flatstrat:
-      test_path: '../data/experiment_keys/flatstrat_testusernames.pkl'
-      train_path: '../data/experiment_keys/flatstrat_trainusernames.pkl'
+      test_path: '../data/beerslaw/experiment_keys/flatstrat_testusernames.pkl'
+      train_path: '../data/beerslaw/experiment_keys/flatstrat_trainusernames.pkl'
   xvalidators:
     nested_xval:
       inner_n_folds: 10

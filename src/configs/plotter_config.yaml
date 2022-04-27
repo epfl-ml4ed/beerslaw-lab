@@ -1,7 +1,7 @@
 experiment:
   name: non nested early chemlab/chemlab_early_ts
   keyword: xval # common trait within all nested cross val files
-  reproduction_path : '../data/reproduction/'
+  reproduction_path : '../data/beerslaw/reproduction/'
 plot_style:
   title: Full Predictions For Beer's Law Lab (SSANLSTM for state action)
   measure: roc
@@ -54,6 +54,6 @@ train_validation:
     - categorical_crossentropy
     - auc
 model_checkpoint:
-  train_ids: ../data/experiment_keys/flatstrat_trainusernames.pkl
-  test_ids: ../data/experiment_keys/flatstrat_testusernames.pkl
+  train_ids: ../data/beerslaw/experiment_keys/flatstrat_trainusernames.pkl
+  test_ids: ../data/beerslaw/experiment_keys/flatstrat_testusernames.pkl
   label_map: vector_labels

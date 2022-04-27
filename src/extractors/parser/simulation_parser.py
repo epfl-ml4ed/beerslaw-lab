@@ -1219,7 +1219,7 @@ class Simulation:
     def save(self, version='', path='') -> str:
         # path = '../data/parsed simulations/perm_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
         if path == '':
-            path = '../data/parsed simulations/' + 'perm' + self._permutation + '_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
+            path = '../data/beerslaw/parsed simulations/' + 'perm' + self._permutation + '_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
         with open(path, 'wb') as fp:
             dill.dump(self, fp)
 
