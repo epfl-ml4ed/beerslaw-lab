@@ -10,10 +10,10 @@ https://phet.colorado.edu/sims/html/beers-law-lab/latest/beers-law-lab_en.html
 ## Structure
 ```bash
 ├── data
-|	├── experiment keys
+|	├── experiment_keys
 |	├── raw
 |	├── parsed simulations
-|	├── sequenced simulations
+|	├── sequenced_simulations
 └── experiments
 └── reports
 └── src

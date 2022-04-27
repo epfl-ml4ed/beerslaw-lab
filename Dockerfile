@@ -54,10 +54,11 @@ RUN echo "${NB_USER}   ALL = NOPASSWD: ALL" > /etc/sudoers
 ARG DEBIAN_FRONTEND=noninteractive
 
 # File Structure
-RUN mkdir beerslaw/ && mkdir beerslaw/src/ && mkdir beerslaw/data/ && mkdir beerslaw/notebooks
+RUN mkdir beerslaw/ && mkdir beerslaw/src/ && mkdir beerslaw/data/ && mkdir beerslaw/data/sequenced_simulations/ &&  mkdir beerslaw/notebooks && mkdir beerslaw/experiments && mkdir beerslaw/experiments/temp_checkpoints/ && mkdir beerslaw/experiments/temp_checkpoints/training
 COPY src beerslaw/src
-COPY data/sequenced_simulations/ beerslaw/data/sequenced_simulations/
+COPY data/sequenced_simulations/simplestate_secondslstm beerslaw/data/sequenced_simulations/simplestate_secondslstm
 COPY data/experiment_keys/ beerslaw/data/experiment_keys/
+COPY data/post_test/ beerslaw/data/post_test/
 COPY requirements.txt beerslaw/requirements.txt
 COPY routines beerslaw/routines
 
