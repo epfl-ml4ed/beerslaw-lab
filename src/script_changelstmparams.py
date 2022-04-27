@@ -1,6 +1,7 @@
 """
 This file was mainly implemented for the cluster, in order to easily change 
 the parameters without going through the files.
+To be run once before running the experiments -> Will change the config file
 """
 
 

@@ -2,6 +2,7 @@
 paths:
   sequenced_simulations: '../data/sequenced_simulations/'
 experiment:
+  lab: blank
   class_name: binconcepts
   root_name: chemlab-earlyx
   name: blank

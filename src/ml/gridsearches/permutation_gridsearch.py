@@ -27,9 +27,10 @@ class PermutationGridSearch(GridSearch):
 
         self._folds = {}
 
+
     def _get_map(self, label_map:str) -> dict:
         if label_map == 'vector_labels':
-            map_path = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            map_path = '../data/{}/experiment_keys/permutation_maps/vector_binary.yaml'.format(self._settings['experiment']['lab'])
             
         with open(map_path) as fp:
             map = yaml.load(fp, Loader=yaml.FullLoader)
@@ -37,7 +38,7 @@ class PermutationGridSearch(GridSearch):
         return map['map']
         
     def _get_y_to_rankings(self):
-        with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        with open('../data/{}/post_test/rankings.pkl'.format(self._settings['experiment']['lab']), 'rb') as fp:
             rankings = pickle.load(fp)
             id_rankings = {rankings.iloc[i]['username']: rankings.iloc[i]['ranking'] for i in range(len(rankings))}
         id_dictionary = self._settings['id_dictionary']

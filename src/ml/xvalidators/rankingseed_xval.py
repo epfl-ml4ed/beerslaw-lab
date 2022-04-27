@@ -87,7 +87,7 @@ class RankingSeedXVal(XValidator):
             return lambda x: x
 
         if label_map == 'vector_labels':
-            map_path = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+            map_path = '../data/{}/experiment_keys/permutation_maps/vector_binary.yaml'.format(self._settings['experiment']['lab'])
             
         with open(map_path) as fp:
             map = yaml.load(fp, Loader=yaml.FullLoader)
@@ -95,7 +95,7 @@ class RankingSeedXVal(XValidator):
         return lambda x: map['map'][x]
         
     def _get_y_to_rankings(self, indices):
-        with open('../data/post_test/rankings.pkl', 'rb') as fp:
+        with open('../data/{}/post_test/rankings.pkl'.format(self._settings['experiment']['lab']), 'rb') as fp:
             rankings = pickle.load(fp)
             id_rankings = {rankings.iloc[i]['username']: rankings.iloc[i]['ranking'] for i in range(len(rankings))}
         id_dictionary = self._settings['id_dictionary']

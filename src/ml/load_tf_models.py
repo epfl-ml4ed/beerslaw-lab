@@ -26,7 +26,6 @@ def _get_model(path:str):
     model = model[-3]
     return model
 
-
 def _crawl_checkpoint_paths(experiment:str):
     """Retrieve the paths from the model checkpoints
 
