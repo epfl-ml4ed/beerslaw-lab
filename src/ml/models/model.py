@@ -103,7 +103,7 @@ class Model:
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
         checkpoint = tf.train.Checkpoint(self._model)
-        temporary_path = '../experiments/temp_checkpoints/training/'
+        temporary_path = '../experiments/beerslaw/temp_checkpoints/training/'
         if os.path.exists(temporary_path):
             rmtree(temporary_path)
             copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
@@ -124,7 +124,7 @@ class Model:
             loss=['categorical_crossentropy'], optimizer='adam', metrics=[cce, auc]
         )
         checkpoint = tf.train.Checkpoint(self._model)
-        temporary_path = '../experiments/temp_checkpoints/training/'
+        temporary_path = '../experiments/beerslaw/temp_checkpoints/training/'
         if os.path.exists(temporary_path):
             rmtree(temporary_path)
             copytree(checkpoint_path, temporary_path, dirs_exist_ok=True)
@@ -196,7 +196,7 @@ class Model:
         return probs
 
     def save_sklearn(self):
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/'
         os.makedirs(path, exist_ok=True)
         path += self._name + '_l' + self._settings['data']['adjuster']['limit'] + '_f' + str(self._fold) + '.pkl'
         with open(path, 'wb') as fp:
@@ -204,12 +204,12 @@ class Model:
         return path
 
     def get_path_sklearn(self, fold:int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/'
         path += self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
         return path
 
     def save_fold_sklearn(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/'
         os.makedirs(path, exist_ok=True)
         path += self._name + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
         with open(path, 'wb') as fp:
@@ -217,7 +217,7 @@ class Model:
         return path
 
     def save_fold_early_sklearn(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path
@@ -238,27 +238,27 @@ class Model:
         return probs
     
     def save_tensorflow(self) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         self._model = path
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/lstm_history.pkl'
         with open(path, 'wb') as fp:
             pickle.dump(self._history.history, fp)
         return path
     
     def get_path_tensorflow(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '/'
         return path
             
     def save_fold_tensorflow(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path
 
     def save_fold_early_tensorflow(self, fold: int) -> str:
-        path = '../experiments/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
+        path = '../experiments/beerslaw/' + self._experiment_root + '/' + self._experiment_name + '/models/' + self._notation + '_f' + str(fold) + '_l' + str(self._maxlen) + '/'
         os.makedirs(path, exist_ok=True)
         self._model.save(path)
         return path
@@ -280,7 +280,7 @@ class Model:
     
     def save(self) -> str:
         """Saving the model in the following path:
-        '../experiments/run_year_month_day/models/model_name_fx.pkl
+        '../experiments/beerslaw/run_year_month_day/models/model_name_fx.pkl
 
         Returns:
             String: Path
@@ -290,7 +290,7 @@ class Model:
     def save_fold(self, fold) -> str:
         """Saving the model for a specific fold in the following path:
 
-        '../experiments/run_year_month_day/models/model_name_fx.pkl
+        '../experiments/beerslaw/run_year_month_day/models/model_name_fx.pkl
 
         Returns:
             String: Path

@@ -43,7 +43,7 @@ class EarlyPredPlotter:
     def _crawl(self):
         # crawl paths
         xval_path = []
-        experiment_path = '../experiments/' + self._settings['experiment']['name'] + '/'
+        experiment_path = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/'
         for (dirpath, dirnames, filenames) in os.walk(experiment_path):
             files = [os.path.join(dirpath, file) for file in filenames]
             xval_path.extend(files)
@@ -76,7 +76,7 @@ class EarlyPredPlotter:
         return xvs
     
     def _crawl_reproduction(self):# crawl paths
-        with open('../data/reproduction/early_pred_reproduction.pkl', 'rb') as fp:
+        with open('../data/beerslaw/reproduction/early_pred_reproduction.pkl', 'rb') as fp:
             data = pickle.load(fp)
             
         dfs = {}

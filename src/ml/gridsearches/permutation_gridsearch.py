@@ -27,10 +27,9 @@ class PermutationGridSearch(GridSearch):
 
         self._folds = {}
 
-
     def _get_map(self, label_map:str) -> dict:
         if label_map == 'vector_labels':
-            map_path = '../data/{}/experiment_keys/permutation_maps/vector_binary.yaml'.format(self._settings['experiment']['lab'])
+            map_path = '../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml'
             
         with open(map_path) as fp:
             map = yaml.load(fp, Loader=yaml.FullLoader)
@@ -38,7 +37,7 @@ class PermutationGridSearch(GridSearch):
         return map['map']
         
     def _get_y_to_rankings(self):
-        with open('../data/{}/post_test/rankings.pkl'.format(self._settings['experiment']['lab']), 'rb') as fp:
+        with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
             rankings = pickle.load(fp)
             id_rankings = {rankings.iloc[i]['username']: rankings.iloc[i]['ranking'] for i in range(len(rankings))}
         id_dictionary = self._settings['id_dictionary']
@@ -113,7 +112,7 @@ class PermutationGridSearch(GridSearch):
         return self._best_model.predict_proba(x_test)
 
     def save(self, fold, seed:bool):
-        path = '../experiments/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
+        path = '../experiments/beerslaw/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
         os.makedirs(path, exist_ok=True)
         path += self._notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) 
         

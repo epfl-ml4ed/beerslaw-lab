@@ -18,7 +18,7 @@ class TrainValidationPlotter:
 
     def _crawl(self):
         paths= []
-        experiment_path = '../experiments/' + self._settings['experiment']['name'] + '/'
+        experiment_path = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/'
         for (dirpath, dirnames, filenames) in os.walk(experiment_path):
             files = [os.path.join(dirpath, file) for file in filenames]
             paths.extend(files)
@@ -110,7 +110,7 @@ class TrainValidationPlotter:
 
     def _get_results(self):
         paths= []
-        experiment_path = '../experiments/' + self._settings['experiment']['name'] + '/'
+        experiment_path = '../experiments/beerslaw/' + self._settings['experiment']['name'] + '/'
         for (dirpath, dirnames, filenames) in os.walk(experiment_path):
             files = [os.path.join(dirpath, file) for file in filenames]
             paths.extend(files)

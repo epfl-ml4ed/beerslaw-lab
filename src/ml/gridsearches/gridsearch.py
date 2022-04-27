@@ -113,13 +113,13 @@ class GridSearch:
         self._best_model_settings = self._results[self._best_model_settings]
     
     def get_path(self, fold:int) -> str:
-        path = '../experiments/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
+        path = '../experiments/beerslaw/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
         path += self._notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
         return path
         
     
     def save(self, fold):
-        path = '../experiments/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
+        path = '../experiments/beerslaw/' + self._settings['experiment']['root_name'] + '/' + self._settings['experiment']['name'] + '/gridsearch results/' 
         os.makedirs(path, exist_ok=True)
         path += self._notation + '_l' + str(self._settings['data']['adjuster']['limit']) + '_f' + str(fold) + '.pkl'
         with open(path, 'wb') as fp:
