@@ -27,7 +27,7 @@ def generate_all_timelines(settings):
 
 def sort_all_timelines(settings):
     # labels
-    label_map = '../data/experiment_keys/permutation_maps/vector_binary.yaml'
+    label_map = '../data/beerslaw/experiment_keys/permutation_maps/vector_binary.yaml'
     with open(label_map) as fp:
             label_map = yaml.load(fp, Loader=yaml.FullLoader)
     # paths
@@ -51,14 +51,14 @@ def sort_all_timelines(settings):
         copyfile(source, direction)
 
 def test(settings):
-    simulations = os.listdir('../data/parsed simulations/')
+    simulations = os.listdir('../data/beerslaw/parsed simulations/')
     usernames = [
         'perm2013_lidsvdphyjs_t2v_simulation'
     ]
     files = []
     for username in usernames:
         files = files + [sim for sim in simulations if username in sim and ('t1' in sim or 't2' in sim or 't3' in sim)]
-    simulations = ['../data/parsed simulations/' + file for file in files]
+    simulations = ['../data/beerslaw/parsed simulations/' + file for file in files]
     
     for sim_path in simulations:
         with open(sim_path, 'rb') as fp:

@@ -1,7 +1,7 @@
 paths:
-  parsed_simulations: '../data/parsed simulations/'
-  sequenced_simulations: '../data/sequenced_simulations/'
-  crawl_path: '../data/temp/'
+  parsed_simulations: '../data/beerslaw/parsed simulations/'
+  sequenced_simulations: '../data/beerslaw/sequenced_simulations/'
+  crawl_path: '../data/beerslaw/temp/'
 sequencing:
   sequencer : simplemorestate_secondsflat
   length_limit: 0

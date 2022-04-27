@@ -43,7 +43,11 @@ class LabelPlotter:
         
         
     def _load_palettes(self):
-        raise NotImplementedError
+        with open('./visualisers/maps/concat_labels.yaml', 'rb') as fp:
+            self._palette = yaml.load(fp, Loader=yaml.FullLoader)[self._settings['concatenation']['concatenator']]
+        with open('./visualisers/maps/stratifier.yaml', 'rb') as fp:
+            self._stratifier_palette = yaml.load(fp, Loader=yaml.FullLoader)
+        self._palette.update(self._stratifier_palette)
         
     def _load_id_dictionary(self):
         """Loads the summaries of sequences and information about the students
@@ -55,7 +59,21 @@ class LabelPlotter:
     def _load_demographics(self):
         """Returns the demographics 
         """
-        raise NotImplementedError
+        index = {v:k for (k, v) in self._id_dictionary['index'].items()}
+        with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:
+            post_test = pickle.load(fp)
+            post_test = post_test.set_index('username')
+            
+        self._demographics_map = {}
+        for iid in self._id_dictionary['sequences']:
+            lid = index[iid]
+            self._demographics_map[iid] = {
+                'gender': post_test.loc[lid]['gender'],
+                'year': post_test.loc[lid]['year'],
+                'field': post_test.loc[lid]['field'],
+                'permutation': post_test.loc[lid]['ranking'],
+                'language': post_test.loc[lid]['language']
+            }
         
         
     def _get_percentage(self, df, grouping:list, stratification: str):
@@ -69,17 +87,15 @@ class LabelPlotter:
         Returns:
             [type]: dataframe with the percentage of each of the students in each of the groups in grouping, potentially stratified by stratification
         """
-        print('You need to edit the demographics columns to the available demographics')
-        raise NotImplementedError
-        # d = df[['language']].groupby(grouping).nunique()['lid'].reset_index()
+        d = df[['year', 'lid', 'gender', 'field', 'no_strat', 'predicted_label', 'ground_truth', 'language']].groupby(grouping).nunique()['lid'].reset_index()
         
-        # strat = df[[stratification, 'lid']]
-        # strat = strat.groupby(stratification).nunique()['lid'].reset_index()
-        # strat.columns = [stratification, 'total_counts']
+        strat = df[[stratification, 'lid']]
+        strat = strat.groupby(stratification).nunique()['lid'].reset_index()
+        strat.columns = [stratification, 'total_counts']
         
-        # new = d.merge(strat, how='inner', on=stratification)
-        # new['height'] = new['lid'] / new['total_counts']
-        # return new
+        new = d.merge(strat, how='inner', on=stratification)
+        new['height'] = new['lid'] / new['total_counts']
+        return new
         
     def _plot_label_distribution(self, new_predictions: dict):
         """Plot the label distribution in absolute numbers, without stratification
@@ -97,7 +113,23 @@ class LabelPlotter:
                         proba: the probability of being pred
                 }
         """
-
+        # labels = [new_predictions[iid]['predicted_label'] for iid in new_predictions]
+        # sns.countplot(x=labels, order=self._order, palette=self._palette)
+        # plt.title('Distribution of student per label' + self._legend_addition)
+        # plt.ylabel('#student')
+        # plt.xlabel('vector label' + self._legend_addition)
+        
+        # if self._settings['save']:
+        #     path = '../reports/' + self._settings['concatenation']['report_folder'] + '/figures/label_distribution_'
+        #     path += 'exp' + self._settings['experiment']['name'] + '_algorithm' + self._settings['experiment']['algorithm']
+        #     path += '_feat' + self._settings['experiment']['features'] + '_seq' + self._settings['experiment']['sequencer']
+        #     path += '_class' + self._settings['experiment']['classname']
+        #     path +='.svg'
+        #     plt.savefig(path, format='svg')
+        # if self._settings['show']:
+        #     plt.show()
+        # else:
+        #     plt.close()
         raise NotImplementedError
             
     def _plot_label_distribution_stratified(self, new_predictions: dict, stratifier: str):
@@ -118,7 +150,39 @@ class LabelPlotter:
                 }
             stratifier (str): what to stratify the students with
         """
-
+        # preds = {}
+        # for iid in new_predictions:
+        #     preds[iid] = {
+        #         'predicted_label': new_predictions[iid]['predicted_label'],
+        #         'ground_truth': new_predictions[iid]['ground_truth'],
+        #         'gender': self._demographics_map[iid]['gender'],
+        #         'year': self._demographics_map[iid]['year'],
+        #         'field': self._demographics_map[iid]['field'],
+        #     }
+            
+        # preds_df = pd.DataFrame(preds).transpose().reset_index()
+        # preds_df = preds_df.rename(columns={'index': 'lid'})
+        # preds_df['no_strat'] = 0
+        
+        # data = self._get_percentage(preds_df, ['predicted_label', stratifier], stratifier)
+        # s = sns.catplot(x='predicted_label', y='height', hue=stratifier, kind='bar', data=data, palette=self._palette, legend=False)
+        # s.fig.set_size_inches(15, 7)
+        # plt.title('Distribution of student per label' + self._legend_addition + ' stratified with: ' + stratifier)
+        # plt.ylabel('%students')
+        # plt.legend(loc='upper center')
+        # plt.tight_layout() 
+        
+        # if self._settings['save']:
+        #     path = '../reports/' + self._settings['concatenation']['report_folder'] + '/figures/label_distribution_strat' + stratifier
+        #     path += 'exp' + self._settings['experiment']['name'] + '_algorithm' + self._settings['experiment']['algorithm']
+        #     path += '_feat' + self._settings['experiment']['features'] + '_seq' + self._settings['experiment']['sequencer']
+        #     path += '_class' + self._settings['experiment']['classname']
+        #     path +='.svg'
+        #     plt.savefig(path, format='svg')
+        # if self._settings['show']:
+        #     plt.show()
+        # else:
+        #     plt.close()
         raise NotImplementedError
   
   
@@ -177,9 +241,42 @@ class LabelPlotter:
         raise NotImplementedError
             
     def _measure_comparison(self, results: pd.DataFrame):
+        # preds = results.reset_index()
+        # for measure in results.columns:
+        #     s = sns.catplot(x='index', y=measure, kind='bar', data=preds, palette=self._palette, legend=False)
+        #     s.fig.set_size_inches(15, 7)
+        #     plt.title('Comparison of performance [' + measure + ']')
+        #     plt.ylabel(measure)
+        #     plt.xlabel('category')
+        #     plt.ylim([0, 1])
+        #     # plt.legend(loc='upper center')
+        #     plt.tight_layout() 
+            
+        #     if self._settings['save']:
+        #         path = '../reports/' + self._settings['concatenation']['report_folder'] + '/figures/performance_comparison_'
+        #         path += 'exp' + self._settings['experiment']['name'] + '_algorithm' + self._settings['experiment']['algorithm']
+        #         path += '_feat' + self._settings['experiment']['features'] + '_seq' + self._settings['experiment']['sequencer']
+        #         path += '_class' + self._settings['experiment']['classname']
+        #         path +='.svg'
+        #         plt.savefig(path, format='svg')
+        #     if self._settings['show']:
+        #         plt.show()
+        #     else:
+        #         plt.close()
         raise NotImplementedError
         
     def plot(self, new_predictions={}, results=pd.DataFrame()):
+        # if self._settings['label_distribution']:
+        #     for strat in self._settings['plotter']['stratifiers']:
+        #         if strat == 'no_strat':
+        #             self._plot_label_distribution(new_predictions)
+        #         else:
+        #             self._plot_label_distribution_stratified(new_predictions, strat)
+        # if self._settings['confusion_matrix']:
+        #     for strat in self._settings['plotter']['stratifiers']:
+        #         self._plot_confusion_matrix(new_predictions, strat)
+        # if self._settings['score']:
+        #     self._measure_comparison(results)
         raise NotImplementedError
                 
             

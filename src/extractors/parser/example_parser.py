@@ -1,12 +1,7 @@
-import logging
-import dill
 import json
 import pickle
-
-import re
 import datetime
 from typing import Tuple
-
 
 import pandas as pd
 import numpy as np
@@ -31,230 +26,117 @@ class Simulation:
             paths (list<str>): list containing the paths of the logs to parse for one user, and one interaction
         """
         # Loading simulation
-        self.nevents = 0
-        self._load_logs(paths)
-        
-        if len(self._event_df) != 0:
-            self.nevents = len(self._event_df)
-            # Initialise simulation parameters
-            self._initialise_simulation_parameters()
-            
-            # Initialise map of event - functions
-            self._load_eventmap()
-            self._load_variablesmap()
-            
-            self.debug = []
-        
-    ##############################
-    # Initialisations    
-    #
-    def _process_children(self, event: Event, event_df: list, debug=False) -> list:
-        message_index = event.get_message_index()
-        timestamp = event.get_timestamp()
-        year = timestamp.year
-        month = timestamp.month
-        day = timestamp.day
-        hour = timestamp.hour
-        minute = timestamp.minute
-        second = timestamp.second
-        
-        phetio_id = event.get_phetio_id()
-        event_name = event.get_name()
-        event_type = event.get_type()
-        event_component = event.get_component()
-        if event.get_params() != None:
-            if len(event.get_params().keys()) != 0:
-                event_params = event.get_params()
-            else:
-                event_params = {}
-        else:
-            event_params = {}
-            
-        new_event = [
-                message_index, timestamp, year, month, day, hour, minute, second, 
-                phetio_id, event_name, event_type, event_component, event_params, {}
-        ]
-        event_df.append(new_event)
-        
-        
-        
-        if len(event.get_children()) != 0:
-            for child in event.get_children():
-                child_event = self._process_event(child)
-                child_event = Event(self._process_child_list(child_event))
-                self._process_children(child_event, event_df)
-                
-        return event_df
-    
-    def _process_child_list(self, child:list) -> dict:
-        dic = {
-            'message_index': child[0],
-            'timestamp': child[1],
-            'year': child[2],
-            'month': child[3],
-            'day': child[4],
-            'hour': child[5],
-            'minute': child[6],
-            'second': child[7],
-            'phetio_id': child[8],
-            'event_name': child[9],
-            'event_type': child[10],
-            'event_component': child[11],
-            'event_params': child[12],
-            'event_children': child[13]
-        }
-        return dic
-    
-    def _process_event(self, event:dict) -> list:
-        message_index = event['messageIndex']
-        timestamp = event['time']
-        timestamp = datetime.datetime.fromtimestamp(timestamp/1e3)
-        year = timestamp.year
-        month = timestamp.month
-        day = timestamp.day
-        hour = timestamp.hour
-        minute = timestamp.minute
-        second = timestamp.second
-        
-        phetio_id = event['phetioID']
-        event_name = event['event']
-        event_type = event['eventType']
-        event_component = event['componentType']
-        if 'parameters' in event:
-            event_params = event['parameters']
-        else:
-            event_params = {}
-            
-        if 'children' in event:
-            event_children = event['children']
-        else:
-            event_children = {}
-            
-        new_event = [
-                message_index, timestamp, year, month, day, hour, minute, second, 
-                phetio_id, event_name, event_type, event_component, event_params, event_children
-        ]
-        return new_event
-    
-    def _load_logs(self, path: str):
+        self.__load_logs(paths)
+
+        # Initialise simulation parameters
+        self.__initialise_simulation_parameters()
+
+    def __load_logs(self, paths: list):
         """ Turns the logs into a dataframe where each row describes an event
         Args:
             paths (list<str>): [list of the paths of the logs to create the simulation from]
         """
-        event_df = []
-        
-        task = int(path[-5])
-        self._task = str(task)
-        self._learner_id = path.split('/')[-1][:-6]
-        self._simulation_id = self._learner_id + '_' + str(task)
-        self._permutation = ''
-        
-        file = open(path, 'r')
-        f = file.readlines()
-        f = ''.join(f)
-        f = re.sub('}\n{', '},\n{', f)
-        f = '[' + f + ']'
-        logs = json.loads(f)
-        logs.sort(key=lambda x: (x['time'], x['messageIndex']))
-        
-        for event in logs:
-            e_df = self._process_event(event)
-            event_df.append(e_df)
+        event_df = {}
+        for path in paths:
+            with open(path, 'r') as fp:
+                logs = json.load(fp)
+                self._simulation_id = logs['session']['session_id']
+                self._learner_id = float(logs['session']['learner_id'].replace('NaN', ''))
+
+                event_df[logs['events'][0]['timestamp']] = []
+
+            old_timestamp = logs['events'][0]['timestamp']
+            for event in logs['events']:
+                timestamp = event['timestamp']
+                assert old_timestamp <= timestamp
+                old_timestamp = timestamp
+
+                timestamp = datetime.datetime.fromtimestamp(timestamp / 1e3)
+                year = timestamp.year
+                month = timestamp.month
+                day = timestamp.day
+                hour = timestamp.hour
+                minute = timestamp.minute
+                second = timestamp.second
                 
-        df = pd.DataFrame(event_df)
-        if len(df) != 0:
-            df.columns = [
-                'message_index', 'timestamp', 'year', 'month', 'day', 'hour', 'minute', 'second',
-                'phetio_id', 'event_name', 'event_type', 'event_component', 'event_params', 'event_children'
-            ]
-            df = df.sort_values(['year', 'month', 'day', 'hour', 'minute', 'second', 'message_index'])
+                event_name = event['event'].replace('capacitorLabBasics.', '')
+                event_name = event_name.replace('capacitanceScreen.', '')
+                
+                event_type = event['data']['eventType']
+                if 'parameters' in event['data']:
+                    if 'method' in event['data']['parameters']:
+                        method_name = event['data']['parameters']['method']
+                    else:
+                        method_name = 'null'
+                # parameters_event = event['data']['eventType']
+                if 'phetioID' in event['data']:
+                    phetio_id = event['data']['phetioID']
+                else:
+                    phetio_id = 'null'
+                
 
-        new_df = []
-        for i in range(len(df)):
-            event = list(df.iloc[i])
-            new_df.append(list(df.iloc[i]))
-            if i < len(df) - 1:
-                if event[9] == 'showPDF' and df.iloc[i + 1][9] != 'hidePDF':
-                    hide_event = [x for x in event]
-                    hide_event[9] = 'hidePDF'
-                    hide_event[1] = df.iloc[i+1][1]
-                    hide_event[2] = df.iloc[i+1][2]
-                    hide_event[3] = df.iloc[i+1][3]
-                    hide_event[4] = df.iloc[i+1][4]
-                    hide_event[5] = df.iloc[i+1][5]
-                    hide_event[6] = df.iloc[i+1][6]
-                    hide_event[7] = df.iloc[i+1][7]
-                    new_df.append(hide_event)
-            else:
-                if event[9] == 'showPDF':
-                    hide_event = [x for x in event]
-                    hide_event[9] = 'hidePDF'
-                    hide_event[7] += 0.5
-                    new_df.append(hide_event)
-        
-        new_df = pd.DataFrame(new_df)
-        if len(new_df) != 0:
-            new_df.columns = [
-                'message_index', 'timestamp', 'year', 'month', 'day', 'hour', 'minute', 'second',
-                'phetio_id', 'event_name', 'event_type', 'event_component', 'event_params', 'event_children'
-            ]
-        self._event_df = new_df
-        print('storing')
-        new_df.to_csv('./temp_event_df.tsv', sep='\t')
+                data = event['data']
+                
+                event_df[logs['events'][0]['timestamp']].append([event_name, event_type, method_name, phetio_id, timestamp, year, month, day, hour, minute, second, data])
 
-    def _initialise_simulation_parameters(self):
+        timestamps = np.sort(list(event_df.keys()))
+        df = []
+        for k in timestamps:
+            df = df + event_df[k]
+        df = pd.DataFrame(df)
+        df.columns = ['event_name', 'event_type', 'method', 'phetio_id', 'timestamp', 'year', 'month', 'day', 'hour', 'minute', 'second', 'data']
+        df = df.sort_values(['year', 'month', 'day', 'hour', 'minute', 'second'])
+        self._event_df = df
+
+    def __initialise_simulation_parameters(self):
         self._started = 0
         self._start_timestamp = -1
         self._timestamps_restarts = []
         
+        # checkboxes
+        self._checkbox_capacitance = Checkbox('checkbox_capacitance', self._simulation_id, 1) #
+        self._checkbox_topplate = Checkbox('checkbox_topplate', self._simulation_id, 0) #
+        self._checkbox_storedenergy = Checkbox('checkbox_storedenergy', self._simulation_id, 0) #
+        self._checkbox_platecharges = Checkbox('checkbox_platecharches', self._simulation_id, 1) #
+        self._checkbox_bargraphs = Checkbox('checkbox_bargraphs', self._simulation_id, 1) #
+        self._checkbox_electricfields = Checkbox('checkbox_electricfields', self._simulation_id, 0) 
+        #
+        self._checkbox_currentdirection = Checkbox('checkbox_currentDirection', self._simulation_id, 1) #
+        
+        # voltmeter
+        self._voltmeter = SimObjects('voltmeter', self._simulation_id, {'x':0, 'y':0, 'z':0}, visible=False) #
+        self._positive_probe = SimObjects('positive_probe', self._simulation_id, {'x':0, 'y':0, 'z':0})
+        self._negative_probe = SimObjects('negative_probe', self._simulation_id, {'x':0, 'y':0, 'z':0})
+        
         # characteristics
-        self._wavelength = SimCharacteristics('wavelength', self._simulation_id, 508)
-        self._wavelength_variable = Checkbox('wl preset or variable', self._simulation_id, False) # F for preset, T for variable
-        self._wavelength_display = SimCharacteristics('wavelength', self._simulation_id, '508 nm')
-        self._width = SimCharacteristics('width', self._simulation_id, 1)
-        self._concentration = SimCharacteristics('concentration', self._simulation_id, 0.1)
-        self._solution = SimCharacteristics('solution', self._simulation_id, 'drinkMix')
-        self._ruler_position = SimCharacteristics('ruler position', self._simulation_id, (0, 0))
+        self._voltage = SimObjects('voltage', self._simulation_id, 0.0) #
+        self._plate_separation = SimObjects('plate_separation', self._simulation_id, 0.006) #
+        self._plate_area = SimObjects('plate_area', self._simulation_id, 0.0002) #
+        self._circuit = SimCharacteristics('closed_circuit', self._simulation_id, 'BATTERY_CONNECTED') #
+        self._current = SimCharacteristics('current', self._simulation_id, 0) #
         
+        # circuit
+        self._top_openconnection_node = SimObjects('top_openconnection_node', self._simulation_id, {'x':0, 'y':0})
+        self._bottom_openconnection_node = SimObjects('bottom_openconnection_node', self._simulation_id, {'x':0, 'y':0})
+        self._top_battery_node = SimObjects('top_battery_node', self._simulation_id, {'x':0, 'y':0})
+        self._bottom_battery_node = SimObjects('bottom_battery_node', self._simulation_id, {'x':0, 'y':0})
+        self._top_node = SimObjects('top_node', self._simulation_id, {'x':0, 'y':0})
+        self._bottom_node = SimObjects('bottom_node', self._simulation_id, {'x':0, 'y':0})
         
-        # measurements displays and tools
-        self._measure = SimCharacteristics('measure recorded', self._simulation_id, '-') # value of the absorbance or transmittance
-        self._measure_display = SimCharacteristics('measure shown', self._simulation_id, '-') # value of the absorbance or transmittance
-        self._metric = SimCharacteristics('metric observed', self._simulation_id, 'transmittance') # transmittance or absorbance
-        self._magnifier_position = SimCharacteristics('magnifier position', self._simulation_id, (434, 131)) # absorbance or transmittance
+        # plate characteristics
+        self._plate_voltage = SimCharacteristics('plate_voltage', self._simulation_id, 0) #
+        self._plate_charge = SimCharacteristics('plate_charge', self._simulation_id, 0) #
         
-        # Measures of transmittance
-        self._checkbox_transmittance = Checkbox('checkbox_transmittance', self._simulation_id, 1)
-        self._checkbox_absorbance = Checkbox('checkbox_absorbance', self._simulation_id, 0)
-        self._magnifier = SimObjects('measuring_tool', self._simulation_id, '-')
+        # measures
+        self._stored_energy = SimCharacteristics('stored_energy', self._simulation_id, 0)#
+        self._capacitance = SimCharacteristics('capacitance', self._simulation_id, 0.3)#
         
-        # Laser
-        self._laser = Checkbox('laser', self._simulation_id, False)
-        self._light = Checkbox('light', self._simulation_id, False)
-        self._wl_preset = Checkbox('checkbox_wl_preset', self._simulation_id, True)
-        self._wl_variable = Checkbox('checkbox_wl_variable', self._simulation_id, False)
-        self._wl_slider_minus = SimObjects('wl_slider_minus', self._simulation_id, -1)
-        self._wl_slider_plus = SimObjects('wl_slider_plus', self._simulation_id, -1)
-        self._wl_slider = SimObjects('wl_slider', self._simulation_id, 508) # will record interactions from slider minus with the fired events
+        # inactivity
+        self._inactivity = Checkbox('activity', self._simulation_id, 0) 
+        self._inactivity_start = 0
         
-        # solution box
-        self._solution_menu = SimObjects('solution_menu', self._simulation_id, 'drinkMix')
-        self._concentration_slider_minus = SimObjects('concentration_slider_minus', self._simulation_id, 100)
-        self._concentration_slider_plus = SimObjects('concentration_slider_plus', self._simulation_id, 100)
-        self._concentration_slider = SimObjects('concentration_slider', self._simulation_id, 100) # will record interactions from slider minus with the fired events
-        
-        # width
-        self._flask = SimObjects('flask', self._simulation_id, 1)
-        self._ruler = SimObjects('ruler', self._simulation_id, 0)
-        
-        # pdf
-        self._pdf = Checkbox('pdf', self._simulation_id, 0)
-        
-        # Other Simulation
-        self._concentration_lab_state = Checkbox('concentrationlab', self._simulation_id, 0)
-        self._concentration_actions = SimObjects('concentrationlab_actions', self._simulation_id, 0)
-        self._chemlab_state = Checkbox('chemlab', self._simulation_id, 0)
-        self._menu_state = Checkbox('menu', self._simulation_id, 1)
+        # attentive
+        self._attentive = Checkbox('attentive', self._simulation_id, 1)
         
         self._last_timestamp = -1
         self._last_event = ''
@@ -262,494 +144,98 @@ class Simulation:
         self._timeline = []
         self._timestamps = []
         
-    def _load_eventmap(self):
-        self._event_map = {
-            'beersLawLab.sim': {
-              'simStarted': self._no_update  
-            },
-            'beersLawLab.homeScreen.view.beersLawScreenSmallButton': {
-                'fired': self._no_update
-            },
-            'beersLawLab.homeScreen.view.beersLawScreenLargeButton': {
-                'fired': self._start_chemlab
-            },
-            'beersLawLab.navigationBar.beersLawScreenButton': {
-                'fired': self._start_chemlab
-            },
-            'beersLawLab.simIFrameAPI': {
-                'invoked': self._no_update
-            },
-            'beersLawLab.sim.screenIndexProperty':{
-                'changed': self._no_update
-            },
-            'beersLawLab.beersLawScreen.view.detectorNode.probeNode.movableDragHandler': {
-                'dragStarted': self._magnifier_dragstart,
-                'dragEnded': self._magnifier_enddrag,
-                'dragged': self._magnifier_drag
-            },
-            'beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragHandler': {
-                'dragStarted': self._flask_dragstart,
-                'dragEnded': self._flask_enddrag,
-                'dragged': self._flask_drag
-            },
-            'beersLawLab.beersLawScreen.view.lightNode.button': {
-                'toggled': self._laser_toggle
-            },
-            'beersLawLab.wrapper': {
-                'showPDF': self._pdf_show,
-                'hidePDF': self._pdf_hide
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.variableWavelengthRadioButton': {
-                'fired': self._wlvariable_toggle
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.presetWavelengthRadioButton': {
-                'fired': self._wlpreset_toggle
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.wavelengthSlider.thumbInputListener': {
-                'dragStarted': self._wlslider_startdrag,
-                'dragEnded': self._wlslider_enddrag,
-                'dragged': self._wlslider_drag
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.wavelengthSlider.trackInputListener': {
-                'dragStarted': self._wlslider_touch,
-                'dragEnded': self._wlslider_untouch,
-                'dragged': self._wlslider_drag
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.wavelengthSlider.minusButton': {
-                'fired': self._wlslider_minus
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.wavelengthSlider.plusButton': {
-                'fired': self._wlslider_plus
-            },
-            'beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.thumb.dragHandler': {
-                'dragStarted': self._concentration_startdrag,
-                'dragEnded': self._concentration_enddrag,
-                'dragged': self._concentration_drag
-            },
-            'beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.track.inputListener': {
-                'dragStarted': self._concentration_touch,
-                'dragEnded': self._concentration_untouch,
-                'dragged': self._concentration_drag
-            },
-            'beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.minusButton': {
-                'fired': self._concentration_minus
-            },
-            'beersLawLab.beersLawScreen.view.solutionControls.concentrationControl.slider.plusButton': {
-                'fired': self._concentration_plus
-            },
-            'beersLawLab.beersLawScreen.view.solutionControls.comboBox': {
-                'popupShown': self._solution_shown,
-                'popupHidden': self._solution_hidden,
-                'fired': self._solution_select
-            },
-            'beersLawLab.beersLawScreen.view.rulerNode.movableDragHandler':{
-                'dragStarted': self._ruler_startdrag,
-                'dragEnded': self._ruler_stopdrag,
-                'dragged': self._ruler_drag
-            },
-            'beersLawLab.beersLawScreen.view.detectorNode.bodyNode.absorbanceRadioButton': {
-                'fired': self._absorbance_click
-            },
-            'beersLawLab.beersLawScreen.view.detectorNode.bodyNode.transmittanceRadioButton': {
-                'fired': self._transmittance_click
-            },
-            'beersLawLab.beersLawScreen.view.resetAllButton':{
-                'fired': self._reset
-            },
-            'beersLawLab.navigationBar.concentrationScreenButton': {
-                'fired': self._concentrationlab_activate
-            },
-            'concentration_lab': {
-                'dragStarted': self._concentrationlab_startdrag,
-                'dragged': self._concentrationlab_drag,
-                'dragEnded': self._concentrationlab_stopdrag,
-                'fired': self._concentrationlab_fire,
-                'changed': self._concentrationlab_fire,
-                'released': self._concentrationlab_fire,
-                'popupShown': self._concentrationlab_fire,
-                'popupHidden': self._concentrationlab_fire,
-                'pressed': self._concentrationlab_fire,
-                'endTapToDispense': self._concentrationlab_fire
-            },
-            'beersLawLab.homeScreen.view.phetButton': {
-                'fired': self._visit_menu
-            },
-            'beersLawLab.navigationBar.homeButton': {
-                'fired': self._visit_menu
-            },
-            'beersLawLab.navigationBar.phetButton': {
-                'fired': self._look_menu
-            },
-            'beersLawLab.sim.barrierRectangle': {
-                'fired': self._unlook_menu
-            },
-            'beersLawLab.homeScreen.view.phetButton.phetMenu.aboutButton':{
-                'fired': self._no_update
-            },
-            'beersLawLab.navigationBar.phetButton.phetMenu.screenshotMenuItem': {
-                'fired': self._no_update
-            },
-            'beersLawLab.navigationBar.phetButton.phetMenu.aboutButton': {
-                'fired': self._no_update
-            }
-        }
-      
-    def _load_variablesmap(self):
-        self._variablesmap = {
-            'beersLawLab.sim.showHomeScreenProperty': {
-                'changed': self._no_update
-            },
-            'beersLawLab.sim.screenIndexProperty': {
-                'changed': self._no_update
-            },
-            'beersLawLab.beersLawScreen.model.detector.probe.locationProperty':{
-                'changed': self._update_magnifier_position
-            },
-            'beersLawLab.beersLawScreen.model.detector.valueProperty':{
-                'changed': self._update_measure
-            },
-            'beersLawLab.beersLawScreen.model.detector.modeProperty':{
-                'changed': self._update_metric
-            },
-            'beersLawLab.beersLawScreen.model.cuvette.widthProperty':{
-                'changed': self._update_flask_width
-            },
-            'beersLawLab.beersLawScreen.model.light.onProperty': {
-                'changed': self._update_light
-            },
-            'beersLawLab.beersLawScreen.model.light.wavelengthProperty':{
-                'changed': self._update_laser_wavelength
-            },
-            'beersLawLab.beersLawScreen.model.solutionProperty': {
-                'changed': self._update_solution
-            },
-            'beersLawLab.beersLawScreen.model.ruler.locationProperty':{
-                'changed':  self._update_ruler
-            },
-            'beersLawLab.beersLawScreen.view.detectorNode.bodyNode.valueNode':{
-                'changed': self._update_measure_display,
-                'textChanged': self._update_measure_display
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.variableWavelengthProperty': {
-                'changed': self._update_wavelength_variable
-            },
-            'beersLawLab.beersLawScreen.view.wavelengthControls.valueDisplay': {
-                'textChanged': self._update_laser_wavelength_display
-            },
-            'beersLawLab.beersLawScreen.solutions.drinkMix.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.copperSulfate.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.cobaltIINitrate.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.cobaltChloride.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.potassiumDichromate.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.potassiumChromate.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.nickelIIChloride.concentrationProperty':{
-                'changed': self._update_concentration
-            },
-            'beersLawLab.beersLawScreen.solutions.potassiumPermanganate.concentrationProperty':{
-                'changed': self._update_concentration
-            }
-        }
-        
-        
-    ##############################
-    # Getters    
-    #
-    def get_bugs(self) -> str:
-        """Records all the times where some assertion that should have existed did not in the data
-
-        Returns:
-            str: [description]
-        """
+#### Getters
     def get_learner_id(self) -> str:
         return self._learner_id
     
     def get_simulation_id(self) -> str:
         return self._simulation_id
-
-    def get_task(self) -> str:
-        return self._task
     
-    def get_checkbox_transmittance(self) -> Tuple[dict, dict]:
-        """Returns the on values of transmittance checkbox
-        
-        Returns:
-            Tuple[dict, dict]
-                on{begin, end}:  beginning and end timestamps of the period when the radio box is set on transmittance
-                off{begin, end}: beginning and end timestamps of the period when the radio box is set on absorbance
-        """
-        return  self._checkbox_transmittance.get_switch_on(), self._checkbox_transmittance.get_switch_off()
+    def get_checkbox_capacitance(self) -> Checkbox:
+        return self._checkbox_capacitance
     
-    def get_wavelength(self) -> Tuple[list, list]:
-        """Looks into the values of the wavelength throughout the simulation
-        Returns:
-            Tuple[list0, list1]: list0: values of the wavelength of the simulation
-                                 list1: timesteps of when those values changed
-        """
-        return self._wavelength.get_values(), self._wavelength.get_timesteps()
+    def get_checkbox_topplate(self) -> Checkbox:
+        return self._checkbox_topplate
     
-    def get_wavelength_radiobox(self) -> Tuple[dict, dict]:
-        """Looks into the whether the button 'preset' or 'variable'
-
-        Returns:
-            Tuple[dict1, dict2]: 
-            on{begin, end}:  beginning and end timestamps of the period when the radio box is set on variable
-            off{begin, end}: beginning and end timestamps of the period when the radio box is set on preset
-        """
-        return self._wavelength_variable.get_switch_on(), self._wavelength_variable.get_switch_off()
+    def get_checkbox_storedenergy(self) -> Checkbox:
+        return self._checkbox_storedenergy
     
-    def get_wavelength_displayed(self) -> Tuple[list, list]:
-        """Looks into the values of the wavelength throughout the simulation as displayed on the probe
-        Returns:
-            Tuple[list0, list1]: list0: values of the displayed wavelength of the simulation
-                                 list1: timesteps of when those values changed
-        """
-        return self._wavelength.get_values(), self._wavelength.get_timesteps()
+    def get_checkbox_platecharges(self) -> Checkbox:
+        return self._checkbox_platecharges
     
-    def get_width(self) -> Tuple[list, list]:
-        """Looks into the values of the width of the flask throughout the simulation 
-        Returns:
-            Tuple[list0, list]: list0: values of the width of the flask
-                                list1: timesteps of when those values changed
-        """
-        return self._width.get_values(), self._width.get_timesteps()
+    def get_checkbox_bargraphs(self) -> Checkbox:
+        return self._checkbox_bargraphs
     
-    def get_concentration(self) -> Tuple[list, list]:
-        """Looks into the values of the concentration of the solution throughout the simulation
-        Returns:
-            Tuple[list0, list1]: list0: values of the concentration of the solution
-                                 list1: timesteps of when those values changed
-        """
-        return self._concentration.get_values(), self._concentration.get_timesteps()
-
-    def get_solution(self) -> Tuple[list, list]:
-        """Looks into the types of solutions throughout the simulation
-        Returns:
-            Tuple[list0, list1]: list0: solutions selected 
-                                 list1: timestamps when the solutions changed
-        """
-        return self._solution.get_values(), self._solution.get_timesteps()
+    def get_checkbox_electricfields(self) -> Checkbox:
+        return self._checkbox_electricfields
     
-    def get_measure_recorded(self) -> Tuple[list, list]:
-        """Looks into the measure recorded on the probe (absorbance or transmittance)
-
-        Returns:
-            Tuple[list0, list1]: list0: measures recorded on the probe
-                                 list1: timesteps when those measures changed (which is whenever any of the other relevant components change too) 
-        """
-        return self._measure.get_values(), self._measure.get_timesteps()
+    def get_checkbox_currentdirection(self) -> Checkbox:
+        return self._checkbox_currentdirection
     
-    def get_measure_display(self) -> Tuple[list, list]:
-        """Looks into the measure displayed on the probe (with the unit) (absorbance or transmittance)
-        Returns:
-            Tuple[list0, list1]: list0: measures displayed on the probe
-                                 list1: timesteps when those measures changed (which is whenever any of the other relevant components change too)
-        """
-        return self._measure_display.get_values(), self._measure_display.get_timesteps()
+    def get_attentive(self) -> Checkbox:
+        return self._attentive
     
-    def get_metric(self) -> Tuple[list, list]:
-        """Looks into when the measure is transmittance or absorbance
-        Returns:
-            Tuple[list0, list1]: list0: lists of 'transmittance' and 'absorbance'
-                                 list1: timesteps of when the metric changes from transmittance and absorbance and vice versa
-        """
-        return self._metric.get_values(), self._metric.get_timesteps()
+    def get_inactivity(self) -> Checkbox:
+        return self._inactivity
     
-    def get_magnifier_position(self) -> dict:
-        """Tracks the position of the probe catching the laser which measures the transmittance/absorbances
-        Returns:
-            dict: dragging: start timestamp - values - end timestamps if when this object was dragged
-        """
-        return self._magnifier.get_dragging()
+    def get_voltmeter(self) -> SimObjects:
+        return self._voltmeter
     
-    def get_laser(self) -> dict:
-        """Tracks when the laser is activated on or off (action)
-        Returns:
-            dict: on{begin, end}:  beginning and end timestamps of the period when the laser is on or off
-        """
-        return self._laser.get_switch_on(), self._laser.get_switch_off()
+    def get_positive_probe(self) -> SimObjects:
+        return self._positive_probe
     
-    def get_light(self) -> dict:
-        """Tracks when the laser is activated on or off (even when it resets)
-        Returns:
-            dict: on{begin, end}:  beginning and end timestamps of the period when the light is on or off
-        """
-        return self._light.get_switch_on()
+    def get_negative_probe(self) -> SimObjects:
+        return self._negative_probe
     
-    def get_wl_preset(self) -> dict:
-        """Tracks when the preset radio button is activated
-        Returns:
-            dict: on{begin, end}:  beginning and end timestamps of the period when the button is on and off
-        """
-        return self._wl_preset.get_switch_on()
+    def get_voltage(self) -> SimCharacteristics:
+        return self._voltage
     
-    def get_wl_variable(self) -> dict:
-        """Tracks when the variable radio button is activated
-        Returns:
-            dict: on{begin, end}:  beginning and end timestamps of the period when the variable is on and off
-        """    
-        return self._wl_variable.get_switch_on()
+    def get_plate_separation(self) -> SimCharacteristics:
+        return self._plate_separation
     
-    def get_wl_slider_minus(self) -> dict:
-        """Tracks the times the minus button from the wavelength slider has been fired
-        Returns:
-            dict{timestamps, values}: values of when that button was fired, and the resulting wavelength value
-        """
-        return self._wl_slider_minus.get_firing()
+    def get_plate_area(self) -> SimCharacteristics:
+        return self._plate_area
     
-    def get_wl_slider_plus(self) -> dict:
-        """Tracks the times the minus button from the wavelength
-
-        Returns:
-            dict{timestamps, values}: values of when that button was fired, and the resulting wavelength value
-        """
-        return self._wl_slider_plus.get_firing()
+    def get_circuit(self) -> SimCharacteristics:
+        return self._circuit
     
-    def get_wl_slider(self) -> Tuple[dict, dict]:
-        """Tracks when the slider is used (dragged) or when the value bar is touched (fired events)
-        Returns:
-            Tuple[dict, dict]: {begin, end, values} begin and end dragging timestamps + values
-                               {values, timestamp} values and timestamps of when the bar was touched
-        """
-        return self._wl_slider.get_dragging(), self._wl_slider.get_firing()
+    def get_current(self) -> SimCharacteristics:
+        return self._current
     
-    def get_solution_menu(self) -> Tuple[dict, dict]:
-        """Tracks when the menu was visible, and the solution that was selected each time by the beginning and end of the drag. In the firing list, the reset values are also recorded
-
-        Returns:
-            Tuple[dict, dict]: {begin, end, values} begin and end dragging timestamps + values
-                               {values, timestamp} values and timestamps of when the solution was reset
-        """
-        return self._solution_menu.get_dragging(), self._solution_menu.get_firing()
+    def get_top_openconnection_node(self) -> SimObjects:
+        return self._top_openconnection_node
     
-    def get_concentration_slider_minus(self) -> dict:
-        """Tracks the times the minus button from the concentration slider has been fired
-        Returns:
-            dict{timestamps, values}: values of when that button was fired, and the resulting concentration value
-        """
-        return self._concentration_slider_minus.get_firing()
+    def get_bottom_openconnection_node(self) -> SimObjects:
+        return self._bottom_openconnection_node
     
-    def get_concentration_slider_plus(self) -> dict:
-        """Tracks the times the plus button from the concentration slider has been fire
-        Returns:
-            dict{timestamps, values}: values of when that button was fired, and the resulting concentration value
-        """
-        return self._concentration_slider_plus.get_firing()
+    def get_top_battery_node(self) -> SimObjects:
+        return self._negati_top_battery_nodeve_probe
     
-    def get_concentration_slider(self) -> Tuple[dict, dict]:
-        """Tracks when the concentration value was moved, including when the slider was moved, and when the minus and plus buttons were activated
-        Returns:
-            Tuple[dict, dict]: {begin, end, values} begin and end dragging timestamps + values
-                               {values, timestamp} values and timestamps of when the bar was touched 
-        """
-        return self._concentration_slider.get_dragging(), self._concentration_slider.get_firing()
+    def get_bottom_battery_node(self) -> SimObjects:
+        return self._bottom_battery_node
     
-    def get_flask(self) -> dict:
-        """Tracks when the width was changed while pulling the flask slider
-        Returns:
-            dict: {begin, end, values} begin and end dragging timestamps + values of the flask
-        """
-        return self._flask.get_dragging()
+    def get_top_node(self) -> SimObjects:
+        return self._top_node
     
-    def get_ruler(self) -> dict:
-        """Tracks when the ruler was moved, as well as its position
-
-        Returns:
-            dict: {begin, end, values} begin and end dragging timestamps + values of the position of the ruler
-        """
-        return self._ruler.get_dragging()
+    def get_bottom_node(self) -> SimObjects:
+        return self._bottom_node
     
-    def get_ruler_position(self) -> Tuple[list, list]:
-        """Returns the coordinate of the ruler as it is dragged
-
-        Returns:
-            Tuple[list, list]: 
-                - values of the ruler position
-                - timesteps of when the ruler position was changed
-        """
-        return self._ruler_position.get_values(), self._ruler_position.get_timesteps()
+    def get_plate_voltage(self) -> SimCharacteristics:
+        return self._plate_voltage
     
-    def get_pdf(self) -> dict:
-        """Tracks when the pdf was visible and not visible
-        Returns:
-            dict: {begin, end} begin and end timestamps of when it the pdf was opened
-
-        """
-        pdf = {
-            'begin': self._pdf.get_switch_on()['begin'],
-            'end': self._pdf.get_switch_on()['end']
-        }
-        return pdf
+    def get_plate_charge(self) -> SimCharacteristics:
+        return self._plate_charge
     
-    def get_restarts(self) -> list:
-        """Returns the list of when the simulation was resetted
-
-        Returns:
-            list: [description]
-        """
-        if len(self._timestamps_restarts) > 1:
-            return self._timestamps_restarts[1:]
-        else:
-            return []
+    def get_stored_energy(self) -> SimCharacteristics:
+        return self._stored_energy
     
-    def get_concentrationlab_state(self) -> dict:
-        """Returns when the concentration lab is in use or not
-        Returns:
-            dict: {begin, end} begin and end dragging timestamps of whether the concentration lab is in use or not
-        """
-        return self._concentration_lab_state.get_switch_on()
+    def get_capacitance(self) -> SimCharacteristics:
+        return self._capacitance
     
-    def get_concentrationlab_actions(self) -> Tuple[dict, dict]:
-        """Looks into any actions performed on the concentration lab
-
-        Returns:
-            Tuple[dict, dict]:  {begin, end, values} begin and end dragging timestamps + values
-                                {values, timestamp} values and timestamps of when any interaction was conducted on the concentration lab
-        """
-        return self._concentration_actions.get_dragging(), self._concentration_actions.get_firing()
-        
-    def get_timeline(self) -> Tuple[list, list]:
-        """Looks into anything that was recorded into the timeline list. _timeline records any parsed event registered during the interaction with simulation
-        Returns:
-            Tuple[list, list]: returns the timeline
-                               returns the timestamps
-        """
-        return self._timeline, self._timestamps
-    
-    def get_active_timeline(self) -> Tuple[list, list]:
-        """Returns the list of the active actions conducted on the platform
-        Returns:
-            Tuple[list, list]: wanted _timeline objects
-                               associated timestamps
-        """
-        active_states = [
-            'startdrag_magnifier', 'stopdrag_magnifier', 'startdrag_flask', 'stopdrag_flask',
-            'toggle_laser', 'show_pdf', 'hide_pdf', 'toggle_wlvariable', 'toggle_wlpreset', 'startdrag_wl', 'stopdrag_wl', 'touch_wl', 'untouch_wl', 'press_wlminus', 'press_wlplus', 
-            'startdrag_concentration', 'stopdrag_concentration', 'touch_concentration', 'untouch_concentration', 'press_concentrationminus', 'press_concentrationplus', 'show_solution', 'hide_Solution', 'select_solution', 'startdrag_ruler', 'enddrag_ruler',
-            'toggle_absorbance', 'toggle_transmittance', 'start_concentrationlab', 'startdrag_concentrationlab', 'stopdrag_concentrationlab', 'fire_concentration', 
-            'visit_menu'
-        ]
-        indices = [i for i in list(range(len(self._timeline))) if self._timeline[i] in active_states]
-        active_line = [self._timeline[i] for i in indices]
-        active_timestamps = [self._timestamps[i] for i in indices]
-        return active_line, active_timestamps
-    
+    def get_timestamps_restarts(self) -> list:
+        return [x for x in self._timestamps_restarts]
+########### Parsing
     def set_permutation(self, permutation: str):
-        """Sets the initial permutation (the answer from the ranking task)
-        Args:
-            permutation (str): permutation in the format 'wxyz', where w, x, y and z are in {0, 1, 2, 3}
-        """
         self._permutation = permutation
         
     def get_permutation(self) -> str:
@@ -758,470 +244,903 @@ class Simulation:
     def get_last_timestamp(self) -> float:
         return self._last_timestamp
     
-    ##############################
-    # Parsing the simulation    
-    #
     def parse_simulation(self):
         """This function parses the log files that were loaded at initiation, and creates the simulation object.
         """
-        e = Event(self._event_df.iloc[0])
-        self._start_simulation(e, e.get_timestamp())
         for i in range(len(self._event_df)):
             event = Event(self._event_df.iloc[i])
-            # print(event.get_name(), event.get_phetio_id())
             self._filter_event(event)
-        self._close_simulation()
+        self.__close_simulation()
         
-    def _get_timestamp(self, timestamp:datetime.datetime) -> float:
-        """Returns the timestamp as the amount of seconds since the simulation started
-        Args:
-            timestamp (datetime): timestamp as taken from the logs
-        Returns:
-            [float]: amount of seconds since the beginning of the simulation
-        """
+    def _debug_event(self, event: Event):
+        if event.name == 'view.resetAllButton.isFiringProperty.changed':
+            print(event.get_data())
+            
+    def _filter_event(self, event: Event):
+        event_name = event.get_name()
+        # print(event_name)
+        # if Event_name != 'phetio.stepSimulation' and Event_name != 'phetio.inputEvent' and Event_name != 'phetio.get_state()':
+        #     # print('          ', Event_name)
+        if self._start_timestamp != -1:
+            self._last_timestamp = self.__get_timestamp(event.get_timestamp())
+            
+        if event_name == 'simStarted':
+            self.__start_simulation(event)
+            
+        elif event_name == 'phetio.state':
+            pass 
+            
+        elif event_name == 'phetio.inputEvent':
+            self.inaction(event)
+        
+        elif event_name == 'phetio.get_state()':
+            return 'None'
+        
+        elif event_name == 'view.barMeterPanel.capacitanceCheckbox.toggled':
+            self.__capacitance_checkbox(event)
+            
+        elif event_name == 'view.barMeterPanel.topPlateChargeCheckbox.toggled':
+            self.__topplate_checkbox(event)
+            
+        elif event_name == 'view.barMeterPanel.storedEnergyCheckbox.toggled':
+            self.__storedenergy_checkbox(event)
+            
+        elif event_name == 'view.viewControlPanel.plateChargesCheckbox.toggled':
+            self.__platecharges_checkbox(event)
+            
+        elif event_name == 'view.viewControlPanel.barGraphsCheckbox.toggled':
+            self.__bargraphs_checkbox(event)
+            
+        elif event_name == 'view.viewControlPanel.electricFieldCheckbox.toggled':
+            self.__electricfield_checkbox(event)
+            
+        elif event_name == 'view.viewControlPanel.currentCheckbox.toggled':
+            self.__currentdirection_checkbox(event)
+            
+        ############## Voltmeter
+        # Dragging of the voltmeter
+        elif event_name == 'view.voltmeterNode.bodyNode.dragHandler.dragStarted':
+            self.__voltmeter_startdragging(event)
+            
+        elif event_name == 'view.voltmeterNode.bodyNode.dragHandler.dragged':
+            self.__voltmeter_dragging(event)
+
+        elif event_name == 'view.voltmeterNode.bodyNode.dragHandler.dragEnded':
+            self.__voltmeter_stopdragging(event)
+            
+        elif event_name == 'view.voltmeterToolbox.dragged':
+            self.__voltmeter_startdragging(event)
+        
+        # Draging of the top probe
+        elif event_name == 'view.voltmeterNode.positiveProbeNode.dragHandler.dragStarted':
+            self.__positiveprobe_start_dragging(event)
+            
+        elif event_name == 'view.voltmeterNode.positiveProbeNode.dragHandler.dragged':
+            self.__positiveprobe_dragging(event)
+            
+        elif event_name == 'view.voltmeterNode.positiveProbeNode.dragHandler.dragEnded':
+            self.__positiveprobe_enddragging(event)
+        
+        elif event_name == 'view.voltmeterNode.negativeProbeNode.dragHandler.dragStarted':
+            self.__negativeprobe_startdragging(event)
+            
+        elif event_name == 'view.voltmeterNode.negativeProbeNode.dragHandler.dragged':
+            self.__negativeprobe_dragging(event)
+            
+        elif event_name == 'view.voltmeterNode.negativeProbeNode.dragHandler.dragEnded':
+            self.__negativeprobe_enddragging(event)
+            
+            
+        ############## Voltage slider
+        # Dragging of the battery slider
+
+        elif event_name == 'view.capacitanceCircuitNode.batteryNode.sliderNode.track.trackInputListener.dragStarted':
+            self.__voltage_starttracking(event)
+
+        elif event_name == 'view.capacitanceCircuitNode.batteryNode.sliderNode.track.trackInputListener.dragged':
+            self.__voltage_tracking(event)
+
+        elif event_name == 'view.capacitanceCircuitNode.batteryNode.sliderNode.track.trackInputListener.dragEnded':
+            self.__voltage_enddragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.batteryNode.sliderNode.thumbInputListener.dragStarted':
+            self.__voltage_startdragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.batteryNode.sliderNode.thumbInputListener.dragged':
+            self.__voltage_dragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.batteryNode.sliderNode.thumbInputListener.dragEnded':
+            self.__voltage_enddragging(event)
+            
+            
+        # # ############## Circuit manipulations
+        # # top interactions
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.openConnectionNode.pressListener.press':
+            self.__topnode_open_pressed(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.openConnectionNode.pressListener.drag':
+            self.__topnode_open_dragged(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.openConnectionNode.pressListener.release':
+            self.__topnode_open_release(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.batteryConnectionNode.pressListener.press':
+            self.__topnode_battery_pressed(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.batteryConnectionNode.pressListener.drag':
+            self.__topnode_battery_dragged(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.batteryConnectionNode.pressListener.release':
+            self.__topnode_battery_released(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.dragHandler.drag':
+            self.__topnode_dragging(event)
+        
+        elif event_name == 'view.capacitanceCircuitNode.topSwitchNode.dragHandler.release':
+            self.__topnode_release(event)
+            
+        # bottom interactions        
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.openConnectionNode.pressListener.press':
+            self.__bottomnode_open_pressed(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.openConnectionNode.pressListener.drag':
+            self.__bottomnode_open_presseddrag(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.openConnectionNode.pressListener.release':
+            self.__bottomnode_open_release(event)
+        
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.batteryConnectionNode.pressListener.press':
+            self.__bottomnode_battery_pressed(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.batteryConnectionNode.pressListener.drag':
+            self.__bottomnode_battery_drag(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.batteryConnectionNode.pressListener.release':
+            self.__bottomnode_battery_release(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.dragHandler.drag':
+            self.__bottomnode_dragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.bottomSwitchNode.dragHandler.release':
+            self.__bottomnode_release(event)
+            
+        elif event_name == 'model.circuit.circuitConnectionProperty.changed':
+            self.__circuit_propertychange(event)
+            
+        elif event_name == 'model.circuit.currentAmplitudeProperty.changed':
+            self.__circuit_getamplitude(event)
+            
+        # ############## Plate Separation
+        elif event_name == 'view.capacitanceCircuitNode.plateSeparationDragHandleNode.dragHandler.start':
+            self.__plateseparation_startdragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.plateSeparationDragHandleNode.dragHandler.drag':
+            self.__plateseparation_dragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.plateSeparationDragHandleNode.dragHandler.release':
+            self.__plateseparation_stopdragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.plateSeparationDragHandleNode.dragHandler.press':
+        #     # print(event.get_data())
+        #     Coordinates of the slider, not that important
+            
+        #     self.plateSeparationPressing(event)
+        #     area = event.get_data()['parameters']['x'] * event.get_data()['parameters']['y']
+        #     self._plate_separation.is_dragging(event.get_data()['parameters'])
+        #     # print(event.get_data())
+            pass
+            # return 'None'
+            
+        # ############## Plate Area
+        elif event_name == 'view.capacitanceCircuitNode.plateAreaDragHandleNode.inputListener.start':
+            self.__platearea_startdragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.plateAreaDragHandleNode.inputListener.drag':
+            self.__platearea_dragging(event)
+            
+        elif event_name == 'view.capacitanceCircuitNode.plateAreaDragHandleNode.inputListener.release':
+            self.__platearea_stopdragging(event)
+        
+        elif event_name == 'view.capacitanceCircuitNode.plateAreaDragHandleNode.inputListener.press':
+            # Gives coordinate of the drag handler press -> not interesting ?
+            # return 'None'
+            pass
+        
+        elif event_name == 'view.resetAllButton.fired':
+            self.__reset_simulation(event)
+            
+        elif event_name == 'capacitorLabBasics.browserTabVisibleProperty.changed':
+            self.__tab_change(event)
+            
+        elif event_name == 'browserTabVisibleProperty.changed':
+            self.__tab_change(event)
+            
+        elif event_name == 'phetio.stepSimulation':
+            if self._last_event != 'phetio.stepSimulation':
+                self.inaction(event)
+            
+        else:
+            print('Event not found: ' + event_name + '          ' + event.get_type())
+            # print(event.get_data())
+            print()
+            
+        self._last_event = event_name
+            
+ ##########################################################################################################################
+ ############# Button - Action Functions
+    def __get_timestamp(self, timestamp:datetime):
         if self._start_timestamp == -1:
             print('Time stamp not initialised')
         return ((timestamp - self._start_timestamp).total_seconds())
-        
-    def _debug_event(self, event: Event):
-        print(event.get_params())
-        print(event.get_children())
             
-    def _filter_event(self, event: Event):
-        """Goes through all events to process this simulation
-        Args:
-            event (Event): event object
-        """
-        print('filtering')
-        event_name = event.get_name()
-        pid = event.get_phetio_id()
-        
-        if 'concentrationScreen' in pid and 'concentrationScreenButton' not in pid:
-            pid = 'concentration_lab'
-        
-        timestamp = self._get_timestamp(event.get_timestamp())
-        
-        try:
-            print('trying')
-            self._event_map[pid][event_name](event, timestamp)
-            print('nope')
-        except KeyError:
-            print('Event not caught')
-            print(pid, event_name)
-            exit(1)
-        except AssertionError:
-            self.debug.append('assertion error: {} {}'.format(pid, event_name))
-            exit(1)
-        
-        self._last_timestamp = timestamp
-        self._last_event = event_name
-        print()
-        
-    def _filter_children(self, event:Event, timestamp: float):
-        children = self._process_children(event, [])
-        children = pd.DataFrame(children).transpose()
-        # if len(children.columns) == 1:
-        children = children.transpose() 
-        children.columns = [
-            'message_index', 'timestamp', 'year', 'month', 'day', 'hour', 'minute', 'second',
-            'phetio_id', 'event_name', 'event_type', 'event_component', 'event_params', 'event_children'
-        ]
-        children = children.sort_values(['year', 'month', 'day', 'hour', 'minute', 'second', 'message_index'])    
-        children = children[children['message_index'] != event.get_message_index()]
-
-        for i, child in children.iterrows():
-            child_event = Event(child)
-            event_name = child_event.get_name()
-            pid = child_event.get_phetio_id()
-            
-            if pid not in self._variablesmap or event_name not in self._variablesmap[pid]:
-                print(event_name, pid)
-            self._variablesmap[pid][event_name](child_event, timestamp)
-            
-    ##############################
-    # Updating the variables
-    #
-    def _no_update(self, event: Event, timestamp: float):
-        'helloworld'
-    
-    def _update_magnifier_position(self, event: Event, timestamp: float):
-        self._magnifier_position.set_state((event.get_params()['newValue']['x'], event.get_params()['newValue']['y']), timestamp)
-               
-    def _update_flask_width(self, event: Event, timestamp: float):
-        self._width.set_state(event.get_params()['newValue'], timestamp)
-        
-    def _update_measure(self, event: Event, timestamp: float):
-        self._measure.set_state(event.get_params()['newValue'], timestamp)
-        
-    def _update_measure_display(self, event: Event, timestamp:datetime):
-        self._measure_display.set_state(event.get_params()['newText'], timestamp)
-        
-    def _update_laser_wavelength(self, event: Event, timestamp: float):
-        self._wavelength.set_state(event.get_params()['newValue'], timestamp)
-        
-    def _update_laser_wavelength_display(self, event: Event, timestamp: float):
-        self._wavelength_display.set_state(event.get_params()['newText'], timestamp)
-        
-    def _update_concentration(self, event: Event, timestamp: float):
-        self._concentration.set_state(event.get_params()['newValue'], timestamp)
-        
-    def _update_solution(self, event: Event, timestamp: float):
-        self._solution.set_state(event.get_params()['newValue'], timestamp)
-        
-    def _update_ruler(self, event: Event, timestamp: float):
-        new_state = event.get_params()['newValue']
-        new_state = (new_state['x'], new_state['y']) 
-        self._ruler_position.set_state(new_state, timestamp)
-        
-    def _update_metric(self, event: Event, timestamp: float):
-        self._metric.set_state(event.get_params()['newValue'], timestamp)
-        
-    def _update_light(self, event: Event, timestamp: float):
-        self._light.switch(event.get_params()['newValue'], timestamp)
-        
-    def _update_wavelength_variable(self, event: Event, timestamp: float):
-        self._wavelength_variable.switch(event.get_params()['newValue'], timestamp)
-        
-    ##############################
-    # Processing the events
-    #
-    def _debug(self, event: Event, timestamp: float):
-        print(event.get_phetio_id(), event.get_name())
-        raise NotImplementedError
-    
-    def _start_simulation(self, event: Event, timestamp: float):
+    def __start_simulation(self, event: Event):
         if self._start_timestamp == -1:
             self._timeline.append('start_simulation')
             self._timestamps.append(0)
             self._started = 1
-            self._start_timestamp = timestamp
+            self._start_timestamp = event.get_timestamp()
             self._timestamps_restarts.append(0)
         else:
-            print('simulation already started')
+            # Used in the case where several simulations have been opened for one user
+            self._timeline.append('start_multiple_simulation')
+            timestamp = self.__get_timestamp(event.get_timestamp())
+            self._timestamps.append(timestamp)
+            self._timestamps_restarts.append(timestamp)
+            self._reset_simulation(event)
+        
+    ###########  Toggle each of the Checkboxes
+    def __capacitance_checkbox(self, event: Event):
+        self._timeline.append('checkbox_capacitance')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._checkbox_capacitance.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
+        
+    def __topplate_checkbox(self, event: Event):
+        self._timeline.append('checkbox_topplate')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._checkbox_topplate.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
+              
+    def __storedenergy_checkbox(self, event: Event):
+        self._timeline.append('checkbox_storedenergy')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._checkbox_storedenergy.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
+        
+    def __platecharges_checkbox(self, event: Event):
+        self._timeline.append('checkbox_platecharges')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._checkbox_platecharges.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
             
-    def _start_chemlab(self, event: Event, timestamp: float):
-        self._menu_state.switch(0, timestamp)
-        self._chemlab_state.switch(1, timestamp)
-        self._concentration_lab_state.switch(0, timestamp)
-        self._timeline.append('hover_chemlab')
+    def __bargraphs_checkbox(self, event: Event):
+        self._timeline.append('checkbox_bargraphs')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._checkbox_bargraphs.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
             
-    # magnifier probe catching the laser
-    def _magnifier_dragstart(self, event:Event, timestamp:datetime.datetime):
-        self._filter_children(event, timestamp)
-        self._measure.set_state(self._measure.get_state(), timestamp)
-        self._magnifier.start_dragging(self._measure.get_state, timestamp)
-        self._timeline.append('startdrag_magnifier')
+    def __electricfield_checkbox(self, event: Event):
+        self._timeline.append('checkbox_electricField')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._checkbox_electricfields.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
+            
+    def __currentdirection_checkbox(self, event: Event):
+        self._timeline.append('checkbox_currentdirection')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._checkbox_currentdirection.check_switch(int(event.get_data()['parameters']['newValue']), timestamp)
+        
+    ########## Voltmeter
+    
+    # body dragging
+    def __voltmeter_startdragging(self, event: Event):
+        self._timeline.append('voltmeter_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        start_dragging = True
+        if 'parameters' in event.get_data():
+            self._voltmeter.start_dragging(event.get_data()['parameters'], timestamp)
+            start_dragging = True
+        for child in event.get_data()['children']:
+            if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.view.voltmeterNode.bodyNode.dragHandler' and child['event'] == 'dragStarted':
+                start_dragging = True
+            if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeterVisibleProperty':
+                self._voltmeter.check_visibility_switch(int(child['parameters']['newValue']), timestamp)
+                if 'children' in child['phetioID']:
+                    for grandchild in child['phetioID']['children']:
+                        if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                            self._voltage.check_state(grandchild['parameters']['newValue'], timestamp)
+                            if start_draging:
+                                # print('position voltmeter: ', grandchild['parameters']['newValue'])
+                                self._voltmeter.start_dragging(grandchild['parameters']['newValue'], timestamp)
+            if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.bodyLocationProperty':
+                self._voltmeter.start_dragging(child['parameters']['newValue'], timestamp)
+                             
+    def __voltmeter_dragging(self, event: Event):
+        self._timeline.append('voltmeter_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.bodyLocationProperty':
+                    self._voltmeter.is_dragging(child['parameters']['newValue'], self.__get_timestamp(event.get_timestamp()))
+                            
+    def __voltmeter_stopdragging(self, event: Event):
+        self._timeline.append('voltmeter_stopdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltmeter.stop_dragging(0, timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if 'children' in child:
+                    for grandchild in child['children']:
+                        if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeterVisibleProperty':
+                            self._voltmeter.check_visibility_switch(int(grandchild['parameters']['newValue']), timestamp)
+                        if 'children' in grandchild:
+                            for grandgrandchild in grandchild['children']:
+                                self._voltage.check_state(grandgrandchild['parameters']['newValue'], timestamp)
+                 
+    def __positiveprobe_start_dragging(self, event: Event):
+        self._timeline.append('voltmeter_positiveprobe_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltmeter.check_switch(1, timestamp)
+        self._positive_probe.start_dragging(self._voltage.get_state(), timestamp)
+        
+    def __positiveprobe_dragging(self, event: Event):
+        self._timeline.append('voltmeter_positiveprobe_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        # self._voltmeter.check_switch(1, timestamp)
+        if not self._positive_probe.is_active():
+            print('Error in the simulation, no dragging started')
+        else:
+            if 'children' in event.get_data():
+                for child in event.get_data()['children']:
+                    if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.positiveProbeLocationProperty' and 'children' in child:
+                        for grandchild in child['children']:
+                            # Don't know what target is
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.positiveProbeTargetProperty':
+                                target = grandchild['parameters']['newValue']
+                                self._positive_probe.is_dragging(target, timestamp)
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                measured_voltage = grandchild['parameters']['newValue']
+                                self._voltage.check_state(measured_voltage, timestamp)
+                                
+    def __positiveprobe_enddragging(self, event: Event):
+        self._timeline.append('voltmeter_positiveprobe_stopdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltmeter.check_switch(0, timestamp)
+        self._positive_probe.stop_dragging(self._positive_probe.get_state(), timestamp)
+        
+    # Bottom node dragging
+    def __negativeprobe_startdragging(self, event: Event):
+        self._timeline.append('voltmeter_negativeprobe_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltmeter.check_switch(1, timestamp)
+        self._negative_probe.start_dragging(self._negative_probe.get_state(), timestamp)
+        
+    def __negativeprobe_dragging(self, event: Event):
+        self._timeline.append('voltmeter_negativeprobe_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltmeter.check_switch(1, timestamp)
+        if not self._negative_probe.is_active():
+            print('Error in the simulation, no dragging started')
+        else:
+            if 'children' in event.get_data():
+                for child in event.get_data()['children']:
+                    if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.negativeProbeLocationProperty':
+                        if 'children' in child:
+                            for grandchild in child['children']:
+                                if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.negativeProbeTargetProperty':
+                                    self._negative_probe.is_dragging(grandchild['parameters']['newValue'], timestamp)
+                                if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                    measured_voltage = grandchild['parameters']['newValue']
+                                    self._voltage.check_state(measured_voltage, timestamp)
+                                    
+    def __negativeprobe_enddragging(self, event: Event):
+        self._timeline.append('voltmeter_negativeprobe_stopdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltmeter.check_switch(0, timestamp)
+        self._negative_probe.stop_dragging(self._voltage.get_state(), timestamp)
+        
+    # Battery Slider start Dragging
+    # def voltageProbeDragging(self, event):
+    #     self._timeline('voltage_dragging')
+    #     self.events_sequence.append('Voltage Probe Dragging')
+    #     self._voltage.dragging(self._voltage.get_state(), self.__get_timestamp(event.get_timestamp()))
+        
+    def __voltage_startdragging(self, event: Event):
+        self._timeline.append('voltage_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltage.start_dragging(self._voltage.get_state(), timestamp)
+
+    def __voltage_starttracking(self, event: Event):
+        self._timeline.append('voltage_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._voltage.start_dragging(self._voltage.get_state(), timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.battery.voltageProperty' and 'children' in child:
+                    for grandchild in child['children']:
+                        if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                            self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                        if 'children' in grandchild:
+                            for grandgrandchild in grandchild['children']:
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                    self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                    self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                # if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                #     self._voltage.start_dragging(grandgrandchild['parameters']['newValue'], timestamp)
+
+    def __voltage_tracking(self, event: Event):
+        self._timeline.append('voltage_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
         
-    def _magnifier_drag(self, event:Event, timestamp:datetime.datetime):
-        self._filter_children(event, timestamp)
-        self._magnifier.is_dragging(self._magnifier_position.get_state(), timestamp)
-        self._timeline.append('drag_magnifier')
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.battery.voltageProperty' and 'children' in child:
+                    for grandchild in child['children']:
+                        if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                            self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                        if 'children' in grandchild['children']:
+                            for grandgrandchild in grandchild['children']:
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                    self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                    self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                    self._voltage.is_dragging(grandgrandchild['parameters']['newValue'], timestamp)
+                        else:
+                            self._voltage.is_dragging(-1,  timestamp)
+        else:
+            self._voltage.is_dragging(-1,  timestamp)
+            
+    def __voltage_dragging(self, event: Event):
+        self._timeline.append('voltage_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        if 'children' in event.get_data():
+                for child in event.get_data()['children']:
+                    if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.battery.voltageProperty':
+                        self._voltage.is_dragging(child['parameters']['newValue'], timestamp)
+                        
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                                self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                                
+                        if 'children' in grandchild:
+                            for grandgrandchild in grandchild['children']:
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                    self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                    self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                    measured_voltage = grandgrandchild['parameters']['newValue']
+                                    self._voltage.is_dragging(measured_voltage, timestamp)
         
-    def _magnifier_enddrag(self, event:Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._magnifier.stop_dragging(self._magnifier_position.get_state(), timestamp)
-        self._timeline.append('stopdrag_magnifier')
+    def __voltage_enddragging(self, event: Event):
+        self._timeline.append('voltage_stopdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._voltage.stop_dragging(self._voltage.get_state(), timestamp)
         
-    # flask
-    def _flask_dragstart(self, event:Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._flask.start_dragging(self._width.get_state(), timestamp)
-        self._timeline.append('startdrag_flask')
+    ########## Circuit
+    # Top Node
+    def __topnode_open_pressed(self, event: Event):
+        self._timeline.append('circuit_topnodeopen_pressed')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._top_openconnection_node.start_dragging(self._top_openconnection_node.get_state(), timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.circuitConnectionProperty':
+                    self._circuit.set_state_circuit(child['parameters']['newValue'], timestamp)
+                    if 'children' in child['children']:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                                self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                            elif grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                self._stored_energy.set_state(grandchild['parameters']['newValue'], timestamp)
+                                
+                elif child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.view.capacitanceCircuitNode.topSwitchNode.dragHandler':
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.circuitConnectionProperty':
+                                self._circuit.set_state_circuit(grandchild['parameters']['newValue'], timestamp)
+           
+    def __topnode_open_dragged(self, event: Event):
+        self._timeline.append('circuit_topnodeopen_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._top_openconnection_node.is_dragging(event.get_data()['parameters'], timestamp)
+                     
+    def __topnode_open_release(self, event: Event):
+        self._timeline.append('circuit_topnodeopen_release')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._top_openconnection_node.stop_dragging(self._top_openconnection_node.get_state(), timestamp)
+                            
+    def __topnode_battery_pressed(self, event: Event):
+        self._timeline.append('circuit_topenodebattery_pressed')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._top_battery_node.start_dragging(1, self.__get_timestamp(event.get_timestamp()))
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.circuitConnectionProperty':
+                    self._circuit.set_state_circuit(child['parameters']['newValue'], timestamp)
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                                self._voltage.check_state(grandchild['parameters']['newValue'], timestamp)
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                            self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                        elif grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                            self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                            elif grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.topCircuitSwitch.angleProperty':
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                            self._voltage.check_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                            
+                # if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.view.capacitanceCircuitNode.topSwitchNode.dragHandler':
+                #     self._top_node.is_dragging(child['parameters'], self.__get_timestamp(event.get_timestamp()))
+                #     if 'children' in child:
+                #         for grandchild in child['children']:
+                #             if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.circuitConnectionProperty':
+                #                 self._circuit.set_state_circuit(grandchild['parameters']['newValue'], self.__get_timestamp(event.get_timestamp()))
+                    
+    def __topnode_battery_dragged(self, event: Event):      
+        self._timeline.append('circuit_topnodebattery_dragged')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)  
+        self._top_battery_node.is_dragging(event.get_data()['parameters'], timestamp)                            
+                    
+    def __topnode_battery_released(self, event: Event):
+        self._timeline.append('circuit_topnodebattery_released')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._top_battery_node.stop_dragging(self._top_battery_node.get_state(), timestamp)
+    
+    def __topnode_dragging(self, event: Event):
+        self._timeline.append('circuit_topnode_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.topCircuitSwitch.angleProperty':
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.topCircuitSwitch.switchSegment.endPointProperty':
+                                self._top_node.is_dragging(grandchild['parameters']['newValue'], timestamp)
+                            # if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.bottomCircuitSwitch.angleProperty' and 'children' in grandchild:
+                            #     for grandgrandchild in grandchild['children']:
+                            #         if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.bottomCircuitSwitch.switchSegment.endPointProperty':
+                            #             self._bottom_node.start_dragging(grandgrandchild['parameters']['newValue'], self.__get_timestamp(event.get_timestamp()))   
+                            else:
+                                self._top_node.is_dragging(-1, timestamp)
+        else:
+            self._top_node.is_dragging(-1, timestamp)
+                                
+                                     
+    def __topnode_release(self, event: Event):
+        self._timeline.append('circuit_topnode_release')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._top_node.stop_dragging(self._top_node.get_state(), timestamp)
+        # self._bottom_node.stop_dragging(self._bottom_node.get_state(), self.__get_timestamp(event.get_timestamp()))  
+                                 
+    # Bottom node          
+    def __bottomnode_open_pressed(self, event: Event):
+        self._timeline.append('circuit_bottomnodeopen_pressed')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.circuitConnectionProperty':
+                    self._circuit.set_state_circuit(child['parameters']['newValue'], timestamp)
+                    self._bottom_openconnection_node.start_dragging(self._bottom_openconnection_node.get_state(), timestamp)
+                    
+    def __bottomnode_open_presseddrag(self, event: Event):
+        self._timeline.append('circuit_bottomnodeopen_drag')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._bottom_openconnection_node.is_dragging(event.get_data()['parameters'], timestamp)
+    
+    def __bottomnode_open_release(self, event: Event):
+        self._timeline.append('circuit_bottomnodeopen_release')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._bottom_openconnection_node.stop_dragging(self._bottom_openconnection_node.get_lastvalue_drags(), timestamp)
         
-    def _flask_drag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._flask.is_dragging(self._width.get_state(), timestamp)
-        self._timeline.append('drag_flask')
+    def __bottomnode_battery_pressed(self, event: Event):
+        self._timeline.append('circuit_bottomnodebattery_pressed')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._bottom_battery_node.start_dragging(self._bottom_battery_node.get_state(), timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.circuitConnectionProperty':
+                    self._circuit.set_state_circuit(child['parameters']['newValue'], timestamp)
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                                self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                                if 'children' in event.get_data()['children']:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                            self._plate_charge.set_state(grandgranchild['parameters']['newValue'], timestamp)
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                            self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.topCircuitSwitch.angleProperty':
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                            self._voltage.check_state(grandgrandchild['parameters']['newValue'], timestamp)
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.view.capacitanceCircuitNode.bottomSwitchNode.dragHandler':
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            self._circuit.set_state_circuit(grandchild['parameters']['newValue'], timestamp)
+                            
+    def __bottomnode_battery_drag(self, event: Event):
+        self._timeline.append('circuit_bottomnodebattery_drag')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._bottom_battery_node.is_dragging(self._bottom_battery_node.get_lastvalue_drags(), timestamp)
         
-    def _flask_enddrag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._flask.stop_dragging(self._width.get_state(), timestamp)
-        self._timeline.append('stopdrag_flask')
+    def __bottomnode_battery_release(self, event:Event):
+        self._timeline.append('circuit_bottomnodebattery_release')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._bottom_battery_node.stop_dragging(self._bottom_battery_node.get_lastvalue_drags(), timestamp)
         
-    # laser
-    def _laser_toggle(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._laser.switch(event.get_params()['newValue'], timestamp)
-        self._timeline.append('toggle_laser')
+    def __bottomnode_dragging(self, event: Event):
+        self._timeline.append('circuit_bottomnode_drag')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                # if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.bottomCircuitSwitch.angleProperty':
+                    # # print('No need to record angle ?')
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.bottomCircuitSwitch.switchSegment.endPointProperty':
+                    # print('bottomnodedragging ', child['parameters']['newValue'])
+                    self._bottom_node.is_dragging(child['parameters']['newValue'], timestamp)
+                elif child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.topCircuitSwitch.switchSegment.endPointProperty':
+                    print('ho')
+                    self._bottom_node.is_dragging(child['parameters']['newValue'], timestamp)
+                
+                else:
+                    self._bottom_node.is_dragging(-1, timestamp)
+                    
+    def __bottomnode_release(self, event: Event):
+        self._timeline.append('circuit_bottomnode_release')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._bottom_node.stop_dragging(self._bottom_node.get_lastvalue_drags(), timestamp)
         
-    def _pdf_show(self, event: Event, timestamp: float):
-        self._pdf.switch(1, timestamp)
-        self._timeline.append('show_pdf')
+    # Circuit change
+    def __circuit_propertychange(self, event: Event):
+        self._timeline.append('circuit_propertychange')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._circuit.set_state_circuit(event.get_data()['parameters']['newValue'], timestamp)
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                    self._plate_voltage.set_state(child['parameters']['newValue'], timestamp)
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                self._plate_charge.set_state(grandchild['parameters']['newValue'], timestamp)
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                self._stored_energy.set_state(grandchild['parameters']['newValue'], timestamp)
+    
+    def __circuit_getamplitude(self, event: Event):
+        self._timeline.append('circuit_amplitudecheck')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._current.set_state(event.get_data()['parameters']['newValue'], timestamp)
+                                
+    ########## Plate separation
+    # Start dragging
+    def __plateseparation_startdragging(self, event: Event):
+        self._timeline.append('plateseparation_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._plate_separation.start_dragging(self._plate_separation.get_lastvalue_drags(), timestamp)
         
-    def _pdf_hide(self, event:Event, timestamp: float):
-        self._pdf.switch(0, timestamp)
-        self._timeline.append('hide_pdf')
+    # Dragging
+    def __plateseparation_dragging(self, event: Event):
+        self._timeline.append('plateseparation_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
-       
-    # wavelength radio buttons
-    def _wlvariable_toggle(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_variable.switch(True, timestamp)
-        self._wl_preset.switch(False, timestamp)
-        self._timeline.append('toggle_wlvariable')
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateSeparationProperty':
+                    self._plate_separation.is_dragging(child['parameters']['newValue'], timestamp)
+                    if 'children' in child:
+                        if (child['parameters']['newValue'] > 1):
+                            print('CHILD BIGGER', child['parameters']['newValue'])
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.capacitanceProperty':
+                                self._capacitance.set_state(grandchild['parameters']['newValue'], timestamp)
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                            self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                        elif grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                            self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                                self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                            self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                        elif grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                            self._voltage.check_state(grandgrandchild['parameters']['newValue'], timestamp)
+    
+    # End Dragging    
+    def __plateseparation_stopdragging(self, event: Event):
+        self._timeline.append('plateseparation_stopdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._plate_separation.stop_dragging(self._plate_separation.get_lastvalue_drags(), timestamp)
         
-    def _wlpreset_toggle(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_preset.switch(True, timestamp)
-        self._wl_variable.switch(False, timestamp)
-        self._timeline.append('toggle_wlpreset')
+    ########## Plate Area
+    # Start Dragging
+    def __platearea_startdragging(self, event: Event):
+        self._timeline.append('platearea_startdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._plate_area.start_dragging(self._plate_area.get_state(), timestamp)
         
-    # wavelength slider
-    def _wlslider_startdrag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider.start_dragging(self._wavelength.get_state(), timestamp)
-        self._timeline.append('startdrag_wl')
+    # Dragging
+    def __platearea_dragging(self, event: Event):
+        self._timeline.append('platearea_dragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
-        
-    def _wlslider_drag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider.is_dragging(self._wavelength.get_state(), timestamp)
-        self._timeline.append('drag_wl')
+        if 'children' in event.get_data():
+            for child in event.get_data()['children']:
+                if child['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateSizeProperty':
+                    length = child['parameters']['newValue']['maxX']
+                    width = child['parameters']['newValue']['maxZ']
+                    self._plate_area.is_dragging(length * width, timestamp)
+                    if 'children' in child:
+                        for grandchild in child['children']:
+                            if grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.capacitanceProperty':
+                                self._capacitance.set_state(grandchild['parameters']['newValue'], timestamp)
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                            self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                        elif grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                            self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                            elif grandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateVoltageProperty':
+                                self._plate_voltage.set_state(grandchild['parameters']['newValue'], timestamp)
+                                if 'children' in grandchild:
+                                    for grandgrandchild in grandchild['children']:
+                                        if grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.plateChargeProperty':
+                                            self._plate_charge.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                        elif grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.circuit.capacitor.storedEnergyProperty':
+                                            self._stored_energy.set_state(grandgrandchild['parameters']['newValue'], timestamp)
+                                        elif grandgrandchild['phetioID'] == 'capacitorLabBasics.capacitanceScreen.model.voltmeter.measuredVoltageProperty':
+                                            self._voltage.check_state(grandgrandchild['parameters']['newValue'], timestamp)
+    
+    # Stop Dragging
+    def __platearea_stopdragging(self, event: Event):
+        self._timeline.append('platearea_stopdragging')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
+        self._plate_area.stop_dragging(self._plate_area.get_state(), timestamp)
         
-    def _wlslider_enddrag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider.stop_dragging(self._wavelength.get_state(), timestamp)
-        self._timeline.append('stopdrag_wl')
-        self._timestamps.append(timestamp)
-        
-    def _wlslider_touch(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider.start_dragging(self._wavelength.get_state(), timestamp)
-        self._timeline.append('touch_wl')
-        self._timestamps.append(timestamp)
-        
-    def _wlslider_untouch(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider.stop_dragging(self._wavelength.get_state(), timestamp)
-        self._timeline.append('untouch_wl')
-        self._timestamps.append(timestamp)
-        
-    def _wlslider_minus(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider_minus.fire(self._wavelength.get_state(), timestamp)
-        self._wl_slider.fire(self._wavelength.get_state(), timestamp)
-        self._timeline.append('press_wlminus')
-        self._timestamps.append(timestamp)
-        
-    def _wlslider_plus(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._wl_slider_plus.fire(self._wavelength.get_state(), timestamp)
-        self._wl_slider.fire(self._wavelength.get_state(), timestamp)
-        self._timeline.append('press_wlplus')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_startdrag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider.start_dragging(self._concentration.get_state(), timestamp)
-        self._timeline.append('startdrag_concentration')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_drag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider.is_dragging(self._concentration.get_state(), timestamp)
-        self._timeline.append('drag_concentration')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_enddrag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider.stop_dragging(self._concentration.get_state(), timestamp)
-        self._timeline.append('stopdrag_concentration')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_touch(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider.start_dragging(self._concentration.get_state(), timestamp)
-        self._timeline.append('touch_concentration')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_untouch(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider.stop_dragging(self._concentration.get_state(), timestamp)
-        self._timeline.append('untouch_concentration')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_minus(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider_minus.fire(self._concentration.get_state(), timestamp)
-        self._concentration_slider.fire(self._concentration.get_state(), timestamp)
-        self._timeline.append('press_concentrationminus')
-        self._timestamps.append(timestamp)
-        
-    def _concentration_plus(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._concentration_slider_plus.fire(self._concentration.get_state(), timestamp)
-        self._concentration_slider.fire(self._concentration.get_state(), timestamp)
-        self._timeline.append('press_concentrationplus')
-        self._timestamps.append(timestamp)
-        
-    def _solution_shown(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._solution_menu.start_dragging(self._solution.get_state(), timestamp)
-        self._timeline.append('show_solution')
-        self._timestamps.append(timestamp)
-        
-    def _solution_hidden(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._solution_menu.stop_dragging(self._solution.get_state(), timestamp)
-        self._timeline.append('hide_solution')
-        self._timestamps.append(timestamp)
-        
-    def _solution_select(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._solution_menu.stop_dragging(self._solution.get_state(), timestamp)
-        self._timeline.append('select_solution')
-        self._timestamps.append(timestamp)
-        
-    def _ruler_startdrag(self, event: Event, timestamp:datetime):
-        self._filter_children(event, timestamp)
-        self._ruler.start_dragging(self._ruler_position.get_state(), timestamp)
-        self._timeline.append('startdrag_ruler')
-        self._timestamps.append(timestamp)
-        
-    def _ruler_drag(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._ruler.is_dragging(self._ruler_position.get_state(), timestamp)
-        self._timeline.append('drag_ruler')
-        self._timestamps.append(timestamp)
-        
-    def _ruler_stopdrag(self, event: Event, timestamp:datetime):
-        self._filter_children(event, timestamp)
-        self._ruler.stop_dragging(self._ruler_position.get_state(), timestamp)
-        self._timeline.append('enddrag_ruler')
-        self._timestamps.append(timestamp)
-        
-    def _absorbance_click(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._checkbox_absorbance.switch(1, timestamp)
-        self._checkbox_transmittance.switch(0, timestamp)
-        self._timeline.append('toggle_absorbance')
-        self._timestamps.append(timestamp)
-        
-    def _transmittance_click(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._checkbox_transmittance.switch(1, timestamp)
-        self._checkbox_absorbance.switch(0, timestamp)
-        self._timeline.append('toggle_transmittance')
-        self._timestamps.append(timestamp)
-        
-    def _concentrationlab_activate(self, event: Event, timestamp:float):
-        self._menu_state.switch(0, timestamp)
-        self._concentration_lab_state.switch(1, timestamp)
-        self._chemlab_state.switch(0, timestamp)
-        self._concentration_actions.fire(0, timestamp)
-        self._timeline.append('start_concentrationlab')
-        self._timestamps.append(timestamp)
-        
-    def _concentrationlab_startdrag(self, event: Event, timestamp:float):
-        self._concentration_actions.fire(1, timestamp)
-        self._timeline.append('startdrag_concentrationlab')
-        self._timestamps.append(timestamp)
-        
-    def _concentrationlab_drag(self, event: Event, timestamp: float):
-        self._concentration_actions.fire(0, timestamp)
-        self._timeline.append('drag_concentrationlab')
-        self._timestamps.append(timestamp)
-        
-    def _concentrationlab_stopdrag(self, event: Event, timestamp: float):
-        self._concentration_actions.fire(-1, timestamp)
-        self._timeline.append('stopdrag_concentrationlab')
-        self._timestamps.append(timestamp)
-        
-    def _concentrationlab_fire(self, event: Event, timestamp: float):
-        self._concentration_actions.fire(0, timestamp)
-        self._timeline.append('fire_concentration')
-        self._timestamps.append(timestamp)
-        
-    def _visit_menu(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._menu_state.switch(1, timestamp)
-        self._timeline.append('visit_menu')
-        self._timestamps.append(timestamp)
-        
-    def _look_menu(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._menu_state.switch(1, timestamp)
-        self._timeline.append('look_menu')
-        self._timestamps.append(timestamp)
-        
-    def _unlook_menu(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._menu_state.switch(0, timestamp)
-        self._timeline.append('unlook_menu')
-        self._timestamps.append(timestamp)
-        
-    def _reset(self, event: Event, timestamp: float):
-        self._filter_children(event, timestamp)
-        self._laser.switch(False, timestamp)
-        self._solution_menu.fire(self._solution.get_state(), timestamp)
-        self._checkbox_absorbance.switch(0, timestamp)
-        self._checkbox_transmittance.switch(1, timestamp)
-        self._timeline.append('reset')
+    ########## Simulation reset
+    def __reset_simulation(self, event: Event):
+        self._timeline.append('reset_simulation')
+        timestamp = self.__get_timestamp(event.get_timestamp())
         self._timestamps.append(timestamp)
         self._timestamps_restarts.append(timestamp)
-
+        
+        self._checkbox_capacitance.reset(timestamp) 
+        self._checkbox_topplate.reset(timestamp)
+        self._checkbox_storedenergy.reset(timestamp)
+        self._checkbox_platecharges.reset(timestamp)
+        self._checkbox_bargraphs.reset(timestamp)
+        self._checkbox_electricfields.reset(timestamp)
+        self._checkbox_currentdirection.reset(timestamp)
+        
+        self._voltmeter.reset(timestamp)
+        self._positive_probe.reset(timestamp)
+        self._negative_probe.reset(timestamp)
+        
+        self._voltage.reset(timestamp)
+        self._plate_separation.reset(timestamp)
+        self._plate_area.reset(timestamp)
+        self._circuit.reset(timestamp)
+        self._top_openconnection_node.reset(timestamp)
+        self._bottom_openconnection_node.reset(timestamp)
+        self._top_battery_node.reset(timestamp)
+        self._bottom_battery_node.reset(timestamp)
+        self._top_node.reset(timestamp)
+        self._bottom_node.reset(timestamp)
+        
+        self._plate_voltage.reset(timestamp)
+        self._plate_charge.reset(timestamp)
+        
+        self._stored_energy.reset(timestamp)
+        self._capacitance.reset(timestamp)
+        
+        self._inactivity.reset(timestamp)
+        self._inactivity_start = 0
+        
+    ########## Tab change
+    def __tab_change(self, event: Event):
+        self._timeline.append('tab_change')
+        timestamp = self.__get_timestamp(event.get_timestamp())
+        self._timestamps.append(timestamp)
+        self._attentive.check_switch(event.get_data()['parameters']['newValue'], timestamp)
+        
+    ########## Inaction
+    def inaction(self, event: Event):
+        pass
+        # self._timeline.append('inaction')
+        # self._timestamps.append(self.__get_timestamp(event.get_timestamp()))
+        # if not self._inactivity_start:
+        #     self._inactivity_start = 1
+        # else:
+        #     self._inactivity.switch(self.__get_timestamp(event.get_timestamp()))
+            
+            
     ########## CLose Simulation
-    def _close_simulation(self):
-        self._wavelength.close(self._last_timestamp)
-        self._wavelength_variable.close(self._last_timestamp)
-        self._wavelength_display.close(self._last_timestamp)
-        self._width.close(self._last_timestamp)
-        self._concentration.close(self._last_timestamp)
-        self._solution.close(self._last_timestamp)
-        self._ruler_position.close(self._last_timestamp)
+    def __close_simulation(self):
+        self._timeline.append('close_simulation')
+        self._timestamps.append(self._last_timestamp)
+        timestamp = self._last_timestamp
+        self._checkbox_capacitance.close(timestamp)
+        self._checkbox_topplate.close(timestamp)
+        self._checkbox_storedenergy.close(timestamp)
+        self._checkbox_platecharges.close(timestamp)
+        self._checkbox_bargraphs.close(timestamp)
+        self._checkbox_electricfields.close(timestamp)
+        self._checkbox_currentdirection.close(timestamp)
         
-        self._measure.close(self._last_timestamp)
-        self._measure_display.close(self._last_timestamp)
-        self._metric.close(self._last_timestamp)
-        self._magnifier_position.close(self._last_timestamp)
-        
-        self._checkbox_transmittance.close(self._last_timestamp)
-        self._checkbox_absorbance.close(self._last_timestamp)
-        self._magnifier.close(self._last_timestamp)
-        
-        self._laser.close(self._last_timestamp)
-        self._light.close(self._last_timestamp)
-        self._wl_preset.close(self._last_timestamp)
-        self._wl_variable.close(self._last_timestamp)
-        self._wl_slider_minus.close(self._last_timestamp)
-        self._wl_slider_plus.close(self._last_timestamp)
-        self._wl_slider.close(self._last_timestamp)
-        
-        self._solution_menu.close(self._last_timestamp)
-        self._concentration_slider_minus.close(self._last_timestamp)
-        self._concentration_slider_plus.close(self._last_timestamp)
-        self._concentration_slider.close(self._last_timestamp)
-        
-        self._flask.close(self._last_timestamp)
-        self._ruler.close(self._last_timestamp)
-        self._pdf.close(self._last_timestamp)
-        
-        self._concentration_lab_state.close(self._last_timestamp)
-        self._concentration_actions.close(self._last_timestamp)
-        self._chemlab_state.close(self._last_timestamp)
-        self._menu_state.close(self._last_timestamp)
+        self._voltmeter.close(timestamp)
+        self._positive_probe.close(timestamp)
+        self._negative_probe.close(timestamp)
+        self._voltage.close(timestamp)
+        self._plate_separation.close(timestamp)
+        self._plate_area.close(timestamp)
+        self._circuit.close_circuit(timestamp)
+        self._current.close(timestamp)
+        self._top_openconnection_node.close(timestamp)
+        self._bottom_openconnection_node.close(timestamp)
+        self._top_battery_node.close(timestamp)
+        self._bottom_battery_node.close(timestamp)
+        self._top_node.close(timestamp)
+        self._bottom_node.close(timestamp)
+        self._plate_voltage.close(timestamp)
+        self._plate_charge.close(timestamp)
+        self._stored_energy.close(timestamp)
+        self._capacitance.close(timestamp)
+        self._inactivity.close(timestamp)
+        self._attentive.close(timestamp)
 
-    def close(self):
-        self._close_simulation()
-        
-    def save(self, version='', path='') -> str:
-        # path = '../data/parsed simulations/perm_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
-        if path == '':
-            path = '../data/parsed simulations/' + 'perm' + self._permutation + '_lid' + str(self._learner_id) + '_t' + self._task + 'v' + version + '_simulation.pkl'
+    def save(self, version='') -> str:
+        path = '../data/parsed simulations/perm' + self._permutation + '_lid' + str(self._learner_id) + '_sid' + self._simulation_id + 'v' + version + '_simulation.pkl'
         with open(path, 'wb') as fp:
-            dill.dump(self, fp)
+            pickle.dump(self, fp)
 
         return path
         
