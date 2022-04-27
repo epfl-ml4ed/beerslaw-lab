@@ -1,11 +1,13 @@
-/data/debug/
-/data/dvet entries/
-/data/features/
-/data/labels/
-/data/parsed simulations/
-/data/parsed simulations discarded/
-/data/parsed simulations without permutations/
-/data/sequenced_simulations/
-/data/temp/
-/data/temp parsed/
+/data/beerslaw/debug/
+/data/beerslaw/dvet entries/
+/data/beerslaw/features/
+/data/beerslaw/labels/
+/data/beerslaw/parsed simulations/
+/data/beerslaw/parsed simulations discarded/
+/data/beerslaw/parsed simulations without permutations/
+/data/beerslaw/sequenced_simulations/
+/data/beerslaw/temp/
+/data/beerslaw/temp parsed/
+/reports/
 /src/logs/
+/src/*pyc
