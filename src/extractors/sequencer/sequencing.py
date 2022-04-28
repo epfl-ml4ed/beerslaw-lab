@@ -530,9 +530,9 @@ class Sequencing:
             overlap_labels, overlap_begins, overlap_ends = [labels[i]], [begins[i]], [ends[i]]
             for j in range(i+1, len(labels)):
                 if begins[j] < ends[i]:
-                    print('** problem')
-                    print(labels[i], begins[i], ends[i])
-                    print(labels[j], begins[j], ends[j])
+                    # print('** problem')
+                    # print(labels[i], begins[i], ends[i])
+                    # print(labels[j], begins[j], ends[j])
                     overlap_labels.append(labels[j])
                     overlap_begins.append(begins[j])
                     overlap_ends.append(ends[j])

@@ -174,6 +174,9 @@ class SimpleMoreStateSecondsFlat(Sequencing):
         
     def get_vector_size(self):
         return self._vector_size
+
+    def get_states(self):
+        return self._states
         
     def _fill_vector(self, attributes: list, second:float) -> list:
         """Vector string: [m_obs, sv, wl, rm, lab]
@@ -208,8 +211,8 @@ class SimpleMoreStateSecondsFlat(Sequencing):
         ends = [x for x in self._ends]
         labels = [x for x in self._labels]
 
-        for i in range(len(labels)):
-            print(begins[i], ends[i], labels[i])
+        # for i in range(len(labels)):
+        #     print(begins[i], ends[i], labels[i])
         if len(labels) == 0:
             return [], [], []
         labels, begins, ends = self._basic_common_filtering(labels, begins, ends, simulation)

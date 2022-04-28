@@ -52,6 +52,7 @@ from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
 from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
 from extractors.sequencer.flat.simplestate_secondsflat import SimpleStateSecondsFlat
+from extractors.sequencer.flat.simplemorestates_secondsflat import SimpleMoreStateSecondsFlat
 
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
@@ -241,6 +242,9 @@ class PipelineMaker:
             self._sequencer = ColourbreakFlat(self._settings)
             self._sequencer_path = 'colourbreak_flat_12'
 
+        if self._data_settings['pipeline']['sequencer'] == 'simplemorestates_secondsflat':
+            self._sequencer = SimpleMoreStateSecondsFlat(self._settings)
+            self._sequencer_path = 'simplemorestates_secondsflat'
         
         if self._data_settings['pipeline']['sequencer'] == 'base_encodedlstm':
             self._sequencer = BaseLSTMEncoding(self._settings)
@@ -421,7 +425,7 @@ class PipelineMaker:
                                         self._data_settings['pipeline']['concatenator']['tasks'],
                                         self._data_settings['min_length']
                                         )
-            concat.concatenate()
+        concat.concatenate()
         
     def _load_sequences(self):    
         # Retrieve dictionary containing all sequence paths and details
