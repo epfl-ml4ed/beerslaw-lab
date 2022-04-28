@@ -37,8 +37,8 @@ class SimpleMoreStateSecondsFlat(Sequencing):
     """
 
     def __init__(self, settings):
-        self._name = 'simple state seconds sequencer'
-        self._notation = 'ssss'
+        self._name = 'simple more state seconds sequencer'
+        self._notation = 'smsss'
         self._settings = settings
         self._states = [
             'greengreen_other',
