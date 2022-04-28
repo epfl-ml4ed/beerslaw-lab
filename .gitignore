@@ -12,3 +12,4 @@
 /src/logs/
 /src/*pyc
 /src/.DS_Store
+*/.DS_Store
