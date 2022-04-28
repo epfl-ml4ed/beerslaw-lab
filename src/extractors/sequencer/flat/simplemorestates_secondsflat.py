@@ -174,7 +174,6 @@ class SimpleMoreStateSecondsFlat(Sequencing):
         
     def get_vector_size(self):
         return self._vector_size
-
     def get_states(self):
         return self._states
         

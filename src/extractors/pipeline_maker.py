@@ -52,7 +52,10 @@ from extractors.sequencer.flat.chemlab2caplab_sequencer import Chem2CapSequencer
 from extractors.sequencer.flat.colournobreak_flat import ColourNobreakFlat
 from extractors.sequencer.flat.colourbreak_flat import ColourbreakFlat
 from extractors.sequencer.flat.simplestate_secondsflat import SimpleStateSecondsFlat
+<<<<<<< HEAD
 from extractors.sequencer.flat.simplemorestates_secondsflat import SimpleMoreStateSecondsFlat
+=======
+>>>>>>> f5e935ff12092e6ddf1d932e8c1956444226a5f2
 
 from extractors.sequencer.one_hot_encoded.old.onehotminimise_sequencer import OneHotMinimiseSequencing
 from extractors.sequencer.one_hot_encoded.old.binaryminimise_sequencer import Bin1HotMinimiseSequencing
