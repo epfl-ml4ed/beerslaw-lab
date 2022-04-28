@@ -11,3 +11,4 @@
 /reports/
 /src/logs/
 /src/*pyc
+/src/.DS_Store
