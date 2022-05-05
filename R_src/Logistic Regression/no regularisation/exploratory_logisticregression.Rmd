@@ -1,0 +1,671 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+This is an exploratory study via logistic regressions
+
+```{r}
+library(caret)
+library(glmnet)
+```
+
+```{r}
+action_count <- read.table(file='../data/beerslaw/logistic_regression/action_count.tsv', header=TRUE, sep='\t')
+```
+
+# General Logistic Regression
+We start with a general Logistic regression.
+```{r}
+general_model <- glm(
+      formula = binconcepts ~ 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(general_model)
+general_coeffs = coef(general_model)
+boxplot(
+  general_coeffs, 
+  xlab='general model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#7389AE'
+)
+```
+
+
+# Simple Demographics
+## Language
+Language had a great discrepancy in the predictive task
+```{r}
+language_model <- glm(
+      formula = binconcepts ~ 
+                french + german +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(language_model)
+language_coeffs = coef(language_model)
+
+language_coeffs = coef(language_model)
+boxplot(
+  language_coeffs, 
+  xlab='language model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#0C1618'
+) 
+abline(h=language_coeffs['french'])
+
+```
+
+### French
+```{r}
+language_model <- glm(
+      formula = binconcepts ~ 
+                french +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(language_model)
+```
+
+### German
+```{r}
+german_model <- glm(
+      formula = binconcepts ~ 
+                german +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(language_model)
+
+german_coeffs = coef(german_model)
+boxplot(
+  german_coeffs, 
+  xlab='german model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#0C1618'
+) 
+abline(h=german_coeffs['german'])
+```
+
+
+## Field
+```{r}
+field_model <- glm(
+      formula = binconcepts ~ 
+                chemistry + textiles + biology + fast + pharma + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(field_model)
+
+field_coeffs = coef(field_model)
+boxplot(
+  field_coeffs, 
+  xlab='field model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#004643'
+) 
+abline(h=field_coeffs['chemistry'], col='#004643')
+abline(h=field_coeffs['textiles'], col='#004643')
+abline(h=field_coeffs['biology'], col='#004643')
+abline(h=field_coeffs['fast'], col='#004643')
+abline(h=field_coeffs['pharma'], col='#004643')
+```
+
+
+## Year
+```{r}
+year_model <- glm(
+      formula = binconcepts ~ 
+                firsty + secondy + thirdy + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(year_model)
+
+year_coeffs = coef(year_model)
+boxplot(
+  year_coeffs, 
+  xlab='year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=year_coeffs['firsty'], col='#3F7267')
+abline(h=year_coeffs['secondy'], col='#3F7267')
+abline(h=year_coeffs['thirdy'], col='#3F7267')
+
+```
+### First Year
+```{r}
+firsty_model <- glm(
+      formula = binconcepts ~ 
+                firsty + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(firsty_model)
+
+firsty_coeffs = coef(firsty_model)
+boxplot(
+  firsty_coeffs, 
+  xlab='first year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=firsty_coeffs['firsty'], col='#3F7267')
+
+```
+
+### Second Year
+```{r}
+secondy_model <- glm(
+      formula = binconcepts ~ 
+                secondy +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(secondy_model)
+
+secondy_coeffs = coef(secondy_model)
+boxplot(
+  secondy_coeffs, 
+  xlab='second year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=secondy_coeffs['secondy'], col='#3F7267')
+
+```
+
+### Third Year
+```{r}
+thirdy_model <- glm(
+      formula = binconcepts ~ 
+                thirdy + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(thirdy_model)
+
+thirdy_coeffs = coef(thirdy_model)
+boxplot(
+  thirdy_coeffs, 
+  xlab='third year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=thirdy_coeffs['thirdy'], col='#3F7267')
+
+```
+
+### First Year and Third Year
+```{r}
+firstthree_model <- glm(
+      formula = binconcepts ~ 
+                firsty + thirdy +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(firstthree_model)
+
+firstthree_coeffs = coef(firstthree_model)
+boxplot(
+  firstthree_coeffs, 
+  xlab='first and third year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=firstthree_coeffs['firsty'], col='#3F7267')
+abline(h=firstthree_coeffs['thirdy'], col='#3F7267')
+```
+### First and Second
+```{r}
+firstsecond_model <- glm(
+      formula = binconcepts ~ 
+                firsty + secondy +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(firstsecond_model)
+
+firstsecond_coeffs = coef(firstsecond_model)
+boxplot(
+  firstsecond_coeffs, 
+  xlab='first and second year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=firstsecond_coeffs['firsty'], col='#3F7267')
+abline(h=firstsecond_coeffs['secondy'], col='#3F7267')
+```
+
+### Second and third year
+```{r}
+secondthird_model <- glm(
+      formula = binconcepts ~ 
+                secondy + thirdy +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(secondthird_model)
+
+secondthird_coeffs = coef(secondthird_model)
+boxplot(
+  secondthird_coeffs, 
+  xlab='second and third year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#3F7267'
+) 
+abline(h=secondthird_coeffs['thirdy'], col='#3F7267')
+abline(h=secondthird_coeffs['secondy'], col='#3F7267')
+```
+
+## Gender
+```{r}
+gender_model <- glm(
+      formula = binconcepts ~ 
+                male + female + other +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(gender_model)
+
+gender_coeffs = coef(gender_model)
+boxplot(
+  gender_coeffs, 
+  xlab='gender model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#7D9D8B'
+) 
+abline(h=gender_coeffs['male'], col='#7D9D8B')
+abline(h=gender_coeffs['female'], col='#7D9D8B')
+abline(h=gender_coeffs['other'], col='#7D9D8B')
+```
+### Female
+```{r}
+female_model <- glm(
+      formula = binconcepts ~ 
+                female +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(female_model)
+
+female_coeffs = coef(female_model)
+boxplot(
+  female_coeffs, 
+  xlab='female model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#7D9D8B'
+) 
+abline(h=female_coeffs['female'], col='#7D9D8B')
+```
+
+```{r}
+male_model <- glm(
+      formula = binconcepts ~ 
+                male + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(male_model)
+
+male_coeffs = coef(male_model)
+boxplot(
+  male_coeffs, 
+  xlab='male model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#7D9D8B'
+) 
+abline(h=male_coeffs['male'], col='#7D9D8B')
+```
+
+# Double Demographics
+## Language & Year
+```{r}
+LY_model <- glm(
+      formula = binconcepts ~ 
+                french + german + firsty + secondy + thirdy +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(LY_model)
+
+
+LY_coeffs = coef(LY_model)
+boxplot(
+  LY_coeffs, 
+  xlab='language & year model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#FAF4D3'
+) 
+abline(h=LY_coeffs['french'], col='#FAF4D3')
+abline(h=LY_coeffs['german'], col='#FAF4D3')
+abline(h=LY_coeffs['thirdy'], col='#FAF4D3')
+abline(h=LY_coeffs['firsty'], col='#FAF4D3')
+abline(h=LY_coeffs['secondy'], col='#FAF4D3')
+```
+
+## Language & Gender
+```{r}
+LG_model <- glm(
+      formula = binconcepts ~ 
+                french + german + female + male + other + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(LG_model)
+
+LG_coeffs = coef(LG_model)
+boxplot(
+  LG_coeffs, 
+  xlab='language & gender model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#E6D06A'
+) 
+abline(h=LG_coeffs['french'], col='#E6D06A')
+abline(h=LG_coeffs['german'], col='#E6D06A')
+abline(h=LG_coeffs['female'], col='#E6D06A')
+abline(h=LG_coeffs['male'], col='#E6D06A')
+abline(h=LG_coeffs['other'], col='#E6D06A')
+```
+
+## Language and Field
+```{r}
+LF_model <- glm(
+      formula = binconcepts ~ 
+                french + german + chemistry + textiles + biology + fast + pharma + 
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(LF_model)
+
+LF_coeffs = coef(LF_model)
+boxplot(
+  LF_coeffs, 
+  xlab='language & field model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#DCBE35'
+) 
+abline(h=LF_coeffs['french'], col='#DCBE35')
+abline(h=LF_coeffs['german'], col='#DCBE35')
+abline(h=LF_coeffs['chemistry'], col='#DCBE35')
+abline(h=LF_coeffs['textiles'], col='#DCBE35')
+abline(h=LF_coeffs['biology'], col='#DCBE35')
+abline(h=LF_coeffs['fast'], col='#DCBE35')
+abline(h=LF_coeffs['pharma'], col='#DCBE35')
+```
+
+## Year & Gender
+```{r}
+YG_model <- glm(
+      formula = binconcepts ~ 
+                firsty + secondy + thirdy + male + female + other +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(YG_model)
+
+YG_coeffs = coef(YG_model)
+boxplot(
+  YG_coeffs, 
+  xlab='year & gender model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#DCBE35'
+) 
+abline(h=YG_coeffs['firsty'], col='#D1AC00')
+abline(h=YG_coeffs['secondy'], col='#D1AC00')
+abline(h=YG_coeffs['thirdy'], col='#D1AC00')
+abline(h=YG_coeffs['female'], col='#D1AC00')
+abline(h=YG_coeffs['male'], col='#D1AC00')
+abline(h=YG_coeffs['other'], col='#D1AC00')
+```
+
+## Year & Field
+```{r}
+YF_model <- glm(
+      formula = binconcepts ~ 
+                firsty + secondy + thirdy + chemistry + textiles + biology + fast + pharma +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(YF_model)
+
+YF_coeffs = coef(YF_model)
+boxplot(
+  YF_coeffs, 
+  xlab='year & field model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#909be9'
+) 
+abline(h=YF_coeffs['firsty'], col='#909be9')
+abline(h=YF_coeffs['secondy'], col='#909be9')
+abline(h=YF_coeffs['thirdy'], col='#909be9')
+abline(h=YF_coeffs['chemistry'], col='#909be9')
+abline(h=YF_coeffs['textiles'], col='#909be9')
+abline(h=YF_coeffs['biology'], col='#909be9')
+abline(h=YF_coeffs['pharma'], col='#909be9')
+abline(h=YF_coeffs['fast'], col='#909be9')
+```
+
+
+# ALL
+```{r}
+ALL_model <- glm(
+      formula = binconcepts ~ 
+                french + german + firsty + secondy + thirdy + female + male + other + chemistry + textiles + biology + fast + pharma +
+                greengreen_other + greenred_other + notgreennotred_other + noobserved_other +
+                greengreen_concentration + greenred_concentration + notgreennotred_concentration + noobserved_concentration +
+                greengreen_width + greenred_width + notgreennotred_width + noobserved_width +
+                greengreen_wavelength + greenred_wavelength + notgreennotred_wavelength + noobserved_wavelength +
+                greengreen_solution + greenred_solution + notgreennotred_solution + noobserved_solution +
+                greengreen_pdf + greenred_pdf + notgreennotred_pdf + noobserved_pdf +
+                greengreen_break + greenred_break + notgreennotred_break + noobserved_break +
+                concentrationlab,
+      data = action_count,
+      family=binomial
+    )
+summary(ALL_model)
+
+ALL_coeffs = coef(ALL_model)
+boxplot(
+  ALL_coeffs, 
+  xlab='all model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#cfe2f3'
+) 
+abline(h=ALL_coeffs['firsty'], col='#cfe2f3')
+abline(h=ALL_coeffs['secondy'], col='#cfe2f3')
+abline(h=ALL_coeffs['thirdy'], col='#cfe2f3')
+abline(h=ALL_coeffs['chemistry'], col='#cfe2f3')
+abline(h=ALL_coeffs['textiles'], col='#cfe2f3')
+abline(h=ALL_coeffs['biology'], col='#cfe2f3')
+abline(h=ALL_coeffs['pharma'], col='#cfe2f3')
+abline(h=ALL_coeffs['fast'], col='#cfe2f3')
+abline(h=ALL_coeffs['female'], col='#cfe2f3')
+abline(h=ALL_coeffs['male'], col='#cfe2f3')
+abline(h=ALL_coeffs['other'], col='#cfe2f3')
+```
+
+
+
+
+
+```{r}
+singlegg_model <- glm(
+      formula = binconcepts ~ 
+                greengreen_concentration + greengreen_solution,
+      data = action_count,
+      family=binomial
+    )
+summary(singlegg_model)
+singlegg_coeffs = coef(singlegg_model)
+boxplot(
+  singlegg_coeffs, 
+  xlab='single model', 
+  ylim=c(-20, 50), ylab='coefficient value', col='#7389AE'
+)
+```
+
+```{r}
+general_model <- glmnet(
+                x=(as.matrix(action_count[, 3:31])),
+                y=as.numeric(unlist(action_count[, 32])),
+      alpha=1,
+      family=binomial
+    )
+summary(general_model)
+general_coeffs = coef(general_model)
+print(general_coeffs[, 10])
+```
+
+
+
+
+```{r}
+typeof(action_count[,3:31])
+```
+

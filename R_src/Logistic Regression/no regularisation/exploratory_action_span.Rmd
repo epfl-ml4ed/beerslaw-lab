@@ -1,0 +1,85 @@
+---
+title: "R Notebook"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+In this notebook, we fit the whole beerslaw lab data to logistic regressions. We start with the normal features (action span/action counts) and gradually add demographics features.
+
+# Imports
+```{r}
+library(caret)
+```
+
+
+
+# Action Count
+## General features
+Read the Data
+```{r}
+action_span <- read.table(file='../data/beerslaw/logistic_regression/action_span.tsv', header=TRUE, sep='\t')
+```
+
+
+Action: Other
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 3:6]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
+
+Action: concentration
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 7:10]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
+
+Action: Wdith
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 11:14]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
+
+Action: wavelength
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 15:18]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
+
+Action: solution
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 19:22]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
+
+Action: pdf
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 23:27]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
+
+Action: Break
+```{r}
+dev.new(width=20, height=20)
+x <- action_span[, 28:31]
+y  <- as.factor(action_span[, 32])
+scales <- list(x=list(relation='free'), y=list(relation='free'))
+featurePlot(x=x, y=y, plot='density', scales=scales)
+```
