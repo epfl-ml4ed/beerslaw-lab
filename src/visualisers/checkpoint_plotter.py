@@ -25,6 +25,7 @@ class CheckpointPlotter:
     """
 
     def __init__(self, settings):
+        print('DEPRECIATED, please use another class now')
         self._name = 'checkpoint plotter'
         self._notation = 'ckptpltr'
 
