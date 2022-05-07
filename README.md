@@ -4,7 +4,7 @@ This repository helps implementing the whole pipeline used to process simulation
 It uses k-fold nested cross validation, and can do online and offline predictions on full and partial sequences.
 
 ## Current state
-This is the implementation of the pipeline-lab to the beerslaw-lab in particular.
+This is the implementation of the general pipeline-lab. There is a branch for the beerslaw-lab and one for the capacitor lab.
 https://phet.colorado.edu/sims/html/beers-law-lab/latest/beers-law-lab_en.html
 
 ## Structure
