@@ -3,6 +3,7 @@ timeline:
   timeline_space: 9 # space between the middle y coordinates of two timelines
   state_height: 0.5
   action_height: 3
+  value_height: 2
 plot:
   title: Timeline for a student
   sizing_mode: stretch_both
@@ -12,7 +13,7 @@ plot:
 image:
   report_folder: 'timelines/'
 paths:
-  crawl_path: '../data/parsed simulations/'
+  crawl_path: '../data/beerslaw/parsed simulations/'
   new_path: '../reports/timelines/vector binary/'
-  timelines_path: '../reports/timelines/colour timelines/'
+  timelines_path: '../reports/timelines/kate_timelines/'
   sorted_path: '../reports/timelines/vector binary/'

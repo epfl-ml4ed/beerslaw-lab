@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from extractors.sequencer.sequencing import Sequencing
-from extractors.encoding.encoder import Encoder
+from extractors.encoding.encoder import Encoder 
 
 class ActionSpansEncoder(Encoder):
     """This class turns the sequence of events into a list comprising the amount of time in terms of seconds the students spent in each state

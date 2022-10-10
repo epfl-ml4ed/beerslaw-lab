@@ -41,7 +41,7 @@ class ChemlabConcatenate:
             
             third = False
             for n_task in self._tasks:
-                with open(idds[str(n_task)]['sequences'][i]['path'], 'rb') as fp:
+                with open(idds[str(n_task)]['sequences'][i]['path'].replace('/data/', '/data/beerslaw/'), 'rb') as fp:
                     sequenced = pickle.load(fp)
                 sim_dict['sequence'] = sim_dict['sequence'] + sequenced['sequence']
                 sim_dict['begin'] = sim_dict['begin'] + list(np.array(sequenced['begin']) + lt)

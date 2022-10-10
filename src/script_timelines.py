@@ -13,10 +13,11 @@ import pandas as pd
 
 from visualisers.timelines.Timeline import Timeline
 from visualisers.timelines.ColourTimeline import ColourTimeline
+from visualisers.timelines.KateTimeline import KateTimeline
 from visualisers.timelines.seri_timeline import SeriTimeline
 
 def generate_all_timelines(settings):
-    timeliner = ColourTimeline(settings)
+    timeliner = KateTimeline(settings)
     simulations = os.listdir(settings['paths']['crawl_path'])
     simulations = [sim for sim in simulations if 'simulation.pkl' in sim]
     for sim in simulations:
@@ -64,7 +65,7 @@ def test(settings):
         with open(sim_path, 'rb') as fp:
             sim = pickle.load(fp)
 
-        timeliner = ColourTimeline(settings)
+        timeliner = KateTimeline(settings)
         timeliner.create_timeline(sim)
 
 

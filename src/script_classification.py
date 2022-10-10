@@ -335,6 +335,46 @@ def checkpoint_prediction(settings):
             with open(config_path, 'wb') as fp:
                 pickle.dump(settings, fp)
 
+def create_data_allready(settings):
+
+    #########################
+    configs = dict(settings)
+    configs['data']['pipeline']['sequencer'] = 'simplestate_secondslstm'
+    configs['data']['pipeline']['break_filter'] = 'cumulseconds'
+    configs['data']['pipeline']['aggregator'] = 'minmax'
+    configs['data']['pipeline']['encoder'] = 'raw'
+
+    pipeline = PipelineMaker(configs)
+    sequences, _, indices, id_dictionary = pipeline.build_data()
+
+    src_folder = '../data/beerslaw/blindmitigation/simplestates/'
+    with open(src_folder + 'sequences.pkl', 'wb') as fp:
+        pickle.dump(sequences, fp)
+    with open(src_folder + 'indices.pkl', 'wb') as fp:
+        pickle.dump(indices, fp)
+    with open(src_folder + 'id_dictionary.pkl', 'wb') as fp:
+        pickle.dump(id_dictionary, fp)
+
+    #########################
+
+    configs2 = dict(settings)
+    configs2['data']['pipeline']['sequencer'] = 'simplemorestates_secondslstm'
+    configs2['data']['pipeline']['break_filter'] = 'cumulseconds'
+    configs2['data']['pipeline']['aggregator'] = 'minmax'
+    configs2['data']['pipeline']['encoder'] = 'raw'
+
+    pipeline = PipelineMaker(configs2)
+    sequences, _, indices, id_dictionary = pipeline.build_data()
+
+    src_folder = '../data/beerslaw/blindmitigation/simplemorestates/'
+    with open(src_folder + 'sequences.pkl', 'wb') as fp:
+        pickle.dump(sequences, fp)
+    with open(src_folder + 'indices.pkl', 'wb') as fp:
+        pickle.dump(indices, fp)
+    with open(src_folder + 'id_dictionary.pkl', 'wb') as fp:
+        pickle.dump(id_dictionary, fp)
+
+
 
 def test(settings):
     log_path = '../experiments/' + settings['experiment']['root_name'] + settings['experiment']['name'] 
@@ -398,10 +438,6 @@ def test(settings):
         print(seq)
 
     print(id_dictionary['sequences'][indices[0]]['learner_id'])
-    # print(sim2.get_last_timestamp())
-
-    # for i, time in enumerate(sim._timeline):
-    #     print(sim._timestamps[i], time)
 
 
 
@@ -610,6 +646,10 @@ def main(settings):
 
     if settings['checkpoint']:
         checkpoint_prediction(settings)
+
+    if settings['datacreate']:
+        create_data_allready(settings)
+
     
 if __name__ == '__main__':
     with open('./configs/classifier_config.yaml', 'r') as f:
@@ -627,6 +667,7 @@ if __name__ == '__main__':
     parser.add_argument('--sgcomparison', dest='skipgram_comparison', default=False, help='train on the wanted features and algorithm combinations for the classification task', action='store_true')
     parser.add_argument('--earlypreds', dest='early_prediction', default=False, help='train on the wanted features and algorithm combinations for the classification task at different time steps', action='store_true')
     parser.add_argument('--checkpoint', dest='checkpoint', default=False, help='loads the tensorflow models to make predictions on the best validation models', action='store_true')
+    parser.add_argument('--datacreate', dest='datacreate', default=False, help='saves the processed data in a special folder', action='store_true')
 
     # settings
     parser.add_argument('--sequencer', dest='sequencer', default='', help='sequencer to use', action='store')

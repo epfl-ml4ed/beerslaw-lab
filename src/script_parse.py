@@ -101,7 +101,7 @@ def test(settings):
     )
     paths = [
         # '../data/beerslaw/temp/Session 8/fj5tdybn-1.log',
-        '../data/beerslaw/temp/Session 28/mzjq6z9t-2.log',
+        '../data/beerslaw/temp/Session 8/8nh4zvcp-2.log',
         # '../data/beerslaw/temp/Session 8/fj5tdybn-3.log'
     ]
     with open('../data/beerslaw/post_test/rankings.pkl', 'rb') as fp:

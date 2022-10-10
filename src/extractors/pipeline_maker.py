@@ -20,6 +20,7 @@ from extractors.aggregator.timestep_normaliser import TimestepNormaliser
 
 from extractors.cleaners.break_filter import BreakFilter
 from extractors.cleaners.no_break_filter import NoBreakFilter
+from extractors.cleaners.noother_filter import NoOtherFilter
 from extractors.cleaners.cumul_break_filter import CumulBreakFilter
 from extractors.cleaners.cumul_statebreak_filter import CumulStateBreakFilter
 from extractors.cleaners.cumul_onehot_breaks import CumulOneHotBreakFilter
@@ -80,6 +81,7 @@ from extractors.sequencer.one_hot_encoded.yearlang_colourbreak import YLColourBr
 from extractors.sequencer.one_hot_encoded.yearlang_simplestate import YLSimpleStateSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_colourbreak import YLFColourBreakSecondsLSTM
 from extractors.sequencer.one_hot_encoded.yearlangfield_simplestate import YLFSimpleStateSecondsLSTM
+from extractors.sequencer.one_hot_encoded.kate_secondslstm import KateStateSecondsLSTM
 
 
 from extractors.sequencer.capacitor.edm2021_secondslstm import BinEDM2021SecondsLSTM
@@ -400,6 +402,10 @@ class PipelineMaker:
             self._sequencer = BinEDM2021SecondsLSTM(self._settings)
             self._sequencer_path = 'binary_edm2021'
 
+        if self._data_settings['pipeline']['sequencer'] == 'kate':
+            self._setquencer = KateStateSecondsLSTM(self._settings)
+            self._sequencer_path = 'kate'
+
 
         if self._data_settings['pipeline']['sequencer'] == 'stateaction_adaptivelstm':
             interval = str(self._data_settings['pipeline']['sequencer_interval'])
@@ -444,6 +450,9 @@ class PipelineMaker:
         
     def _choose_event_filter(self):
         self._pipeline_name += self._data_settings['pipeline']['event_filter']
+        if self._data_settings['pipeline']['event_filter'] == 'deleteother':
+            self._event_filter = NoOtherFilter()
+
         if self._data_settings['pipeline']['event_filter'] == 'nofilt':
             self._event_filter = NoEventFilter()
             
