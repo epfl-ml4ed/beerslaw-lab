@@ -16,13 +16,13 @@ from extractors.sequencer.one_hot_encoded.kate_secondslstm import KateStateSecon
 from extractors.pipeline_maker import PipelineMaker
 
 def sequence_timelines(settings):
-    settings['data'] = {
-        'pipeline': {
-            'sequencer_interval': settings['sequencing']['interval'],
-            'break_threshold': settings['sequencing']['break_threshold'],
-            'sequencer_dragasclick': settings['sequencing']['dragasclick']
-        }
-    }
+    # settings['data'] = {
+    #     'pipeline': {
+    #         'sequencer_interval': settings['sequencing']['interval'],
+    #         'break_threshold': settings['sequencing']['break_threshold'],
+    #         'sequencer_dragasclick': settings['sequencing']['dragasclick']
+    #     }
+    # }
     
     sequencer = KateStateSecondsLSTM(settings)
 
@@ -122,7 +122,7 @@ def sequence_timelines(settings):
             }
             #debug
             # print(labels)
-            path = '{}p_{}_lid{}_t{}_sequenced.pkl'.format(
+            path = '{}kate/p_{}_lid{}_t{}_sequenced.pkl'.format(
                 settings['paths']['sequenced_simulations'], permutation, lid, n_task
             )
             with open(path, 'wb') as fp:
@@ -165,12 +165,13 @@ def main(settings):
     new_settings = {
         'paths': {
             'parsed_simulations': '../data/beerslaw/parsed simulations/',
-            'sequenced_simulations': '../data/beerslaw/sequenced_simulations/kate/',
+            'sequenced_simulations': '../data/beerslaw/sequenced_simulations/',
             'kate_data': '../data/sequences_kate/', # change path here
             'crawl_path': '../data/beerslaw/temp'
         },
         'experiment': {
             'classname': 'binconcepts',
+            'class_name': 'binconcepts',
             'root_name': 'createdata',
             'name': 'blank',
             'old_root_name': 'blank',
@@ -192,17 +193,17 @@ def main(settings):
                 'sequencer_dragasclick': True,
                 'concatenator': {
                     'type': 'chemconcat',
-                    'tasks': [-2]
+                    'tasks': ['2']
                 },
                 'demographic_filter': 'chemlab',
                 'event_filter': 'deleteother', # here is your filter to delete things you don't want,
-                'break_filter': 'blank',
+                'break_filter': 'nobrfilt',
                 'break_threshold': 0.6,
                 'adjuster': 'full',
-                'encoder': 'actionspan',
+                'encoder': 'raw',
                 'skipgram_weights': '',
                 'skipgram_map': '',
-                'aggregator': 'normagg',
+                'aggregator': 'noagg',
                 'encoders_aggregators_pairs': {
                     1: ['x', 'x']
                 }
@@ -213,6 +214,11 @@ def main(settings):
             },
             'filters': {
                 'interactionlimit': 10
+            }
+        },
+        'ML': {
+            'pipeline': {
+                'scorer': '2clfscorer'
             }
         }
     }

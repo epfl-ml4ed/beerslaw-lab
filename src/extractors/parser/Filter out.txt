@@ -1,0 +1,176 @@
+Filter out 
+Data from: 
+- beersLawLab.general.controller.input.clickAction.executedEmitter
+- beersLawLab.general.controller.input.clickAction
+- beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragListener.pressAction
+- beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragListener.pressAction.executedEmitter
+- beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragListener.releaseAction
+- beersLawLab.beersLawScreen.view.cuvetteNode.cuvetteDragListener.releaseAction.executedEmitter
+- beersLawLab.general.controller.input.clickAction
+- beersLawLab.general.controller.input.clickAction.executedEmitter
+- beersLawLab.general.controller.input.mouseDownAction
+- beersLawLab.general.controller.input.mouseDownAction.executedEmitter
+- beersLawLab.general.controller.input.mouseUpAction
+- beersLawLab.general.controller.input.mouseUpAction.executedEmitter
+- beersLawLab.beersLawScreen.view.solutionPanel.solutionComboBox.button.pressListener.pressAction
+- beersLawLab.beersLawScreen.view.solutionPanel.solutionComboBox.button.pressListener.pressAction.executedEmitter
+- beersLawLab.beersLawScreen.view.solutionPanel.solutionComboBox.button.pressListener.releaseAction
+- beersLawLab.beersLawScreen.view.solutionPanel.solutionComboBox.button.pressListener.releaseAction.executedEmitter
+- beersLawLab.general.controller.input.clickAction
+- beersLawLab.general.controller.input.clickAction.executedEmitter
+- beersLawLab.general.controller.input.mouseDownAction
+- beersLawLab.general.controller.input.mouseDownAction.executedEmitter
+- beersLawLab.general.controller.input.mouseUpAction
+- beersLawLab.general.controller.input.mouseUpAction.executedEmitter
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.decrementButton.pressListener.pressAction
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.decrementButton.pressListener.pressAction.executedEmitter
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.decrementButton.pressListener.releaseAction
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.decrementButton.pressListener.releaseAction.executedEmitter
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.incrementButton.pressListener.pressAction
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.incrementButton.pressListener.pressAction.executedEmitter
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.incrementButton.pressListener.releaseAction
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.incrementButton.pressListener.releaseAction.executedEmitter
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.slider.thumbNode.dragListener.pressAction
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.slider.thumbNode.dragListener.pressAction.executedEmitter
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.slider.thumbNode.dragListener.releaseAction
+- beersLawLab.beersLawScreen.view.wavelengthPanel.wavelengthNumberControl.slider.thumbNode.dragListener.releaseAction.executedEmitter
+
+
+****************************************************************************************************************
+TABLE actions
+
+Drop if encountered
+*When*:
+- beersLawLab.general.model.phetioCommandProcessor
+and there exists:
+nested_x = log[phetioID]['data']['commands'][x] where x = int, nested_x['phetioID'] = 'phetioEngine' or nexted_x['phetioID] = 'labBook.recordDataButton'
+1. keep nested_x['args']['parameters']['state'] the first time you encounter it
+2. drop nested_x['args']['parameters']['state'] every other time
+
+Drop systematic
+*When*:
+- r"labBook.addToGraphCheckbox[0-9]+" (for example, labBook.addToGraphCheckbox1, labBook.addToGraphCheckbox2, labBook.addToGraphCheckbox111111, etc.)
+- r"labBook.deleteButton[0-9]+" (for example, labBook.deleteButton1, labBook.deleteButton10, labBook.deleteButton99999)
+- r"labBook.incrementButton[0-9]+" (for example, labBook.incrementButton1, labBook.incrementButton10, labBook.incrementButton999)
+
+*drop*:
+ logs['data']['userData']['state'] when logs['phetioID'] is in *When*
+
+
+Things to take out of states if cannot drop it entirely (if the drop if encountered does not work)
+- phetioEngine.phetioElementMouseOverProperty
+- beersLawLab.general.model.allowLinksProperty
+- beersLawLab.general.view.colorProfileProperty
+- beersLawLab.general.view.voicingManager.voiceRateProperty.rangeProperty
+- beersLawLab.general.view.voicingManager.voicePitchProperty.rangeProperty
+- beersLawLab.general.model.localeProperty
+- beersLawLab.general.model.fallbackLocalesProperty
+- beersLawLab.general.model.stringsState
+- beersLawLab.global.model.solutes.drinkMix.formulaProperty
+- beersLawLab.global.model.solutes.drinkMix.nameProperty
+- beersLawLab.global.model.solutes.cobaltIINitrate.formulaProperty
+- beersLawLab.global.model.solutes.cobaltIINitrate.nameProperty
+- beersLawLab.global.model.solutes.cobaltChloride.formulaProperty
+- beersLawLab.global.model.solutes.cobaltChloride.nameProperty
+- beersLawLab.global.model.solutes.potassiumDichromate.formulaProperty
+- beersLawLab.global.model.solutes.potassiumDichromate.nameProperty
+- beersLawLab.global.model.solutes.potassiumChromate.formulaProperty
+- beersLawLab.global.model.solutes.potassiumChromate.nameProperty
+- beersLawLab.global.model.solutes.nickelIIChloride.formulaProperty
+- beersLawLab.global.model.solutes.nickelIIChloride.nameProperty
+- beersLawLab.global.model.solutes.copperSulfate.formulaProperty
+- beersLawLab.global.model.solutes.copperSulfate.nameProperty
+- beersLawLab.global.model.solutes.potassiumPermanganate.formulaProperty
+- beersLawLab.global.model.solutes.potassiumPermanganate.nameProperty
+- beersLawLab.global.model.solutes.sodiumChloride.formulaProperty
+- beersLawLab.global.model.solutes.sodiumChloride.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.drinkMix.concentrationProperty.rangeProperty
+- beersLawLab.beersLawScreen.model.solutions.drinkMix.concentrationProperty
+- beersLawLab.beersLawScreen.model.solutions.drinkMix.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.drinkMix.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.cobaltIINitrate.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.cobaltIINitrate.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.cobaltChloride.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.cobaltChloride.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.potassiumDichromate.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.potassiumDichromate.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.potassiumChromate.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.potassiumChromate.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.nickelIIChloride.concentrationProperty.rangeProperty
+- beersLawLab.beersLawScreen.model.solutions.nickelIIChloride.concentrationProperty
+- beersLawLab.beersLawScreen.model.solutions.nickelIIChloride.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.nickelIIChloride.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.copperSulfate.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.copperSulfate.formulaProperty
+- beersLawLab.beersLawScreen.model.solutions.potassiumPermanganate.nameProperty
+- beersLawLab.beersLawScreen.model.solutions.potassiumPermanganate.formulaProperty
+- beersLawLab.concentrationScreen.nameProperty
+- beersLawLab.concentrationScreen.activeProperty
+
+
+
+Drop all the time:
+when logs['phetioID'] == 'capacitorLabBasics.simIFrameAPI':
+    if logs['args'][x] where x is an int and logs['args'][x]['phetioID'] is in:
+    - labBook.recordDataButton
+    - r"labBook.restoreButton[0-9]+" (for example, labBook.restoreButton1, labBook.restoreButton10, labBook.restoreButton99999)
+    
+
+delete logs['args'][x]['parameters']['state']
+
+when logs['phetioID'] == 'capacitorLabBasics.simIFrameAPI'
+    logs['parameters]['args'][x]['phetioID'] isin :
+    - 
+
+
+
+
+if logs['phetioID'] == 'beersLawLab.general.controller.input.mouseDownAction':
+    drop(logs['metadata'])
+    drop(logs['children']['event'])
+    drop(logs['children']['data'])
+
+    for log in logs['children']:
+        if log['phetioID'] == 'beersLawLab.general.controller.input.mouseDownAction.executedEmitter':
+            drop(log['data'])
+
+if logs['phetioID'] == 'beersLawLab.general.controller.input.clickAction':
+    drop(logs['metadata'])
+    for log in logs['children']:
+        if log['phetioID'] == 'beersLawLab.general.controller.input.clickAction.executedEmitter':
+            drop(log['data'])
+
+if logs['phetioID'] == 'beersLawLab.general.controller.input.mouseUpAction':
+    drop(logs['metadata'])
+    for log in logs['children']:
+        if log['phetioID'] == 'beersLawLab.general.controller.input.mouseUpAction.executedEmitter':
+            drop(log['data'])
+
+
+
+
+
+
+
+add_string = 'labBook.addToGraphCheckbox'
+delete_string = 'labBook.deleteButton'
+decrement_string = 'labBook.decrementButton'
+increment_string = 'labBook.incrementButton'
+record_string = 'labBook.recordDataButton'
+restore_string = 'labBook.restoreButton'
+
+if logs['phetioID'] == 'beersLawLab.general.model.phetioCommandProcessor':
+for log in logs['data']['commands']:
+    for log_args in log['args']:
+        if add_string in log_args['phetioID'] or \
+            delete_string in log_args['phetioID] or \
+                decrement_string in log_args['phetioID] or \
+                    record_string in log_args['phetioID] or \
+                        restore_string in log_args['phetioID]:
+                            drop(log_args['data']['userData']['state'])
+
+
+
+
+
+

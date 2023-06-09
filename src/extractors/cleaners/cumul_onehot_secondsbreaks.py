@@ -21,6 +21,8 @@ class CumulOneHotSecondsBreakFilter(BreakFilter):
         
     def inpute_all_breaks(self, labels: list, begin: list, end: list) -> Tuple[list, list, list]: 
         # Compute the threshold
+        if len(labels) == 0:
+            return labels, begin, end
         breaks = self._get_all_breaks(begin, end)
         breaks.sort()
         threshold = int(self._break_threshold * len(breaks))

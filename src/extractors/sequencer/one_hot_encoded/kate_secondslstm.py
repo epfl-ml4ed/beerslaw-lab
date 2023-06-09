@@ -285,7 +285,28 @@ class KateStateSecondsLSTM(Sequencing):
             new_ends.append(ends[i])
             new_labels.append([cv for cv in instant_vector])
 
-        return new_labels, new_begins, new_ends
+        break_times = np.array(new_ends) - np.array(new_begins)
+        cumulative_threshold = 0.6 # change here
+        threshold = int(len(break_times) * 0.6)
+        break_times = np.sort(break_times)
+        break_threshold = break_times[threshold]
+
+        labels_with_breaks = []
+        begins_with_breaks = []
+        ends_with_breaks = []
+        break_vector = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        for i in range(len(new_labels)):
+            labels_with_breaks.append(new_labels[i])
+            begins_with_breaks.append(new_begins[i])
+            ends_with_breaks.append(new_ends[i])
+
+            if i + 1 < len(new_labels):
+                if new_begins[i+1] - new_ends[i] >= break_threshold:
+                    labels_with_breaks.append([br for br in break_vector])
+                    begins_with_breaks.append(ends[i])
+                    ends_with_breaks.append(begins[i+1])
+
+        return labels_with_breaks, begins_with_breaks, ends_with_breaks
     
     def _process_solution(self, solution_values: list):
         """Replace the values by whether the solution is green, red or from another colour
@@ -345,3 +366,10 @@ class KateStateSecondsLSTM(Sequencing):
             self._break_minimum = break_threshold
             labels, begins, ends = self._filter_clickasdrag(labels, begins, ends, break_threshold)
         return labels, begins, ends
+
+
+
+
+
+
+

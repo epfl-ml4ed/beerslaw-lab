@@ -41,7 +41,10 @@ class ChemlabConcatenate:
             
             third = False
             for n_task in self._tasks:
-                with open(idds[str(n_task)]['sequences'][i]['path'].replace('/data/', '/data/beerslaw/'), 'rb') as fp:
+                p = idds[str(n_task)]['sequences'][i]['path']
+                if 'data/beerslaw' not in p:
+                    p = p.replace('/data/', '/data/beerslaw/')
+                with open(p, 'rb') as fp:
                     sequenced = pickle.load(fp)
                 sim_dict['sequence'] = sim_dict['sequence'] + sequenced['sequence']
                 sim_dict['begin'] = sim_dict['begin'] + list(np.array(sequenced['begin']) + lt)
@@ -55,7 +58,8 @@ class ChemlabConcatenate:
                 
                 lt += sequenced['last_timestamp']
                 
-            path = self._path + 'p_' + sim_dict['permutation'] + '_lid' + sim_dict['learner_id'] + '_t' + str(''.join(self._tasks)) + '_sequenced.pkl'
+            path = '{}p_{}_lid{}_t{}_sequenced.pkl'.format(self._path, sim_dict['permutation'], sim_dict['learner_id'], str(''.join(self._tasks)))
+            # path = self._path + 'p_' + sim_dict['permutation'] + '_lid' + sim_dict['learner_id'] + '_t' + str(''.join(self._tasks)) + '_sequenced.pkl'
             with open(path, 'wb') as fp:
                 pickle.dump(sim_dict, fp)
             

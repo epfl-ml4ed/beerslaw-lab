@@ -403,7 +403,7 @@ class PipelineMaker:
             self._sequencer_path = 'binary_edm2021'
 
         if self._data_settings['pipeline']['sequencer'] == 'kate':
-            self._setquencer = KateStateSecondsLSTM(self._settings)
+            self._sequencer = KateStateSecondsLSTM(self._settings)
             self._sequencer_path = 'kate'
 
 

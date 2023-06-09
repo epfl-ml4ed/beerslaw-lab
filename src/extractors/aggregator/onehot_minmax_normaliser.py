@@ -29,3 +29,4 @@ class OneHotMinMaxNormaliserAggregator(Aggregator):
         assert len(states) == len(normalised)
         new_matrix = [states[i] + normalised[i] for i in range(len(normalised))]
         return new_matrix
+        
